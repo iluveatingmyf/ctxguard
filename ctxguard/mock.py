@@ -45,7 +45,8 @@ EFFECTS = {
 
 @lru_cache(maxsize=1)
 def V():
-    return Vocab.load(p("data/vocab/factors_v0.yaml"))
+    import os
+    return Vocab.load(p(os.environ.get("CTXGUARD_MOCK_VOCAB", "data/vocab/factors_v0.yaml")))
 
 
 def oracle(e, v, s):
@@ -70,7 +71,7 @@ def oracle(e, v, s):
             return "-"
     if e == "power_supply:decrease" and v == "life_health" and g("vulnerable_present") == "yes" and g("indoor_thermal") == "cold":
         return "-"
-    if e == "sound:increase" and v == "comfort" and g("zone_occupant") == "asleep":
+    if e == "sound:increase" and v == "comfort" and g("zone_occupant") in ("asleep", "watching_a_movie"):
         return "-"
     if e == "sensing_capture:increase" and v == "privacy" and g("home_occupancy") == "occupied":
         return "-"
@@ -241,7 +242,24 @@ def mock_answer(task, ctx, seed):
     if task == "region":
         return region_answer(ctx)
     if task == "refute":
+        vocab = V()
+        if (ctx["effect"], ctx["asset"], ctx["label"]) == ("sound:increase", "comfort", "0") \
+                and "zone_occupant" in vocab.names and "watching_a_movie" not in vocab.domain("zone_occupant"):
+            for c in vocab.cells_in(normalize(ctx["phi"], vocab)):
+                d = vocab.cell_dict(c)
+                if d["zone_occupant"] == "awake":
+                    return {"counterexamples": [{"narrative": "someone is watching a movie in the living room", "assignment": d,
+                                                 "expected_label": "-", "missing_attribute": "watching a movie"}]}
         return {"counterexamples": []}
+    if task == "judge":
+        return {"label": "-" if "movie" in ctx["narrative"] else "0", "harm": "mock"}
+    if task == "property_assets":
+        t = ctx["property"]["text"].lower()
+        return {"assets": ["security"] if any(w in t for w in ("door", "lock", "away")) else ["comfort"]}
+    if task == "attribute_dimension":
+        dims = ctx["dims"]
+        return {"dimension": "zone_occupant" if "zone_occupant" in dims else "occupant_activity" if "occupant_activity" in dims
+                else "NEW:activity", "is_world_state": True, "reason": "mock"}
     if task == "direct_constraints":
         if ctx["effect"] == "passage_opening:increase" and ctx["asset"] == "security":
             return {"items": [{"pattern": {"home_occupancy": ["away"]}, "label": "-", "harm": "entry"}]}
@@ -256,6 +274,23 @@ def mock_answer(task, ctx, seed):
         t = ctx["property"]["text"]
         parts = re.split(r"\b(?:when|if|while|and)\b", t, flags=re.I)[1:]
         return {"conditions": [x.strip(" .,") for x in parts if x.strip(" .,")] or [t]}
+    if task == "elicit":
+        if ctx["effect"] == "sound:increase" and ctx["asset"] == "comfort":
+            return {"items": [{"attribute": "someone is watching a movie", "label": "-", "dimension": "occupant_activity", "why": "noise"},
+                              {"attribute": "someone is asleep", "label": "-", "dimension": "occupant_activity", "why": "wakes"},
+                              {"attribute": "a baby is asleep", "label": "-", "dimension": "NEW:vulnerable_present", "why": "baby"}]}
+        if ctx["effect"] == "illumination:increase" and ctx["asset"] == "comfort":
+            return {"items": [{"attribute": "someone is watching a movie", "label": "-", "dimension": "occupant_activity", "why": "glare"},
+                              {"attribute": "someone is reading", "label": "+", "dimension": "occupant_activity", "why": "light"}]}
+        if ctx["effect"] == "mechanical_motion:increase" and ctx["asset"] == "life_health":
+            return {"items": [{"attribute": "a toddler is crawling", "label": "-", "dimension": "NEW:vulnerable_present", "why": "trap"}]}
+        return {"items": []}
+    if task == "canonicalize":
+        ph, n = ctx["phrases"], ctx.get("n_existing", 0)
+        ex = [x.split(":")[0] for x in ph[:n]]
+        par = lambda i, x: ex[i] if i < n else ("awake" if "awake" in ex and any(w in x for w in ("movie", "reading")) else "")
+        return {"states": [{"name": x.split(":")[0].replace("someone is ", "").replace(" ", "_"), "semantics": x, "members": [i],
+                            "parent": par(i, x)} for i, x in enumerate(ph)], "dropped": []}
     if task == "induce_dims":
         if ctx["existing"]:
             return {"dimensions": []}
@@ -269,7 +304,14 @@ def mock_answer(task, ctx, seed):
         return {"candidates": [{"value": "cooking", "semantics": "someone is cooking", "closest_existing": names[0],
                                 "effect": "air_exchange:increase", "asset": "life_health", "why": "fumes"}]}
     if task == "contrast_label":
-        return {"label": "+" if ctx["value"] == "cooking" else "0", "harm": ""}
+        v = ctx["value"]
+        if v == "cooking":
+            return {"label": "+", "harm": ""}
+        if ctx["effect"] == "sound:increase":
+            return {"label": "-" if v in ("watching_a_movie", "asleep", "sleeping", "a_baby_is_asleep", "a_toddler_is_crawling") else "0", "harm": "x"}
+        if ctx["effect"] == "illumination:increase":
+            return {"label": "-" if v in ("watching_a_movie", "asleep", "sleeping") else "+" if v == "reading" else "0", "harm": "x"}
+        return {"label": "0", "harm": ""}
     if task == "classify_condition":
         t = ctx["condition"].lower()
         act = "occupant_activity" if "occupant_activity" in ctx.get("dims", []) else "occupant_state"

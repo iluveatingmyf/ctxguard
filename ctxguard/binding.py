@@ -24,6 +24,8 @@ from __future__ import annotations
 import time
 from collections import Counter
 
+import numpy as np
+
 from .common import Ctx, dump_yaml, load_yaml
 from .effects import effect_index
 from .minimize import cube_to_pattern, minimize, verify
@@ -197,56 +199,146 @@ class PairRun:
             "stats": dict(self.stats)}
 
 
-def run_m3(ctx: Ctx, limit_pairs: int | None = None, only_effects: list | None = None) -> dict:
+def run_m3(ctx: Ctx, limit_pairs: int | None = None, only_effects: list | None = None,
+           only_stale: bool = False, spec_out: str | None = None, merge: bool = False) -> dict:
+    """Build K. only_stale: rebuild only the pairs listed by vocab-migrate in
+    m3/stale_pairs.yaml and keep the migrated bindings of every other pair.
+    spec_out: write to another file (e.g. a from-scratch K for k-compare)."""
+    from .manifest import record, save_yaml
     lib = ctx.effects()
     effects = [e for e in lib["effects"] if not only_effects or e["id"] in only_effects]
     pairs = [(e, v) for e in effects for v in ctx.asset_list]
+    stale = set()
+    if only_stale:
+        stale = {s["pair"] for s in load_yaml(ctx.outp("m3", "stale_pairs.yaml"))["stale_pairs"]}
+        pairs = [(e, v) for e, v in pairs if f"{e['id']}|{v['id']}" in stale]
     if limit_pairs:
         pairs = pairs[:limit_pairs]
     all_b, per_pair = [], {}
+    calls = Counter()
     for i, (e, v) in enumerate(pairs):
         r = PairRun(ctx, e, v).run()
         all_b.extend(r["bindings"])
         per_pair[f"{e['id']}|{v['id']}"] = {"stats": r["stats"], "leaves": r["leaves"]}
+        for k in ("relevance_calls", "region_calls", "point_calls"):
+            calls[k] += r["stats"].get(k, 0)
         print(f"[M3] {i + 1}/{len(pairs)} {e['id']} x {v['id']}: "
               f"{len(r['bindings'])} bindings, {r['stats'].get('region_calls', 0)} region + "
               f"{r['stats'].get('point_calls', 0)} point calls")
-    spec = {"vocab_version": ctx.vocab.version, "effects_version": lib["version"],
-            "bindings": [b.to_json(ctx.vocab) for b in all_b]}
-    dump_yaml(spec, ctx.spec_path())
-    dump_yaml(per_pair, ctx.outp("m3", "pairs_trace.yaml"))
+    out_b = [b.to_json(ctx.vocab) for b in all_b]
+    spec = {"vocab_version": ctx.vocab.version, "effects_version": lib["version"]}
+    trace_path = ctx.outp("m3", "pairs_trace.yaml")
+    if only_stale or merge:
+        old = load_yaml(ctx.spec_path())
+        done = {f"{e['id']}|{v['id']}" for e, v in pairs}
+        if old.get("vocab_version") != ctx.vocab.version:
+            raise SystemExit(f"existing K uses {old.get('vocab_version')}, config uses {ctx.vocab.version}: run vocab-migrate first")
+        kept = [b for b in old["bindings"] if f"{b['effect']}|{b['asset']}" not in done]
+        spec.update({"migrated_from": old.get("migrated_from"), "rebuilt_pairs": len(pairs)})
+        out_b = kept + out_b
+        try:
+            tr = load_yaml(trace_path) or {}
+        except FileNotFoundError:
+            tr = {}
+        tr.update(per_pair)
+        per_pair = tr
+        save_yaml(ctx, "m3 incremental", {"rebuilt_pairs": len(pairs), "kept_bindings": len(kept),
+                                           "new_bindings": len(all_b), "llm_calls": dict(calls)},
+                  "m3", "only_stale_stats.yaml")
+    spec["bindings"] = out_b
+    spec["llm_calls"] = dict(calls)
+    path = spec_out or ctx.spec_path()
+    dump_yaml(spec, path)
+    record(ctx, "m3", path)
+    if not spec_out:
+        dump_yaml(per_pair, trace_path)
+        record(ctx, "m3", trace_path)
     return spec
 
 
-# ------------------------------------------------------------------- O5
-def run_refute(ctx: Ctx) -> dict:
+# ------------------------------------------------------------------- O5 (CEGAR)
+def _claims(ctx: Ctx, spec: dict, zero_max: int) -> list[dict]:
+    """Claims to refute: every '+'/'-' binding AND the closed-world '0' region of every
+    (effect, asset) pair, written as a prime cover of its 0-cells (at most zero_max largest
+    cubes per pair; the whole Σ when a pair has no binding at all)."""
+    from .minimize import minimize
+    from .roughset import Tables
+    vocab = ctx.vocab
+    bs = [Binding.from_json(b, vocab) for b in spec["bindings"]]
+    claims = [{"kind": "binding", "effect": b.effect, "asset": b.asset, "label": b.label, "phi": b.phi, "harm": b.harm}
+              for b in bs]
+    pairs = [(e["id"], a["id"]) for e in ctx.effects()["effects"] for a in ctx.asset_list]
+    T = Tables(vocab, bs, pairs)
+    doms = [f.values for f in vocab.factors]
+    for pi, (e, a) in enumerate(T.pairs):
+        zero = T.L[pi] == 0
+        if not zero.any():
+            continue
+        if zero.all():
+            cubes = [{}]
+        else:
+            on = [T.sigma[i] for i in np.flatnonzero(zero)]
+            off = [T.sigma[i] for i in np.flatnonzero(~zero)]
+            cubes = [cube_to_pattern(c, vocab.names, doms) for c in minimize(on, off, doms)]
+            cubes.sort(key=lambda phi: -int(T.mask(phi).sum()))
+            cubes = cubes[:zero_max]
+        for phi in cubes:
+            claims.append({"kind": "zero", "effect": e, "asset": a, "label": "0", "phi": phi,
+                           "harm": "no relevant influence (closed-world default)"})
+    return claims
+
+
+def run_refute(ctx: Ctx, zero_max: int | None = None) -> dict:
+    """CEGAR-style refutation (thesis Sec. 2.5.4). An abstract cell s of Σ merges many real
+    situations. For each claim 'label is l everywhere in [phi]' a refuter proposes real
+    situations inside phi that deserve another label because of an attribute outside F.
+    A proposal is VALID if its factor assignment really lies in phi (and in Σ); it is
+    CONFIRMED (not spurious) if an independent judge, who sees only the narrative, gives the
+    expected label (different from l). Confirmed counterexamples = the abstraction is too
+    coarse; m2-refine turns them into evidence for the next vocabulary version."""
+    from .manifest import save_yaml
+    from .prompts import judge_situation_prompt
     vocab = ctx.vocab
     spec = load_yaml(ctx.spec_path())
     eidx = effect_index(ctx.effects())
     aidx = {a["id"]: a for a in ctx.asset_list}
     k = ctx.cfg["method"]["refute_max_counterexamples"]
+    zm = zero_max if zero_max is not None else ctx.cfg["method"].get("refute_zero_max_per_pair", 4)
     rows, gaps = [], Counter()
-    for i, bd in enumerate(spec["bindings"]):
-        b = Binding.from_json(bd, vocab)
-        sys, user, schema = refute_prompt(vocab.describe_vocab(), eidx[b.effect], aidx[b.asset],
-                                          vocab.describe_pattern(b.phi), b.label, b.harm, k)
+    for ci, c in enumerate(_claims(ctx, spec, zm)):
+        pj = pattern_to_json(c["phi"], vocab)
+        sys, user, schema = refute_prompt(vocab.describe_vocab(), eidx[c["effect"]], aidx[c["asset"]],
+                                          vocab.describe_pattern(c["phi"]), c["label"], c["harm"], k)
         out = ctx.llm.json("M3", "refute", sys, user, schema,
-                           context={"effect": b.effect, "asset": b.asset, "phi": bd["pattern"], "label": b.label})
-        valid = []
+                           context={"effect": c["effect"], "asset": c["asset"], "phi": pj, "label": c["label"]})
+        ces = []
         for ce in out.get("counterexamples", [])[:k]:
             a = {n: str(v) for n, v in (ce.get("assignment") or {}).items()}
             ok = (set(a) == set(vocab.names) and all(a[n] in vocab.domain(n) for n in vocab.names))
             if ok:
                 cell = tuple(a[n] for n in vocab.names)
-                ok = vocab.feasible(cell) and contains(b.phi, cell, vocab) and ce.get("expected_label") != b.label
+                ok = vocab.feasible(cell) and contains(c["phi"], cell, vocab) and ce.get("expected_label") != c["label"]
+            row = {**ce, "valid": bool(ok)}
             if ok:
-                valid.append(ce)
-                gaps[ce.get("missing_attribute", "").strip().lower()] += 1
-        rows.append({"binding": i, "effect": b.effect, "asset": b.asset, "label": b.label,
-                     "pattern": bd["pattern"], "refuted": bool(valid), "counterexamples": valid})
-    res = {"n_bindings": len(rows), "n_refuted": sum(r["refuted"] for r in rows),
+                js, ju, jsch = judge_situation_prompt(eidx[c["effect"]], aidx[c["asset"]], ce.get("narrative", ""))
+                j = ctx.llm.json("M3", "judge", js, ju, jsch,
+                                 context={"effect": c["effect"], "asset": c["asset"], "narrative": ce.get("narrative", "")})
+                row["judge_label"] = j.get("label")
+                row["confirmed"] = j.get("label") == ce.get("expected_label")
+                if row["confirmed"]:
+                    gaps[str(ce.get("missing_attribute", "")).strip().lower()] += 1
+            ces.append(row)
+        rows.append({"claim": ci, "kind": c["kind"], "effect": c["effect"], "asset": c["asset"], "label": c["label"],
+                     "pattern": pj, "refuted": any(x["valid"] for x in ces),
+                     "confirmed": any(x.get("confirmed") for x in ces), "counterexamples": ces})
+    by = lambda kind, key: sum(1 for r in rows if r["kind"] == kind and (key is None or r[key]))
+    res = {"n_claims": len(rows), "n_bindings": by("binding", None), "n_zero_claims": by("zero", None),
+           "n_refuted": sum(r["refuted"] for r in rows), "n_confirmed": sum(r["confirmed"] for r in rows),
+           "confirmed_binding_claims": by("binding", "confirmed"), "confirmed_zero_claims": by("zero", "confirmed"),
+           "valid_counterexamples": sum(x["valid"] for r in rows for x in r["counterexamples"]),
+           "spurious_counterexamples": sum(x["valid"] and not x.get("confirmed") for r in rows for x in r["counterexamples"]),
            "gap_report": gaps.most_common(), "items": rows}
-    dump_yaml(res, ctx.outp("m3", "refutation.yaml"))
+    save_yaml(ctx, "m3-refute", res, "m3", "refutation.yaml")
     return res
 
 

@@ -29,11 +29,11 @@ python tests/smoke_mock.py
 | 1 | `python -m ctxguard.cli m1` | `out/m1/effects.yaml`：效果映射 Eff | 10–20 分钟 |
 | 2 | `python -m ctxguard.cli m1 --k 1` | 消融用的单次采样版本 | 5 分钟 |
 | 3 | `python -m ctxguard.cli m1-gold-export` → ★ 填 `out/annotate/m1_effects_gold.csv` → `python -m ctxguard.cli m1-score -g out/annotate/m1_effects_gold.csv` | M1 的 P/R/F1 | 你约 1 小时 |
-| 4 | `python -m ctxguard.cli m2-extract` → `m2-dims` → `m2-values` → `m2-expand` | 维度从语料归纳（`dims.yaml`）→ 取值从语料归纳（`factors_corpus.yaml`）→ agent 扩展取值（`factors_candidate.yaml`、`expansion_report.yaml`）；消融：`m2-slots`、`m2-cluster` → `m2-name` | 7B 约 20–30 分钟 |
-| 5 | ★ 审 `factors_candidate.yaml`：合并、改名、补可行性约束，另存为 `data/vocab/factors_v1.yaml`，并把 `config.yaml` 的 `paths.factors` 改成它；同时记下你改了几处（论文里要报告）。**与 v0 同义的因子保留 v0 的名字**（模拟器按这些名字生成世界） | 冻结后的词表 F-v1 | 你约 1 小时 |
+| 4 | M2 第一轮，见下面的「M2 详细步骤」：A1–A4 → B → C → 冻结 F-v1 | `out/m2/A*_… B1_… C*_…`，`data/vocab/factors_v1.yaml` | 7B 约 2–4 小时（`--runs 3` 时 A2 再加约 2 小时） |
+| 5 | 把 `config.yaml` 的 `paths.factors` 改成 `data/vocab/factors_v1.yaml` | 冻结后的词表 F-v1 | 1 分钟 |
 | 6 | `python -m ctxguard.cli m3 --pairs 10` | 试跑：先看 `out/m3/spec.yaml` 合不合理 | 20–40 分钟 |
 | 7 | `python -m ctxguard.cli m3` | 规范 K（完整版） | **3–8 小时，放过夜跑**（有缓存，中断后重跑会接着用） |
-| 8 | `python -m ctxguard.cli m3-refute` | 反驳检验与缺口报告 | 1 小时 |
+| 8 | `python -m ctxguard.cli m2-audit` → `python -m ctxguard.cli m3-refute` → `python -m ctxguard.cli m2-refine` | 粗糙集审计 + 维度卡片；反驳检验（含"0"区域、独立裁判）；缺口转成证据 | 1–2 小时 |
 | 9 | `python -m ctxguard.cli baseline-direct` | 基线 B-K1 | 20 分钟 |
 | 10 | `python -m ctxguard.cli m2-map` → ★ 核对 `out/annotate/property_mapping_CHECK.csv` | 可表达性、B1 基线的输入 | 你约 1 小时 |
 | 11 | `python -m ctxguard.cli vocab-metrics -g out/annotate/property_mapping_CHECK.csv` → ★ 核对 `novel_constraints_CHECK.csv` | 四项词表指标 | 1 分钟 |
@@ -41,6 +41,25 @@ python tests/smoke_mock.py
 
 先跑第 4 步（M2），再跑第 6–7 步（M3）：K 建立在冻结后的词表上。
 你要是想先拿到结果，可以先用 v0 词表把全流程跑一遍，再换成 v1 重跑。
+
+### M2 详细步骤（方法见 docs/M2_方法与审计.md）
+
+| 阶段 | 命令 | 你要做什么 | 留下的中间结果（都可进 evaluation） |
+|---|---|---|---|
+| A1 | `m2-extract` | 无 | `A1_conditions.yaml`、`A1_report.yaml`（按利益统计语料覆盖）、★`annotate/m2_A1_extraction_CHECK.csv` |
+| A2 | `m2-dims --runs 3` | 无 | `A2_dims.yaml`、`A2_coding.yaml`、`A2_proposals.yaml`、`A2_runs/`、`A2_stability.yaml`、★`m2_A2_coding_CHECK.csv` |
+| A3 | `m2-values` | 无 | `A3_factors_corpus.yaml`、`A3_value_assignment.yaml`、`A3_values_report.yaml` |
+| A4 | ★人工审 `A3_factors_corpus.yaml`，按 R1–R4 写成 `data/vocab/factors_seed.yaml`（每个因子写 provenance）→ `m2-seed-check` | 约 1 小时 | `A4_seed_check.yaml`（审核改了什么） |
+| B | `m2-elicit` | 无 | `B1_elicitation.yaml`（含被拒条目）、★`m2_B1_elicit_CHECK_round1.csv` |
+| C | `m2-consolidate` | 无 | `C1_canonical.yaml`、`C2_signatures.csv`、`C3_factors_candidate.yaml`（含 refines）、`C3_report.yaml`、★`m2_C2_signature_CHECK.csv` |
+| D1 | ★审 `C3_factors_candidate.yaml`（可以直接改）→ `m2-freeze --src out/m2/C3_factors_candidate.yaml --name v1 --parent data/vocab/factors_seed.yaml` | 约 30 分钟 | `data/vocab/factors_v1.yaml`、`m2/versions/F-v1.yaml`、★`m2_rules_CHECK_F-v1.csv`（两人各标） |
+| D2 | 改 config → `m3` → `m2-audit` | 无 | `D2_decision_tables.csv.gz`、`D2_core_matrix.csv`、`D2_reducts.yaml`、`D2_value_partition.yaml`、`D2_prime_check.yaml`、`D2_dimension_cards.md/.yaml`、`D2_audit_summary.yaml` |
+| D3 | `m3-refute` → `m2-refine` | 看 `D3_refinement.yaml` 的 next | `m3/refutation.yaml`、`D3_refinement.yaml`、★`m2_D3_counterexample_CHECK.csv` |
+| 下一版 | `m2-consolidate --base current --dims <D3 给出的维度>` → 审 → `m2-freeze --src … --name v2` → 改 config → `vocab-migrate --old data/vocab/factors_v1.yaml` → `m3 --only-stale` → `m2-audit` | 同 D1 | `m3/spec_F-v1.yaml`（旧 K）、`m3/stale_pairs.yaml`、`m3/only_stale_stats.yaml` |
+| 打分 | `m2-check-score -g <填好的 ★ 表…>` | 无 | `eval/m2_checks.yaml`（各项人工核对率、κ） |
+| 快照 | `snapshot --tag m2_v1` | 无 | `runs/<日期>_m2_v1/` |
+
+★ 表的填法见 ANNOTATION.md 第 7 节。每个文件写在哪一步、哈希、模型、提示词版本，都记在 `out/MANIFEST.csv`。
 
 ## 2. 部署与在线（RQ2，Sec. V；RQ3，Sec. V-D）
 

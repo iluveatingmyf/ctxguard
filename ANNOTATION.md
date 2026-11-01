@@ -40,3 +40,13 @@
 - ask：询问用户
 判断标准：一个了解全部真实情况、谨慎的房主会接受什么。
 触发信号是伪造的（B1）或情境被误读的（B2）时，原动作一般不应执行。
+
+
+## 7. M2 核对表（共约 2 小时；论文里报告核对率和 κ）
+所有表在 `out/annotate/`，填 1 或 0；填完跑 `python -m ctxguard.cli m2-check-score -g <这些 csv>`。
+- `m2_A1_extraction_CHECK.csv`（50 行）：`HUMAN_faithful` 条件确实是原 property 说的或直接蕴含的；`HUMAN_world_state` 条件描述的是世界状态（人、时间、环境、危险），不是设备设置。
+- `m2_A2_coding_CHECK.csv`（50 行）：`HUMAN_coding_ok` 该条件放进这个维度是对的；不对就在 `HUMAN_better_dimension` 写应放哪。
+- `m2_B1_elicit_CHECK_round1.csv`（60 行）：`HUMAN_world_state`、`HUMAN_label_ok`（该情境下 +/- 判断合理）、`HUMAN_dimension_ok`（归到的维度合理）。
+- `m2_C2_signature_CHECK.csv`（60 行）：在 `HUMAN_label` 填你认为的标签 + / - / 0（只看 dimension=value、effect、asset，别看系统的 label 列）。
+- `m2_rules_CHECK_F-v1.csv`（每个因子一行）：A、B 两人各自填 R1 世界状态、R2 单一变量、R3 互斥且完备、R4 原因而非读数。找不到第二个人就只填 A_ 列。
+- `m2_D3_counterexample_CHECK.csv`：`HUMAN_real_counterexample` 这个反例在现实中成立且确实该判不同；`HUMAN_dimension_ok`。

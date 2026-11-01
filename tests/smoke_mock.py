@@ -16,10 +16,10 @@ sys.path.insert(0, ROOT)
 os.environ["CTXGUARD_PROPERTIES"] = os.path.join(ROOT, "tests", "seed_properties_TEST.csv")
 
 
-def run(*args):
-    cmd = [sys.executable, "-m", "ctxguard.cli", *args, "--backend", "mock", "--config", os.path.join(ROOT, "tests", "config_mock.yaml")]
+def run(*args, config="config_mock.yaml", env=None):
+    cmd = [sys.executable, "-m", "ctxguard.cli", *args, "--backend", "mock", "--config", os.path.join(ROOT, "tests", config)]
     print("$", " ".join(args))
-    r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
+    r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, env={**os.environ, **(env or {})})
     print(r.stdout[-1500:])
     if r.returncode:
         print(r.stderr[-4000:])
@@ -55,10 +55,17 @@ def main():
             r[ch] = (r[ch] or "") + ("+" if d == "increase" else "-")
     fill_csv(os.path.join(OUT, "annotate", "m1_effects_gold.csv"), g_m1)
     run("m1-score", "--gold", "out_mock/annotate/m1_effects_gold.csv")
-    run("m2-extract"); run("m2-dims"); run("m2-values"); run("m2-expand")
+    # M2 stages A-C (first build from the seed), freeze test
+    run("m2-extract"); run("m2-dims", "--runs", "2"); run("m2-values"); run("m2-seed-check")
+    run("m2-elicit"); run("m2-consolidate")
+    run("m2-freeze", "--src", "out_mock/m2/C3_factors_candidate.yaml", "--name", "v1test",
+        "--dest", "out_mock/vocab/factors_v1test.yaml", "--parent", "data/vocab/factors_seed.yaml")
+    run("m2-expand")
     run("m2-slots"); run("m2-cluster"); run("m2-name")   # ablations
     run("m3")
+    run("m2-audit")
     run("m3-refute")
+    run("m2-refine")
     run("baseline-direct")
     run("m2-map")
     run("vocab-metrics")
@@ -92,6 +99,34 @@ def main():
     run("rq3", "--layout", "L2", "L3")
     run("rq3-verify", "--layout", "L2", "L3")
     run("report")
+    # ---- next vocabulary version from the confirmed counterexample (CEGAR round)
+    run("m2-consolidate", "--base", "current", "--dims", "zone_occupant")
+    cand = Y.safe_load(open(os.path.join(OUT, "m2", "C3_factors_candidate.yaml")))
+    assert "watching_a_movie" in next(f for f in cand["factors"] if f["name"] == "zone_occupant")["values"], cand["refines"]
+    run("m2-freeze", "--src", "out_mock/m2/C3_factors_candidate.yaml", "--name", "v0b", "--dest", "out_mock/vocab/factors_v0b.yaml",
+        "--no-provenance-check")   # v0 is the hand-made baseline without provenance
+    cfg["paths"]["factors"] = "out_mock/vocab/factors_v0b.yaml"
+    yaml.safe_dump(cfg, open(os.path.join(ROOT, "tests", "config_mock2.yaml"), "w"))
+    env = {"CTXGUARD_MOCK_VOCAB": "out_mock/vocab/factors_v0b.yaml"}
+    run("vocab-migrate", "--old", "data/vocab/factors_v0.yaml", config="config_mock2.yaml", env=env)
+    run("m3", "--only-stale", config="config_mock2.yaml", env=env)
+    run("m3", "--spec-out", "out_mock/m3/spec_scratch.yaml", config="config_mock2.yaml", env=env)
+    run("k-compare", "--a", "out_mock/m3/spec.yaml", "--b", "out_mock/m3/spec_scratch.yaml", config="config_mock2.yaml", env=env)
+    run("m2-audit", config="config_mock2.yaml", env=env)
+    kc = Y.safe_load(open(os.path.join(OUT, "eval", "k_compare.yaml")))
+    assert kc["agreement"] == 1.0, kc
+    run("m3", "--effects", "sound:increase", "--merge", config="config_mock2.yaml", env=env)
+    run("k-compare", "--a", "out_mock/m3/spec.yaml", "--b", "out_mock/m3/spec_scratch.yaml", config="config_mock2.yaml", env=env)
+    assert Y.safe_load(open(os.path.join(OUT, "eval", "k_compare.yaml")))["agreement"] == 1.0
+    # check sheets: fill a few cells and score them
+    def g_rules(r):
+        for k in r:
+            if k[:2] in ("A_", "B_"):
+                r[k] = "1"
+    fill_csv(os.path.join(OUT, "annotate", "m2_rules_CHECK_F-v0b.csv"), g_rules)
+    fill_csv(os.path.join(OUT, "annotate", "m2_C2_signature_CHECK.csv"), lambda r: r.__setitem__("HUMAN_label(+/-/0)", r["label"]))
+    run("m2-check-score", "--gold", "out_mock/annotate/m2_rules_CHECK_F-v0b.csv", "out_mock/annotate/m2_C2_signature_CHECK.csv",
+        config="config_mock2.yaml", env=env)
     print("SMOKE TEST PASSED")
 
 

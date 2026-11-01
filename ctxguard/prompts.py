@@ -155,6 +155,68 @@ def contrast_label_prompt(effect: dict, asset: dict, factor: dict, value: str, v
     return sys, user, S({"label": LABEL, "harm": STR}, ["label", "harm"])
 
 
+def elicit_prompt(effect: dict, asset: dict, dims_desc: str, max_items: int):
+    """Phase B (effect-anchored elicitation): from one effect x asset, recall the situations
+    that change its judgment ('noise is unacceptable while someone watches a movie')."""
+    sys = (PREAMBLE + f"\n\nEffect: {effect['id']} - {effect['desc']}\nAsset: {asset['id']} - {asset['desc']}"
+           "\n\nCurrent situation dimensions (name: meaning; values):\n" + dims_desc)
+    user = (f"In real homes, in which concrete situations is this effect UNACCEPTABLE ('-') or clearly BENEFICIAL ('+') "
+            f"for this asset? List up to {max_items} situation attributes that make the difference, each as a short "
+            "world fact about people, time or environment (e.g. 'someone is watching a movie', 'a baby is asleep'), "
+            "never a device setting. For each give: attribute, label (+ or -), dimension (the name of an existing "
+            "dimension it is a value of, or NEW:<snake_case_name> if none fits) and why.")
+    schema = S({"items": {"type": "array", "items": S(
+        {"attribute": STR, "label": {"type": "string", "enum": ["+", "-"]}, "dimension": STR, "why": STR},
+        ["attribute", "label", "dimension", "why"])}}, ["items"])
+    return sys, user, schema
+
+
+def canonicalize_prompt(dim: dict, phrases: list[str], n_existing: int = 0):
+    """Phase C step 1: turn the phrases of one dimension into canonical, mutually exclusive
+    states (paraphrases merged; semantic merging is left to label signatures). The first
+    n_existing phrases are the dimension's EXISTING values; every state names its parent =
+    the existing value whose meaning currently contains it (this yields the refines map)."""
+    ex = ""
+    if n_existing:
+        ex = (f" Phrases 0..{n_existing - 1} are the EXISTING values of the dimension (format 'value: meaning'); keep each "
+              "of them as its own state with exactly that name. For every state give parent = the existing value whose "
+              "meaning currently includes it (the value itself for an existing state), or an empty string if no existing "
+              "value covers it.")
+    sys = PREAMBLE + ("\n\nTask: the phrases below were collected as values of ONE situation dimension. Rewrite them "
+                      "as canonical STATES of that dimension: snake_case name + one-sentence semantics. Merge only "
+                      "paraphrases of the same state; keep different states apart even if similar. States must be "
+                      "mutually exclusive alternatives of the dimension. Put phrases that are not a state of this "
+                      "dimension (device settings, other dimensions, events) into dropped." + ex)
+    user = (f"Dimension: {dim['name']} - {dim.get('semantics', '')}\nPhrases:\n" +
+            "\n".join(f"{i}. {s}" for i, s in enumerate(phrases)))
+    schema = S({"states": {"type": "array", "items": S(
+        {"name": STR, "semantics": STR, "members": {"type": "array", "items": {"type": "integer"}}, "parent": STR},
+        ["name", "semantics", "members"])},
+        "dropped": {"type": "array", "items": {"type": "integer"}}}, ["states"])
+    return sys, user, schema
+
+
+def property_assets_prompt(prop_text: str):
+    """Stage A1 metadata: which protected assets a corpus property protects. Used only to
+    report corpus coverage per asset (dimension discovery itself is asset-agnostic)."""
+    sys = PREAMBLE + "\n\nTask: name the protected asset(s) that the property below protects or serves."
+    user = f"Property: {prop_text}"
+    schema = S({"assets": {"type": "array", "items": {"type": "string", "enum": [
+        "life_health", "security", "property", "privacy", "resource", "comfort"]}}}, ["assets"])
+    return sys, user, schema
+
+
+def attribute_dimension_prompt(attribute: str, dims_desc: str):
+    """Stage D3 (refinement): file the missing attribute named by a confirmed
+    counterexample under an existing factor or a NEW dimension."""
+    sys = PREAMBLE + ("\n\nTask: a situation attribute was found that the current context factors do not capture. "
+                      "Decide which factor it is a (more specific) value of, or NEW:<snake_case_name> if it is a different "
+                      "dimension of the situation. Also say whether it is a world state (people, time, environment, hazards) "
+                      "rather than a device setting or a user preference.\n\nCurrent factors:\n" + dims_desc)
+    user = f"Attribute: {attribute}"
+    return sys, user, S({"dimension": STR, "is_world_state": BOOL, "reason": STR}, ["dimension", "is_world_state"])
+
+
 def map_property_prompt(prop_text: str, vocab_desc: str, effects_desc: str):
     sys = PREAMBLE + "\n\nContext factors:\n" + vocab_desc + "\n\nEffect library:\n" + effects_desc
     user = (f"Property: {prop_text}\n"
@@ -219,6 +281,16 @@ def direct_constraints_prompt(vocab_desc, effect, asset):
     schema = S({"items": {"type": "array", "items": S({"pattern": PATTERN, "label": LABEL, "harm": STR},
                                                        ["pattern", "label"])}}, ["items"])
     return sys, user, schema
+
+
+def judge_situation_prompt(effect, asset, narrative):
+    """CEGAR spurious-counterexample check: an independent judge labels the concrete
+    situation of a counterexample WITHOUT seeing the claim, the factors or the expected label."""
+    sys = PREAMBLE.split("- Context factor")[0] + ("- Label of an effect on an asset in a situation:\n"
+          "  \"+\" maintains or improves the asset; \"-\" UNACCEPTABLE harm (state the mechanism); \"0\" no relevant influence.\n"
+          f"Answer with JSON only.\n\nEffect: {effect['id']} - {effect['desc']}\nAsset: {asset['id']} - {asset['desc']}")
+    user = f"Concrete situation: {narrative}\nGive the label of the effect on the asset in this situation and, for '-', the harm mechanism."
+    return sys, user, S({"label": LABEL, "harm": STR}, ["label", "harm"])
 
 
 # ---------------------------------------------------------------- M5 grounding
