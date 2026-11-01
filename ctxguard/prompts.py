@@ -18,6 +18,30 @@ PREAMBLE = """You are a smart-home safety analyst. Use ONLY the following terms.
 Answer with JSON only."""
 
 
+WORLD_FACT_DEF = ("- World fact: a statement about the world that would still be true or false if every smart device in the "
+                  "home were removed, and that a person could check by observing the home or its surroundings. Device "
+                  "states, device or system modes, user-chosen thresholds, times or preferences, and what a device must or "
+                  "must not do are NOT world facts.")
+
+# Stage A (dimension discovery) is asset-agnostic and open: no assets, no labels, no closed factor list.
+A_PREAMBLE = ("You are a qualitative coder analysing statements taken from smart-home properties. Use these terms.\n" +
+              WORLD_FACT_DEF + "\n"
+              "- Sensor reading: a detection or measurement made by a device. It is evidence of a world fact; code only the "
+              "fact it directly indicates and never add a cause that the text does not state.\n"
+              "- Variable: one quantity of the world whose values are mutually exclusive alternatives. Two phrases name the "
+              "same variable only if they can never vary independently. Name a variable with a neutral noun phrase that "
+              "contains no value, no device and no protected asset (safety, security, comfort, privacy, health, property, "
+              "resource).\n"
+              "- Value: one alternative of a variable.\n"
+              "Use only what the given text states. Answer with JSON only.")
+
+# Stages B, C, D3: assets and labels are needed, but the factor list is OPEN (new values / dimensions allowed).
+PREAMBLE_OPEN = PREAMBLE.replace(
+    "- Context factor: a finite variable describing the situation; you may use ONLY the given factors and values. "
+    "Never invent factors or values.",
+    "- Context factor: a finite world variable describing the situation; its values are mutually exclusive.\n" + WORLD_FACT_DEF)
+
+
 def S(props: dict, req: list[str]) -> dict:
     return {"type": "object", "properties": props, "required": req}
 
@@ -57,10 +81,12 @@ def effects_prompt(action: dict, channels_desc: str):
 
 # ---------------------------------------------------------------- M2 vocabulary
 def extract_predicates_prompt(prop_text: str):
-    sys = PREAMBLE + ("\n\nTask: extract the SITUATION CONDITIONS under which a smart-home safety/preference property applies. "
-                      "A situation condition is one objective fact about the world (people, time, environment, hazards), "
-                      "NOT a device name and NOT the action itself.")
-    user = f"Property: {prop_text}\nReturn each atomic condition as a short device-agnostic sentence."
+    sys = A_PREAMBLE + ("\n\nTask: list the CONDITIONS under which the property applies (its IF / WHEN / WHILE part), not "
+                        "what a device must or must not do (its THEN part). Copy each atomic condition as close to the "
+                        "property's own words as possible: split 'A and B' and 'A or B' into separate conditions, but do not "
+                        "rewrite, interpret, generalise or add conditions. Keep conditions about devices or modes as they are "
+                        "(they are classified later). Return an empty list if the property states no condition.")
+    user = f"Property: {prop_text}"
     schema = S({"conditions": STRLIST}, ["conditions"])
     return sys, user, schema
 
@@ -158,13 +184,13 @@ def contrast_label_prompt(effect: dict, asset: dict, factor: dict, value: str, v
 def elicit_prompt(effect: dict, asset: dict, dims_desc: str, max_items: int):
     """Phase B (effect-anchored elicitation): from one effect x asset, recall the situations
     that change its judgment ('noise is unacceptable while someone watches a movie')."""
-    sys = (PREAMBLE + f"\n\nEffect: {effect['id']} - {effect['desc']}\nAsset: {asset['id']} - {asset['desc']}"
+    sys = (PREAMBLE_OPEN + f"\n\nEffect: {effect['id']} - {effect['desc']}\nAsset: {asset['id']} - {asset['desc']}"
            "\n\nCurrent situation dimensions (name: meaning; values):\n" + dims_desc)
     user = (f"In real homes, in which concrete situations is this effect UNACCEPTABLE ('-') or clearly BENEFICIAL ('+') "
-            f"for this asset? List up to {max_items} situation attributes that make the difference, each as a short "
-            "world fact about people, time or environment (e.g. 'someone is watching a movie', 'a baby is asleep'), "
-            "never a device setting. For each give: attribute, label (+ or -), dimension (the name of an existing "
-            "dimension it is a value of, or NEW:<snake_case_name> if none fits) and why.")
+            f"for this asset? List up to {max_items} situation attributes that make the difference. Each attribute is one "
+            "short world fact (see the definition), not a device setting and not the effect itself. Include attributes "
+            "that the current dimensions cannot express. For each give: attribute, label (+ or -), dimension (the name of "
+            "an existing dimension it is a value of, or NEW:<snake_case_name> if none fits) and why.")
     schema = S({"items": {"type": "array", "items": S(
         {"attribute": STR, "label": {"type": "string", "enum": ["+", "-"]}, "dimension": STR, "why": STR},
         ["attribute", "label", "dimension", "why"])}}, ["items"])
@@ -182,7 +208,7 @@ def canonicalize_prompt(dim: dict, phrases: list[str], n_existing: int = 0):
               "of them as its own state with exactly that name. For every state give parent = the existing value whose "
               "meaning currently includes it (the value itself for an existing state), or an empty string if no existing "
               "value covers it.")
-    sys = PREAMBLE + ("\n\nTask: the phrases below were collected as values of ONE situation dimension. Rewrite them "
+    sys = PREAMBLE_OPEN + ("\n\nTask: the phrases below were collected as values of ONE situation dimension. Rewrite them "
                       "as canonical STATES of that dimension: snake_case name + one-sentence semantics. Merge only "
                       "paraphrases of the same state; keep different states apart even if similar. States must be "
                       "mutually exclusive alternatives of the dimension. Put phrases that are not a state of this "
@@ -209,10 +235,10 @@ def property_assets_prompt(prop_text: str):
 def attribute_dimension_prompt(attribute: str, dims_desc: str):
     """Stage D3 (refinement): file the missing attribute named by a confirmed
     counterexample under an existing factor or a NEW dimension."""
-    sys = PREAMBLE + ("\n\nTask: a situation attribute was found that the current context factors do not capture. "
-                      "Decide which factor it is a (more specific) value of, or NEW:<snake_case_name> if it is a different "
-                      "dimension of the situation. Also say whether it is a world state (people, time, environment, hazards) "
-                      "rather than a device setting or a user preference.\n\nCurrent factors:\n" + dims_desc)
+    sys = PREAMBLE_OPEN + ("\n\nTask: a situation attribute was found that the current context factors do not capture. "
+                           "Decide which factor it is a (more specific) value of, or NEW:<snake_case_name> if it is a value "
+                           "of a different world variable. Also say whether it is a world fact (see the definition).\n\n"
+                           "Current factors:\n" + dims_desc)
     user = f"Attribute: {attribute}"
     return sys, user, S({"dimension": STR, "is_world_state": BOOL, "reason": STR}, ["dimension", "is_world_state"])
 
@@ -225,6 +251,88 @@ def map_property_prompt(prop_text: str, vocab_desc: str, effects_desc: str):
             "If the property cannot be expressed with these factors and values, set expressible=false and say what is missing.")
     schema = S({"expressible": BOOL, "effects": STRLIST, "asset": STR, "label": LABEL,
                 "pattern": PATTERN, "missing": STR}, ["expressible"])
+    return sys, user, schema
+
+
+# ---- M2 stage A2/A3 (variable-level open coding; one small call per item) ----
+CONDITION_KINDS = ["world_state", "sensor_reading", "home_mode", "device_state", "user_configuration",
+                   "event", "obligation", "unclear"]
+
+
+def code_condition_prompt(condition: str, property_text: str):
+    """A2a open coding of ONE condition: what kind of statement it is and which single
+    world variable (and value) it is about. No domain examples (they would pre-name the
+    dimensions); the only example is a format example from outside the home domain."""
+    sys = A_PREAMBLE + ("\n\nTask: code ONE condition taken from the property shown.\n"
+                        "kind (choose one): world_state = a world fact; sensor_reading = a detection or measurement by a "
+                        "device; home_mode = a mode of the home system; device_state = the state of an actuator or "
+                        "appliance; user_configuration = a user-chosen threshold, time or preference; event = a change "
+                        "happening at a moment; obligation = what a device must or must not do; unclear.\n"
+                        "world_fact: the world fact that the condition states (world_state), directly indicates "
+                        "(sensor_reading, home_mode) or brings about (event: the state right after the change), written "
+                        "without naming any device. Empty for device_state, user_configuration, obligation, unclear, and for "
+                        "a home_mode that indicates no world fact.\n"
+                        "variable: the variable that this world fact is a value of. Empty if world_fact is empty.\n"
+                        "value: the value of that variable stated by the fact, in 1-4 words, at the property's own level of "
+                        "detail (a value relative to a threshold stays relative to the threshold).\n"
+                        "scope: home (whole home), room (one room), outdoor, or person (one particular person).\n"
+                        "Format example from another domain: 'the parking sensor detects an obstacle' -> kind sensor_reading, "
+                        "world_fact 'there is an obstacle behind the car', variable 'obstacle behind the car', value 'present'.")
+    user = f"Property: {property_text}\nCondition to code: {condition}"
+    schema = S({"kind": {"type": "string", "enum": CONDITION_KINDS}, "world_fact": STR, "variable": STR, "value": STR,
+                "scope": {"type": "string", "enum": ["home", "room", "outdoor", "person"]}, "reason": STR},
+               ["kind", "world_fact", "variable", "value", "scope"])
+    return sys, user, schema
+
+
+def group_variables_prompt(variables: list[str]):
+    """A2b axial coding: merge variable phrases that name the SAME world quantity."""
+    sys = A_PREAMBLE + ("\n\nTask: axial coding. Each line is a variable found in smart-home properties, with how often it "
+                        "occurred and example values. Put two lines in the same group only if they name the same variable: "
+                        "paraphrases, or the same quantity at a different level of detail. If the values of two lines could "
+                        "vary independently of each other, they are different variables and must be in different groups. "
+                        "For each group give a snake_case id naming the variable (see the naming rule), a one-sentence "
+                        "definition, and the member line numbers. Every line must be in exactly one group.")
+    user = "Variables:\n" + "\n".join(f"{i}. {v}" for i, v in enumerate(variables))
+    schema = S({"groups": {"type": "array", "items": S(
+        {"id": STR, "definition": STR, "members": {"type": "array", "items": {"type": "integer"}}},
+        ["id", "definition", "members"])}}, ["groups"])
+    return sys, user, schema
+
+
+def check_dimension_prompt(dim_id: str, definition: str, members: list[str]):
+    """A2c verification of one proposed dimension (rule R2: one variable; not an asset)."""
+    sys = A_PREAMBLE + ("\n\nTask: verify a proposed dimension. It is valid only if ALL member phrases name ONE variable, "
+                        "i.e. no two members could vary independently. If not, split the members into groups, each naming "
+                        "one variable, and give each group a snake_case id that follows the naming rule.")
+    user = (f"Dimension: {dim_id} - {definition}\nMembers:\n" + "\n".join(f"{i}. {m}" for i, m in enumerate(members)))
+    schema = S({"single_variable": BOOL, "reason": STR,
+                "split": {"type": "array", "items": S({"id": STR, "members": {"type": "array", "items": {"type": "integer"}}},
+                                                       ["id", "members"])}}, ["single_variable", "reason"])
+    return sys, user, schema
+
+
+def dimension_values_prompt(dim: dict, value_phrases: list[str]):
+    """A3a: the value set of one dimension from the values observed in the corpus."""
+    sys = A_PREAMBLE + ("\n\nTask: define the VALUES of one dimension from the values observed in smart-home properties. "
+                        "Values must be mutually exclusive and together cover the dimension. Merge observed values that mean "
+                        "the same state, and only those. A value stated relative to a user threshold becomes a state relative "
+                        "to the acceptable range (below / within / above it). Add exactly one baseline value that holds when "
+                        "none of the observed states holds, and start its semantics with 'Baseline:'. Use 2-6 values, "
+                        "snake_case names, one decidable sentence each; add no other value that was not observed.")
+    user = (f"Dimension: {dim['id']} - {dim.get('desc', '')}\nObserved values:\n" +
+            "\n".join(f"- {v}" for v in value_phrases))
+    schema = S({"values": {"type": "array", "items": S({"value": STR, "semantics": STR}, ["value", "semantics"])}}, ["values"])
+    return sys, user, schema
+
+
+def assign_value_prompt(dim: dict, values: dict, fact: str):
+    """A3b: assign ONE coded world fact to one value of its dimension (closed choice)."""
+    sys = A_PREAMBLE + (f"\n\nDimension: {dim['id']} - {dim.get('desc', '')}\nValues:\n" +
+                      "\n".join(f"- {k}: {v}" for k, v in values.items()) +
+                      "\nTask: choose the value that the fact below states. Answer none_fits if no value matches.")
+    user = f"Fact: {fact}"
+    schema = S({"value": {"type": "string", "enum": list(values) + ["none_fits"]}}, ["value"])
     return sys, user, schema
 
 

@@ -1,0 +1,319 @@
+version: S-induced-v2 (variable-level coding)
+n_conditions: 90
+kinds:
+  sensor_reading: 37
+  user_configuration: 15
+  obligation: 18
+  event: 7
+  device_state: 5
+  home_mode: 6
+  world_state: 2
+with_world_variable: 33
+n_dimensions: 16
+unverified_or_failed: []
+asset_named: []
+slots:
+- id: temperature
+  desc: temperature
+  variables:
+  - temperature
+  origin: unassigned by the grouping call
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 8
+  scope: global
+  property_ids:
+  - C009
+  - C014
+  - C054
+  - C055
+  - C056
+  - C066
+  - C113
+  - C114
+  - C115
+  - C159
+  - IoTCom-P7
+- id: leak
+  desc: The presence or absence of a leak in the environment.
+  variables:
+  - leak
+  - leak around a location
+  - leak around the laundry room
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: true
+    reason: All members refer to the presence or absence of a leak in a specific location.
+    issues: []
+  kind: situation
+  n_conditions: 5
+  scope: global
+  property_ids:
+  - C043
+  - C097
+  - C203
+  - Soteria-P30
+- id: smoke
+  desc: The presence or absence of smoke in the environment.
+  variables:
+  - smoke
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 3
+  scope: global
+  property_ids:
+  - C019
+  - C028
+  - C034
+  - C043
+  - C045
+  - C047a
+  - C047b
+  - C051
+  - C052
+  - C053
+  - C101
+  - IoTCom-P17
+  - IoTCom-P19
+  - IoTCom-P22
+- id: co_level
+  desc: 'The presence or absence of carbon monoxide in the environment. (split: co level)'
+  variables:
+  - co level
+  origin: split of co_level
+  verification:
+    single_variable: true
+    checked: true
+    issues: &id001 []
+  kind: situation
+  n_conditions: 3
+  scope: global
+  property_ids:
+  - C020
+  - C025
+  - C026
+  - C027
+  - C035
+  - C111
+  - C112
+  - C183a
+- id: illuminance
+  desc: The level of light in the environment.
+  variables:
+  - illuminance
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: global
+  property_ids:
+  - C119
+  - C120
+- id: motion_detected
+  desc: The presence or absence of motion in the environment.
+  variables:
+  - entering
+  - motion detected
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: true
+    reason: Both 'entering' and 'motion detected' refer to the presence or absence of motion in the environment.
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: global
+  property_ids:
+  - C175
+  - C183b
+- id: air_quality
+  desc: The quality of the air in the environment.
+  variables:
+  - air quality
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C041
+  - C060
+- id: co2_level
+  desc: The level of carbon dioxide in the environment.
+  variables:
+  - co2 level
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C022
+  - C032
+- id: humidity
+  desc: The level of humidity in the environment.
+  variables:
+  - humidity
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C116
+- id: intruder
+  desc: The presence or absence of an intruder in the environment.
+  variables:
+  - intruder
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C104
+- id: smoke_or_co
+  desc: 'The presence or absence of carbon monoxide in the environment. (split: smoke or co)'
+  variables:
+  - smoke or co
+  origin: split of co_level
+  verification:
+    single_variable: true
+    checked: true
+    issues: *id001
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C048
+- id: door_state
+  desc: 'The state of a door in the environment. (split: door state)'
+  variables:
+  - door state
+  origin: split of door_state
+  verification:
+    single_variable: true
+    checked: true
+    issues: &id002 []
+  kind: situation
+  n_conditions: 1
+  scope: zone
+  property_ids:
+  - IoTCom-P2
+- id: objects_near_door
+  desc: 'The state of a door in the environment. (split: objects near the door)'
+  variables:
+  - objects near the door
+  origin: split of door_state
+  verification:
+    single_variable: true
+    checked: true
+    issues: *id002
+  kind: situation
+  n_conditions: 1
+  scope: zone
+  property_ids:
+  - C178
+- id: occupancy
+  desc: 'The state of a door in the environment. (split: occupancy)'
+  variables:
+  - occupancy
+  origin: split of door_state
+  verification:
+    single_variable: true
+    checked: true
+    issues: *id002
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - IoTCom-P18
+  - IoTCom-P5
+- id: water_sensor_state
+  desc: 'The state of water in the environment. (split: water sensor state)'
+  variables:
+  - water sensor state
+  origin: split of water_state
+  verification:
+    single_variable: true
+    checked: true
+    issues: &id003 []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C069
+- id: water_state
+  desc: 'The state of water in the environment. (split: water state)'
+  variables:
+  - water state
+  origin: split of water_state
+  verification:
+    single_variable: true
+    checked: true
+    issues: *id003
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C184
+- id: device_state
+  kind: excluded
+  desc: conditions coded as device_state (no world variable)
+  n_conditions: 5
+- id: no_variable_given
+  kind: excluded
+  desc: conditions coded as no_variable_given (no world variable)
+  n_conditions: 19
+- id: obligation
+  kind: excluded
+  desc: conditions coded as obligation (no world variable)
+  n_conditions: 18
+- id: user_configuration
+  kind: excluded
+  desc: conditions coded as user_configuration (no world variable)
+  n_conditions: 15
+coverage:
+  co_level: 3
+  co2_level: 1
+  no_variable_given: 19
+  user_configuration: 15
+  objects_near_door: 1
+  obligation: 18
+  leak: 5
+  air_quality: 1
+  door_state: 1
+  motion_detected: 2
+  device_state: 5
+  humidity: 1
+  illuminance: 2
+  intruder: 1
+  occupancy: 1
+  smoke: 3
+  smoke_or_co: 1
+  temperature: 8
+  water_sensor_state: 1
+  water_state: 1

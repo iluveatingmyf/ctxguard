@@ -1,0 +1,23 @@
+ts,step,file,sha256,bytes,model,backend,vocab_version,prompts_sha
+2026-11-01 11:39:57,m2-extract,out/m2/A1_conditions.yaml,4984ba2b1a36a00f,34161,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 11:39:57,m2-extract,out/m2/A1_report.yaml,7e6cb26747bb7a0d,11506,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 11:39:57,m2-extract,out/annotate/m2_A1_extraction_CHECK.csv,44f235a00c4ed88f,5655,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 12:04:07,m2-dims,out/m2/A2_dims.yaml,8e203baf61509c10,3711,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 12:04:07,m2-dims,out/m2/A2_coding.yaml,063fdd7fe030557f,30400,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 12:04:07,m2-dims,out/m2/A2_proposals.yaml,dccee5e04f57e34e,19969,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 12:04:07,m2-dims,out/annotate/m2_A2_coding_CHECK.csv,8e9e6f05c30ee0b2,5478,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 12:09:58,m2-dims,out/m2/A2_runs/run1_dims.yaml,9456b4bb35548f09,9478,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 12:09:58,m2-dims,out/m2/A2_runs/run1_coding.yaml,c43ac4e305cf801c,30296,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 12:17:23,m2-dims,out/m2/A2_runs/run2_dims.yaml,6b2060250873dce2,20445,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 12:17:23,m2-dims,out/m2/A2_runs/run2_coding.yaml,39ef14459f2d0ed8,32839,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 12:17:23,m2-dims,out/m2/A2_stability.yaml,9575eda0d22166ab,1047,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 12:38:29,m2-values,out/m2/A3_factors_corpus.yaml,fe2cb1cd0445603f,3877,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 12:38:29,m2-values,out/m2/A3_values_report.yaml,e93d12d89dd6b1eb,2402,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 12:38:29,m2-values,out/m2/A3_value_assignment.yaml,68da1a1d2a9f8b17,25516,qwen2.5:7b-instruct,ollama,F-v0,e148dcb6e832aee0
+2026-11-01 13:21:40,m2-extract,out/m2/A1_conditions.yaml,0c3b4b7faa52de5c,25584,qwen2.5:7b-instruct,ollama,F-v0,cbdee05f0d94e672
+2026-11-01 13:21:40,m2-extract,out/m2/A1_report.yaml,79328f62a4d95e03,11638,qwen2.5:7b-instruct,ollama,F-v0,cbdee05f0d94e672
+2026-11-01 13:21:40,m2-extract,out/annotate/m2_A1_extraction_CHECK.csv,ca4a1fdb3623129f,5489,qwen2.5:7b-instruct,ollama,F-v0,cbdee05f0d94e672
+2026-11-01 13:26:17,m2-dims,out/m2/A2_dims.yaml,25738822f81ced99,6419,qwen2.5:7b-instruct,ollama,F-v0,cbdee05f0d94e672
+2026-11-01 13:26:17,m2-dims,out/m2/A2_coding.yaml,2b4554088cd72d03,18813,qwen2.5:7b-instruct,ollama,F-v0,cbdee05f0d94e672
+2026-11-01 13:26:17,m2-dims,out/m2/A2_grouping.yaml,214d84ac07f2e306,4257,qwen2.5:7b-instruct,ollama,F-v0,cbdee05f0d94e672
+2026-11-01 13:26:17,m2-dims,out/annotate/m2_A2_coding_CHECK.csv,d43a691ec96822e3,4267,qwen2.5:7b-instruct,ollama,F-v0,cbdee05f0d94e672

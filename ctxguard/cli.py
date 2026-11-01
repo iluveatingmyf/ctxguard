@@ -78,21 +78,25 @@ def main():
     elif s == "m2-dims":
         from .vocab import run_dims
         r = run_dims(ctx, runs=a.runs)
-        for x in r["rounds"]:
-            print(f"round {x['round']}: +{x['new_dimensions']} dims (total {x['n_dimensions']}), uncovered {x['uncovered']} ({x['uncovered_share']})")
-        print("dimensions:", ", ".join(f"{d['id']}({d.get('n_conditions', '-')})" for d in r["slots"] if d["kind"] == "situation"))
-        print("coding:", r["coverage"])
+        print(f"A2: {r['n_conditions']} conditions, kinds {r['kinds']}; {r['with_world_variable']} carry a world variable")
+        for d in r["slots"]:
+            if d["kind"] == "situation":
+                v = d.get("verification", {})
+                print(f"  {d['id']:32s} {d['n_conditions']:3d} conditions  variables {d['variables']}"
+                      f"{'' if v.get('single_variable', True) else '  [NOT one variable]'}{'  ' + str(v['issues']) if v.get('issues') else ''}")
+        print("excluded:", {d["id"]: d["n_conditions"] for d in r["slots"] if d["kind"] == "excluded"})
         if "stability" in r:
             print("stability:", r["stability"])
-    elif s in ("m2-values", "m2-slots"):
+    elif s == "m2-values":
+        from .vocab import run_values
+        r = run_values(ctx)
+        for k, v in r["per_dimension"].items():
+            print(f"  {k:32s} {v['n_conditions']:3d} conditions  values {v['values']}  coverage {v['coverage']}")
+        print("overall coverage:", r["overall_coverage"])
+    elif s == "m2-slots":
         from .vocab import run_slots
-        if s == "m2-values":
-            r = run_slots(ctx, ctx.outp("m2", "A2_dims.yaml"), tag="A3")
-        else:
-            r = run_slots(ctx, None, tag="ablation_topdown")
-        print(f"{r['n_conditions']} conditions; excluded share {r['excluded_share']}")
-        for k, v in r["per_slot"].items():
-            print(f"  {k:24s} {v['n_conditions']:3d} conditions  {v.get('factors', '')}  coverage {v.get('coverage', '-')}")
+        r = run_slots(ctx, None, tag="ablation_topdown")
+        print(f"ABLATION: {r['n_conditions']} conditions; excluded share {r['excluded_share']}")
     elif s == "m2-seed-check":
         from .vocab import run_seed_check
         show({k: v for k, v in run_seed_check(ctx).items() if k != "per_factor"})

@@ -1,0 +1,950 @@
+- condition: CO exceeds a predefined level
+  kind: sensor_reading
+  world_fact: CO is present at a high level
+  variable: co level
+  value: high
+  scope: home
+  reason: ''
+  slot: co_level
+  property_ids:
+  - C111
+  - C112
+- condition: CO is detected
+  kind: sensor_reading
+  world_fact: CO is detected
+  variable: co level
+  value: detected
+  scope: home
+  reason: ''
+  slot: co_level
+  property_ids:
+  - C020
+  - C025
+  - C026
+  - C027
+  - C035
+- condition: CO2 is greater than a predefined value
+  kind: sensor_reading
+  world_fact: the CO2 level is high
+  variable: co2 level
+  value: high
+  scope: home
+  reason: ''
+  slot: co2_level
+  property_ids:
+  - C022
+  - C032
+- condition: Motion detected
+  kind: sensor_reading
+  world_fact: motion is detected
+  variable: ''
+  value: motion detected
+  scope: room
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C139
+- condition: Some device functionality must be turned on before a time specified by a user
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: turned on
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C186b
+- condition: The door is clear of any objects
+  kind: sensor_reading
+  world_fact: there are no objects near the door
+  variable: objects near the door
+  value: absent
+  scope: room
+  reason: ''
+  slot: objects_near_door
+  property_ids:
+  - C178
+- condition: The location beacon must be inside a geo-fence around the home (defined by a user)
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: inside a geo-fence around the home
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C180
+- condition: The user arrives home
+  kind: event
+  world_fact: ''
+  variable: ''
+  value: arrived
+  scope: person
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C177
+- condition: The user is not home
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: not home
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - Soteria-P1
+  - Soteria-P12
+- condition: a camera does not recognize an unauthorized face
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: unauthorized face not recognized
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C196
+- condition: a leak is detected
+  kind: sensor_reading
+  world_fact: there is a leak
+  variable: leak
+  value: detected
+  scope: home
+  reason: ''
+  slot: leak
+  property_ids:
+  - Soteria-P30
+- condition: a time specified by the user
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: specified by the user
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C192
+- condition: a user is not present at home
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: not present
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C174
+- condition: a user is sleeping
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: sleeping
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C174
+- condition: a user is within a specified distance of the house
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: within a specified distance
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C192
+- condition: air quality drops below a threshold
+  kind: sensor_reading
+  world_fact: air quality drops below a threshold
+  variable: air quality
+  value: below a threshold
+  scope: home
+  reason: ''
+  slot: air_quality
+  property_ids:
+  - C041
+  - C060
+- condition: an intruder is detected
+  kind: sensor_reading
+  world_fact: there is an intruder
+  variable: ''
+  value: present
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C105
+- condition: an unexpected motion occurs
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: unexpected
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C183b
+- condition: at noon every day
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: not below a predefined value
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C106
+- condition: at user-specified times
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: user-specified
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C194b
+- condition: based on the specific event
+  kind: event
+  world_fact: ''
+  variable: ''
+  value: ''
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C188
+- condition: door is closed
+  kind: sensor_reading
+  world_fact: the door is closed
+  variable: door state
+  value: closed
+  scope: room
+  reason: ''
+  slot: door_state
+  property_ids:
+  - IoTCom-P2
+- condition: entering occurs
+  kind: event
+  world_fact: there is an unexpected entering
+  variable: entering
+  value: unexpected
+  scope: home
+  reason: ''
+  slot: motion_detected
+  property_ids:
+  - C183b
+- condition: fan is on
+  kind: device_state
+  world_fact: ''
+  variable: ''
+  value: 'on'
+  scope: home
+  reason: ''
+  slot: device_state
+  property_ids:
+  - IoTCom-P24
+  - IoTCom-P25
+- condition: heater is on
+  kind: device_state
+  world_fact: ''
+  variable: ''
+  value: 'on'
+  scope: home
+  reason: ''
+  slot: device_state
+  property_ids:
+  - IoTCom-P22
+- condition: home mode is away
+  kind: home_mode
+  world_fact: ''
+  variable: ''
+  value: away
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C037
+  - C049a
+  - C049b
+- condition: home mode is vacation
+  kind: home_mode
+  world_fact: ''
+  variable: ''
+  value: vacation
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C038
+- condition: humidity and temperature values are out of the threshold specified by the user
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: out of threshold
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C191
+- condition: humidity and temperature values fall outside the user-specified thresholds
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: outside thresholds
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C070
+- condition: humidity exceeds a predefined value
+  kind: sensor_reading
+  world_fact: the humidity is high
+  variable: humidity
+  value: high
+  scope: home
+  reason: ''
+  slot: humidity
+  property_ids:
+  - C116
+- condition: indoor illuminance exceeds 600 lux
+  kind: sensor_reading
+  world_fact: indoor illuminance exceeds 600 lux
+  variable: illuminance
+  value: exceeds 600 lux
+  scope: home
+  reason: ''
+  slot: illuminance
+  property_ids:
+  - C120
+- condition: indoor illuminance is below 80 lux in daytime
+  kind: sensor_reading
+  world_fact: indoor illuminance is below 80 lux in daytime
+  variable: illuminance
+  value: below 80 lux
+  scope: home
+  reason: ''
+  slot: illuminance
+  property_ids:
+  - C119
+- condition: light level changes
+  kind: event
+  world_fact: ''
+  variable: ''
+  value: changes
+  scope: room
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - IoTCom-P6
+- condition: mode is away
+  kind: home_mode
+  world_fact: ''
+  variable: ''
+  value: away
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - IoTCom-P17
+- condition: motion is detected
+  kind: sensor_reading
+  world_fact: motion is detected
+  variable: ''
+  value: present
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C049a
+  - C049b
+  - C087
+  - IoTCom-P24
+  - IoTCom-P25
+- condition: night mode
+  kind: home_mode
+  world_fact: ''
+  variable: ''
+  value: ''
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C047a
+- condition: no intruder is detected
+  kind: sensor_reading
+  world_fact: there is no intruder
+  variable: intruder
+  value: absent
+  scope: home
+  reason: ''
+  slot: intruder
+  property_ids:
+  - C104
+- condition: no one is home
+  kind: world_state
+  world_fact: no one is home
+  variable: occupancy
+  value: none
+  scope: home
+  reason: ''
+  slot: occupancy
+  property_ids:
+  - IoTCom-P18
+  - IoTCom-P5
+- condition: no smoke is detected
+  kind: sensor_reading
+  world_fact: there is no smoke
+  variable: smoke
+  value: absent
+  scope: home
+  reason: ''
+  slot: smoke
+  property_ids:
+  - C043
+- condition: nobody is at home
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: none
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C066
+  - C107
+  - C117
+- condition: nobody is present
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: none
+  scope: person
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C085
+  - C113
+- condition: one alarm is turned off
+  kind: device_state
+  world_fact: ''
+  variable: ''
+  value: turned off
+  scope: home
+  reason: ''
+  slot: device_state
+  property_ids:
+  - C194c
+- condition: people are at home
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: present
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - IoTSan-T1
+- condition: people leave home
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C179b
+- condition: smoke is detected
+  kind: sensor_reading
+  world_fact: there is smoke
+  variable: smoke
+  value: detected
+  scope: home
+  reason: ''
+  slot: smoke
+  property_ids:
+  - C045
+  - C047a
+  - C047b
+  - C051
+  - C052
+  - C053
+  - C101
+  - IoTCom-P17
+  - IoTCom-P19
+  - IoTCom-P22
+- condition: smoke or CO is detected
+  kind: sensor_reading
+  world_fact: there is smoke or CO
+  variable: smoke or co
+  value: present
+  scope: home
+  reason: ''
+  slot: smoke_or_co
+  property_ids:
+  - C048
+- condition: someone is at home
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: present
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C009
+  - C042
+  - C047b
+  - C065
+- condition: someone is detected
+  kind: device_state
+  world_fact: ''
+  variable: ''
+  value: detected
+  scope: home
+  reason: ''
+  slot: device_state
+  property_ids:
+  - C150
+  - C159
+- condition: someone is home
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: present
+  scope: room
+  reason: ''
+  slot: obligation
+  property_ids:
+  - IoTCom-P9
+- condition: someone is present
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: present
+  scope: person
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C114
+- condition: tampering occurs
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: occurs
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C183b
+- condition: temperature is low
+  kind: sensor_reading
+  world_fact: the temperature is low
+  variable: temperature
+  value: low
+  scope: home
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C159
+  - IoTCom-P7
+- condition: the door is closed
+  kind: device_state
+  world_fact: ''
+  variable: ''
+  value: closed
+  scope: home
+  reason: ''
+  slot: device_state
+  property_ids:
+  - C086
+- condition: the door opens
+  kind: event
+  world_fact: the door opens
+  variable: ''
+  value: ''
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C007
+- condition: the doors are opening
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: opening
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C194a
+- condition: the doors are unlocking
+  kind: event
+  world_fact: ''
+  variable: ''
+  value: unlocking
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C194b
+- condition: the home is empty
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: empty
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C160
+- condition: the home is in away mode
+  kind: home_mode
+  world_fact: ''
+  variable: ''
+  value: away
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C083a
+  - C083b
+- condition: the home is in sleep mode
+  kind: home_mode
+  world_fact: ''
+  variable: ''
+  value: sleep mode
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C082
+- condition: the mode selected by a user is changed
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: changed
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C189
+- condition: the moisture sensor detects a leak
+  kind: sensor_reading
+  world_fact: there is a leak
+  variable: leak
+  value: present
+  scope: home
+  reason: ''
+  slot: leak
+  property_ids:
+  - C097
+- condition: the motion sensor is active
+  kind: sensor_reading
+  world_fact: motion is detected
+  variable: motion detected
+  value: present
+  scope: room
+  reason: ''
+  slot: motion_detected
+  property_ids:
+  - C175
+- condition: the smoke is detected
+  kind: sensor_reading
+  world_fact: there is smoke
+  variable: smoke
+  value: detected
+  scope: home
+  reason: ''
+  slot: smoke
+  property_ids:
+  - C019
+  - C028
+  - C034
+- condition: the temperature drops below the lower threshold
+  kind: sensor_reading
+  world_fact: the temperature is low
+  variable: temperature
+  value: below the lower threshold
+  scope: home
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C055
+- condition: the temperature exceeds a predefined value
+  kind: sensor_reading
+  world_fact: the temperature exceeds a predefined value
+  variable: temperature
+  value: exceeds predefined value
+  scope: home
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C115
+- condition: the temperature is above a threshold
+  kind: sensor_reading
+  world_fact: the temperature is high
+  variable: temperature
+  value: high
+  scope: home
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C066
+- condition: the temperature is below a predefined value
+  kind: sensor_reading
+  world_fact: the temperature is below a predefined value
+  variable: temperature
+  value: below a predefined value
+  scope: home
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C009
+  - C113
+  - C114
+- condition: the temperature is below the threshold
+  kind: sensor_reading
+  world_fact: the temperature is below the threshold
+  variable: temperature
+  value: below the threshold
+  scope: home
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C056
+- condition: the temperature rises above a predefined value
+  kind: sensor_reading
+  world_fact: the temperature is high
+  variable: temperature
+  value: above predefined value
+  scope: home
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C014
+- condition: the temperature rises above the threshold
+  kind: sensor_reading
+  world_fact: the temperature is high
+  variable: temperature
+  value: high
+  scope: home
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C054
+- condition: the user arrives home
+  kind: event
+  world_fact: ''
+  variable: ''
+  value: arrived
+  scope: person
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C003
+  - C102
+- condition: the user is not at home
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: not present
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C005
+  - C006
+  - C007
+  - C008
+  - C012
+  - C095
+- condition: the user is not nearby-home
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: not nearby-home
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C005
+  - C006
+  - C007
+  - C008
+  - C012
+- condition: the user is not present
+  kind: user_configuration
+  world_fact: ''
+  variable: ''
+  value: not present
+  scope: person
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C099
+  - C100
+- condition: the user-specified water level threshold is reached
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: reached threshold
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C069
+- condition: the water sensor is wet
+  kind: sensor_reading
+  world_fact: the water sensor detects water
+  variable: water sensor state
+  value: wet
+  scope: home
+  reason: ''
+  slot: water_sensor_state
+  property_ids:
+  - C069
+- condition: the water/moisture sensor detects a leak
+  kind: sensor_reading
+  world_fact: there is a leak
+  variable: leak
+  value: present
+  scope: home
+  reason: ''
+  slot: leak
+  property_ids:
+  - C043
+- condition: the windows are opening
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: opening
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C194a
+- condition: there is CO
+  kind: sensor_reading
+  world_fact: there is CO
+  variable: co level
+  value: present
+  scope: home
+  reason: ''
+  slot: co_level
+  property_ids:
+  - C183a
+- condition: there is motion
+  kind: sensor_reading
+  world_fact: there is motion
+  variable: ''
+  value: motion detected
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C118
+- condition: there is smoke
+  kind: world_state
+  world_fact: there is smoke
+  variable: ''
+  value: smoke present
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C183a
+- condition: there is water leakage
+  kind: sensor_reading
+  world_fact: there is water leakage
+  variable: ''
+  value: ''
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C046
+- condition: user is not at home
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: not at home
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C186a
+- condition: water/moisture sensor detects leak around a location such as basement
+  kind: sensor_reading
+  world_fact: there is a leak around a location such as basement
+  variable: leak around a location
+  value: present
+  scope: room
+  reason: ''
+  slot: leak
+  property_ids:
+  - C203
+- condition: water/moisture sensor detects leak around a location such as laundry room
+  kind: sensor_reading
+  world_fact: there is a leak around the laundry room
+  variable: leak around the laundry room
+  value: present
+  scope: room
+  reason: ''
+  slot: leak
+  property_ids:
+  - C203
+- condition: when the user is not at home
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: not present
+  scope: person
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C182
+  - C185
+- condition: when the user is sleeping
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: sleeping
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C185
+- condition: when the water level threshold specified by a user is reached
+  kind: obligation
+  world_fact: ''
+  variable: ''
+  value: reached threshold
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C184
+- condition: when there is smoke
+  kind: sensor_reading
+  world_fact: there is smoke
+  variable: ''
+  value: smoke present
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - Soteria-P10
+- condition: when water sensor is wet
+  kind: sensor_reading
+  world_fact: the water is wet
+  variable: water state
+  value: wet
+  scope: home
+  reason: ''
+  slot: water_state
+  property_ids:
+  - C184

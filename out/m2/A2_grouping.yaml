@@ -1,0 +1,197 @@
+variables:
+- variable: temperature
+  count: 8
+  example_values:
+  - low
+  - below the lower threshold
+  - exceeds predefined value
+  - high
+  - below a predefined value
+  - below the threshold
+- variable: co level
+  count: 3
+  example_values:
+  - high
+  - detected
+  - present
+- variable: leak
+  count: 3
+  example_values:
+  - detected
+  - present
+- variable: smoke
+  count: 3
+  example_values:
+  - absent
+  - detected
+- variable: illuminance
+  count: 2
+  example_values:
+  - exceeds 600 lux
+  - below 80 lux
+- variable: air quality
+  count: 1
+  example_values:
+  - below a threshold
+- variable: co2 level
+  count: 1
+  example_values:
+  - high
+- variable: door state
+  count: 1
+  example_values:
+  - closed
+- variable: entering
+  count: 1
+  example_values:
+  - unexpected
+- variable: humidity
+  count: 1
+  example_values:
+  - high
+- variable: intruder
+  count: 1
+  example_values:
+  - absent
+- variable: leak around a location
+  count: 1
+  example_values:
+  - present
+- variable: leak around the laundry room
+  count: 1
+  example_values:
+  - present
+- variable: motion detected
+  count: 1
+  example_values:
+  - present
+- variable: objects near the door
+  count: 1
+  example_values:
+  - absent
+- variable: occupancy
+  count: 1
+  example_values:
+  - none
+- variable: smoke or co
+  count: 1
+  example_values:
+  - present
+- variable: water sensor state
+  count: 1
+  example_values:
+  - wet
+- variable: water state
+  count: 1
+  example_values:
+  - wet
+grouping_answer:
+- id: co_level
+  definition: The presence or absence of carbon monoxide in the environment.
+  members:
+  - 1
+  - 16
+- id: leak
+  definition: The presence or absence of a leak in the environment.
+  members:
+  - 2
+  - 11
+  - 12
+- id: smoke
+  definition: The presence or absence of smoke in the environment.
+  members:
+  - 3
+  - 16
+- id: illuminance
+  definition: The level of light in the environment.
+  members:
+  - 4
+- id: air_quality
+  definition: The quality of the air in the environment.
+  members:
+  - 5
+- id: co2_level
+  definition: The level of carbon dioxide in the environment.
+  members:
+  - 6
+- id: door_state
+  definition: The state of a door in the environment.
+  members:
+  - 7
+  - 14
+  - 15
+- id: motion_detected
+  definition: The presence or absence of motion in the environment.
+  members:
+  - 8
+  - 13
+- id: objects_near_door
+  definition: The presence or absence of objects near a door in the environment.
+  members:
+  - 14
+- id: occupancy
+  definition: The presence or absence of occupants in the environment.
+  members:
+  - 15
+- id: humidity
+  definition: The level of humidity in the environment.
+  members:
+  - 9
+- id: intruder
+  definition: The presence or absence of an intruder in the environment.
+  members:
+  - 10
+- id: water_state
+  definition: The state of water in the environment.
+  members:
+  - 17
+  - 18
+duplicate_assignments:
+- smoke or co
+- objects near the door
+- occupancy
+verification:
+- dimension: co_level
+  members:
+  - co level
+  - smoke or co
+  single_variable: false
+  reason: The members 'co level' and 'smoke or co' could vary independently as 'co level' refers to the concentration of carbon
+    monoxide while 'smoke or co' refers to the presence or absence of both carbon monoxide and smoke.
+  split_applied: true
+  issues: []
+- dimension: leak
+  members:
+  - leak
+  - leak around a location
+  - leak around the laundry room
+  single_variable: true
+  reason: All members refer to the presence or absence of a leak in a specific location.
+  split_applied: false
+  issues: []
+- dimension: door_state
+  members:
+  - door state
+  - objects near the door
+  - occupancy
+  single_variable: false
+  reason: door state and objects near the door could vary independently; occupancy is a separate variable.
+  split_applied: true
+  issues: []
+- dimension: motion_detected
+  members:
+  - entering
+  - motion detected
+  single_variable: true
+  reason: Both 'entering' and 'motion detected' refer to the presence or absence of motion in the environment.
+  split_applied: false
+  issues: []
+- dimension: water_state
+  members:
+  - water sensor state
+  - water state
+  single_variable: false
+  reason: The phrases 'water sensor state' and 'water state' can vary independently as they refer to different aspects of
+    water.
+  split_applied: true
+  issues: []

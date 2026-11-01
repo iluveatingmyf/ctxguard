@@ -47,8 +47,8 @@ python tests/smoke_mock.py
 | 阶段 | 命令 | 你要做什么 | 留下的中间结果（都可进 evaluation） |
 |---|---|---|---|
 | A1 | `m2-extract` | 无 | `A1_conditions.yaml`、`A1_report.yaml`（按利益统计语料覆盖）、★`annotate/m2_A1_extraction_CHECK.csv` |
-| A2 | `m2-dims --runs 3` | 无 | `A2_dims.yaml`、`A2_coding.yaml`、`A2_proposals.yaml`、`A2_runs/`、`A2_stability.yaml`、★`m2_A2_coding_CHECK.csv` |
-| A3 | `m2-values` | 无 | `A3_factors_corpus.yaml`、`A3_value_assignment.yaml`、`A3_values_report.yaml` |
+| A2 | `m2-dims --runs 3` | 无 | `A2_dims.yaml`、`A2_coding.yaml`、`A2_grouping.yaml`、`A2_runs/`、`A2_stability.yaml`、★`m2_A2_coding_CHECK.csv` |
+| A3 | `m2-values` | 无 | `A3_factors_corpus.yaml`、`A3_value_assignment.yaml`（条件→取值）、`A3_values_report.yaml`（覆盖率、没分配上的条件） |
 | A4 | ★人工审 `A3_factors_corpus.yaml`，按 R1–R4 写成 `data/vocab/factors_seed.yaml`（每个因子写 provenance）→ `m2-seed-check` | 约 1 小时 | `A4_seed_check.yaml`（审核改了什么） |
 | B | `m2-elicit` | 无 | `B1_elicitation.yaml`（含被拒条目）、★`m2_B1_elicit_CHECK_round1.csv` |
 | C | `m2-consolidate` | 无 | `C1_canonical.yaml`、`C2_signatures.csv`、`C3_factors_candidate.yaml`（含 refines）、`C3_report.yaml`、★`m2_C2_signature_CHECK.csv` |

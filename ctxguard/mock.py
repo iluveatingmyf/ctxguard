@@ -251,6 +251,30 @@ def mock_answer(task, ctx, seed):
                     return {"counterexamples": [{"narrative": "someone is watching a movie in the living room", "assignment": d,
                                                  "expected_label": "-", "missing_attribute": "watching a movie"}]}
         return {"counterexamples": []}
+    if task == "code_condition":
+        t = ctx["condition"].lower()
+        if "nobody" in t or "at home" in t:
+            return {"kind": "world_state", "world_fact": ctx["condition"], "variable": "presence of people at home",
+                    "value": "nobody home" if "nobody" in t else "someone home", "scope": "home"}
+        if "baby" in t or "elderly" in t:
+            return {"kind": "world_state", "world_fact": ctx["condition"], "variable": "vulnerable person in the room",
+                    "value": "present", "scope": "room"}
+        if "sleep" in t:
+            return {"kind": "world_state", "world_fact": ctx["condition"], "variable": "activity of people in the room",
+                    "value": "asleep", "scope": "room"}
+        if "leak" in t:
+            return {"kind": "sensor_reading", "world_fact": "water is leaking", "variable": "water leak", "value": "present",
+                    "scope": "home"}
+        return {"kind": "device_state", "world_fact": "", "variable": "", "value": "", "scope": "home"}
+    if task == "group_variables":
+        return {"groups": [{"id": v.replace(" ", "_"), "definition": v, "members": [i]} for i, v in enumerate(ctx["variables"])]}
+    if task == "check_dimension":
+        return {"single_variable": True, "reason": "mock"}
+    if task == "dimension_values":
+        vals = [{"value": _p.split(" (")[0].replace(" ", "_"), "semantics": _p} for _p in ctx["phrases"]]
+        return {"values": vals + [{"value": "none", "semantics": "baseline"}]}
+    if task == "assign_value":
+        return {"value": next((v for v in ctx["values"] if v.replace("_", " ") in (ctx["value"] or "")), "none_fits")}
     if task == "judge":
         return {"label": "-" if "movie" in ctx["narrative"] else "0", "harm": "mock"}
     if task == "property_assets":

@@ -7,9 +7,11 @@ every LLM answer is cached (out/llm_cache.sqlite) and every call is in out/ledge
 
 Stage A  dimension discovery from the property corpus (asset-agnostic)
   A1 m2-extract      property -> atomic situation conditions; per-property asset metadata
-  A2 m2-dims         iterative open coding: conditions -> dimensions (+ excluded categories);
-                     --runs R repeats it on permuted condition orders (stability)
-  A3 m2-values       per dimension: values + assignment of every coded condition to a value
+  A2 m2-dims         variable-level coding: per condition kind / world fact / variable / value
+                     (one call each), axial merge of variable phrases, one-variable check per
+                     dimension; --runs R repeats it with sampling (stability)
+  A3 m2-values       per dimension: value set (one call) + closed-choice assignment of every
+                     coded fact (one call each)
   A4 (human)         review with rules R1-R4 -> data/vocab/factors_seed.yaml (provenance per
                      factor); m2-seed-check validates it and reports the edits vs A3
 Stage B  effect-anchored elicitation (asset-aware), bounded by E x V
@@ -45,9 +47,10 @@ import numpy as np
 from .common import Ctx, dump_yaml, load_yaml, p
 from .manifest import record, save_csv, save_yaml
 from .model import Binding, Vocab, contains, index_spec, label_of, normalize, pattern_to_json
-from .prompts import (attribute_dimension_prompt, canonicalize_prompt, classify_condition_prompt,
-                      contrast_label_prompt, elicit_prompt, expand_values_prompt, extract_predicates_prompt,
-                      induce_dims_prompt, map_property_prompt, name_factor_prompt, property_assets_prompt,
+from .prompts import (CONDITION_KINDS, assign_value_prompt, attribute_dimension_prompt, canonicalize_prompt,
+                      check_dimension_prompt, classify_condition_prompt, code_condition_prompt, contrast_label_prompt,
+                      dimension_values_prompt, elicit_prompt, expand_values_prompt, extract_predicates_prompt,
+                      group_variables_prompt, map_property_prompt, name_factor_prompt, property_assets_prompt,
                       slot_values_prompt)
 from .roughset import INV, Tables
 
@@ -239,94 +242,179 @@ def run_name(ctx: Ctx, min_size: int = 2) -> dict:
 
 
 
-# ------------------------------------------------------------------ A2
-def _induce(ctx: Ctx, texts: list[str], excluded: list[dict], max_rounds: int, stop_uncovered: float):
-    """One open-coding run. Round r: the LLM proposes dimensions from the pool; every
-    condition is then coded into one dimension or an excluded category or 'other';
-    'other' conditions form the next pool. Stops when the uncovered share <= stop_uncovered,
-    when no new dimension appears, or after max_rounds."""
-    ex_ids = {e["id"] for e in excluded}
-    dims, pool, rounds, coding, proposals = {}, texts, [], [], []
-    for r in range(max_rounds):
-        sys, user, sch = induce_dims_prompt(pool, list(dims.values()))
-        out = ctx.llm.json("M2", "induce_dims", sys, user, sch, context={"conditions": pool, "existing": list(dims)})
-        new = 0
-        for d in out.get("dimensions", []):
-            did = _norm(d.get("id", ""))
-            prop = {"round": r + 1, "proposed_id": d.get("id"), "desc": d.get("desc", ""),
-                    "covers": [pool[i] for i in d.get("covers", []) if isinstance(i, int) and 0 <= i < len(pool)]}
-            if not did or did in dims or did in ex_ids:
-                prop["decision"] = "rejected: empty, duplicate or excluded category"
-            else:
-                dims[did] = {"id": did, "kind": "situation", "scope": d.get("scope", "global"), "desc": d.get("desc", ""),
-                             "max_factors": max(1, min(4, int(d.get("n_variables") or 1))), "round": r + 1}
-                prop["decision"] = "accepted"
-                new += 1
-            proposals.append(prop)
-        sdesc = "\n".join(f"- {s['id']} ({s['kind']}): {s['desc']}" for s in list(dims.values()) + excluded)
-        coding = []
-        for t in texts:
-            sys, user, sch = classify_condition_prompt(t, sdesc)
-            o = ctx.llm.json("M2", "classify_condition", sys, user, sch, context={"condition": t, "dims": list(dims)})
-            slot = o.get("slot") if o.get("slot") in dims or o.get("slot") in ex_ids else "other"
-            coding.append({"condition": t, "slot": slot, "statement": o.get("situation_statement") or t,
-                           "reason": o.get("reason", ""), "round": r + 1})
-        uncovered = [c["condition"] for c in coding if c["slot"] == "other"]
-        rounds.append({"round": r + 1, "new_dimensions": new, "n_dimensions": len(dims),
-                       "uncovered": len(uncovered), "uncovered_share": round(len(uncovered) / max(1, len(texts)), 3)})
-        if not new or len(uncovered) / max(1, len(texts)) <= stop_uncovered:
-            break
-        pool = uncovered
-    per = Counter(c["slot"] for c in coding)
-    for d in dims.values():
-        d["n_conditions"] = per.get(d["id"], 0)
-    return dims, rounds, coding, proposals, per
+# ------------------------------------------------------------------ A2 (variable-level open + axial coding)
+NO_VARIABLE_KINDS = ("device_state", "user_configuration", "obligation", "unclear")
+SCOPE_MAP = {"room": "zone", "home": "global", "person": "zone", "outdoor": "global"}
 
 
-def run_dims(ctx: Ctx, runs: int = 1, max_rounds: int = 3, stop_uncovered: float = 0.05) -> dict:
-    """A2: dimensions induced from the corpus. Run 0 uses the sorted condition order and is
-    THE result; runs 1..R-1 use seeded permutations of the order (the prompt changes, so the
-    LLM answer is re-drawn) and measure stability: ARI of the codings vs run 0 and, per
-    dimension of run 0, its recurrence = share of runs with a dimension whose coded
-    conditions overlap it with Jaccard >= 0.5."""
-    ref = load_yaml(p("data/vocab/slots.yaml"))
-    excluded = [s for s in ref["slots"] if s["kind"] == "excluded"]
+def _cond_property_text(ctx: Ctx) -> dict:
+    m = {}
+    for r in load_yaml(ctx.outp("m2", "A1_conditions.yaml")):
+        m.setdefault(r["condition"], r["property_text"])
+    return m
+
+
+def _code_conditions(ctx: Ctx, texts: list[str], temperature: float = 0.0, seed: int = 0) -> list[dict]:
+    """A2a open coding: ONE call per condition (no long lists, so a 7B model can do it).
+    Returns kind, world_fact, variable, value, scope. Rule R1 is enforced here: device
+    states, configurations and obligations never carry a variable; sensor readings and
+    home modes are mapped to the world fact they indicate."""
+    ptext = _cond_property_text(ctx)
+    rows = []
+    for t in texts:
+        sys, user, sch = code_condition_prompt(t, ptext.get(t, t))
+        o = ctx.llm.json("M2", "code_condition", sys, user, sch, temperature=temperature, seed=seed,
+                         context={"condition": t})
+        kind = o.get("kind") if o.get("kind") in CONDITION_KINDS else "unclear"
+        var = " ".join(str(o.get("variable", "")).lower().split())
+        fact = str(o.get("world_fact", "")).strip()
+        if kind in NO_VARIABLE_KINDS or not var or not fact:
+            var, fact = "", fact if kind not in NO_VARIABLE_KINDS else ""
+        rows.append({"condition": t, "kind": kind, "world_fact": fact, "variable": var,
+                     "value": str(o.get("value", "")).strip(), "scope": o.get("scope", "home"),
+                     "reason": o.get("reason", "")})
+    return rows
+
+
+def _group_variables(ctx: Ctx, rows: list[dict], temperature: float = 0.0, seed: int = 0,
+                     order_seed: str | None = None) -> tuple[dict, dict, dict]:
+    """A2b axial coding (merge variable phrases naming the same quantity) + A2c verification
+    of every multi-member dimension (one variable? not an asset?), splitting when it fails.
+    Returns dims, variable -> dimension id, and the full record."""
+    cnt = Counter(r["variable"] for r in rows if r["variable"])
+    ex = defaultdict(list)
+    for r in rows:
+        if r["variable"] and r["value"] and r["value"] not in ex[r["variable"]]:
+            ex[r["variable"]].append(r["value"])
+    var = sorted(cnt, key=lambda v: (-cnt[v], v))
+    if order_seed:
+        random.Random(order_seed).shuffle(var)
+    lines = [f"{v} (x{cnt[v]}; values e.g. {', '.join(ex[v][:3]) or '-'})" for v in var]
+    rec = {"variables": [{"variable": v, "count": cnt[v], "example_values": ex[v][:6]} for v in var]}
+    out = ctx.llm.json("M2", "group_variables", *group_variables_prompt(lines), temperature=temperature, seed=seed,
+                       context={"variables": var})
+    assets = {a["id"] for a in ctx.asset_list}
+    v2d, dims, dup = {}, {}, []
+    for g in out.get("groups", []):
+        did = _norm(g.get("id", "")) or "dimension"
+        while did in dims:
+            did += "_x"
+        mem = []
+        for i in g.get("members", []):
+            if isinstance(i, int) and 0 <= i < len(var):
+                if var[i] in v2d:
+                    dup.append(var[i])
+                else:
+                    v2d[var[i]] = did
+                    mem.append(var[i])
+        if mem:
+            dims[did] = {"id": did, "desc": g.get("definition", ""), "variables": mem, "origin": "grouped"}
+    for v in var:                                          # every variable ends up in exactly one dimension
+        if v not in v2d:
+            did = _norm(v) or "dimension"
+            while did in dims:
+                did += "_x"
+            dims[did] = {"id": did, "desc": v, "variables": [v], "origin": "unassigned by the grouping call"}
+            v2d[v] = did
+    checks = []
+    for did in list(dims):
+        d = dims[did]
+        issues = [f"named after protected asset '{a}'" for a in assets if a in did.split("_")]
+        if len(d["variables"]) < 2:
+            d["verification"] = {"single_variable": True, "checked": False, "issues": issues}
+            continue
+        o = ctx.llm.json("M2", "check_dimension", *check_dimension_prompt(did, d["desc"], d["variables"]),
+                         temperature=temperature, seed=seed, context={"dim": did, "members": d["variables"]})
+        split = o.get("split") or []
+        idx = [i for g in split for i in g.get("members", []) if isinstance(i, int)]
+        valid = (not o.get("single_variable") and len(split) >= 2 and sorted(idx) == list(range(len(d["variables"]))))
+        checks.append({"dimension": did, "members": d["variables"], "single_variable": bool(o.get("single_variable")),
+                       "reason": o.get("reason", ""), "split_applied": valid, "issues": issues})
+        if valid:
+            del dims[did]
+            for g in split:
+                nid = _norm(g.get("id", "")) or did
+                while nid in dims:
+                    nid += "_x"
+                mem = [d["variables"][i] for i in g["members"]]
+                dims[nid] = {"id": nid, "desc": f"{d['desc']} (split: {'; '.join(mem)})", "variables": mem,
+                             "origin": f"split of {did}", "verification": {"single_variable": True, "checked": True,
+                                                                          "issues": issues}}
+                for v in mem:
+                    v2d[v] = nid
+        else:
+            d["verification"] = {"single_variable": bool(o.get("single_variable")), "checked": True,
+                                 "reason": o.get("reason", ""), "issues": issues}
+    rec.update({"grouping_answer": out.get("groups", []), "duplicate_assignments": dup, "verification": checks})
+    return dims, v2d, rec
+
+
+def _a2_once(ctx: Ctx, texts, temperature=0.0, seed=0, order_seed=None):
+    rows = _code_conditions(ctx, texts, temperature, seed)
+    dims, v2d, rec = _group_variables(ctx, rows, temperature, seed, order_seed)
+    for r in rows:
+        r["slot"] = v2d.get(r["variable"]) if r["variable"] else (
+            r["kind"] if r["kind"] in NO_VARIABLE_KINDS else "no_variable_given")
+    return rows, dims, rec
+
+
+def run_dims(ctx: Ctx, runs: int = 1) -> dict:
+    """A2: dimensions discovered from the corpus as WORLD VARIABLES.
+      A2a open coding   one call per condition: kind, world fact, variable, value, scope;
+      A2b axial coding  one call merging the (short) list of variable phrases;
+      A2c verification  one call per multi-member dimension: one variable? else split.
+    Every condition is coded independently, so there is no 'uncovered pool' and no
+    stopping rule; quality is measured by the check sheet and by stability.
+    Stability: runs 1..R-1 repeat A2a-c with temperature 0.7 and other seeds (and a
+    shuffled variable list); reported: kind agreement (kappa), ARI of the condition ->
+    dimension labelling vs run 0, and per-dimension recurrence (Jaccard >= 0.5)."""
     texts = _cond_texts(ctx)
     cp = _cond_props(ctx)
-    dims, rounds, coding, proposals, per = _induce(ctx, texts, excluded, max_rounds, stop_uncovered)
-    for d in dims.values():
-        d["property_ids"] = sorted({pid for c in coding if c["slot"] == d["id"] for pid in cp.get(c["condition"], ())})
-    kept = [d for d in dims.values() if d["n_conditions"] > 0]
-    res = {"version": "S-induced", "rounds": rounds, "slots": kept + excluded, "derived": ref.get("derived", []),
-           "coverage": dict(per), "dropped_empty_dimensions": [d["id"] for d in dims.values() if d["n_conditions"] == 0]}
+    rows, dims, rec = _a2_once(ctx, texts)
+    for r in rows:
+        r["property_ids"] = sorted(cp.get(r["condition"], ()))
+    for did, d in dims.items():
+        mine = [r for r in rows if r["slot"] == did]
+        d.update({"kind": "situation", "n_conditions": len(mine),
+                  "scope": SCOPE_MAP.get(Counter(r["scope"] for r in mine).most_common(1)[0][0], "global") if mine else "global",
+                  "property_ids": sorted({x for r in mine for x in r["property_ids"]})})
+    kinds = Counter(r["kind"] for r in rows)
+    excluded = Counter(r["slot"] for r in rows if not r["variable"])
+    slots = sorted(dims.values(), key=lambda d: -d["n_conditions"]) + \
+        [{"id": k, "kind": "excluded", "desc": f"conditions coded as {k} (no world variable)", "n_conditions": n}
+         for k, n in sorted(excluded.items())]
+    res = {"version": "S-induced-v2 (variable-level coding)", "n_conditions": len(rows), "kinds": dict(kinds),
+           "with_world_variable": sum(1 for r in rows if r["variable"]), "n_dimensions": len(dims),
+           "unverified_or_failed": [d["id"] for d in dims.values() if not d.get("verification", {}).get("single_variable", True)],
+           "asset_named": [d["id"] for d in dims.values() if d.get("verification", {}).get("issues")],
+           "slots": slots, "coverage": dict(Counter(r["slot"] for r in rows))}
     save_yaml(ctx, "m2-dims", res, "m2", "A2_dims.yaml")
-    save_yaml(ctx, "m2-dims", coding, "m2", "A2_coding.yaml")
-    save_yaml(ctx, "m2-dims", proposals, "m2", "A2_proposals.yaml")
-    dlookup = {d["id"]: d["desc"] for d in kept + excluded}
-    sample = _sample(coding, 50, lambda r: r["slot"], "A2")
-    save_csv(ctx, "m2-dims", ["condition", "assigned_dimension", "dimension_definition", "HUMAN_coding_ok(1/0)",
-                              "HUMAN_better_dimension", "note"],
-             [[c["condition"], c["slot"], dlookup.get(c["slot"], "(no situation dimension fits)"), "", "", ""] for c in sample],
+    save_yaml(ctx, "m2-dims", rows, "m2", "A2_coding.yaml")
+    save_yaml(ctx, "m2-dims", rec, "m2", "A2_grouping.yaml")
+    sample = _sample(rows, 50, lambda r: r["slot"], "A2")
+    save_csv(ctx, "m2-dims", ["condition", "kind", "world_fact", "variable", "dimension",
+                              "HUMAN_kind_ok(1/0)", "HUMAN_dimension_ok(1/0)", "HUMAN_better", "note"],
+             [[r["condition"], r["kind"], r["world_fact"], r["variable"], r["slot"], "", "", "", ""] for r in sample],
              "annotate", "m2_A2_coding_CHECK.csv")
     if runs > 1:
-        base = {c["condition"]: c["slot"] for c in coding}
-        sets0 = {d["id"]: {c["condition"] for c in coding if c["slot"] == d["id"]} for d in kept}
+        lab0 = {r["condition"]: r["slot"] for r in rows}
+        kind0 = {r["condition"]: r["kind"] for r in rows}
+        sets0 = {did: {r["condition"] for r in rows if r["slot"] == did} for did in dims}
         stab = {"runs": runs, "per_run": [], "dimension_recurrence": {}}
         hits = defaultdict(list)
         for i in range(1, runs):
-            perm = texts[:]
-            random.Random(f"{ctx.seed}:A2:{i}").shuffle(perm)
-            d_i, r_i, c_i, p_i, _ = _induce(ctx, perm, excluded, max_rounds, stop_uncovered)
-            save_yaml(ctx, "m2-dims", {"dims": list(d_i.values()), "rounds": r_i, "proposals": p_i},
-                      "m2", "A2_runs", f"run{i}_dims.yaml")
-            save_yaml(ctx, "m2-dims", c_i, "m2", "A2_runs", f"run{i}_coding.yaml")
-            lab_i = {c["condition"]: c["slot"] for c in c_i}
+            r_i, d_i, rec_i = _a2_once(ctx, texts, temperature=0.7, seed=i, order_seed=f"{ctx.seed}:A2:{i}")
+            save_yaml(ctx, "m2-dims", {"dims": list(d_i.values()), "grouping": rec_i}, "m2", "A2_runs", f"run{i}_dims.yaml")
+            save_yaml(ctx, "m2-dims", r_i, "m2", "A2_runs", f"run{i}_coding.yaml")
+            lab = {r["condition"]: r["slot"] for r in r_i}
+            kd = {r["condition"]: r["kind"] for r in r_i}
             sets_i = defaultdict(set)
-            for c in c_i:
-                if c["slot"] in d_i:
-                    sets_i[c["slot"]].add(c["condition"])
-            stab["per_run"].append({"run": i, "n_dimensions": len([d for d in d_i.values() if d["n_conditions"]]),
-                                    "ari_vs_run0": _ari([base[t] for t in texts], [lab_i[t] for t in texts])})
+            for r in r_i:
+                if r["variable"]:
+                    sets_i[r["slot"]].add(r["condition"])
+            stab["per_run"].append({"run": i, "n_dimensions": len(d_i),
+                                    "ari_vs_run0": _ari([lab0[t] for t in texts], [lab[t] for t in texts]),
+                                    "kind_kappa_vs_run0": _kappa([kind0[t] for t in texts], [kd[t] for t in texts])})
             for did, s0 in sets0.items():
                 best = max(((len(s0 & s) / max(1, len(s0 | s)), k) for k, s in sets_i.items()), default=(0.0, None))
                 hits[did].append({"run": i, "best_match": best[1], "jaccard": round(best[0], 3)})
@@ -334,27 +422,90 @@ def run_dims(ctx: Ctx, runs: int = 1, max_rounds: int = 3, stop_uncovered: float
             stab["dimension_recurrence"][did] = {"recurrence": round(sum(x["jaccard"] >= 0.5 for x in h) / len(h), 3),
                                                  "matches": h}
         stab["mean_ari"] = round(float(np.mean([x["ari_vs_run0"] for x in stab["per_run"]])), 4)
+        stab["mean_kind_kappa"] = round(float(np.mean([x["kind_kappa_vs_run0"] or 0 for x in stab["per_run"]])), 4)
         save_yaml(ctx, "m2-dims", stab, "m2", "A2_stability.yaml")
-        res["stability"] = {"mean_ari": stab["mean_ari"],
+        res["stability"] = {"mean_ari": stab["mean_ari"], "mean_kind_kappa": stab["mean_kind_kappa"],
                             "recurrence": {k: v["recurrence"] for k, v in stab["dimension_recurrence"].items()}}
     return res
 
 
-# ------------------------------------------------------------------ A3 (and the top-down ablation)
+# ------------------------------------------------------------------ A3
+def run_values(ctx: Ctx) -> dict:
+    """A3: values of every A2 dimension.
+      A3a one call per dimension: value set (mutually exclusive, with a baseline) from the
+          observed values;
+      A3b one closed-choice call per distinct coded fact: which value it states (enum, or
+          none_fits). Coverage is therefore exact and every unassigned fact is listed.
+    One dimension = one variable (A2c), so one dimension = one factor (no max_factors).
+    The action-derived factor effect_zone is added separately and marked as not from the corpus."""
+    a2 = load_yaml(ctx.outp("m2", "A2_dims.yaml"))
+    coding = load_yaml(ctx.outp("m2", "A2_coding.yaml"))
+    factors, assign, report = [], [], {"per_dimension": {}}
+    for d in [s for s in a2["slots"] if s["kind"] == "situation"]:
+        rows = [r for r in coding if r["slot"] == d["id"]]
+        if not rows:
+            continue
+        vc = Counter(r["value"] or r["world_fact"] for r in rows)
+        phrases = [f"{v} (x{n})" for v, n in vc.most_common()]
+        o = ctx.llm.json("M2", "dimension_values", *dimension_values_prompt(d, phrases), context={"dim": d, "phrases": list(vc)})
+        values = {}
+        for v in o.get("values", []):
+            k = _norm(v.get("value", ""))
+            if k and k not in values:
+                values[k] = v.get("semantics", "")
+        if len(values) < 2:
+            values.setdefault("none", "Baseline: the dimension's condition does not hold.")
+        facts = sorted({(r["world_fact"], r["value"]) for r in rows})
+        fmap = {}
+        for fact, val in facts:
+            a = ctx.llm.json("M2", "assign_value", *assign_value_prompt(d, values, f"{fact} (stated value: {val or '-'})"),
+                             context={"dim": d["id"], "values": list(values), "fact": fact, "value": val})
+            fmap[(fact, val)] = a.get("value") if a.get("value") in values else None
+        per_val = Counter()
+        props_val = defaultdict(set)
+        for r in rows:
+            v = fmap.get((r["world_fact"], r["value"]))
+            per_val[v] += 1
+            if v:
+                props_val[v].update(r.get("property_ids", []))
+            assign.append({"dimension": d["id"], "condition": r["condition"], "world_fact": r["world_fact"],
+                           "observed_value": r["value"], "value": v, "property_ids": r.get("property_ids", [])})
+        covered = sum(n for v, n in per_val.items() if v)
+        factors.append({"name": d["id"], "scope": d.get("scope", "global"), "semantics": d.get("desc", ""),
+                        "values": values,
+                        "provenance": {"dimension": d["id"], "variables": d.get("variables", []),
+                                       "n_conditions": len(rows),
+                                       "conditions_per_value": {v: per_val.get(v, 0) for v in values},
+                                       "property_ids_per_value": {v: sorted(props_val.get(v, ())) for v in values}}})
+        report["per_dimension"][d["id"]] = {"n_conditions": len(rows), "values": list(values),
+                                            "covered": covered, "coverage": round(covered / len(rows), 3),
+                                            "unassigned": sorted({r["condition"] for r in rows
+                                                                  if not fmap.get((r["world_fact"], r["value"]))}),
+                                            "values_without_evidence": [v for v in values if not per_val.get(v)]}
+    for dv in load_yaml(p("data/vocab/slots.yaml")).get("derived", []):
+        factors.append({"name": dv["name"], "scope": dv["scope"], "semantics": dv["semantics"], "values": dv["values"],
+                        "provenance": {"derived": "action target area (NOT induced from the corpus)"}})
+    report["n_conditions_with_variable"] = sum(x["n_conditions"] for x in report["per_dimension"].values())
+    report["overall_coverage"] = round(sum(x["covered"] for x in report["per_dimension"].values()) /
+                                       max(1, report["n_conditions_with_variable"]), 3)
+    res = {"version": "F-A3", "schema": a2.get("version"), "factors": factors, "feasibility": []}
+    save_yaml(ctx, "m2-values", res, "m2", "A3_factors_corpus.yaml")
+    save_yaml(ctx, "m2-values", report, "m2", "A3_values_report.yaml")
+    save_yaml(ctx, "m2-values", assign, "m2", "A3_value_assignment.yaml")
+    return report
+
+
+# ------------------------------------------------------------------ ablation: top-down slots (Dey 2001)
 def run_slots(ctx: Ctx, schema_path: str | None = None, tag: str = "ablation_topdown") -> dict:
-    """A3 (tag='A3', schema = A2_dims.yaml): per dimension, induce the factor(s) and their
-    values from the restated conditions and assign every condition to factor=value.
-    Ablation (tag='ablation_topdown', schema = data/vocab/slots.yaml): same procedure with
-    dimensions fixed top-down."""
+    """ABLATION ONLY: dimensions fixed top-down (data/vocab/slots.yaml); conditions classified
+    into slots, values induced per slot in one call (the pre-v2 procedure)."""
     schema = load_yaml(schema_path or p("data/vocab/slots.yaml"))
     slots = {s["id"]: s for s in schema["slots"]}
     sdesc = "\n".join(f"- {s['id']} ({s['kind']}): {s['desc']}" for s in schema["slots"])
     texts = _cond_texts(ctx)
     cp = _cond_props(ctx)
-    if tag == "A3" and os.path.exists(ctx.outp("m2", "A2_coding.yaml")):
-        placed = load_yaml(ctx.outp("m2", "A2_coding.yaml"))          # reuse the A2 coding (no re-classification)
-    else:
-        placed = []
+    placed = []
+    if True:
         for t in texts:
             sys, user, sch = classify_condition_prompt(t, sdesc)
             out = ctx.llm.json("M2", "classify_condition", sys, user, sch, context={"condition": t})
@@ -436,7 +587,8 @@ def run_seed_check(ctx: Ctx) -> dict:
         known = [d for d in src if d in a2]
         if f.get("scope") != "action" and src and not known:
             issues.append(f"{f['name']}: provenance dimension(s) {src} not among the A2 dimensions")
-        corp = [c for c in a3["factors"] if (c.get("provenance") or {}).get("slot") in known]
+        corp = [c for c in a3["factors"] if ((c.get("provenance") or {}).get("dimension")
+                                              or (c.get("provenance") or {}).get("slot")) in known]
         cvals = {v for c in corp for v in c["values"]}
         rows.append({"factor": f["name"], "from_dimensions": known, "corpus_factors": [c["name"] for c in corp],
                      "values": list(f["values"]), "values_also_in_corpus": sorted(set(f["values"]) & cvals),

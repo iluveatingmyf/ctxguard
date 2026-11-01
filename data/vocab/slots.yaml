@@ -63,4 +63,10 @@ derived:
   - name: effect_zone
     scope: action
     semantics: Type of the area in which the action's effect acts.
-    values: {bedroom: A sleeping room., kitchen: A cooking area., bathroom: A bathroom or shower room., living: Living room, dining room, study or hallway., entry: Front door, entrance hall, garage., utility: Laundry, storage, technical room.}
+    values:
+      bedroom: "A sleeping room."
+      kitchen: "A cooking area."
+      bathroom: "A bathroom or shower room."
+      living: "Living room, dining room, study or hallway."
+      entry: "Front door, entrance hall, garage."
+      utility: "Laundry, storage, technical room."
