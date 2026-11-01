@@ -1,0 +1,42 @@
+# Hand splits of compound properties flagged needs_split in cleaned_corpus.json.
+# Each part keeps the original wording as far as possible (only the conjunction is
+# separated). Done once by the authors; listed here for reproducibility.
+C047:
+  - IF smoke is detected in night mode, the lights must be turned on.
+  - IF smoke is detected and someone is at home, the door must be unlocked.
+C049:
+  - IF motion is detected while home mode is away, the alarm must sound.
+  - IF motion is detected while home mode is away, an SMS/push message must be sent.
+C071:
+  - WHEN it rains, the sprinkler system must not be on.
+  - WHEN soil moisture is below the user-defined threshold, the sprinkler system must not be on.
+  - The flood sensor must activate the alarm when there is water.
+C083:
+  - WHEN the home is in away mode, the door must always be locked.
+  - WHEN the home is in away mode, the lights must be off.
+C176:
+  - When there is smoke, the lights must be on if it is night.
+  - When there is smoke, the door must be unlocked.
+C179:
+  - The garage door must be open when people arrive home.
+  - The garage door must be closed when people leave home.
+C183:
+  - The alarm must sound when there is smoke or CO.
+  - The alarm must sound when an unexpected motion, tampering, or entering occurs.
+C186:
+  - Some device functionality (e.g., coffee machine starting brewing, heating up dinner in a crock-pot, turning on AC and heater) must not be used when the user is not at home.
+  - Some device functionality must be turned on before a time specified by a user.
+C187:
+  - The refrigerator, alarm, and security system must not be disabled.
+  - The use of the refrigerator, alarm, and security system must not be restricted to save energy.
+C194:
+  - The security camera must take a photo and sound alarm when the doors/windows are opening.
+  - The security camera must take a photo and sound alarm when the doors are unlocking at user-specified times.
+  - All alarms must turn off when one alarm is turned off.
+C201:
+  - The sound system must read (e.g., the day's weather forecast and the status of the devices) with the user interaction.
+  - The sound system must not read at a time not specified by the user (when the sleeping mode is on and when the user is not home).
+C202:
+  - The sprinkler system must not be on when it rains.
+  - The sprinkler system must not be on when the soil moisture is below a threshold defined by a user.
+  - Flood sensor must activate the alarm when there is water.

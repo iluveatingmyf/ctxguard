@@ -1,0 +1,7 @@
+id,source,text
+T01,TEST,The front door must be locked when nobody is at home.
+T02,TEST,Windows should not be opened while someone is sleeping in the room.
+T03,TEST,The heater must not be turned off when an elderly person is in a cold room.
+T04,TEST,Indoor cameras should be off when the family is at home.
+T05,TEST,The water main should be closed if a leak is detected.
+T06,TEST,The robot vacuum must not run when the baby is in the room.

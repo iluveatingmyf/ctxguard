@@ -1,0 +1,45 @@
+# L2: small apartment, SPARSE sensing (no bedroom motion, no bed sensor, a cat
+# with no tracker, no CO/gas sensor). Tests: unknown handling, groundability.
+layout_id: L2
+name: Two-room apartment with a cat, sparse sensors
+areas:
+  - {id: bedroom,     zone_type: bedroom}
+  - {id: living_room, zone_type: living}
+  - {id: kitchen,     zone_type: kitchen}
+  - {id: bathroom,    zone_type: bathroom}
+  - {id: entrance,    zone_type: entry}
+  - {id: outdoor,     zone_type: outdoor}
+residents:
+  - {entity: person.jordan}
+  - {entity: person.casey}
+  - {pet: true, tracked: false, note: indoor cat, may be in any room}
+entities:
+  - {id: person.jordan, domain: person, area: null}
+  - {id: person.casey, domain: person, area: null}
+  - {id: binary_sensor.living_motion, domain: binary_sensor, device_class: motion, area: living_room}
+  - {id: binary_sensor.entrance_motion, domain: binary_sensor, device_class: motion, area: entrance}
+  - {id: sensor.bedroom_co2, domain: sensor, device_class: carbon_dioxide, unit: ppm, area: bedroom}
+  - {id: sensor.bedroom_temperature, domain: sensor, device_class: temperature, unit: C, area: bedroom}
+  - {id: sensor.living_temperature, domain: sensor, device_class: temperature, unit: C, area: living_room}
+  - {id: sensor.bathroom_humidity, domain: sensor, device_class: humidity, unit: "%", area: bathroom}
+  - {id: weather.home, domain: weather, area: outdoor}
+  - {id: sun.sun, domain: sun, area: outdoor}
+  - {id: binary_sensor.kitchen_smoke, domain: binary_sensor, device_class: smoke, area: kitchen}
+  - {id: binary_sensor.bathroom_leak, domain: binary_sensor, device_class: moisture, area: bathroom}
+  - {id: binary_sensor.front_door_contact, domain: binary_sensor, device_class: door, area: entrance}
+  - {id: sensor.cooktop_power, domain: sensor, device_class: power, unit: W, area: kitchen}
+  - {id: binary_sensor.doorbell, domain: binary_sensor, kind: doorbell, area: entrance}
+  - {id: cover.bedroom_window, domain: cover, device_class: window, area: bedroom}
+  - {id: cover.living_window, domain: cover, device_class: window, area: living_room}
+  - {id: cover.living_blind, domain: cover, device_class: blind, area: living_room}
+  - {id: lock.front_door, domain: lock, area: entrance}
+  - {id: climate.living, domain: climate, area: living_room}
+  - {id: fan.bathroom_exhaust, domain: fan, kind: exhaust, area: bathroom}
+  - {id: fan.bedroom_fan, domain: fan, kind: standing, area: bedroom}
+  - {id: light.living, domain: light, area: living_room}
+  - {id: light.bedroom, domain: light, area: bedroom}
+  - {id: switch.cooktop, domain: switch, kind: stove, area: kitchen}
+  - {id: switch.living_outlet, domain: switch, kind: outlet, area: living_room}
+  - {id: valve.water_main, domain: valve, kind: water, area: bathroom}
+  - {id: media_player.living_speaker, domain: media_player, area: living_room}
+  - {id: vacuum.robot, domain: vacuum, area: living_room}

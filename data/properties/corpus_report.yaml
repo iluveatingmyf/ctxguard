@@ -1,0 +1,24 @@
+rows_total: 247
+by_scope:
+  in: 178
+  out:device_conflict: 11
+  out:temporal: 36
+  out:outdoor: 10
+  out:virtual_state: 10
+  out:device_health: 2
+in_scope_by_source:
+  TAPFixer: 29
+  TAPInspector: 32
+  IoTSafe: 35
+  IoTSeer: 5
+  EnvGuard: 7
+  IoTGuard (NDSS 2019): 33
+  Soteria (USENIX ATC 2018) Table app-specific: 8
+  IoTCom (ISSTA 2020) Table 1: 24
+  IoTSan (CoNEXT 2018) Table 4 samples: 4
+  VetIoT (2023) evaluation policies: 2
+steps:
+  split_from: 12
+  dropped_template: 18
+  dropped_paraphrased_iotguard: 14
+  dropped_exact_duplicate: 1

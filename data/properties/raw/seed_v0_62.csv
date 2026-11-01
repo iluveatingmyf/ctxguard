@@ -1,0 +1,63 @@
+id,source,verbatim,text
+Soteria-P1,Soteria (USENIX ATC 2018) Table app-specific,1,The door must always be locked when the user is not home.
+Soteria-P10,Soteria (USENIX ATC 2018) Table app-specific,1,The alarm must always go off when there is smoke.
+Soteria-P12,Soteria (USENIX ATC 2018) Table app-specific,1,The light must be off when the user is not home.
+Soteria-P13,Soteria (USENIX ATC 2018) Table app-specific,1,"The devices (e.g., coffee machine, crock-pot) must always be on at the time set by the user."
+Soteria-P14,Soteria (USENIX ATC 2018) Table app-specific,1,The refrigerator and security system must always be on.
+Soteria-P17,Soteria (USENIX ATC 2018) Table app-specific,1,The AC and heater must not be on at the same time.
+Soteria-P22,Soteria (USENIX ATC 2018) Table app-specific,1,The battery of devices must not be below a specified threshold.
+Soteria-P28,Soteria (USENIX ATC 2018) Table app-specific,1,The sound system must not play music during the sleeping mode.
+Soteria-P29,Soteria (USENIX ATC 2018) Table app-specific,1,The flood sensor must always notify the user when there is water.
+Soteria-P30,Soteria (USENIX ATC 2018) Table app-specific,1,The water valve must be closed if a leak is detected.
+IoTCom-P1,IoTCom (ISSTA 2020) Table 1,1,DON'T turn on the AC WHEN mode is away
+IoTCom-P2,IoTCom (ISSTA 2020) Table 1,1,DON'T turn on the bedroom light WHEN door is closed
+IoTCom-P3,IoTCom (ISSTA 2020) Table 1,1,DON'T turn on dim light WHEN there is no motion
+IoTCom-P4,IoTCom (ISSTA 2020) Table 1,1,DON'T turn on living room light WHEN no one is home
+IoTCom-P5,IoTCom (ISSTA 2020) Table 1,1,DON'T turn on dim light WHEN no one is home
+IoTCom-P6,IoTCom (ISSTA 2020) Table 1,1,DON'T turn on light/heater WHEN light level changes
+IoTCom-P7,IoTCom (ISSTA 2020) Table 1,1,DON'T turn off heater WHEN temperature is low
+IoTCom-P8,IoTCom (ISSTA 2020) Table 1,1,DON'T unlock door WHEN mode is away
+IoTCom-P9,IoTCom (ISSTA 2020) Table 1,1,DON'T turn off living room light WHEN someone is home
+IoTCom-P10,IoTCom (ISSTA 2020) Table 1,1,DON'T turn off AC WHEN temperature is high
+IoTCom-P11,IoTCom (ISSTA 2020) Table 1,1,DON'T close valve WHEN smoke is detected
+IoTCom-P12,IoTCom (ISSTA 2020) Table 1,1,DON'T turn off living room light WHEN mode is away
+IoTCom-P13,IoTCom (ISSTA 2020) Table 1,1,DON'T turn off living room light WHEN mode is vacation
+IoTCom-P14,IoTCom (ISSTA 2020) Table 1,1,DO set mode to away WHEN no one is home
+IoTCom-P15,IoTCom (ISSTA 2020) Table 1,1,DO set mode to home WHEN someone is home
+IoTCom-P16,IoTCom (ISSTA 2020) Table 1,1,DON'T turn on heater WHEN mode is away
+IoTCom-P17,IoTCom (ISSTA 2020) Table 1,1,DON'T open door/window WHEN smoke is detected or mode is away
+IoTCom-P18,IoTCom (ISSTA 2020) Table 1,1,DON'T turn off security system WHEN no one is home
+IoTCom-P19,IoTCom (ISSTA 2020) Table 1,1,DON'T turn off the alarm WHEN smoke is detected
+IoTCom-P20,IoTCom (ISSTA 2020) Table 1,1,DON'T unlock the door WHEN light level changes
+IoTCom-P21,IoTCom (ISSTA 2020) Table 1,1,DON'T lock the door WHEN smoke is detected
+IoTCom-P22,IoTCom (ISSTA 2020) Table 1,1,DON'T open the door WHEN smoke is detected and heater is on
+IoTCom-P23,IoTCom (ISSTA 2020) Table 1,1,DON'T unlock the door WHEN smoke is detected and heater is on
+IoTCom-P24,IoTCom (ISSTA 2020) Table 1,1,DON'T open the door WHEN motion is detected and fan is on
+IoTCom-P25,IoTCom (ISSTA 2020) Table 1,1,DON'T unlock the door WHEN motion is detected and fan is on
+IoTCom-P26,IoTCom (ISSTA 2020) Table 1,1,DON'T open the door/window WHEN temperature changes
+IoTCom-P27,IoTCom (ISSTA 2020) Table 1,1,DON'T set mode WHEN temperature changes
+IoTCom-P28,IoTCom (ISSTA 2020) Table 1,1,DON'T set mode WHEN smoke is detected
+IoTCom-P29,IoTCom (ISSTA 2020) Table 1,1,DON'T set mode WHEN motion is detected and alarm is sounding
+IoTGuard-R1,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,The door must be locked when the user is not home or is sleeping.
+IoTGuard-R2,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,Lights in rooms such as a bedroom or hallway must turn on when the motion sensor is active.
+IoTGuard-R3,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,"When smoke is detected, lights must be on at night and the door must be unlocked."
+IoTGuard-R4,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,The light must be on when the user arrives home.
+IoTGuard-R5,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,Camera-controlled doors must close when the doorway is clear of objects.
+IoTGuard-R6,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,The garage door must open when people arrive home and close when they leave.
+IoTGuard-R8,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,Lights must turn off when a sleep sensor detects that the user is sleeping.
+IoTGuard-R9,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,The security system must not be disarmed when the user is away.
+IoTGuard-R10,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,"The alarm must sound when smoke or CO is detected, or when unexpected motion, tampering, or entry occurs."
+IoTGuard-R11,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,The valve must close when the water sensor is wet and the user-set water level threshold is reached.
+IoTGuard-R12,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,"Devices such as light switches, music players, cabinets, medicine drawers and gun cases must not open or turn on when the user is away or sleeping."
+IoTGuard-R13,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,"Coffee brewing, crock-pot cooking, and AC or heater operation must not run when the user is away."
+IoTGuard-R14,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,"The refrigerator, alarm and security system must not be disabled or restricted for energy saving."
+IoTGuard-R15,IoTGuard (NDSS 2019) Table I [paraphrased by retrieval tool - replace with verbatim],0,Temperature setpoints must match the user-specified heating and cooling values.
+IoTSan-T1,IoTSan (CoNEXT 2018) Table 4 samples,1,Temperature should be within a predefined range when people are at home
+IoTSan-T2,IoTSan (CoNEXT 2018) Table 4 samples,1,The main door should be locked when no one is at home
+IoTSan-T3,IoTSan (CoNEXT 2018) Table 4 samples,1,Location mode should be changed to Away when no one is at home
+IoTSan-T4,IoTSan (CoNEXT 2018) Table 4 samples,1,An alarm should strobe/siren when detecting smoke
+IoTSan-T5,IoTSan (CoNEXT 2018) Table 4 samples,1,Soil moisture should be within a predefined range
+IoTSan-T6,IoTSan (CoNEXT 2018) Table 4 samples,1,Some devices should not be turned on when no one is at home
+VetIoT-PI1,VetIoT (2023) evaluation policies,1,WaterLeakDetector can turn off WaterValve only if SmokeDetector is OFF
+VetIoT-PI8,VetIoT (2023) evaluation policies,1,LivingRoomWindow can be opened only if both the heater and AC are off.
+VetIoT-P1,VetIoT (2023) evaluation policies,1,"Deny opening FrontDoor, if user is not at Home"

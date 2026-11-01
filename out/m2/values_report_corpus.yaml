@@ -1,0 +1,94 @@
+n_conditions: 146
+per_slot:
+  occupant_activity:
+    kind: situation
+    n_conditions: 40
+    examples:
+    - Nobody is at home
+    - People are at home
+    - People are leaving home.
+    - People are present in the home.
+    - Someone is at home
+    - Someone is home
+    n_statements: 24
+    covered_statements: 23
+    coverage: 0.958
+    factors:
+    - occupant_activity
+  time_of_day:
+    kind: situation
+    n_conditions: 16
+    examples:
+    - A user sets a time.
+    - It is daytime
+    - It is night time
+    - It is within the user-specified time period.
+    - The current time is before the user-specified time.
+    - Time is during expected arrival hours
+    n_statements: 16
+    covered_statements: 0
+    coverage: 0.0
+    factors:
+    - time_of_day
+  environmental_conditions:
+    kind: situation
+    n_conditions: 43
+    examples:
+    - CO is detected
+    - CO level exceeds predefined threshold
+    - CO2 is greater than a predefined value
+    - External temperature is high
+    - Flood sensor detects water.
+    - Humidity exceeds predefined value
+    n_statements: 38
+    covered_statements: 0
+    coverage: 0.0
+    factors:
+    - environmental_condition
+  device_status:
+    kind: situation
+    n_conditions: 16
+    examples:
+    - Current mode is not the same as the previous mode.
+    - Garage door is open.
+    - Home is in away mode
+    - Natural gas hot water heater is on
+    - The current mode is sleeping mode.
+    - The door is closed.
+    n_statements: 16
+    covered_statements: 10
+    coverage: 0.625
+    factors:
+    - device_mode
+  security:
+    kind: situation
+    n_conditions: 27
+    examples:
+    - An alarm is turned off
+    - Smoke is detected
+    - The door is being unlocked.
+    - The specific event occurs.
+    - alarm_enabled
+    - camera does not recognize an unauthorized face
+    n_statements: 23
+    covered_statements: 0
+    coverage: 0.0
+    factors:
+    - intruder_status
+  device_state:
+    kind: excluded
+    n_conditions: 0
+    examples: []
+  user_configuration:
+    kind: excluded
+    n_conditions: 4
+    examples:
+    - The user specifies heating and cooling values.
+    - User selects a different mode.
+    - energy_savings_is_not_priority
+    - user specifies water level threshold
+  other:
+    kind: excluded
+    n_conditions: 0
+    examples: []
+excluded_share: 0.027

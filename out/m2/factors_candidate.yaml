@@ -1,0 +1,133 @@
+version: F-candidate
+status: 'REVIEW: merge/rename, add feasibility, save as data/vocab/factors_v1.yaml'
+factors:
+- name: occupant_activity
+  scope: global
+  semantics: The presence and activity of people in the home.
+  values:
+    none: No people are present in the home.
+    present: People are present in the home.
+    active: People are present and likely active in the home.
+    sleeping: People are present in the home but are sleeping.
+    leaving: People are leaving the home.
+  provenance:
+    slot: occupant_activity
+    n_conditions: 40
+    dey: null
+  value_source:
+    none: corpus
+    present: corpus
+    active: corpus
+    sleeping: corpus
+    leaving: corpus
+- name: time_of_day
+  scope: global
+  semantics: A description of the current time of day or specific time constraints affecting the home environment.
+  values:
+    nighttime: The current time is during the nighttime hours.
+    daytime: The current time is during the daytime hours.
+    user_specified: The current time is within the user-specified time period or schedule.
+    unspecified: There are no specific time constraints or schedules affecting the home environment.
+    holiday: The current time is during a holiday or special event with increased activity and potential risks.
+    storm: The current time is during a storm or severe weather conditions.
+    vacation: The current time is during a vacation period when the home is unoccupied.
+  provenance:
+    slot: time_of_day
+    n_conditions: 16
+    dey: null
+  value_source:
+    nighttime: corpus
+    daytime: corpus
+    user_specified: corpus
+    unspecified: corpus
+    holiday: 'agent (witness air_exchange:decrease x life_health: 0 -> -, refines user_specified)'
+    storm: 'agent (witness passage_opening:decrease x security: 0 -> -, refines unspecified)'
+    vacation: 'agent (witness sensing_capture:decrease x privacy: - -> 0, refines unspecified)'
+- name: environmental_condition
+  scope: global
+  semantics: Indicates the state of environmental factors such as temperature, humidity, and air quality in the home.
+  values:
+    carbon_monoxide: Carbon monoxide is detected in the home.
+    humidity: The air humidity in the home exceeds the predefined threshold set by the user.
+    air_quality: The air quality in the home has dropped below the user-specified threshold.
+    temperature: The indoor temperature has exceeded the user-defined threshold.
+    none: No specific environmental condition is detected or the conditions are within acceptable bounds.
+  provenance:
+    slot: environmental_conditions
+    n_conditions: 43
+    dey: null
+  value_source:
+    carbon_monoxide: corpus
+    humidity: corpus
+    air_quality: corpus
+    temperature: corpus
+    none: corpus
+- name: device_mode
+  scope: global
+  semantics: The operational mode of the home automation system, indicating the state of devices and systems.
+  values:
+    normal: Devices and systems are operating in their default or normal state.
+    away: Non-essential devices are turned off or in a secure state, indicating no one is expected to be present.
+    sleep: Devices and systems are configured for energy conservation with reduced activity.
+    vacation: Devices and systems are configured for energy savings and security with reduced activity.
+  provenance:
+    slot: device_status
+    n_conditions: 16
+    dey: null
+  value_source:
+    normal: corpus
+    away: corpus
+    sleep: corpus
+    vacation: corpus
+- name: intruder_status
+  scope: global
+  semantics: 'none: No intruders or suspicious activities detected. normal: Intruders or suspicious activities are present
+    or attempted. absent: No active security alarms or intruder detection systems are engaged.'
+  values:
+    none: No intruders or suspicious activities detected.
+    normal: Intruders or suspicious activities are present or attempted.
+    absent: No active security alarms or intruder detection systems are engaged.
+    smoke_detected: Smoke is detected in the home, indicating a potential fire hazard.
+    water_leak_detected: A water leak is detected in the home, indicating a potential damage risk.
+  provenance:
+    slot: security
+    n_conditions: 27
+    dey: null
+  value_source:
+    none: corpus
+    normal: corpus
+    absent: corpus
+    smoke_detected: 'agent (witness air_exchange:decrease x life_health: 0 -> -, refines normal)'
+    water_leak_detected: 'agent (witness water_flow:increase x property: 0 -> -, refines normal)'
+- name: effect_zone
+  scope: action
+  semantics: Type of the area in which the action's effect acts.
+  values:
+    bedroom: A sleeping room.
+    kitchen: A cooking area.
+    bathroom: A bathroom or shower room.
+    living: Living room
+    dining room: null
+    study or hallway.: null
+    entry: Front door
+    entrance hall: null
+    garage.: null
+    utility: Laundry
+    storage: null
+    technical room.: null
+  provenance:
+    derived: action target area
+  value_source:
+    bedroom: corpus
+    kitchen: corpus
+    bathroom: corpus
+    living: corpus
+    dining room: corpus
+    study or hallway.: corpus
+    entry: corpus
+    entrance hall: corpus
+    garage.: corpus
+    utility: corpus
+    storage: corpus
+    technical room.: corpus
+feasibility: []

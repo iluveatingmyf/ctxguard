@@ -1,0 +1,248 @@
+id,source,verbatim,scope,text,provenance
+C001,TAPFixer,0,in,"IF the user arrives home, the light should be turned on.",cleaned_corpus:C001 ids=1
+C002,TAPFixer,0,in,"IF the user is not at home / not nearby-home, the light should be turned off.","cleaned_corpus:C002 ids=2,3"
+C003,TAPFixer,0,in,"IF the user arrives home, the garage door should be opened.",cleaned_corpus:C003 ids=4
+C004,TAPFixer+TAPInspector,0,in,"IF the user leaves home, the garage door should be closed.","cleaned_corpus:C004 ids=5,6,121"
+C005,TAPFixer,0,in,"IF the user is not at home / not nearby-home, the door should be locked.","cleaned_corpus:C005 ids=7,8"
+C006,TAPFixer,0,in,"IF the user is not at home / not nearby-home, the security camera should be turned on.","cleaned_corpus:C006 ids=9,10"
+C007,TAPFixer,0,in,"IF the door opens while the user is not at home / not nearby-home, the security camera should take pictures.",cleaned_corpus:C007 ids=11
+C008,TAPFixer,0,in,"IF the user is not at home / not nearby-home, the switch should be turned off.","cleaned_corpus:C008 ids=12,13"
+C009,TAPFixer,0,in,"IF the temperature is below a predefined value and someone is at home, the AC should be in heating mode.",cleaned_corpus:C009 ids=14
+C010,TAPFixer,0,in,"IF the temperature rises above a predefined value, the AC should be in cooling mode.",cleaned_corpus:C010 ids=15
+C011,TAPFixer,0,out:device_conflict,"WHEN the heater is on, the AC should be off.",cleaned_corpus:C011 ids=16
+C012,TAPFixer,0,in,"IF the user is not at home / not nearby-home, the AC should be turned off.","cleaned_corpus:C012 ids=17,18"
+C013,TAPFixer,0,in,"IF the temperature is below a predefined value while someone is at home, the heater should be turned on.",cleaned_corpus:C013 ids=19
+C014,TAPFixer,0,in,"IF the temperature rises above a predefined value, the heater should be turned off.",cleaned_corpus:C014 ids=20
+C015,TAPFixer,0,out:device_conflict,"WHEN the AC is on, the heater should be off.",cleaned_corpus:C015 ids=21
+C016,TAPFixer,0,in,"IF the user is not at home / not nearby-home, the heater should be turned off.","cleaned_corpus:C016 ids=22,23"
+C017,TAPFixer,0,in,"IF the user is not at home / not nearby-home, the coffee machine should be turned off.","cleaned_corpus:C017 ids=24,25"
+C018,TAPFixer,0,in,"IF the user is not at home / not nearby-home, the electric blanket should be turned off.","cleaned_corpus:C018 ids=26,27"
+C019,TAPFixer,0,in,"IF the smoke is detected, the alarm should be activated.","cleaned_corpus:C019 ids=28,29"
+C020,TAPFixer,0,in,"IF CO is detected, the alarm should be activated.","cleaned_corpus:C020 ids=30,31"
+C021,TAPFixer,0,in,"IF humidity is greater than a predefined value, the ventilating fan should be turned on.",cleaned_corpus:C021 ids=32
+C022,TAPFixer,0,in,"IF CO2 is greater than a predefined value, the ventilating fan should be turned on.",cleaned_corpus:C022 ids=33
+C023,TAPFixer,0,out:temporal,"WHEN CO2 remains greater than a predefined value, the ventilating fan should be on for at least the permitted time.",cleaned_corpus:C023 ids=34
+C024,TAPFixer,0,in,"IF the user is not at home / not nearby-home, the oven should be turned off.","cleaned_corpus:C024 ids=35,36"
+C025,TAPFixer,0,in,"IF CO is detected, the natural gas hot water heater should be turned off.","cleaned_corpus:C025 ids=37,38"
+C026,TAPFixer,0,in,"IF CO is detected, the gas valve should shut off.",cleaned_corpus:C026 ids=39
+C027,TAPFixer,0,in,"WHEN CO is detected, the gas valve should be closed.",cleaned_corpus:C027 ids=40
+C028,TAPFixer,0,in,"IF the smoke is detected, the water valve should be turned on.","cleaned_corpus:C028 ids=41,42"
+C029,TAPFixer,0,out:outdoor,"IF the soil moisture sensor is below a predefined value, the sprinkler system should be turned on.",cleaned_corpus:C029 ids=43
+C030,TAPFixer,0,out:temporal,"When the soil moisture sensor is below a predefined value, the sprinkler system should be on for at least the permitted time.",cleaned_corpus:C030 ids=44
+C031,TAPFixer,0,out:outdoor,"IF the weather is raining, the sprinkler should be turned off.","cleaned_corpus:C031 ids=45,46"
+C032,TAPFixer,0,in,"IF CO2 is greater than a predefined value, the window should be opened.",cleaned_corpus:C032 ids=47
+C033,TAPFixer,0,in,"IF the weather is raining, the window should be closed.","cleaned_corpus:C033 ids=48,49"
+C034,TAPFixer,0,in,"IF the smoke is detected, the window should be opened.","cleaned_corpus:C034 ids=50,51"
+C035,TAPFixer,0,in,"IF CO is detected, the window should be opened.","cleaned_corpus:C035 ids=52,53"
+C036,IoTSafe,0,in,"IF smoke is detected, all electrical appliances should be turned off.",cleaned_corpus:C036 ids=54
+C037,IoTSafe,0,in,"WHEN home mode is away, all windows and blinds should be closed.",cleaned_corpus:C037 ids=55
+C038,IoTSafe,0,in,"WHEN home mode is vacation, all lights should be on.",cleaned_corpus:C038 ids=56
+C039,IoTSafe,0,in,"IF a related room's temperature exceeds the threshold and someone is at home, the window should be opened.",cleaned_corpus:C039 ids=57
+C040,IoTSafe,0,in,"IF a related room's humidity exceeds the threshold, the humidifier should be turned off.",cleaned_corpus:C040 ids=58
+C041,IoTSafe,0,in,"IF air quality drops below a threshold, all air purifiers should be turned on.",cleaned_corpus:C041 ids=59
+C042,IoTSafe,0,in,"WHEN someone is at home, the temperature should not exceed the upper threshold.",cleaned_corpus:C042 ids=60
+C043,IoTSafe,0,in,"IF the water/moisture sensor detects a leak and no smoke is detected, the water valve must shut off.",cleaned_corpus:C043 ids=61
+C044,IoTSafe,0,in,"IF smoke is detected, an SMS/push message should be sent to the owner.",cleaned_corpus:C044 ids=62
+C045,IoTSafe,0,in,"IF smoke is detected, the sprinkler valve should be ON.",cleaned_corpus:C045 ids=63
+C046,IoTSafe,0,in,"IF there is water leakage, an SMS/push message should be sent to the owner.",cleaned_corpus:C046 ids=64
+C047a,IoTSafe,0,in,"IF smoke is detected in night mode, the lights must be turned on.",cleaned_corpus:C047 ids=65 (split)
+C047b,IoTSafe,0,in,"IF smoke is detected and someone is at home, the door must be unlocked.",cleaned_corpus:C047 ids=65 (split)
+C048,IoTSafe,0,in,"IF smoke or CO is detected, the alarm must sound.",cleaned_corpus:C048 ids=66
+C049a,IoTSafe,0,in,"IF motion is detected while home mode is away, the alarm must sound.",cleaned_corpus:C049 ids=67 (split)
+C049b,IoTSafe,0,in,"IF motion is detected while home mode is away, an SMS/push message must be sent.",cleaned_corpus:C049 ids=67 (split)
+C050,IoTSafe,0,in,"IF smoke is detected, a water valve should be opened.",cleaned_corpus:C050 ids=68
+C051,IoTSafe,0,in,"IF smoke is detected, the gas stove should be turned off.",cleaned_corpus:C051 ids=69
+C052,IoTSafe,0,in,"IF smoke is detected, the heater should be turned off.",cleaned_corpus:C052 ids=70
+C053,IoTSafe,0,in,"IF smoke is detected, the AC should be turned off.",cleaned_corpus:C053 ids=71
+C054,IoTSafe,0,in,"IF the temperature rises above the threshold, the vent should be turned on.",cleaned_corpus:C054 ids=72
+C055,IoTSafe,0,in,"IF the temperature drops below the lower threshold, the AC should switch to heating mode.",cleaned_corpus:C055 ids=73
+C056,IoTSafe,0,in,"IF the temperature is below the threshold, the heater should be turned on.",cleaned_corpus:C056 ids=74
+C057,IoTSafe,0,in,"IF the temperature exceeds the upper threshold, the AC should switch to cooling mode.",cleaned_corpus:C057 ids=75
+C058,IoTSafe,0,in,"IF humidity drops below the threshold, the humidifier should be turned ON.",cleaned_corpus:C058 ids=76
+C059,IoTSafe,0,in,"IF humidity rises above the threshold, the vent should be turned ON.",cleaned_corpus:C059 ids=77
+C060,IoTSafe,0,in,"IF air quality drops below a threshold, the air purifier should be turned ON.",cleaned_corpus:C060 ids=78
+C061,IoTSafe,0,in,"IF the water level exceeds the threshold, the valve should be turned off.",cleaned_corpus:C061 ids=79
+C062,IoTSafe,0,in,"IF the water level is below the threshold, the valve should be turned on.",cleaned_corpus:C062 ids=80
+C063,IoTSafe,0,out:outdoor,"IF soil moisture is detected to be low, the garden sprinkler should be ON.",cleaned_corpus:C063 ids=81
+C064,IoTSafe,0,out:outdoor,"IF soil moisture exceeds the set level, the garden sprinkler should be OFF.",cleaned_corpus:C064 ids=82
+C065,IoTSafe,0,in,"WHEN someone is at home, the temperature should stay within a predefined range.",cleaned_corpus:C065 ids=83
+C066,IoTSafe,0,in,"IF the temperature is above a threshold and nobody is at home, the heater should be turned off.",cleaned_corpus:C066 ids=84
+C067,IoTSafe,0,out:outdoor,Soil moisture should always remain within a predefined range.,cleaned_corpus:C067 ids=85
+C068,IoTSafe,0,in,"IF a water sensor's state is wet, the water valve should be closed.",cleaned_corpus:C068 ids=86
+C069,IoTSafe,0,in,"IF the water sensor is wet AND the user-specified water level threshold is reached, the valve must be closed.",cleaned_corpus:C069 ids=87
+C070,IoTSafe,0,in,"IF humidity and temperature values fall outside the user-specified thresholds, the HVACs, fans, switches, heaters and dehumidifiers must be off.",cleaned_corpus:C070 ids=88
+C071a,IoTSafe,0,out:outdoor,"WHEN it rains, the sprinkler system must not be on.",cleaned_corpus:C071 ids=89 (split)
+C071b,IoTSafe,0,out:outdoor,"WHEN soil moisture is below the user-defined threshold, the sprinkler system must not be on.",cleaned_corpus:C071 ids=89 (split)
+C071c,IoTSafe,0,in,The flood sensor must activate the alarm when there is water.,cleaned_corpus:C071 ids=89 (split)
+C075,IoTSeer,0,out:temporal,"IF there is a fire, the sprinkler system must go off within t seconds.",cleaned_corpus:C075 ids=93
+C076,IoTSeer,0,in,"WHEN the home is in away mode, the window must be closed.",cleaned_corpus:C076 ids=94
+C077,IoTSeer,0,out:temporal,"A device must not open, then close, then reopen within t seconds.",cleaned_corpus:C077 ids=95
+C078,IoTSeer,0,out:device_conflict,"WHEN the heater is on, the window must not open.",cleaned_corpus:C078 ids=96
+C079,IoTSeer,0,out:temporal,"IF smoke is detected, the alarm must go off within t seconds.",cleaned_corpus:C079 ids=97
+C080,IoTSeer,0,out:temporal,The main door must not be left unlocked for more than t seconds.,cleaned_corpus:C080 ids=98
+C081,IoTSeer,0,out:device_conflict,"WHEN the AC is on, the window must not be open.",cleaned_corpus:C081 ids=99
+C082,IoTSeer,0,in,"WHEN the home is in sleep mode, the lights must be turned off.",cleaned_corpus:C082 ids=100
+C083a,IoTSeer,0,in,"WHEN the home is in away mode, the door must always be locked.",cleaned_corpus:C083 ids=101 (split)
+C083b,IoTSeer,0,in,"WHEN the home is in away mode, the lights must be off.",cleaned_corpus:C083 ids=101 (split)
+C084,IoTSeer,0,in,"WHEN the home is in away or sleep mode, the TV must be turned off.",cleaned_corpus:C084 ids=102
+C085,TAPInspector,0,in,"WHEN nobody is present, the curling iron should not be turned on.",cleaned_corpus:C085 ids=103
+C086,TAPInspector,0,in,"WHEN the door is closed, the bell should not chime.",cleaned_corpus:C086 ids=104
+C087,TAPInspector,0,in,"WHEN motion is detected, the siren should be activated.",cleaned_corpus:C087 ids=105
+C088,TAPInspector,0,out:device_conflict,"WHEN electric power exceeds a predefined value, the oven and the heater should not be on at the same time.",cleaned_corpus:C088 ids=106
+C089,TAPInspector,0,out:virtual_state,"WHEN nobody is present, locationMode should be Away.",cleaned_corpus:C089 ids=107
+C090,TAPInspector,0,out:virtual_state,"WHEN someone is present, locationMode should be Home.",cleaned_corpus:C090 ids=108
+C091,TAPInspector,0,in,"WHEN the user is not present or is sleeping, the door should not be unlocked.",cleaned_corpus:C091 ids=109
+C092,TAPInspector,0,in,"IF the user arrives home at night, the light must be on.",cleaned_corpus:C092 ids=110
+C093,TAPInspector,0,out:device_conflict,The AC and the heater must never be on at the same time.,cleaned_corpus:C093 ids=111
+C094,TAPInspector,0,in,"WHEN smoke is detected, the water valve should not be closed.",cleaned_corpus:C094 ids=112
+C095,TAPInspector,0,in,"WHEN the user is not at home, the security system should not be disarmed.",cleaned_corpus:C095 ids=113
+C096,TAPInspector,0,in,"IF the camera does not recognize an authorized face, the door should not be unlocked.",cleaned_corpus:C096 ids=114
+C097,TAPInspector,0,in,"IF the moisture sensor detects a leak, the water valve should be closed.",cleaned_corpus:C097 ids=115
+C098,TAPInspector,0,out:device_conflict,"WHEN the heater is on, the windows should not be open.",cleaned_corpus:C098 ids=116
+C099,TAPInspector,0,in,"WHEN the user is not present, the brewing function of the coffee machine should not be activated.",cleaned_corpus:C099 ids=117
+C100,TAPInspector,0,in,"WHEN the user is not present, the heating function of the electric blanket should not be activated.",cleaned_corpus:C100 ids=118
+C101,TAPInspector,0,in,"WHEN smoke is detected, the alarm should sound.",cleaned_corpus:C101 ids=119
+C102,TAPInspector,0,in,"WHEN the user arrives home, the garage door should be open.",cleaned_corpus:C102 ids=120
+C103,TAPInspector,0,out:virtual_state,"WHEN locationMode is Away, the light should not be on.",cleaned_corpus:C103 ids=122
+C104,TAPInspector,0,in,"WHEN no intruder is detected, the siren should not be activated.",cleaned_corpus:C104 ids=123
+C105,TAPInspector,0,in,"WHEN an intruder is detected, the siren should be activated.",cleaned_corpus:C105 ids=124
+C106,TAPInspector,0,in,"At noon every day, the water temperature should not be below a predefined value.",cleaned_corpus:C106 ids=125
+C107,TAPInspector,0,in,"WHEN nobody is at home, the oven should not be in the grilling state.",cleaned_corpus:C107 ids=126
+C108,TAPInspector,0,in,"WHEN the energy price exceeds a predefined level, certain plugs should not be turned on.",cleaned_corpus:C108 ids=127
+C109,TAPInspector,0,in,"IF CO2 exceeds 1000 ppm, the fan should be turned on.",cleaned_corpus:C109 ids=128
+C110,TAPInspector,0,in,"IF CO exceeds a predefined level, the alarm should be turned on.",cleaned_corpus:C110 ids=129
+C111,TAPInspector,0,in,"IF CO exceeds a predefined level, the natural gas hot water heater should not be on.",cleaned_corpus:C111 ids=130
+C112,TAPInspector,0,in,"IF CO exceeds a predefined level, the gas valve should not be open.",cleaned_corpus:C112 ids=131
+C113,TAPInspector,0,in,"WHEN the temperature is below a predefined value and nobody is present, the heater should not be on.",cleaned_corpus:C113 ids=132
+C114,TAPInspector,0,in,"WHEN the temperature is below a predefined value and someone is present, the heater should be on.",cleaned_corpus:C114 ids=133
+C115,TAPInspector,0,in,"WHEN the temperature exceeds a predefined value, the heater should not be turned on.",cleaned_corpus:C115 ids=134
+C116,TAPInspector,0,in,"WHEN humidity exceeds a predefined value, the humidifier should not be turned on.",cleaned_corpus:C116 ids=135
+C117,TAPInspector,0,in,"WHEN nobody is at home, the electric blanket should not be turned on.",cleaned_corpus:C117 ids=136
+C118,TAPInspector,0,in,"WHEN there is motion, the security camera should be turned on.",cleaned_corpus:C118 ids=137
+C119,TAPInspector,0,in,"WHEN indoor illuminance is below 80 lux in daytime, the light should not be turned off.",cleaned_corpus:C119 ids=138
+C120,TAPInspector,0,in,"WHEN indoor illuminance exceeds 600 lux, the light should not be turned on.",cleaned_corpus:C120 ids=139
+C121,TAPInspector,0,out:temporal,"Once uploading starts, the camera video should eventually be uploaded to the cloud.",cleaned_corpus:C121 ids=140
+C122,TAPInspector,0,out:temporal,Turning on the AC leads to the temperature falling within a predefined range.,cleaned_corpus:C122 ids=141
+C123,TAPInspector,0,out:temporal,The presence of users leads to humidity staying within a predefined range.,cleaned_corpus:C123 ids=142
+C124,TAPInspector,0,out:temporal,"After the oven starts, it should eventually finish cooking.",cleaned_corpus:C124 ids=143
+C125,TAPInspector,0,out:temporal,"After 10 pm, the light should eventually be turned off.",cleaned_corpus:C125 ids=144
+C126,TAPInspector,0,out:temporal,"Once brewing starts, the coffee maker should eventually finish the coffee.",cleaned_corpus:C126 ids=145
+C127,TAPInspector,0,out:temporal,"After the water heater is turned on, the water temperature should eventually reach a predefined value.",cleaned_corpus:C127 ids=146
+C128,TAPInspector,0,out:temporal,"After indoor temperature falls below 8 C, it should eventually exceed a predefined value.",cleaned_corpus:C128 ids=147
+C129,TAPInspector,0,out:temporal,"After indoor temperature exceeds 30 C, it should eventually drop below a predefined value.",cleaned_corpus:C129 ids=148
+C130,TAPInspector,0,out:temporal,"After CO2 exceeds 1000 ppm, it should eventually drop below 450 ppm.",cleaned_corpus:C130 ids=149
+C131,TAPInspector,0,out:temporal,"After ""turn on fan for 15 minutes"" is activated, the fan should eventually be turned off.",cleaned_corpus:C131 ids=150
+C132,TAPInspector,0,out:temporal,"After turning on the humidifier, indoor humidity should stay within a predefined range.",cleaned_corpus:C132 ids=151
+C133,TAPInspector,0,out:temporal,"Once the thermostat heating setpoint is changed to 25 C, indoor temperature should eventually exceed 23 C.",cleaned_corpus:C133 ids=152
+C134,TAPInspector,0,out:temporal,"Once the thermostat cooling setpoint is changed to 20 C, indoor temperature should eventually fall below 22 C.",cleaned_corpus:C134 ids=153
+C135,TAPInspector,0,out:temporal,"After boosting the AC to a defined value, indoor temperature should eventually reach that value.",cleaned_corpus:C135 ids=154
+C136,TAPInspector,0,out:temporal,"After boosting the water heater, the water temperature should eventually exceed 60 C.",cleaned_corpus:C136 ids=155
+C137,TAPInspector,0,out:temporal,"After the user wakes up, they should eventually get a cup of hot coffee.",cleaned_corpus:C137 ids=156
+C138,TAPInspector,0,out:temporal,"After the user leaves, the temperature should eventually drop below a set value.",cleaned_corpus:C138 ids=157
+C139,TAPInspector,0,in,Motion detected can lead the light to blink.,cleaned_corpus:C139 ids=158
+C140,TAPInspector,0,out:temporal,"After the user pins a photo, the light color should eventually change to match the photo.",cleaned_corpus:C140 ids=159
+C141,TAPInspector,0,out:temporal,"After the robot cleaner starts, it should eventually come back to charge.",cleaned_corpus:C141 ids=160
+C149,EnvGuard,0,out:device_conflict,A warming device and a cooling device must never operate simultaneously.,"cleaned_corpus:C149 ids=168,178"
+C150,EnvGuard,0,in,"WHEN someone is detected, devices with a brightness-increasing effect must be activated.",cleaned_corpus:C150 ids=169
+C151,EnvGuard,0,in,"WHEN it is raining, windows must not be opened.","cleaned_corpus:C151 ids=170,181"
+C152,EnvGuard,0,in,The microwave oven must never be used unsupervised.,cleaned_corpus:C152 ids=171
+C153,EnvGuard,0,in,The water dispenser must never be used unsupervised.,cleaned_corpus:C153 ids=172
+C154,EnvGuard,0,out:temporal,A device with a humidifying effect must not operate continuously for more than 60 minutes.,"cleaned_corpus:C154 ids=173,183"
+C155,EnvGuard,0,out:temporal,"IF air quality becomes low in an occupied room, air purification must be executed within 10 minutes.",cleaned_corpus:C155 ids=174
+C156,EnvGuard,0,out:temporal,"WHEN nobody is detected, lights must be switched off within 30 seconds.",cleaned_corpus:C156 ids=175
+C157,EnvGuard,0,out:temporal,The water dispenser must not operate continuously for more than 2 minutes.,cleaned_corpus:C157 ids=176
+C158,EnvGuard,0,out:temporal,The speaker must not operate continuously for more than 1 minute.,cleaned_corpus:C158 ids=177
+C159,EnvGuard,0,in,"WHEN someone is detected and the temperature is low, a cooling device must not operate.",cleaned_corpus:C159 ids=179
+C160,EnvGuard,0,in,"WHEN the home is empty, windows must always be closed.",cleaned_corpus:C160 ids=180
+C161,EnvGuard,0,in,Curtains must be opened only when someone is detected.,cleaned_corpus:C161 ids=182
+C162,EnvGuard,0,out:temporal,"IF air quality becomes low, air-improving devices must be activated within 5 minutes.",cleaned_corpus:C162 ids=184
+C163,EnvGuard,0,out:temporal,"WHEN everyone has left the home, the door must be closed within 1 minute.",cleaned_corpus:C163 ids=185
+C164,EnvGuard,0,out:temporal,The fridge must be open for at most 5 minutes.,cleaned_corpus:C164 ids=186
+C165,EnvGuard,0,out:temporal,The towel dryer must be open for at most 60 minutes.,cleaned_corpus:C165 ids=187
+C174,IoTGuard (NDSS 2019),0,in,The door must be locked when a user is not present at home or sleeping.,cleaned_corpus:C174 ids=196
+C175,IoTGuard (NDSS 2019),0,in,"The lights (in a bedroom, hallway, etc.) must be turned on if the motion sensor is active.",cleaned_corpus:C175 ids=197
+C176a,IoTGuard (NDSS 2019),0,in,"When there is smoke, the lights must be on if it is night.",cleaned_corpus:C176 ids=198 (split)
+C176b,IoTGuard (NDSS 2019),0,in,"When there is smoke, the door must be unlocked.",cleaned_corpus:C176 ids=198 (split)
+C177,IoTGuard (NDSS 2019),0,in,The light must be on when the user arrives home.,cleaned_corpus:C177 ids=199
+C178,IoTGuard (NDSS 2019),0,in,The camera controlled doors must be closed when the door is clear of any objects.,cleaned_corpus:C178 ids=200
+C179a,IoTGuard (NDSS 2019),0,in,The garage door must be open when people arrive home.,cleaned_corpus:C179 ids=201 (split)
+C179b,IoTGuard (NDSS 2019),0,in,The garage door must be closed when people leave home.,cleaned_corpus:C179 ids=201 (split)
+C180,IoTGuard (NDSS 2019),0,in,The location beacon must be inside a geo-fence around the home (defined by a user) to turn on the lights and open the garage door.,cleaned_corpus:C180 ids=202
+C181,IoTGuard (NDSS 2019),0,in,The lights must be turned off when the sleep sensor detects a user is sleeping.,cleaned_corpus:C181 ids=203
+C182,IoTGuard (NDSS 2019),0,in,The security system must not be disarmed when the user is not at home.,cleaned_corpus:C182 ids=204
+C183a,IoTGuard (NDSS 2019),0,in,The alarm must sound when there is smoke or CO.,cleaned_corpus:C183 ids=205 (split)
+C183b,IoTGuard (NDSS 2019),0,in,"The alarm must sound when an unexpected motion, tampering, or entering occurs.",cleaned_corpus:C183 ids=205 (split)
+C184,IoTGuard (NDSS 2019),0,in,The valve must be closed when water sensor is wet and when the water level threshold specified by a user is reached.,cleaned_corpus:C184 ids=206
+C185,IoTGuard (NDSS 2019),0,in,"The devices (e.g., light switches, music player, cleaning supply cabinets, medicine drawers, or gun cases) must not be open or turned on when the user is not at home or sleeping.",cleaned_corpus:C185 ids=207
+C186a,IoTGuard (NDSS 2019),0,in,"Some device functionality (e.g., coffee machine starting brewing, heating up dinner in a crock-pot, turning on AC and heater) must not be used when the user is not at home.",cleaned_corpus:C186 ids=208 (split)
+C186b,IoTGuard (NDSS 2019),0,in,Some device functionality must be turned on before a time specified by a user.,cleaned_corpus:C186 ids=208 (split)
+C187a,IoTGuard (NDSS 2019),0,in,"The refrigerator, alarm, and security system must not be disabled.",cleaned_corpus:C187 ids=209 (split)
+C187b,IoTGuard (NDSS 2019),0,in,"The use of the refrigerator, alarm, and security system must not be restricted to save energy.",cleaned_corpus:C187 ids=209 (split)
+C188,IoTGuard (NDSS 2019),0,in,The temperature value including idle energy savings must be set to the operating mode values as specified by the user (heating and cooling values are separate) based on the specific event.,cleaned_corpus:C188 ids=210
+C189,IoTGuard (NDSS 2019),0,in,"The thermostat temperature (heating and cooling) entered by the user must be changed when the mode selected by a user is changed (e.g., from sleeping mode to away mode).",cleaned_corpus:C189 ids=211
+C190,IoTGuard (NDSS 2019),0,out:device_conflict,The AC and heater must not be on at the same time.,cleaned_corpus:C190 ids=212
+C191,IoTGuard (NDSS 2019),0,in,"The HVACs, fans, switches, heaters, dehumidifiers must be off when the humidity and temperature values are out of the threshold specified by the user (e.g., a particular degree above/below the threshold of temperature and humidity).",cleaned_corpus:C191 ids=213
+C192,IoTGuard (NDSS 2019),0,in,The AC must be on when a user is within a specified distance of the house or at a time specified by the user.,cleaned_corpus:C192 ids=214
+C193,IoTGuard (NDSS 2019),0,in,"The security camera must take pictures when there is a motion, and contact/door sensors are active.",cleaned_corpus:C193 ids=215
+C194a,IoTGuard (NDSS 2019),0,in,The security camera must take a photo and sound alarm when the doors/windows are opening.,cleaned_corpus:C194 ids=216 (split)
+C194b,IoTGuard (NDSS 2019),0,in,The security camera must take a photo and sound alarm when the doors are unlocking at user-specified times.,cleaned_corpus:C194 ids=216 (split)
+C194c,IoTGuard (NDSS 2019),0,in,All alarms must turn off when one alarm is turned off.,cleaned_corpus:C194 ids=216 (split)
+C195,IoTGuard (NDSS 2019),0,out:device_health,"The battery level of the devices (switch, humidity sensor, etc.) must not be below a specified threshold.",cleaned_corpus:C195 ids=217
+C196,IoTGuard (NDSS 2019),0,in,The door must not be unlocked when a camera does not recognize an unauthorized face.,cleaned_corpus:C196 ids=218
+C197,IoTGuard (NDSS 2019),0,out:device_conflict,The windows must not be open when the heater is on.,cleaned_corpus:C197 ids=219
+C198,IoTGuard (NDSS 2019),0,in,The bell must not chime when the door is open.,cleaned_corpus:C198 ids=220
+C199,IoTGuard (NDSS 2019),0,out:temporal,The alarm must go off when the main door is left open for too long (specified by the user).,cleaned_corpus:C199 ids=221
+C200,IoTGuard (NDSS 2019),0,out:virtual_state,"The mode must be set to ""home"" when the user is present at home, and ""away"" when the user is not present at home.",cleaned_corpus:C200 ids=222
+C201a,IoTGuard (NDSS 2019),0,in,"The sound system must read (e.g., the day's weather forecast and the status of the devices) with the user interaction.",cleaned_corpus:C201 ids=223 (split)
+C201b,IoTGuard (NDSS 2019),0,in,The sound system must not read at a time not specified by the user (when the sleeping mode is on and when the user is not home).,cleaned_corpus:C201 ids=223 (split)
+C202a,IoTGuard (NDSS 2019),0,out:outdoor,The sprinkler system must not be on when it rains.,cleaned_corpus:C202 ids=224 (split)
+C202b,IoTGuard (NDSS 2019),0,out:outdoor,The sprinkler system must not be on when the soil moisture is below a threshold defined by a user.,cleaned_corpus:C202 ids=224 (split)
+C202c,IoTGuard (NDSS 2019),0,in,Flood sensor must activate the alarm when there is water.,cleaned_corpus:C202 ids=224 (split)
+C203,IoTGuard (NDSS 2019),0,in,The water valve must shut off when water/moisture sensor detects leak around a location such as basement and laundry room.,cleaned_corpus:C203 ids=225
+Soteria-P1,Soteria (USENIX ATC 2018) Table app-specific,1,in,The door must always be locked when the user is not home.,seed_v0
+Soteria-P10,Soteria (USENIX ATC 2018) Table app-specific,1,in,The alarm must always go off when there is smoke.,seed_v0
+Soteria-P12,Soteria (USENIX ATC 2018) Table app-specific,1,in,The light must be off when the user is not home.,seed_v0
+Soteria-P13,Soteria (USENIX ATC 2018) Table app-specific,1,in,"The devices (e.g., coffee machine, crock-pot) must always be on at the time set by the user.",seed_v0
+Soteria-P14,Soteria (USENIX ATC 2018) Table app-specific,1,in,The refrigerator and security system must always be on.,seed_v0
+Soteria-P22,Soteria (USENIX ATC 2018) Table app-specific,1,out:device_health,The battery of devices must not be below a specified threshold.,seed_v0
+Soteria-P28,Soteria (USENIX ATC 2018) Table app-specific,1,in,The sound system must not play music during the sleeping mode.,seed_v0
+Soteria-P29,Soteria (USENIX ATC 2018) Table app-specific,1,in,The flood sensor must always notify the user when there is water.,seed_v0
+Soteria-P30,Soteria (USENIX ATC 2018) Table app-specific,1,in,The water valve must be closed if a leak is detected.,seed_v0
+IoTCom-P1,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn on the AC WHEN mode is away,seed_v0
+IoTCom-P2,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn on the bedroom light WHEN door is closed,seed_v0
+IoTCom-P3,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn on dim light WHEN there is no motion,seed_v0
+IoTCom-P4,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn on living room light WHEN no one is home,seed_v0
+IoTCom-P5,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn on dim light WHEN no one is home,seed_v0
+IoTCom-P6,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn on light/heater WHEN light level changes,seed_v0
+IoTCom-P7,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn off heater WHEN temperature is low,seed_v0
+IoTCom-P8,IoTCom (ISSTA 2020) Table 1,1,in,DON'T unlock door WHEN mode is away,seed_v0
+IoTCom-P9,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn off living room light WHEN someone is home,seed_v0
+IoTCom-P10,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn off AC WHEN temperature is high,seed_v0
+IoTCom-P11,IoTCom (ISSTA 2020) Table 1,1,in,DON'T close valve WHEN smoke is detected,seed_v0
+IoTCom-P12,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn off living room light WHEN mode is away,seed_v0
+IoTCom-P13,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn off living room light WHEN mode is vacation,seed_v0
+IoTCom-P14,IoTCom (ISSTA 2020) Table 1,1,out:virtual_state,DO set mode to away WHEN no one is home,seed_v0
+IoTCom-P15,IoTCom (ISSTA 2020) Table 1,1,out:virtual_state,DO set mode to home WHEN someone is home,seed_v0
+IoTCom-P16,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn on heater WHEN mode is away,seed_v0
+IoTCom-P17,IoTCom (ISSTA 2020) Table 1,1,in,DON'T open door/window WHEN smoke is detected or mode is away,seed_v0
+IoTCom-P18,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn off security system WHEN no one is home,seed_v0
+IoTCom-P19,IoTCom (ISSTA 2020) Table 1,1,in,DON'T turn off the alarm WHEN smoke is detected,seed_v0
+IoTCom-P20,IoTCom (ISSTA 2020) Table 1,1,in,DON'T unlock the door WHEN light level changes,seed_v0
+IoTCom-P21,IoTCom (ISSTA 2020) Table 1,1,in,DON'T lock the door WHEN smoke is detected,seed_v0
+IoTCom-P22,IoTCom (ISSTA 2020) Table 1,1,in,DON'T open the door WHEN smoke is detected and heater is on,seed_v0
+IoTCom-P23,IoTCom (ISSTA 2020) Table 1,1,in,DON'T unlock the door WHEN smoke is detected and heater is on,seed_v0
+IoTCom-P24,IoTCom (ISSTA 2020) Table 1,1,in,DON'T open the door WHEN motion is detected and fan is on,seed_v0
+IoTCom-P25,IoTCom (ISSTA 2020) Table 1,1,in,DON'T unlock the door WHEN motion is detected and fan is on,seed_v0
+IoTCom-P26,IoTCom (ISSTA 2020) Table 1,1,in,DON'T open the door/window WHEN temperature changes,seed_v0
+IoTCom-P27,IoTCom (ISSTA 2020) Table 1,1,out:virtual_state,DON'T set mode WHEN temperature changes,seed_v0
+IoTCom-P28,IoTCom (ISSTA 2020) Table 1,1,out:virtual_state,DON'T set mode WHEN smoke is detected,seed_v0
+IoTCom-P29,IoTCom (ISSTA 2020) Table 1,1,out:virtual_state,DON'T set mode WHEN motion is detected and alarm is sounding,seed_v0
+IoTSan-T1,IoTSan (CoNEXT 2018) Table 4 samples,1,in,Temperature should be within a predefined range when people are at home,seed_v0
+IoTSan-T2,IoTSan (CoNEXT 2018) Table 4 samples,1,in,The main door should be locked when no one is at home,seed_v0
+IoTSan-T3,IoTSan (CoNEXT 2018) Table 4 samples,1,out:virtual_state,Location mode should be changed to Away when no one is at home,seed_v0
+IoTSan-T4,IoTSan (CoNEXT 2018) Table 4 samples,1,in,An alarm should strobe/siren when detecting smoke,seed_v0
+IoTSan-T5,IoTSan (CoNEXT 2018) Table 4 samples,1,out:outdoor,Soil moisture should be within a predefined range,seed_v0
+IoTSan-T6,IoTSan (CoNEXT 2018) Table 4 samples,1,in,Some devices should not be turned on when no one is at home,seed_v0
+VetIoT-PI1,VetIoT (2023) evaluation policies,1,in,WaterLeakDetector can turn off WaterValve only if SmokeDetector is OFF,seed_v0
+VetIoT-PI8,VetIoT (2023) evaluation policies,1,out:device_conflict,LivingRoomWindow can be opened only if both the heater and AC are off.,seed_v0
+VetIoT-P1,VetIoT (2023) evaluation policies,1,in,"Deny opening FrontDoor, if user is not at Home",seed_v0

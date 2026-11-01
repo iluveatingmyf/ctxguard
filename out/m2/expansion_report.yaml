@@ -1,0 +1,156 @@
+proposed: 14
+accepted: 5
+items:
+- factor: occupant_activity
+  value: cooking
+  witness:
+    effect: air_exchange:increase
+    asset: comfort
+    closest_existing: active
+    why: Cooking increases air exchange, which can be uncomfortable for occupants.
+  labels:
+    new: '-'
+    closest_existing: '-'
+  decision: 'rejected: no label change'
+- factor: occupant_activity
+  value: bathing
+  witness:
+    effect: water_flow:increase
+    asset: resource
+    closest_existing: active
+    why: Bathing increases water flow, which can be resource-intensive.
+  labels:
+    new: '-'
+    closest_existing: '-'
+  decision: 'rejected: no label change'
+- factor: occupant_activity
+  value: sleeping
+  witness:
+    effect: sound:decrease
+    asset: privacy
+    closest_existing: present
+    why: Sleeping reduces sound, which can improve privacy.
+  decision: 'rejected: empty or duplicate'
+- factor: occupant_activity
+  value: leaving
+  witness:
+    effect: passage_opening:increase
+    asset: security
+    closest_existing: present
+    why: People leaving can increase the risk of unauthorized entry.
+  decision: 'rejected: empty or duplicate'
+- factor: time_of_day
+  value: holiday
+  witness:
+    effect: air_exchange:decrease
+    asset: life_health
+    closest_existing: user_specified
+    why: During holidays, there might be more indoor activities and gatherings, leading to a higher risk of poor air quality,
+      which can harm life health.
+  labels:
+    new: '-'
+    closest_existing: '0'
+  decision: accepted
+- factor: time_of_day
+  value: storm
+  witness:
+    effect: passage_opening:decrease
+    asset: security
+    closest_existing: unspecified
+    why: Storms can cause unexpected passage openings, such as broken windows or doors, which can compromise security.
+  labels:
+    new: '-'
+    closest_existing: '0'
+  decision: accepted
+- factor: time_of_day
+  value: vacation
+  witness:
+    effect: sensing_capture:decrease
+    asset: privacy
+    closest_existing: unspecified
+    why: During vacations, the home is unoccupied, reducing the need for sensing capture, which can improve privacy.
+  labels:
+    new: '0'
+    closest_existing: '-'
+  decision: accepted
+- factor: time_of_day
+  value: construction
+  witness:
+    effect: air_exchange:increase
+    asset: life_health
+    closest_existing: unspecified
+    why: Construction activities can increase air exchange, potentially exposing occupants to dust and other harmful particles,
+      which can harm life health.
+  labels:
+    new: '-'
+    closest_existing: '-'
+  decision: 'rejected: no label change'
+- factor: environmental_condition
+  value: smoke_detected
+  witness:
+    effect: air_exchange:decrease
+    asset: life_health
+    closest_existing: carbon_monoxide
+    why: Smoke can cause rapid inhalation of harmful particles, leading to immediate health risks, whereas carbon monoxide
+      is a slower, more insidious threat.
+  labels:
+    new: '-'
+    closest_existing: '-'
+  decision: 'rejected: no label change'
+- factor: environmental_condition
+  value: flood
+  witness:
+    effect: water_flow:increase
+    asset: property
+    closest_existing: water_flow:increase
+    why: A flood directly increases water flow, potentially causing significant property damage, whereas an increase in water
+      flow could be due to normal usage and not necessarily harmful.
+  decision: 'rejected: invalid witness'
+- factor: device_mode
+  value: restricted
+  witness:
+    effect: security_monitoring:decrease
+    asset: security
+    closest_existing: away
+    why: In 'away' mode, security monitoring is increased, but in 'restricted' mode, it may be decreased due to the specific
+      condition.
+  labels:
+    new: '-'
+    closest_existing: '-'
+  decision: 'rejected: no label change'
+- factor: device_mode
+  value: partially_occupied
+  witness:
+    effect: sensing_capture:increase
+    asset: privacy
+    closest_existing: normal
+    why: In 'normal' mode, sensing capture is typically low, but in 'partially_occupied' mode, it may be increased to monitor
+      the limited number of occupants.
+  labels:
+    new: '-'
+    closest_existing: '-'
+  decision: 'rejected: no label change'
+- factor: intruder_status
+  value: smoke_detected
+  witness:
+    effect: air_exchange:decrease
+    asset: life_health
+    closest_existing: normal
+    why: In the presence of smoke, decreasing air exchange can exacerbate the situation by reducing the removal of harmful
+      smoke particles, potentially harming life health.
+  labels:
+    new: '-'
+    closest_existing: '0'
+  decision: accepted
+- factor: intruder_status
+  value: water_leak_detected
+  witness:
+    effect: water_flow:increase
+    asset: property
+    closest_existing: normal
+    why: In the presence of a water leak, increasing water flow can worsen the damage, potentially causing significant property
+      loss.
+  labels:
+    new: '-'
+    closest_existing: '0'
+  decision: accepted

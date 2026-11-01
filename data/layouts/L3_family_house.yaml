@@ -1,0 +1,96 @@
+# L3: two-generation family house, RICH sensing (bed sensors, room presence for
+# the elderly resident, CO/gas/smoke). Tests: vulnerable occupants, B2 hazards.
+layout_id: L3
+name: Family house with elderly resident and child
+areas:
+  - {id: master_bedroom, zone_type: bedroom}
+  - {id: kids_room,      zone_type: bedroom, note: child sleeps here}
+  - {id: grandma_room,   zone_type: bedroom, note: elderly resident sleeps here}
+  - {id: kitchen,        zone_type: kitchen}
+  - {id: living_room,    zone_type: living}
+  - {id: hallway,        zone_type: living}
+  - {id: bathroom,       zone_type: bathroom}
+  - {id: entrance,       zone_type: entry}
+  - {id: garage,         zone_type: entry}
+  - {id: laundry,        zone_type: utility}
+  - {id: outdoor,        zone_type: outdoor}
+residents:
+  - {entity: person.alex}
+  - {entity: person.sam}
+  - {entity: person.grandma, vulnerable: true, room_presence: sensor.grandma_room_presence}
+  - {child: true, home_area: kids_room}
+entities:
+  # presence
+  - {id: person.alex, domain: person, area: null}
+  - {id: person.sam, domain: person, area: null}
+  - {id: person.grandma, domain: person, area: null}
+  - {id: sensor.grandma_room_presence, domain: sensor, kind: room_presence, area: null, note: "state = area id where grandma is, or not_home"}
+  - {id: binary_sensor.master_motion, domain: binary_sensor, device_class: motion, area: master_bedroom}
+  - {id: binary_sensor.kids_motion, domain: binary_sensor, device_class: motion, area: kids_room}
+  - {id: binary_sensor.grandma_motion, domain: binary_sensor, device_class: motion, area: grandma_room}
+  - {id: binary_sensor.kitchen_motion, domain: binary_sensor, device_class: motion, area: kitchen}
+  - {id: binary_sensor.living_motion, domain: binary_sensor, device_class: motion, area: living_room}
+  - {id: binary_sensor.hallway_motion, domain: binary_sensor, device_class: motion, area: hallway}
+  - {id: binary_sensor.bathroom_motion, domain: binary_sensor, device_class: motion, area: bathroom}
+  - {id: binary_sensor.entrance_motion, domain: binary_sensor, device_class: motion, area: entrance}
+  - {id: binary_sensor.master_bed, domain: binary_sensor, device_class: occupancy, kind: bed, area: master_bedroom}
+  - {id: binary_sensor.grandma_bed, domain: binary_sensor, device_class: occupancy, kind: bed, area: grandma_room}
+  # environment
+  - {id: sensor.master_co2, domain: sensor, device_class: carbon_dioxide, unit: ppm, area: master_bedroom}
+  - {id: sensor.kids_co2, domain: sensor, device_class: carbon_dioxide, unit: ppm, area: kids_room}
+  - {id: sensor.living_co2, domain: sensor, device_class: carbon_dioxide, unit: ppm, area: living_room}
+  - {id: sensor.master_temperature, domain: sensor, device_class: temperature, unit: C, area: master_bedroom}
+  - {id: sensor.kids_temperature, domain: sensor, device_class: temperature, unit: C, area: kids_room}
+  - {id: sensor.grandma_temperature, domain: sensor, device_class: temperature, unit: C, area: grandma_room}
+  - {id: sensor.living_temperature, domain: sensor, device_class: temperature, unit: C, area: living_room}
+  - {id: sensor.kitchen_temperature, domain: sensor, device_class: temperature, unit: C, area: kitchen}
+  - {id: sensor.bathroom_humidity, domain: sensor, device_class: humidity, unit: "%", area: bathroom}
+  - {id: sensor.outdoor_temperature, domain: sensor, device_class: temperature, unit: C, area: outdoor}
+  - {id: sensor.outdoor_aqi, domain: sensor, device_class: aqi, area: outdoor}
+  - {id: weather.home, domain: weather, area: outdoor}
+  - {id: sun.sun, domain: sun, area: outdoor}
+  # hazards
+  - {id: binary_sensor.kitchen_smoke, domain: binary_sensor, device_class: smoke, area: kitchen}
+  - {id: binary_sensor.hallway_smoke, domain: binary_sensor, device_class: smoke, area: hallway}
+  - {id: sensor.kitchen_co, domain: sensor, device_class: carbon_monoxide, unit: ppm, area: kitchen}
+  - {id: sensor.living_co, domain: sensor, device_class: carbon_monoxide, unit: ppm, area: living_room}
+  - {id: binary_sensor.kitchen_gas, domain: binary_sensor, device_class: gas, area: kitchen}
+  - {id: binary_sensor.bathroom_leak, domain: binary_sensor, device_class: moisture, area: bathroom}
+  - {id: binary_sensor.laundry_leak, domain: binary_sensor, device_class: moisture, area: laundry}
+  - {id: binary_sensor.kitchen_leak, domain: binary_sensor, device_class: moisture, area: kitchen}
+  - {id: binary_sensor.front_door_contact, domain: binary_sensor, device_class: door, area: entrance}
+  - {id: alarm_control_panel.home, domain: alarm_control_panel, area: entrance}
+  # events
+  - {id: binary_sensor.doorbell, domain: binary_sensor, kind: doorbell, area: entrance}
+  - {id: sensor.washer_status, domain: sensor, kind: appliance_status, area: laundry}
+  - {id: sensor.stove_power, domain: sensor, device_class: power, unit: W, area: kitchen}
+  # actuators
+  - {id: cover.master_window, domain: cover, device_class: window, area: master_bedroom}
+  - {id: cover.kids_window, domain: cover, device_class: window, area: kids_room}
+  - {id: cover.living_window, domain: cover, device_class: window, area: living_room}
+  - {id: cover.master_blind, domain: cover, device_class: blind, area: master_bedroom}
+  - {id: cover.living_blind, domain: cover, device_class: blind, area: living_room}
+  - {id: cover.garage_door, domain: cover, device_class: garage, area: garage}
+  - {id: lock.front_door, domain: lock, area: entrance}
+  - {id: climate.living, domain: climate, area: living_room}
+  - {id: climate.master, domain: climate, area: master_bedroom}
+  - {id: fan.bathroom_exhaust, domain: fan, kind: exhaust, area: bathroom}
+  - {id: fan.kitchen_hood, domain: fan, kind: exhaust, area: kitchen}
+  - {id: fan.master_fan, domain: fan, kind: ceiling, area: master_bedroom}
+  - {id: fan.master_ventilator, domain: fan, kind: exhaust, area: master_bedroom, note: wall ventilation fan (air exchange without opening)}
+  - {id: fan.living_fan, domain: fan, kind: ceiling, area: living_room}
+  - {id: light.hallway, domain: light, area: hallway}
+  - {id: light.living, domain: light, area: living_room}
+  - {id: light.master, domain: light, area: master_bedroom}
+  - {id: light.entrance, domain: light, area: entrance}
+  - {id: switch.stove, domain: switch, kind: stove, area: kitchen}
+  - {id: switch.grandma_heater_outlet, domain: switch, kind: outlet, area: grandma_room}
+  - {id: switch.living_outlet, domain: switch, kind: outlet, area: living_room}
+  - {id: switch.indoor_camera, domain: switch, kind: camera, area: living_room}
+  - {id: valve.water_main, domain: valve, kind: water, area: laundry}
+  - {id: valve.gas_main, domain: valve, kind: gas, area: kitchen}
+  - {id: siren.home, domain: siren, area: hallway}
+  - {id: media_player.living_speaker, domain: media_player, area: living_room}
+  - {id: media_player.master_speaker, domain: media_player, area: master_bedroom}
+  - {id: vacuum.robot, domain: vacuum, area: living_room}
+  - {id: humidifier.kids, domain: humidifier, area: kids_room}

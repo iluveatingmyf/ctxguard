@@ -1,0 +1,48 @@
+- id: L2_r01
+  alias: Ventilate bedroom when CO2 is high
+  trigger: [{platform: numeric_state, entity_id: sensor.bedroom_co2, above: 1000}]
+  action: [{service: cover.open_cover, target: {entity_id: cover.bedroom_window}}]
+- id: L2_r02
+  alias: Unlock front door when smoke is detected
+  trigger: [{platform: state, entity_id: binary_sensor.kitchen_smoke, to: "on"}]
+  action: [{service: lock.unlock, target: {entity_id: lock.front_door}}]
+- id: L2_r03
+  alias: Open living window on smoke
+  trigger: [{platform: state, entity_id: binary_sensor.kitchen_smoke, to: "on"}]
+  action: [{service: cover.open_cover, target: {entity_id: cover.living_window}}]
+- id: L2_r04
+  alias: Shut water main on leak
+  trigger: [{platform: state, entity_id: binary_sensor.bathroom_leak, to: "on"}]
+  action: [{service: valve.close_valve, target: {entity_id: valve.water_main}}]
+- id: L2_r05
+  alias: Cool bedroom through the window when hot inside
+  trigger: [{platform: numeric_state, entity_id: sensor.bedroom_temperature, above: 28}]
+  action: [{service: cover.open_cover, target: {entity_id: cover.bedroom_window}}]
+- id: L2_r06
+  alias: Bathroom exhaust on humidity
+  trigger: [{platform: numeric_state, entity_id: sensor.bathroom_humidity, above: 75}]
+  action: [{service: fan.turn_on, target: {entity_id: fan.bathroom_exhaust}}]
+- id: L2_r07
+  alias: Start robot vacuum when Jordan leaves
+  trigger: [{platform: state, entity_id: person.jordan, to: not_home}]
+  action: [{service: vacuum.start, target: {entity_id: vacuum.robot}}]
+- id: L2_r08
+  alias: Lock the door when Jordan leaves
+  trigger: [{platform: state, entity_id: person.jordan, to: not_home}]
+  action: [{service: lock.lock, target: {entity_id: lock.front_door}}]
+- id: L2_r09
+  alias: Close living blind at sunset
+  trigger: [{platform: sun, event: sunset}]
+  action: [{service: cover.close_cover, target: {entity_id: cover.living_blind}}]
+- id: L2_r10
+  alias: Turn living outlet off when Jordan leaves
+  trigger: [{platform: state, entity_id: person.jordan, to: not_home}]
+  action: [{service: switch.turn_off, target: {entity_id: switch.living_outlet}}]
+- id: L2_r11
+  alias: Unlock door when Casey arrives
+  trigger: [{platform: state, entity_id: person.casey, to: home}]
+  action: [{service: lock.unlock, target: {entity_id: lock.front_door}}]
+- id: L2_r12
+  alias: Play music in the living room when someone enters
+  trigger: [{platform: state, entity_id: binary_sensor.living_motion, to: "on"}]
+  action: [{service: media_player.play_media, target: {entity_id: media_player.living_speaker}, data: {media_content_id: playlist, media_content_type: music}}]

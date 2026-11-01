@@ -1,0 +1,3080 @@
+{
+  "stats": {
+    "raw_properties": 225,
+    "after_merge": 203,
+    "merged_groups": 21,
+    "templates": 18,
+    "needs_split": 14,
+    "to_stage2": 185
+  },
+  "properties": [
+    {
+      "cid": "C001",
+      "text": "IF the user arrives home, the light should be turned on.",
+      "property_ids": [
+        1
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C002",
+      "text": "IF the user is not at home / not nearby-home, the light should be turned off.",
+      "property_ids": [
+        2,
+        3
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C003",
+      "text": "IF the user arrives home, the garage door should be opened.",
+      "property_ids": [
+        4
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C004",
+      "text": "IF the user leaves home, the garage door should be closed.",
+      "property_ids": [
+        5,
+        6,
+        121
+      ],
+      "sources": [
+        "tapfixer",
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C005",
+      "text": "IF the user is not at home / not nearby-home, the door should be locked.",
+      "property_ids": [
+        7,
+        8
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C006",
+      "text": "IF the user is not at home / not nearby-home, the security camera should be turned on.",
+      "property_ids": [
+        9,
+        10
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C007",
+      "text": "IF the door opens while the user is not at home / not nearby-home, the security camera should take pictures.",
+      "property_ids": [
+        11
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C008",
+      "text": "IF the user is not at home / not nearby-home, the switch should be turned off.",
+      "property_ids": [
+        12,
+        13
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C009",
+      "text": "IF the temperature is below a predefined value and someone is at home, the AC should be in heating mode.",
+      "property_ids": [
+        14
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C010",
+      "text": "IF the temperature rises above a predefined value, the AC should be in cooling mode.",
+      "property_ids": [
+        15
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C011",
+      "text": "WHEN the heater is on, the AC should be off.",
+      "property_ids": [
+        16
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C012",
+      "text": "IF the user is not at home / not nearby-home, the AC should be turned off.",
+      "property_ids": [
+        17,
+        18
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C013",
+      "text": "IF the temperature is below a predefined value while someone is at home, the heater should be turned on.",
+      "property_ids": [
+        19
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C014",
+      "text": "IF the temperature rises above a predefined value, the heater should be turned off.",
+      "property_ids": [
+        20
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C015",
+      "text": "WHEN the AC is on, the heater should be off.",
+      "property_ids": [
+        21
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C016",
+      "text": "IF the user is not at home / not nearby-home, the heater should be turned off.",
+      "property_ids": [
+        22,
+        23
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C017",
+      "text": "IF the user is not at home / not nearby-home, the coffee machine should be turned off.",
+      "property_ids": [
+        24,
+        25
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C018",
+      "text": "IF the user is not at home / not nearby-home, the electric blanket should be turned off.",
+      "property_ids": [
+        26,
+        27
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C019",
+      "text": "IF the smoke is detected, the alarm should be activated.",
+      "property_ids": [
+        28,
+        29
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C020",
+      "text": "IF CO is detected, the alarm should be activated.",
+      "property_ids": [
+        30,
+        31
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C021",
+      "text": "IF humidity is greater than a predefined value, the ventilating fan should be turned on.",
+      "property_ids": [
+        32
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C022",
+      "text": "IF CO2 is greater than a predefined value, the ventilating fan should be turned on.",
+      "property_ids": [
+        33
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C023",
+      "text": "WHEN CO2 remains greater than a predefined value, the ventilating fan should be on for at least the permitted time.",
+      "property_ids": [
+        34
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C024",
+      "text": "IF the user is not at home / not nearby-home, the oven should be turned off.",
+      "property_ids": [
+        35,
+        36
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C025",
+      "text": "IF CO is detected, the natural gas hot water heater should be turned off.",
+      "property_ids": [
+        37,
+        38
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C026",
+      "text": "IF CO is detected, the gas valve should shut off.",
+      "property_ids": [
+        39
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C027",
+      "text": "WHEN CO is detected, the gas valve should be closed.",
+      "property_ids": [
+        40
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C028",
+      "text": "IF the smoke is detected, the water valve should be turned on.",
+      "property_ids": [
+        41,
+        42
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C029",
+      "text": "IF the soil moisture sensor is below a predefined value, the sprinkler system should be turned on.",
+      "property_ids": [
+        43
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C030",
+      "text": "When the soil moisture sensor is below a predefined value, the sprinkler system should be on for at least the permitted time.",
+      "property_ids": [
+        44
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C031",
+      "text": "IF the weather is raining, the sprinkler should be turned off.",
+      "property_ids": [
+        45,
+        46
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C032",
+      "text": "IF CO2 is greater than a predefined value, the window should be opened.",
+      "property_ids": [
+        47
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C033",
+      "text": "IF the weather is raining, the window should be closed.",
+      "property_ids": [
+        48,
+        49
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C034",
+      "text": "IF the smoke is detected, the window should be opened.",
+      "property_ids": [
+        50,
+        51
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C035",
+      "text": "IF CO is detected, the window should be opened.",
+      "property_ids": [
+        52,
+        53
+      ],
+      "sources": [
+        "tapfixer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C036",
+      "text": "IF smoke is detected, all electrical appliances should be turned off.",
+      "property_ids": [
+        54
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C037",
+      "text": "WHEN home mode is away, all windows and blinds should be closed.",
+      "property_ids": [
+        55
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C038",
+      "text": "WHEN home mode is vacation, all lights should be on.",
+      "property_ids": [
+        56
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C039",
+      "text": "IF a related room's temperature exceeds the threshold and someone is at home, the window should be opened.",
+      "property_ids": [
+        57
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C040",
+      "text": "IF a related room's humidity exceeds the threshold, the humidifier should be turned off.",
+      "property_ids": [
+        58
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C041",
+      "text": "IF air quality drops below a threshold, all air purifiers should be turned on.",
+      "property_ids": [
+        59
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C042",
+      "text": "WHEN someone is at home, the temperature should not exceed the upper threshold.",
+      "property_ids": [
+        60
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C043",
+      "text": "IF the water/moisture sensor detects a leak and no smoke is detected, the water valve must shut off.",
+      "property_ids": [
+        61
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C044",
+      "text": "IF smoke is detected, an SMS/push message should be sent to the owner.",
+      "property_ids": [
+        62
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C045",
+      "text": "IF smoke is detected, the sprinkler valve should be ON.",
+      "property_ids": [
+        63
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C046",
+      "text": "IF there is water leakage, an SMS/push message should be sent to the owner.",
+      "property_ids": [
+        64
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C047",
+      "text": "IF smoke is detected, lights must be turned on in night mode, and the door must be unlocked if someone is at home.",
+      "property_ids": [
+        65
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C048",
+      "text": "IF smoke or CO is detected, the alarm must sound.",
+      "property_ids": [
+        66
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C049",
+      "text": "IF motion is detected while home mode is away, the alarm must sound and an SMS/push message must be sent.",
+      "property_ids": [
+        67
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C050",
+      "text": "IF smoke is detected, a water valve should be opened.",
+      "property_ids": [
+        68
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C051",
+      "text": "IF smoke is detected, the gas stove should be turned off.",
+      "property_ids": [
+        69
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C052",
+      "text": "IF smoke is detected, the heater should be turned off.",
+      "property_ids": [
+        70
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C053",
+      "text": "IF smoke is detected, the AC should be turned off.",
+      "property_ids": [
+        71
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C054",
+      "text": "IF the temperature rises above the threshold, the vent should be turned on.",
+      "property_ids": [
+        72
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C055",
+      "text": "IF the temperature drops below the lower threshold, the AC should switch to heating mode.",
+      "property_ids": [
+        73
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C056",
+      "text": "IF the temperature is below the threshold, the heater should be turned on.",
+      "property_ids": [
+        74
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C057",
+      "text": "IF the temperature exceeds the upper threshold, the AC should switch to cooling mode.",
+      "property_ids": [
+        75
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C058",
+      "text": "IF humidity drops below the threshold, the humidifier should be turned ON.",
+      "property_ids": [
+        76
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C059",
+      "text": "IF humidity rises above the threshold, the vent should be turned ON.",
+      "property_ids": [
+        77
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C060",
+      "text": "IF air quality drops below a threshold, the air purifier should be turned ON.",
+      "property_ids": [
+        78
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C061",
+      "text": "IF the water level exceeds the threshold, the valve should be turned off.",
+      "property_ids": [
+        79
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C062",
+      "text": "IF the water level is below the threshold, the valve should be turned on.",
+      "property_ids": [
+        80
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C063",
+      "text": "IF soil moisture is detected to be low, the garden sprinkler should be ON.",
+      "property_ids": [
+        81
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C064",
+      "text": "IF soil moisture exceeds the set level, the garden sprinkler should be OFF.",
+      "property_ids": [
+        82
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C065",
+      "text": "WHEN someone is at home, the temperature should stay within a predefined range.",
+      "property_ids": [
+        83
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C066",
+      "text": "IF the temperature is above a threshold and nobody is at home, the heater should be turned off.",
+      "property_ids": [
+        84
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C067",
+      "text": "Soil moisture should always remain within a predefined range.",
+      "property_ids": [
+        85
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C068",
+      "text": "IF a water sensor's state is wet, the water valve should be closed.",
+      "property_ids": [
+        86
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C069",
+      "text": "IF the water sensor is wet AND the user-specified water level threshold is reached, the valve must be closed.",
+      "property_ids": [
+        87
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C070",
+      "text": "IF humidity and temperature values fall outside the user-specified thresholds, the HVACs, fans, switches, heaters and dehumidifiers must be off.",
+      "property_ids": [
+        88
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C071",
+      "text": "WHEN it rains (or soil moisture is below the user-defined threshold), the sprinkler system must not be on; the flood sensor must activate the alarm when there is water.",
+      "property_ids": [
+        89
+      ],
+      "sources": [
+        "iotsafe"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C072",
+      "text": "An actuation command's unintended influence on a physical channel must not trigger an app's sensor event and invoke its device actions.",
+      "property_ids": [
+        90
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C073",
+      "text": "The aggregated influence of multiple commands on a physical channel must not unintentionally trigger an app's sensor event and invoke its device actions.",
+      "property_ids": [
+        91
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C074",
+      "text": "If commands' intended influences alone do not trigger an app's sensor event, their aggregation with other commands' unintended influences must not trigger it either.",
+      "property_ids": [
+        92
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C075",
+      "text": "IF there is a fire, the sprinkler system must go off within t seconds.",
+      "property_ids": [
+        93
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C076",
+      "text": "WHEN the home is in away mode, the window must be closed.",
+      "property_ids": [
+        94
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C077",
+      "text": "A device must not open, then close, then reopen within t seconds.",
+      "property_ids": [
+        95
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C078",
+      "text": "WHEN the heater is on, the window must not open.",
+      "property_ids": [
+        96
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C079",
+      "text": "IF smoke is detected, the alarm must go off within t seconds.",
+      "property_ids": [
+        97
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C080",
+      "text": "The main door must not be left unlocked for more than t seconds.",
+      "property_ids": [
+        98
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C081",
+      "text": "WHEN the AC is on, the window must not be open.",
+      "property_ids": [
+        99
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C082",
+      "text": "WHEN the home is in sleep mode, the lights must be turned off.",
+      "property_ids": [
+        100
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C083",
+      "text": "WHEN the home is in away mode, the door must always be locked and the lights must be off.",
+      "property_ids": [
+        101
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C084",
+      "text": "WHEN the home is in away or sleep mode, the TV must be turned off.",
+      "property_ids": [
+        102
+      ],
+      "sources": [
+        "iotseer"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C085",
+      "text": "WHEN nobody is present, the curling iron should not be turned on.",
+      "property_ids": [
+        103
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C086",
+      "text": "WHEN the door is closed, the bell should not chime.",
+      "property_ids": [
+        104
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C087",
+      "text": "WHEN motion is detected, the siren should be activated.",
+      "property_ids": [
+        105
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C088",
+      "text": "WHEN electric power exceeds a predefined value, the oven and the heater should not be on at the same time.",
+      "property_ids": [
+        106
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C089",
+      "text": "WHEN nobody is present, locationMode should be Away.",
+      "property_ids": [
+        107
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C090",
+      "text": "WHEN someone is present, locationMode should be Home.",
+      "property_ids": [
+        108
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C091",
+      "text": "WHEN the user is not present or is sleeping, the door should not be unlocked.",
+      "property_ids": [
+        109
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C092",
+      "text": "IF the user arrives home at night, the light must be on.",
+      "property_ids": [
+        110
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C093",
+      "text": "The AC and the heater must never be on at the same time.",
+      "property_ids": [
+        111
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C094",
+      "text": "WHEN smoke is detected, the water valve should not be closed.",
+      "property_ids": [
+        112
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C095",
+      "text": "WHEN the user is not at home, the security system should not be disarmed.",
+      "property_ids": [
+        113
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C096",
+      "text": "IF the camera does not recognize an authorized face, the door should not be unlocked.",
+      "property_ids": [
+        114
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C097",
+      "text": "IF the moisture sensor detects a leak, the water valve should be closed.",
+      "property_ids": [
+        115
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C098",
+      "text": "WHEN the heater is on, the windows should not be open.",
+      "property_ids": [
+        116
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C099",
+      "text": "WHEN the user is not present, the brewing function of the coffee machine should not be activated.",
+      "property_ids": [
+        117
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C100",
+      "text": "WHEN the user is not present, the heating function of the electric blanket should not be activated.",
+      "property_ids": [
+        118
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C101",
+      "text": "WHEN smoke is detected, the alarm should sound.",
+      "property_ids": [
+        119
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C102",
+      "text": "WHEN the user arrives home, the garage door should be open.",
+      "property_ids": [
+        120
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C103",
+      "text": "WHEN locationMode is Away, the light should not be on.",
+      "property_ids": [
+        122
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C104",
+      "text": "WHEN no intruder is detected, the siren should not be activated.",
+      "property_ids": [
+        123
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C105",
+      "text": "WHEN an intruder is detected, the siren should be activated.",
+      "property_ids": [
+        124
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C106",
+      "text": "At noon every day, the water temperature should not be below a predefined value.",
+      "property_ids": [
+        125
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C107",
+      "text": "WHEN nobody is at home, the oven should not be in the grilling state.",
+      "property_ids": [
+        126
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C108",
+      "text": "WHEN the energy price exceeds a predefined level, certain plugs should not be turned on.",
+      "property_ids": [
+        127
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C109",
+      "text": "IF CO2 exceeds 1000 ppm, the fan should be turned on.",
+      "property_ids": [
+        128
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C110",
+      "text": "IF CO exceeds a predefined level, the alarm should be turned on.",
+      "property_ids": [
+        129
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C111",
+      "text": "IF CO exceeds a predefined level, the natural gas hot water heater should not be on.",
+      "property_ids": [
+        130
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C112",
+      "text": "IF CO exceeds a predefined level, the gas valve should not be open.",
+      "property_ids": [
+        131
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C113",
+      "text": "WHEN the temperature is below a predefined value and nobody is present, the heater should not be on.",
+      "property_ids": [
+        132
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C114",
+      "text": "WHEN the temperature is below a predefined value and someone is present, the heater should be on.",
+      "property_ids": [
+        133
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C115",
+      "text": "WHEN the temperature exceeds a predefined value, the heater should not be turned on.",
+      "property_ids": [
+        134
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C116",
+      "text": "WHEN humidity exceeds a predefined value, the humidifier should not be turned on.",
+      "property_ids": [
+        135
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C117",
+      "text": "WHEN nobody is at home, the electric blanket should not be turned on.",
+      "property_ids": [
+        136
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C118",
+      "text": "WHEN there is motion, the security camera should be turned on.",
+      "property_ids": [
+        137
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C119",
+      "text": "WHEN indoor illuminance is below 80 lux in daytime, the light should not be turned off.",
+      "property_ids": [
+        138
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C120",
+      "text": "WHEN indoor illuminance exceeds 600 lux, the light should not be turned on.",
+      "property_ids": [
+        139
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C121",
+      "text": "Once uploading starts, the camera video should eventually be uploaded to the cloud.",
+      "property_ids": [
+        140
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C122",
+      "text": "Turning on the AC leads to the temperature falling within a predefined range.",
+      "property_ids": [
+        141
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C123",
+      "text": "The presence of users leads to humidity staying within a predefined range.",
+      "property_ids": [
+        142
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C124",
+      "text": "After the oven starts, it should eventually finish cooking.",
+      "property_ids": [
+        143
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C125",
+      "text": "After 10 pm, the light should eventually be turned off.",
+      "property_ids": [
+        144
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C126",
+      "text": "Once brewing starts, the coffee maker should eventually finish the coffee.",
+      "property_ids": [
+        145
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C127",
+      "text": "After the water heater is turned on, the water temperature should eventually reach a predefined value.",
+      "property_ids": [
+        146
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C128",
+      "text": "After indoor temperature falls below 8 C, it should eventually exceed a predefined value.",
+      "property_ids": [
+        147
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C129",
+      "text": "After indoor temperature exceeds 30 C, it should eventually drop below a predefined value.",
+      "property_ids": [
+        148
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C130",
+      "text": "After CO2 exceeds 1000 ppm, it should eventually drop below 450 ppm.",
+      "property_ids": [
+        149
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C131",
+      "text": "After \"turn on fan for 15 minutes\" is activated, the fan should eventually be turned off.",
+      "property_ids": [
+        150
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C132",
+      "text": "After turning on the humidifier, indoor humidity should stay within a predefined range.",
+      "property_ids": [
+        151
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C133",
+      "text": "Once the thermostat heating setpoint is changed to 25 C, indoor temperature should eventually exceed 23 C.",
+      "property_ids": [
+        152
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C134",
+      "text": "Once the thermostat cooling setpoint is changed to 20 C, indoor temperature should eventually fall below 22 C.",
+      "property_ids": [
+        153
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C135",
+      "text": "After boosting the AC to a defined value, indoor temperature should eventually reach that value.",
+      "property_ids": [
+        154
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C136",
+      "text": "After boosting the water heater, the water temperature should eventually exceed 60 C.",
+      "property_ids": [
+        155
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C137",
+      "text": "After the user wakes up, they should eventually get a cup of hot coffee.",
+      "property_ids": [
+        156
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C138",
+      "text": "After the user leaves, the temperature should eventually drop below a set value.",
+      "property_ids": [
+        157
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C139",
+      "text": "Motion detected can lead the light to blink.",
+      "property_ids": [
+        158
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C140",
+      "text": "After the user pins a photo, the light color should eventually change to match the photo.",
+      "property_ids": [
+        159
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C141",
+      "text": "After the robot cleaner starts, it should eventually come back to charge.",
+      "property_ids": [
+        160
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C142",
+      "text": "Action duplication: when a_i is executed, a_j should be executed via an immediate channel attribute.",
+      "property_ids": [
+        161
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C143",
+      "text": "Action conflict: two rules have the same semantics, no property needed.",
+      "property_ids": [
+        162
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C144",
+      "text": "Action-trigger interaction: when t_i and C_i are activated, a_i should be executed.",
+      "property_ids": [
+        163
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C145",
+      "text": "Action overriding: when t_i is activated, a_j should not be executed; t_i and C_i lead to a_i.",
+      "property_ids": [
+        164
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C146",
+      "text": "Action breaking: a_i leads to a_i'; before the extended-action timeout expires, a_i' should not be executed.",
+      "property_ids": [
+        165
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C147",
+      "text": "Condition blocking: when t_i is activated, a_i should be executed.",
+      "property_ids": [
+        166
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C148",
+      "text": "Device disabling: if v(a_i) = off, then a_j can still execute.",
+      "property_ids": [
+        167
+      ],
+      "sources": [
+        "tapinspector"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C149",
+      "text": "A warming device and a cooling device must never operate simultaneously.",
+      "property_ids": [
+        168,
+        178
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C150",
+      "text": "WHEN someone is detected, devices with a brightness-increasing effect must be activated.",
+      "property_ids": [
+        169
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C151",
+      "text": "WHEN it is raining, windows must not be opened.",
+      "property_ids": [
+        170,
+        181
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C152",
+      "text": "The microwave oven must never be used unsupervised.",
+      "property_ids": [
+        171
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C153",
+      "text": "The water dispenser must never be used unsupervised.",
+      "property_ids": [
+        172
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C154",
+      "text": "A device with a humidifying effect must not operate continuously for more than 60 minutes.",
+      "property_ids": [
+        173,
+        183
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": true
+      }
+    },
+    {
+      "cid": "C155",
+      "text": "IF air quality becomes low in an occupied room, air purification must be executed within 10 minutes.",
+      "property_ids": [
+        174
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C156",
+      "text": "WHEN nobody is detected, lights must be switched off within 30 seconds.",
+      "property_ids": [
+        175
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C157",
+      "text": "The water dispenser must not operate continuously for more than 2 minutes.",
+      "property_ids": [
+        176
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C158",
+      "text": "The speaker must not operate continuously for more than 1 minute.",
+      "property_ids": [
+        177
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C159",
+      "text": "WHEN someone is detected and the temperature is low, a cooling device must not operate.",
+      "property_ids": [
+        179
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C160",
+      "text": "WHEN the home is empty, windows must always be closed.",
+      "property_ids": [
+        180
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C161",
+      "text": "Curtains must be opened only when someone is detected.",
+      "property_ids": [
+        182
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C162",
+      "text": "IF air quality becomes low, air-improving devices must be activated within 5 minutes.",
+      "property_ids": [
+        184
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C163",
+      "text": "WHEN everyone has left the home, the door must be closed within 1 minute.",
+      "property_ids": [
+        185
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C164",
+      "text": "The fridge must be open for at most 5 minutes.",
+      "property_ids": [
+        186
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C165",
+      "text": "The towel dryer must be open for at most 60 minutes.",
+      "property_ids": [
+        187
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C166",
+      "text": "Effects should always/never be executed simultaneously.",
+      "property_ids": [
+        188
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C167",
+      "text": "Effect should always/never be executed under states.",
+      "property_ids": [
+        189
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C168",
+      "text": "States should always/never happen simultaneously.",
+      "property_ids": [
+        190
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C169",
+      "text": "Event/action should only/never happen under states.",
+      "property_ids": [
+        191
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C170",
+      "text": "Effect should last more/less than time.",
+      "property_ids": [
+        192
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C171",
+      "text": "Effect should always/never be executed within time of entering states.",
+      "property_ids": [
+        193
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C172",
+      "text": "States should always/never happen within time when event/action occurs.",
+      "property_ids": [
+        194
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C173",
+      "text": "States should last more/less than time.",
+      "property_ids": [
+        195
+      ],
+      "sources": [
+        "envguard"
+      ],
+      "flags": {
+        "template": true,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C174",
+      "text": "The door must be locked when a user is not present at home or sleeping.",
+      "property_ids": [
+        196
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C175",
+      "text": "The lights (in a bedroom, hallway, etc.) must be turned on if the motion sensor is active.",
+      "property_ids": [
+        197
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C176",
+      "text": "When there is smoke, the lights must be on if it is night, and the door must be unlocked.",
+      "property_ids": [
+        198
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C177",
+      "text": "The light must be on when the user arrives home.",
+      "property_ids": [
+        199
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C178",
+      "text": "The camera controlled doors must be closed when the door is clear of any objects.",
+      "property_ids": [
+        200
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C179",
+      "text": "The garage door must be open when people arrive home, and it must be closed when people leave home.",
+      "property_ids": [
+        201
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C180",
+      "text": "The location beacon must be inside a geo-fence around the home (defined by a user) to turn on the lights and open the garage door.",
+      "property_ids": [
+        202
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C181",
+      "text": "The lights must be turned off when the sleep sensor detects a user is sleeping.",
+      "property_ids": [
+        203
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C182",
+      "text": "The security system must not be disarmed when the user is not at home.",
+      "property_ids": [
+        204
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C183",
+      "text": "The alarm must sound when there is smoke or CO; and when an unexpected motion, tampering, and entering occurs.",
+      "property_ids": [
+        205
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C184",
+      "text": "The valve must be closed when water sensor is wet and when the water level threshold specified by a user is reached.",
+      "property_ids": [
+        206
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C185",
+      "text": "The devices (e.g., light switches, music player, cleaning supply cabinets, medicine drawers, or gun cases) must not be open or turned on when the user is not at home or sleeping.",
+      "property_ids": [
+        207
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C186",
+      "text": "Some device functionality (e.g., coffee machine starting brewing, heating up dinner in a crock-pot, turning on AC and heater) must not be used when the user is not at home or must be turned on before a time specified by a user.",
+      "property_ids": [
+        208
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C187",
+      "text": "The refrigerator, alarm, and security system must not be disabled, and their use must not be restricted to save energy.",
+      "property_ids": [
+        209
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C188",
+      "text": "The temperature value including idle energy savings must be set to the operating mode values as specified by the user (heating and cooling values are separate) based on the specific event.",
+      "property_ids": [
+        210
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C189",
+      "text": "The thermostat temperature (heating and cooling) entered by the user must be changed when the mode selected by a user is changed (e.g., from sleeping mode to away mode).",
+      "property_ids": [
+        211
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C190",
+      "text": "The AC and heater must not be on at the same time.",
+      "property_ids": [
+        212
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C191",
+      "text": "The HVACs, fans, switches, heaters, dehumidifiers must be off when the humidity and temperature values are out of the threshold specified by the user (e.g., a particular degree above/below the threshold of temperature and humidity).",
+      "property_ids": [
+        213
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C192",
+      "text": "The AC must be on when a user is within a specified distance of the house or at a time specified by the user.",
+      "property_ids": [
+        214
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C193",
+      "text": "The security camera must take pictures when there is a motion, and contact/door sensors are active.",
+      "property_ids": [
+        215
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C194",
+      "text": "The security camera must take a photo and sound alarm when the doors/windows are opening, and when the doors are unlocking at user-specified times. It must turn off all alarm when one alarm is turned off.",
+      "property_ids": [
+        216
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C195",
+      "text": "The battery level of the devices (switch, humidity sensor, etc.) must not be below a specified threshold.",
+      "property_ids": [
+        217
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C196",
+      "text": "The door must not be unlocked when a camera does not recognize an unauthorized face.",
+      "property_ids": [
+        218
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C197",
+      "text": "The windows must not be open when the heater is on.",
+      "property_ids": [
+        219
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C198",
+      "text": "The bell must not chime when the door is open.",
+      "property_ids": [
+        220
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C199",
+      "text": "The alarm must go off when the main door is left open for too long (specified by the user).",
+      "property_ids": [
+        221
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C200",
+      "text": "The mode must be set to \"home\" when the user is present at home, and \"away\" when the user is not present at home.",
+      "property_ids": [
+        222
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C201",
+      "text": "The sound system must read (e.g., the day's weather forecast and the status of the devices) with the user interaction and must not read at the time not specified by the user (guards against violations when the sleeping mode is on and when the user is not home.)",
+      "property_ids": [
+        223
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C202",
+      "text": "The sprinkler system must not be on when it rains, and when the soil moisture is below a threshold defined by a user. Flood sensor must activate the alarm when there is water.",
+      "property_ids": [
+        224
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": true,
+        "merged": false
+      }
+    },
+    {
+      "cid": "C203",
+      "text": "The water valve must shut off when water/moisture sensor detects leak around a location such as basement and laundry room.",
+      "property_ids": [
+        225
+      ],
+      "sources": [
+        "iotguard"
+      ],
+      "flags": {
+        "template": false,
+        "needs_split": false,
+        "merged": false
+      }
+    }
+  ]
+}

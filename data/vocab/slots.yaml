@@ -1,0 +1,66 @@
+# Situation schema used by M2 (top-down DIMENSIONS, bottom-up VALUES).
+# Dimensions come from context-aware computing (Dey, "Understanding and Using
+# Context", 2001: primary context = location, identity, activity, time) plus two
+# safety-specific dimensions (hazard, vulnerability) and the physical environment
+# (indoor/outdoor channels, as in IoT physical-interaction work).
+# Values of each slot are induced from the property corpus by M2 (m2-slots).
+# kind: situation -> becomes context factor(s); excluded -> counted, not modelled.
+version: S-v1
+slots:
+  - id: time
+    kind: situation
+    scope: global
+    max_factors: 1
+    dey: time
+    desc: When the action executes (part of day, schedule period).
+  - id: occupancy
+    kind: situation
+    scope: global
+    max_factors: 1
+    dey: location/identity
+    desc: Whether residents are at home, away, arriving or leaving.
+  - id: occupant_state
+    kind: situation
+    scope: zone
+    max_factors: 1
+    dey: activity
+    desc: What the people in the room where the effect acts are doing (absent, active, asleep, cooking, showering, ...).
+  - id: vulnerability
+    kind: situation
+    scope: zone
+    max_factors: 1
+    dey: identity
+    desc: Whether a child, elderly or impaired person, or a pet is in the room where the effect acts.
+  - id: hazard
+    kind: situation
+    scope: global
+    max_factors: 1
+    dey: safety-specific
+    desc: An abnormal dangerous event in the home (fire, smoke, gas, CO, water leak, intrusion) and its source.
+  - id: indoor_environment
+    kind: situation
+    scope: zone
+    max_factors: 4
+    dey: physical environment
+    desc: Physical state of the room where the effect acts (air quality, temperature, humidity, light).
+  - id: outdoor_environment
+    kind: situation
+    scope: global
+    max_factors: 1
+    dey: physical environment
+    desc: Weather and outdoor air relative to indoors (cold, hot, rain, polluted).
+  - id: device_state
+    kind: excluded
+    desc: State or setting of a device, sensor or system mode (door closed, heater on, alarm enabled, sensor operational, home/away mode). A proxy, not the situation itself.
+  - id: user_configuration
+    kind: excluded
+    desc: User-specified thresholds, times, preferences or configuration.
+  - id: other
+    kind: excluded
+    desc: Anything else (actions, obligations, unclear text).
+# Not induced from the corpus: derived from the action's target device area.
+derived:
+  - name: effect_zone
+    scope: action
+    semantics: Type of the area in which the action's effect acts.
+    values: {bedroom: A sleeping room., kitchen: A cooking area., bathroom: A bathroom or shower room., living: Living room, dining room, study or hallway., entry: Front door, entrance hall, garage., utility: Laundry, storage, technical room.}

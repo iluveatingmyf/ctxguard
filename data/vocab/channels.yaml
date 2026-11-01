@@ -1,0 +1,61 @@
+# Physical channel set C (closed, versioned).
+# Derivation (method, write into paper Sec. IV-A):
+#   1. Take every Home Assistant *actuator* domain (domains that expose services
+#      changing the world): cover, lock, climate, fan, light, switch, valve,
+#      water_heater, humidifier, vacuum, media_player, siren, alarm_control_panel,
+#      camera, tts/notify.
+#   2. For each domain list the state quantities its services write
+#      (e.g. cover.open_cover writes "opening of a passage", "air exchange",
+#      "visibility", ...).
+#   3. Merge quantities that denote the same physical/informational quantity
+#      into one channel. Each channel = one equivalence class.
+#   Completeness claim: relative to the pinned HA domain list (state the HA
+#   version in the paper). Coverage is checked by `ctxguard m1-coverage`.
+version: C-v1
+channels:
+  - id: air_exchange
+    desc: Rate of air exchange between indoor zone and outdoors (ventilation).
+    domains: [cover(window), fan(exhaust), climate(fresh_air)]
+  - id: indoor_temperature
+    desc: Air temperature of the indoor zone.
+    domains: [climate, fan, cover(window), water_heater]
+  - id: indoor_humidity
+    desc: Relative humidity of the indoor zone.
+    domains: [humidifier, fan(exhaust), climate(dry)]
+  - id: illumination
+    desc: Light level inside the zone.
+    domains: [light, cover(blind, curtain, shade)]
+  - id: passage_opening
+    desc: Physical openness of a passage between outside and inside (door, window, garage) - who/what can pass.
+    domains: [lock, cover(door, garage, window, gate)]
+  - id: power_supply
+    desc: Electrical power delivered to a load (outlet, appliance, device).
+    domains: [switch, light]
+  - id: heat_source
+    desc: An active heating element or open flame is running (stove, oven, space heater).
+    domains: [switch(stove), climate(heat), water_heater]
+  - id: water_flow
+    desc: Water supplied through plumbing.
+    domains: [valve(water)]
+  - id: gas_flow
+    desc: Fuel gas supplied through piping.
+    domains: [valve(gas)]
+  - id: sound
+    desc: Acoustic emission inside the home.
+    domains: [media_player, siren, tts, vacuum]
+  - id: visibility
+    desc: How much of the indoor space can be seen from outside.
+    domains: [cover(blind, curtain, shade, window), light]
+  - id: sensing_capture
+    desc: Audio/video capture of the occupants and the home.
+    domains: [camera, switch(camera)]
+  - id: info_disclosure
+    desc: Information emitted outside the device (spoken announcement, notification, upload).
+    domains: [tts, notify, media_player]
+  - id: security_monitoring
+    desc: Intrusion monitoring / alarm protection of the home.
+    domains: [alarm_control_panel, siren]
+  - id: mechanical_motion
+    desc: Moving machinery that can collide with or trap people/pets (robot vacuum, garage door, motorized covers).
+    domains: [vacuum, cover(garage, gate)]
+directions: [increase, decrease]

@@ -1,0 +1,443 @@
+- condition: A user sets a time.
+  slot: time_of_day
+  statement: The current time is set by the user.
+- condition: An alarm is turned off
+  slot: security
+  statement: No active security alarms in the home.
+- condition: CO is detected
+  slot: environmental_conditions
+  statement: Carbon monoxide is detected in the home.
+- condition: CO level exceeds predefined threshold
+  slot: environmental_conditions
+  statement: Carbon monoxide levels in the home exceed the predefined threshold set by the user.
+- condition: CO2 is greater than a predefined value
+  slot: environmental_conditions
+  statement: The carbon dioxide level in the home is above the predefined threshold.
+- condition: Current mode is not the same as the previous mode.
+  slot: device_status
+  statement: The current mode of the home system has changed from the previous mode.
+- condition: External temperature is high
+  slot: environmental_conditions
+  statement: The external temperature is high.
+- condition: Flood sensor detects water.
+  slot: environmental_conditions
+  statement: Water is detected in the environment.
+- condition: Garage door is open.
+  slot: device_status
+  statement: The garage door is open.
+- condition: Home is in away mode
+  slot: device_status
+  statement: The home automation system is set to away mode, indicating that non-essential devices are likely to be turned
+    off or in a secure state.
+- condition: Humidity exceeds predefined value
+  slot: environmental_conditions
+  statement: The air humidity in the home exceeds the predefined threshold set by the user.
+- condition: Humidity is out of threshold
+  slot: environmental_conditions
+  statement: The humidity level in the home is outside the user-specified threshold.
+- condition: Humidity is outside user-specified thresholds
+  slot: environmental_conditions
+  statement: The humidity level in the home is outside the user-specified thresholds.
+- condition: Indoor illuminance exceeds 600 lux
+  slot: environmental_conditions
+  statement: The indoor illuminance is high, exceeding 600 lux.
+- condition: It is daytime
+  slot: time_of_day
+  statement: The time of day is daytime.
+- condition: It is night time
+  slot: time_of_day
+  statement: It is night time.
+- condition: It is within the user-specified time period.
+  slot: time_of_day
+  statement: The current time is within the user-specified time period.
+- condition: Leak is detected
+  slot: environmental_conditions
+  statement: Water is present in the home, potentially causing damage to property and resources.
+- condition: Natural gas hot water heater is on
+  slot: device_status
+  statement: The natural gas hot water heater is active and in use.
+- condition: Nobody is at home
+  slot: occupant_activity
+  statement: The home is unoccupied with no people present.
+- condition: People are at home
+  slot: occupant_activity
+  statement: People are present in the home.
+- condition: People are leaving home.
+  slot: occupant_activity
+  statement: People are leaving the home.
+- condition: People are present in the home.
+  slot: occupant_activity
+  statement: People are present in the home.
+- condition: Season is summer or winter.
+  slot: environmental_conditions
+  statement: The outdoor temperature is either high in summer or low in winter.
+- condition: Smoke is detected
+  slot: security
+  statement: There is an indication of a potential fire hazard in the home.
+- condition: Someone is at home
+  slot: occupant_activity
+  statement: There is at least one person present in the home.
+- condition: Someone is home
+  slot: occupant_activity
+  statement: The presence and activity of people in the home indicate that someone is home.
+- condition: Temperature drops below the lower threshold.
+  slot: environmental_conditions
+  statement: The indoor temperature has dropped below the user-defined lower threshold.
+- condition: Temperature is out of threshold
+  slot: environmental_conditions
+  statement: The indoor temperature is outside the user-defined threshold.
+- condition: Temperature is outside user-specified thresholds
+  slot: environmental_conditions
+  statement: The indoor temperature is outside the user-specified thresholds.
+- condition: Temperature rises above predefined value
+  slot: environmental_conditions
+  statement: The indoor temperature has exceeded the user-defined threshold.
+- condition: The ambient temperature is within comfort range
+  slot: environmental_conditions
+  statement: The ambient temperature in the home is within the comfort range set by the user.
+- condition: The current mode is sleeping mode.
+  slot: device_status
+  statement: The home is set to sleeping mode, indicating reduced device activity and potentially lower lighting and temperature
+    settings.
+- condition: The current time is before the user-specified time.
+  slot: time_of_day
+  statement: The current time is before the user-specified time.
+- condition: The door is being unlocked.
+  slot: security
+  statement: There is an attempt to unlock a door, which could indicate an intruder or unauthorized access.
+- condition: The door is clear of objects
+  slot: environmental_conditions
+  statement: The door is clear of objects, ensuring unobstructed access.
+- condition: The door is closed.
+  slot: device_status
+  statement: The door is closed.
+- condition: The door is not occupied by any objects
+  slot: environmental_conditions
+  statement: There are no objects occupying the door, which could affect airflow or visibility.
+- condition: The flood sensor is operational.
+  slot: device_status
+  statement: The flood sensor is operational.
+- condition: The home is in away mode
+  slot: device_status
+  statement: The home automation system is set to away mode.
+- condition: The location beacon is within the geo-fence defined by the user
+  slot: occupant_activity
+  statement: The occupant is within the geo-fence defined by the user.
+- condition: The room is not dark
+  slot: environmental_conditions
+  statement: The lighting level in the room is sufficient and not dark.
+- condition: The sound system is active.
+  slot: environmental_conditions
+  statement: The sound system is active in the home environment.
+- condition: The specific event occurs.
+  slot: security
+  statement: An event has occurred that may require attention.
+- condition: The temperature exceeds the predefined value
+  slot: environmental_conditions
+  statement: The indoor temperature is above the user-defined threshold.
+- condition: The temperature is above a threshold
+  slot: environmental_conditions
+  statement: The indoor temperature is above the user-defined threshold.
+- condition: The temperature value is within the operating range.
+  slot: environmental_conditions
+  statement: The indoor temperature is within the acceptable range set by the user.
+- condition: The user is not at home
+  slot: occupant_activity
+  statement: There are no people present in the home.
+- condition: The user is not ignoring sensor alerts.
+  slot: occupant_activity
+  statement: The user is paying attention to sensor alerts.
+- condition: The user is not nearby-home
+  slot: occupant_activity
+  statement: The user is not present in the home.
+- condition: The user specifies heating and cooling values.
+  slot: user_configuration
+  statement: The user has set specific temperature thresholds for heating and cooling.
+- condition: There is water leakage.
+  slot: environmental_conditions
+  statement: There is water leakage in the home.
+- condition: Time is during expected arrival hours
+  slot: time_of_day
+  statement: The current time is within the expected arrival hours for occupants.
+- condition: Time is during occupied hours
+  slot: time_of_day
+  statement: The time is within the occupied hours of the home.
+- condition: Time is during the day or night.
+  slot: time_of_day
+  statement: The time is either during the day or night.
+- condition: Time is during warm season
+  slot: environmental_conditions
+  statement: The outdoor temperature is above the typical threshold for warm seasons.
+- condition: User arrives home.
+  slot: occupant_activity
+  statement: People are present in the home and are likely to be active.
+- condition: User is at home
+  slot: occupant_activity
+  statement: People are present in the home and are active.
+- condition: User selects a different mode.
+  slot: user_configuration
+  statement: The user has selected a different mode for the smart home system.
+- condition: Water is present in the monitored area.
+  slot: environmental_conditions
+  statement: Water is present in the monitored area.
+- condition: When the user is not at home
+  slot: occupant_activity
+  statement: No people are present in the home.
+- condition: When the user is sleeping
+  slot: time_of_day
+  statement: The time is during the user's sleep period.
+- condition: air quality drops below a threshold
+  slot: environmental_conditions
+  statement: The air quality in the home has dropped below the user-specified threshold.
+- condition: alarm_enabled
+  slot: security
+  statement: The security alarm is enabled.
+- condition: camera does not recognize an unauthorized face
+  slot: security
+  statement: An unauthorized face is present but not recognized by the security camera.
+- condition: co_detected
+  slot: environmental_conditions
+  statement: Carbon monoxide is detected in the home.
+- condition: cooling device must not operate
+  slot: device_status
+  statement: The cooling device is not operating.
+- condition: day_is_every_day
+  slot: time_of_day
+  statement: The time of day is not specified and can be any time of the day.
+- condition: daytime
+  slot: time_of_day
+  statement: The time of day is during the daytime hours.
+- condition: door is closed
+  slot: device_status
+  statement: The door in the home is closed.
+- condition: door is unlocked
+  slot: security
+  statement: There is an unlocked door in the home, which could allow unauthorized access.
+- condition: door must be locked
+  slot: security
+  statement: The door must be locked to prevent unauthorized access.
+- condition: door opening detected
+  slot: security
+  statement: There is an attempt or occurrence of unauthorized entry.
+- condition: door.opened
+  slot: security
+  statement: There is an open door which could allow intruders to enter the home.
+- condition: energy_savings_is_not_priority
+  slot: user_configuration
+  statement: The user has not prioritized energy savings in the home settings.
+- condition: entry detected
+  slot: security
+  statement: An entry has been detected, indicating potential intrusion.
+- condition: expected motion not detected
+  slot: occupant_activity
+  statement: No motion detected in the home despite expected activity.
+- condition: fan_on
+  slot: device_status
+  statement: The fan is on in the home.
+- condition: heater is on
+  slot: environmental_conditions
+  statement: The indoor temperature is being maintained above a certain threshold due to the heater being on.
+- condition: home is empty
+  slot: occupant_activity
+  statement: There is no presence or activity of people in the home.
+- condition: home is in sleep mode
+  slot: device_status
+  statement: The home automation system is set to sleep mode, conserving energy and reducing activity.
+- condition: home mode is away
+  slot: security
+  statement: The home security systems are set to away mode, indicating increased security measures when no one is present.
+- condition: home mode is vacation
+  slot: device_status
+  statement: The home is set to vacation mode, with devices and systems configured for energy savings and reduced activity.
+- condition: home_mode=away
+  slot: device_status
+  statement: The home is set to away mode, indicating that no one is expected to be present and devices are configured for
+    energy-saving or security purposes.
+- condition: indoor illuminance is below 80 lux
+  slot: environmental_conditions
+  statement: The indoor illuminance is below 80 lux.
+- condition: intruder is detected
+  slot: security
+  statement: An intruder is detected in the home.
+- condition: intruder_detected = false
+  slot: security
+  statement: No intruders are detected in the home.
+- condition: location is basement
+  slot: environmental_conditions
+  statement: The basement is the current location.
+- condition: location is laundry room
+  slot: environmental_conditions
+  statement: The laundry room is the current location.
+- condition: mode is away
+  slot: security
+  statement: The home security system is set to away mode, indicating that no one is expected to be home and security measures
+    are heightened.
+- condition: mode is vacation
+  slot: device_status
+  statement: The home is set to vacation mode, with devices and systems configured for energy savings and security.
+- condition: mode_is_away
+  slot: security
+  statement: The home security system is set to away mode, indicating that no one is expected to be home and security measures
+    are heightened.
+- condition: moisture_sensor detects a leak
+  slot: environmental_conditions
+  statement: There is a detected leak in the home, indicating a change in the environmental conditions.
+- condition: motion detected
+  slot: security
+  statement: There is an indication of potential intruders or movement that could be suspicious.
+- condition: motion is detected
+  slot: security
+  statement: An intruder or occupant is moving within the home.
+- condition: motion_detected
+  slot: security
+  statement: There is detected motion in the home, indicating potential occupant presence or intrusion.
+- condition: motion_detected=true
+  slot: occupant_activity
+  statement: There is activity by people in the home.
+- condition: motion_sensor_is_active
+  slot: occupant_activity
+  statement: A motion sensor is active, indicating potential presence or movement of people in the home.
+- condition: no smoke is detected
+  slot: environmental_conditions
+  statement: There is no smoke in the air.
+- condition: no_people_absent
+  slot: occupant_activity
+  statement: There are no people present in the home.
+- condition: no_time_constraints
+  slot: time_of_day
+  statement: There are no specific time constraints or schedules affecting the home environment.
+- condition: nobody is present
+  slot: occupant_activity
+  statement: The home is unoccupied with no people present.
+- condition: nobody_at_home
+  slot: occupant_activity
+  statement: There is no presence or activity of people in the home.
+- condition: nobody_is_present
+  slot: occupant_activity
+  statement: There is no presence or activity of people in the home.
+- condition: people_not_at_home
+  slot: occupant_activity
+  statement: People are not present in the home.
+- condition: person_at_home
+  slot: occupant_activity
+  statement: A person is present in the home.
+- condition: smoke is detected
+  slot: security
+  statement: There is an indication of a potential fire hazard in the home.
+- condition: smoke_detected
+  slot: security
+  statement: There is a detected smoke condition in the home, indicating a potential fire hazard.
+- condition: smoke_detected=true
+  slot: security
+  statement: There is a detected smoke condition in the home, indicating a potential fire hazard.
+- condition: someone is at home
+  slot: occupant_activity
+  statement: There is presence and activity of people in the home.
+- condition: someone is detected
+  slot: security
+  statement: An intruder is detected in the home.
+- condition: someone is present
+  slot: occupant_activity
+  statement: Someone is present in the home.
+- condition: tampering detected
+  slot: security
+  statement: There is an indication of potential unauthorized access or manipulation of the home's security systems.
+- condition: temperature is below a predefined value
+  slot: environmental_conditions
+  statement: The indoor temperature is below a predefined value set by the user.
+- condition: temperature is below the threshold
+  slot: environmental_conditions
+  statement: The indoor temperature is below the user-specified threshold.
+- condition: temperature is low
+  slot: environmental_conditions
+  statement: The indoor temperature is below the comfortable threshold.
+- condition: temperature rises above the threshold
+  slot: environmental_conditions
+  statement: The indoor temperature has exceeded the user-defined threshold.
+- condition: the alarm is operational
+  slot: security
+  statement: The security system is operational and ready to respond to potential intrusions or other security threats.
+- condition: the refrigerator is operational
+  slot: device_status
+  statement: The refrigerator is functioning properly.
+- condition: the security system is operational
+  slot: security
+  statement: The security system is operational.
+- condition: the user is not at home
+  slot: occupant_activity
+  statement: There are no people present in the home.
+- condition: the user is not nearby-home
+  slot: occupant_activity
+  statement: The user is not present in the home.
+- condition: the user-specified water level threshold is reached
+  slot: environmental_conditions
+  statement: The water level in the home has reached the user-specified threshold.
+- condition: the water sensor is wet
+  slot: environmental_conditions
+  statement: Water is detected in the environment, indicating potential leakage or flooding.
+- condition: time is nighttime
+  slot: time_of_day
+  statement: The time of day is nighttime.
+- condition: time of day within nighttime hours
+  slot: time_of_day
+  statement: The time of day is within nighttime hours.
+- condition: time_of_day_is_noon
+  slot: time_of_day
+  statement: It is noon.
+- condition: user arrives home
+  slot: occupant_activity
+  statement: People are present and likely active in the home.
+- condition: user is not at home
+  slot: occupant_activity
+  statement: No people are present in the home.
+- condition: user is not home
+  slot: occupant_activity
+  statement: There are no people present in the home.
+- condition: user is not nearby-home
+  slot: occupant_activity
+  statement: The user is not present in the home.
+- condition: user specifies water level threshold
+  slot: user_configuration
+  statement: The user has set a threshold for the water level in the home.
+- condition: user.is_not_home
+  slot: occupant_activity
+  statement: There are no people present in the home.
+- condition: user.not_at_home
+  slot: occupant_activity
+  statement: There are no people present in the home.
+- condition: user.not_nearby_home
+  slot: occupant_activity
+  statement: No people are present in the home.
+- condition: user_location!=home
+  slot: occupant_activity
+  statement: The occupants are not present in the home.
+- condition: user_location=away
+  slot: occupant_activity
+  statement: People are not present in the home.
+- condition: user_not_present
+  slot: occupant_activity
+  statement: There are no people present in the home.
+- condition: user_sleeping
+  slot: occupant_activity
+  statement: People are present in the home but are sleeping.
+- condition: user_time_specified_by_user
+  slot: time_of_day
+  statement: The time of day is set according to the user's specified schedule.
+- condition: user_within_specified_distance_of_house
+  slot: occupant_activity
+  statement: A person is within the specified distance of the house.
+- condition: water sensor is wet
+  slot: environmental_conditions
+  statement: Water is detected in the environment, indicating potential leakage or flooding.
+- condition: water/moisture sensor detects a leak
+  slot: environmental_conditions
+  statement: There is a detected water leak in the home.
+- condition: water/moisture sensor detects leak
+  slot: environmental_conditions
+  statement: There is a detected water leak in the home.
+- condition: when no one is home
+  slot: occupant_activity
+  statement: The home is unoccupied with no people present.
+- condition: window opening detected
+  slot: security
+  statement: There is an unexpected opening of a window.

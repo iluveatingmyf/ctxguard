@@ -1,0 +1,523 @@
+open_window:
+- effects:
+  - channel: air_exchange
+    direction: increase
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: when outdoor temperature is lower than indoor temperature
+  - channel: indoor_temperature
+    direction: increase
+    precondition: when outdoor temperature is higher than indoor temperature
+  - channel: indoor_humidity
+    direction: increase
+    precondition: when outdoor humidity is higher than indoor humidity
+  - channel: indoor_humidity
+    direction: decrease
+    precondition: when outdoor humidity is lower than indoor humidity
+  - channel: passage_opening
+    direction: increase
+    precondition: always
+  - channel: sound
+    direction: increase
+    precondition: when outdoor noise level is higher than indoor noise level
+  - channel: sound
+    direction: decrease
+    precondition: when outdoor noise level is lower than indoor noise level
+  - channel: visibility
+    direction: increase
+    precondition: always
+  - channel: sensing_capture
+    direction: increase
+    precondition: when outdoor lighting is better than indoor lighting
+  - channel: sensing_capture
+    direction: decrease
+    precondition: when outdoor lighting is worse than indoor lighting
+close_window:
+- effects:
+  - channel: air_exchange
+    direction: decrease
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: outside temperature is lower than indoor temperature
+  - channel: indoor_temperature
+    direction: increase
+    precondition: outside temperature is higher than indoor temperature
+  - channel: indoor_humidity
+    direction: decrease
+    precondition: always
+  - channel: passage_opening
+    direction: decrease
+    precondition: always
+  - channel: sensing_capture
+    direction: decrease
+    precondition: always
+  - channel: visibility
+    direction: decrease
+    precondition: always
+open_blind:
+- effects:
+  - channel: air_exchange
+    direction: increase
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: outdoor_temperature < indoor_temperature
+  - channel: indoor_temperature
+    direction: increase
+    precondition: outdoor_temperature > indoor_temperature
+  - channel: illumination
+    direction: increase
+    precondition: always
+  - channel: passage_opening
+    direction: decrease
+    precondition: always
+close_blind:
+- effects:
+  - channel: air_exchange
+    direction: decrease
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: always
+  - channel: illumination
+    direction: decrease
+    precondition: always
+  - channel: visibility
+    direction: decrease
+    precondition: always
+open_garage:
+- effects:
+  - channel: passage_opening
+    direction: increase
+    precondition: always
+  - channel: air_exchange
+    direction: increase
+    precondition: always
+  - channel: security_monitoring
+    direction: decrease
+    precondition: always
+  - channel: mechanical_motion
+    direction: increase
+    precondition: always
+close_garage:
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    precondition: The garage door was open.
+  - channel: air_exchange
+    direction: decrease
+    precondition: The garage door was open.
+  - channel: sound
+    direction: decrease
+    precondition: The garage door was open.
+  - channel: visibility
+    direction: decrease
+    precondition: The garage door was open.
+unlock_door:
+- effects:
+  - channel: passage_opening
+    direction: increase
+    precondition: always
+  - channel: air_exchange
+    direction: increase
+    precondition: always
+  - channel: security_monitoring
+    direction: decrease
+    precondition: always
+  - channel: privacy
+    direction: decrease
+    precondition: always
+  - channel: comfort
+    direction: increase
+    precondition: ambient temperature outside is warmer than inside
+  - channel: comfort
+    direction: decrease
+    precondition: ambient temperature outside is colder than inside
+lock_door:
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    precondition: The door is unlocked and can be opened by an intruder.
+  - channel: security_monitoring
+    direction: increase
+    precondition: Always
+  - channel: sensing_capture
+    direction: decrease
+    precondition: The door has a camera or sensor that can be accessed from the outside.
+  - channel: info_disclosure
+    direction: decrease
+    precondition: The door has a notification system that can send information outside.
+  - channel: mechanical_motion
+    direction: decrease
+    precondition: The door has a motorized mechanism that can move.
+heat_on:
+- effects:
+  - channel: indoor_temperature
+    direction: increase
+    precondition: always
+  - channel: air_exchange
+    direction: decrease
+    precondition: always
+  - channel: passage_opening
+    direction: decrease
+    precondition: always
+  - channel: power_supply
+    direction: increase
+    precondition: always
+  - channel: heat_source
+    direction: increase
+    precondition: always
+cool_on:
+- effects:
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: always
+  - channel: air_exchange
+    direction: increase
+    precondition: always
+  - channel: power_supply
+    direction: increase
+    precondition: always
+  - channel: illumination
+    direction: decrease
+    precondition: always
+  - channel: mechanical_motion
+    direction: increase
+    precondition: always
+hvac_off:
+- effects:
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: always
+  - channel: air_exchange
+    direction: decrease
+    precondition: always
+  - channel: power_supply
+    direction: decrease
+    precondition: always
+fan_on:
+- effects:
+  - channel: air_exchange
+    direction: increase
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: always
+  - channel: indoor_humidity
+    direction: increase
+    precondition: always
+  - channel: illumination
+    direction: decrease
+    precondition: always
+  - channel: passage_opening
+    direction: decrease
+    precondition: always
+  - channel: power_supply
+    direction: increase
+    precondition: always
+exhaust_fan_on:
+- effects:
+  - channel: air_exchange
+    direction: increase
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: always
+  - channel: indoor_humidity
+    direction: decrease
+    precondition: always
+  - channel: passage_opening
+    direction: decrease
+    precondition: always
+  - channel: sensing_capture
+    direction: decrease
+    precondition: always
+  - channel: info_disclosure
+    direction: decrease
+    precondition: always
+light_on:
+- effects:
+  - channel: illumination
+    direction: increase
+    precondition: always
+  - channel: power_supply
+    direction: increase
+    precondition: always
+  - channel: heat_source
+    direction: increase
+    precondition: ambient temperature is below comfort threshold
+  - channel: heat_source
+    direction: decrease
+    precondition: ambient temperature is above comfort threshold
+  - channel: air_exchange
+    direction: decrease
+    precondition: always
+  - channel: indoor_temperature
+    direction: increase
+    precondition: ambient temperature is below comfort threshold
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: ambient temperature is above comfort threshold
+  - channel: sensing_capture
+    direction: increase
+    precondition: always
+light_off:
+- effects:
+  - channel: illumination
+    direction: decrease
+    precondition: always
+  - channel: air_exchange
+    direction: decrease
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: ambient temperature is higher than indoor temperature
+  - channel: indoor_temperature
+    direction: increase
+    precondition: ambient temperature is lower than indoor temperature
+  - channel: passage_opening
+    direction: decrease
+    precondition: window or door is open
+  - channel: power_supply
+    direction: decrease
+    precondition: always
+outlet_on:
+- effects:
+  - channel: power_supply
+    direction: increase
+    precondition: always
+  - channel: air_exchange
+    direction: increase
+    precondition: outlet is near a window or door that is open
+  - channel: air_exchange
+    direction: decrease
+    precondition: outlet is in a closed room with no windows or doors
+  - channel: indoor_temperature
+    direction: increase
+    precondition: outlet is connected to a heating device
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: outlet is connected to a cooling device
+  - channel: illumination
+    direction: increase
+    precondition: outlet is connected to a light
+  - channel: mechanical_motion
+    direction: increase
+    precondition: outlet is connected to a motorized device
+outlet_off:
+- effects:
+  - channel: power_supply
+    direction: decrease
+    precondition: always
+  - channel: air_exchange
+    direction: decrease
+    precondition: always
+  - channel: heat_source
+    direction: decrease
+    precondition: always
+  - channel: illumination
+    direction: decrease
+    precondition: always
+  - channel: mechanical_motion
+    direction: decrease
+    precondition: always
+stove_off:
+- effects:
+  - channel: heat_source
+    direction: decrease
+    precondition: always
+  - channel: air_exchange
+    direction: decrease
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: always
+  - channel: power_supply
+    direction: decrease
+    precondition: always
+water_valve_close:
+- effects:
+  - channel: water_flow
+    direction: decrease
+    precondition: always
+  - channel: air_exchange
+    direction: decrease
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: water_valve_close is performed during heating or when the indoor temperature is above the outdoor temperature
+  - channel: indoor_temperature
+    direction: increase
+    precondition: water_valve_close is performed during cooling or when the indoor temperature is below the outdoor temperature
+  - channel: indoor_humidity
+    direction: decrease
+    precondition: always
+  - channel: sensing_capture
+    direction: decrease
+    precondition: always
+  - channel: info_disclosure
+    direction: decrease
+    precondition: always
+  - channel: security_monitoring
+    direction: decrease
+    precondition: always
+water_valve_open:
+- effects:
+  - channel: water_flow
+    direction: increase
+    precondition: always
+  - channel: air_exchange
+    direction: increase
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: water_flow is increased and the outdoor temperature is lower than the indoor temperature
+  - channel: indoor_temperature
+    direction: increase
+    precondition: water_flow is increased and the outdoor temperature is higher than the indoor temperature
+  - channel: sensing_capture
+    direction: increase
+    precondition: always
+  - channel: info_disclosure
+    direction: increase
+    precondition: always
+  - channel: security_monitoring
+    direction: increase
+    precondition: always
+  - channel: mechanical_motion
+    direction: increase
+    precondition: the valve is connected to a water-powered mechanism (e.g., a toilet)
+gas_valve_close:
+- effects:
+  - channel: gas_flow
+    direction: decrease
+    precondition: always
+  - channel: air_exchange
+    direction: decrease
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: always
+  - channel: passage_opening
+    direction: decrease
+    precondition: always
+  - channel: power_supply
+    direction: decrease
+    precondition: always
+  - channel: heat_source
+    direction: decrease
+    precondition: always
+alarm_arm_away:
+- effects:
+  - channel: security_monitoring
+    direction: increase
+    precondition: always
+  - channel: passage_opening
+    direction: decrease
+    precondition: always
+  - channel: sensing_capture
+    direction: increase
+    precondition: always
+  - channel: info_disclosure
+    direction: increase
+    precondition: always
+alarm_disarm:
+- effects:
+  - channel: security_monitoring
+    direction: decrease
+    precondition: always
+  - channel: passage_opening
+    direction: increase
+    precondition: always
+  - channel: sensing_capture
+    direction: decrease
+    precondition: always
+  - channel: info_disclosure
+    direction: decrease
+    precondition: always
+siren_on:
+- effects:
+  - channel: security_monitoring
+    direction: increase
+    precondition: always
+  - channel: sound
+    direction: increase
+    precondition: always
+  - channel: illumination
+    direction: increase
+    precondition: always
+camera_on:
+- effects:
+  - channel: sensing_capture
+    direction: increase
+    precondition: always
+  - channel: info_disclosure
+    direction: increase
+    precondition: always
+media_play:
+- effects:
+  - channel: air_exchange
+    direction: increase
+    precondition: always
+  - channel: indoor_temperature
+    direction: increase
+    precondition: media content is video or has high audio volume
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: media content is video or has low audio volume
+  - channel: illumination
+    direction: increase
+    precondition: media content is video with bright scenes
+  - channel: illumination
+    direction: decrease
+    precondition: media content is video with dark scenes
+  - channel: sound
+    direction: increase
+    precondition: media content has high volume
+  - channel: sound
+    direction: decrease
+    precondition: media content has low volume
+  - channel: sensing_capture
+    direction: increase
+    precondition: camera is enabled and media content is video
+  - channel: info_disclosure
+    direction: increase
+    precondition: media content includes spoken announcements or notifications
+tts_announce:
+- effects:
+  - channel: sound
+    direction: increase
+    precondition: always
+  - channel: info_disclosure
+    direction: increase
+    precondition: always
+vacuum_start:
+- effects:
+  - channel: air_exchange
+    direction: increase
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: always
+  - channel: sound
+    direction: increase
+    precondition: always
+  - channel: mechanical_motion
+    direction: increase
+    precondition: always
+humidifier_on:
+- effects:
+  - channel: indoor_humidity
+    direction: increase
+    precondition: always
+  - channel: air_exchange
+    direction: decrease
+    precondition: always
+  - channel: indoor_temperature
+    direction: increase
+    precondition: ambient temperature is lower than indoor temperature
+  - channel: indoor_temperature
+    direction: decrease
+    precondition: ambient temperature is higher than indoor temperature

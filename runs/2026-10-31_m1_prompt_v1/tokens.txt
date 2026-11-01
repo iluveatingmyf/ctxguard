@@ -1,0 +1,19 @@
+{
+  "M1/*": {
+    "calls": 116,
+    "cached_calls": 0,
+    "prompt_tokens": 64828,
+    "completion_tokens": 19667,
+    "seconds": 838.3,
+    "cost_class": "one-time knowledge"
+  },
+  "M1/effects": {
+    "calls": 116,
+    "cached_calls": 0,
+    "prompt_tokens": 64828,
+    "completion_tokens": 19667,
+    "seconds": 838.3,
+    "cost_class": "one-time knowledge"
+  },
+  "_note": "Runtime adjudication (ours, M7-M11) makes 0 LLM calls; see runtime latency in runtime_metrics."
+}

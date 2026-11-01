@@ -1,0 +1,35 @@
+# Action types A. A concrete rule action (HA service call on an entity) is typed
+# by matching domain + service (+ device_class / kind / service data) below.
+# Effects of each type are NOT written here: they are produced by M1.
+# scope: local = effect acts in the target device's area; home = whole home.
+version: A-v1
+actions:
+  - {id: open_window,       scope: local, match: {domain: cover, service: open_cover,  device_class: [window]}}
+  - {id: close_window,      scope: local, match: {domain: cover, service: close_cover, device_class: [window]}}
+  - {id: open_blind,        scope: local, match: {domain: cover, service: open_cover,  device_class: [blind, curtain, shade, shutter]}}
+  - {id: close_blind,       scope: local, match: {domain: cover, service: close_cover, device_class: [blind, curtain, shade, shutter]}}
+  - {id: open_garage,       scope: local, match: {domain: cover, service: open_cover,  device_class: [garage, gate]}}
+  - {id: close_garage,      scope: local, match: {domain: cover, service: close_cover, device_class: [garage, gate]}}
+  - {id: unlock_door,       scope: local, match: {domain: lock, service: unlock}}
+  - {id: lock_door,         scope: local, match: {domain: lock, service: lock}}
+  - {id: heat_on,           scope: local, match: {domain: climate, service: set_hvac_mode, data: {hvac_mode: heat}}}
+  - {id: cool_on,           scope: local, match: {domain: climate, service: set_hvac_mode, data: {hvac_mode: cool}}}
+  - {id: hvac_off,          scope: local, match: {domain: climate, service: turn_off}}
+  - {id: fan_on,            scope: local, match: {domain: fan, service: turn_on, kind: [ceiling, standing, null]}}
+  - {id: exhaust_fan_on,    scope: local, match: {domain: fan, service: turn_on, kind: [exhaust]}}
+  - {id: light_on,          scope: local, match: {domain: light, service: turn_on}}
+  - {id: light_off,         scope: local, match: {domain: light, service: turn_off}}
+  - {id: outlet_on,         scope: local, match: {domain: switch, service: turn_on,  kind: [outlet]}}
+  - {id: outlet_off,        scope: local, match: {domain: switch, service: turn_off, kind: [outlet]}}
+  - {id: stove_off,         scope: local, match: {domain: switch, service: turn_off, kind: [stove]}}
+  - {id: water_valve_close, scope: home,  match: {domain: valve, service: close_valve, kind: [water]}}
+  - {id: water_valve_open,  scope: home,  match: {domain: valve, service: open_valve,  kind: [water]}}
+  - {id: gas_valve_close,   scope: home,  match: {domain: valve, service: close_valve, kind: [gas]}}
+  - {id: alarm_arm_away,    scope: home,  match: {domain: alarm_control_panel, service: alarm_arm_away}}
+  - {id: alarm_disarm,      scope: home,  match: {domain: alarm_control_panel, service: alarm_disarm}}
+  - {id: siren_on,          scope: home,  match: {domain: siren, service: turn_on}}
+  - {id: camera_on,         scope: local, match: {domain: switch, service: turn_on, kind: [camera]}}
+  - {id: media_play,        scope: local, match: {domain: media_player, service: play_media}}
+  - {id: tts_announce,      scope: local, match: {domain: tts, service: speak}}
+  - {id: vacuum_start,      scope: home,  match: {domain: vacuum, service: start}}
+  - {id: humidifier_on,     scope: local, match: {domain: humidifier, service: turn_on}}
