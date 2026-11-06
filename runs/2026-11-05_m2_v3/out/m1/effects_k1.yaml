@@ -1,0 +1,311 @@
+version: E-k1
+samples: 1
+rejected_out_of_vocab: 0
+discarded_extra_device: 1
+prompt_version: M1-v2 (dedicated system prompt)
+effects:
+- id: air_exchange:decrease
+  channel: air_exchange
+  direction: decrease
+  desc: decrease of air exchange (Rate of air exchange between indoor zone and outdoors (ventilation).)
+  preconditions:
+    close_window: always
+    hvac_off: always
+    humidifier_on: always
+- id: air_exchange:increase
+  channel: air_exchange
+  direction: increase
+  desc: increase of air exchange (Rate of air exchange between indoor zone and outdoors (ventilation).)
+  preconditions:
+    open_window: always
+    open_blind: always
+    open_garage: always
+    heat_on: always
+    cool_on: always
+    fan_on: always
+    exhaust_fan_on: always
+    water_valve_open: always
+- id: gas_flow:decrease
+  channel: gas_flow
+  direction: decrease
+  desc: decrease of gas flow (Fuel gas supplied through piping.)
+  preconditions:
+    gas_valve_close: always
+- id: heat_source:decrease
+  channel: heat_source
+  direction: decrease
+  desc: decrease of heat source (An active heating element or open flame is running (stove, oven, space heater).)
+  preconditions:
+    stove_off: always
+    gas_valve_close: always
+- id: heat_source:increase
+  channel: heat_source
+  direction: increase
+  desc: increase of heat source (An active heating element or open flame is running (stove, oven, space heater).)
+  preconditions:
+    heat_on: always
+- id: illumination:decrease
+  channel: illumination
+  direction: decrease
+  desc: decrease of illumination (Light level inside the zone.)
+  preconditions:
+    close_blind: always
+    light_off: always
+- id: illumination:increase
+  channel: illumination
+  direction: increase
+  desc: increase of illumination (Light level inside the zone.)
+  preconditions:
+    open_blind: always
+    light_on: always
+    media_play: always
+- id: indoor_humidity:increase
+  channel: indoor_humidity
+  direction: increase
+  desc: increase of indoor humidity (Relative humidity of the indoor zone.)
+  preconditions:
+    open_window: always
+    humidifier_on: always
+- id: indoor_temperature:decrease
+  channel: indoor_temperature
+  direction: decrease
+  desc: decrease of indoor temperature (Air temperature of the indoor zone.)
+  preconditions:
+    open_window: always
+    cool_on: always
+    fan_on: always
+    exhaust_fan_on: always
+    stove_off: always
+- id: indoor_temperature:increase
+  channel: indoor_temperature
+  direction: increase
+  desc: increase of indoor temperature (Air temperature of the indoor zone.)
+  preconditions:
+    heat_on: always
+    hvac_off: always
+- id: info_disclosure:increase
+  channel: info_disclosure
+  direction: increase
+  desc: increase of info disclosure (Information emitted outside the device (spoken announcement, notification, upload).)
+  preconditions:
+    camera_on: always
+    tts_announce: always
+- id: mechanical_motion:increase
+  channel: mechanical_motion
+  direction: increase
+  desc: increase of mechanical motion (Moving machinery that can collide with or trap people/pets (robot vacuum, garage door,
+    motorized covers).)
+  preconditions:
+    close_garage: always
+    vacuum_start: always
+- id: passage_opening:decrease
+  channel: passage_opening
+  direction: decrease
+  desc: decrease of passage opening (Physical openness of a passage between outside and inside (door, window, garage) - who/what
+    can pass.)
+  preconditions:
+    close_window: always
+    close_garage: always
+    lock_door: always
+    light_on: always
+    alarm_arm_away: always
+- id: passage_opening:increase
+  channel: passage_opening
+  direction: increase
+  desc: increase of passage opening (Physical openness of a passage between outside and inside (door, window, garage) - who/what
+    can pass.)
+  preconditions:
+    open_window: always
+    open_blind: always
+    open_garage: always
+    unlock_door: always
+    alarm_disarm: always
+- id: power_supply:decrease
+  channel: power_supply
+  direction: decrease
+  desc: decrease of power supply (Electrical power delivered to a load (outlet, appliance, device).)
+  preconditions:
+    outlet_off: always
+    stove_off: always
+- id: power_supply:increase
+  channel: power_supply
+  direction: increase
+  desc: increase of power supply (Electrical power delivered to a load (outlet, appliance, device).)
+  preconditions:
+    heat_on: always
+    outlet_on: always
+- id: security_monitoring:decrease
+  channel: security_monitoring
+  direction: decrease
+  desc: decrease of security monitoring (Intrusion monitoring / alarm protection of the home.)
+  preconditions:
+    alarm_disarm: always
+- id: security_monitoring:increase
+  channel: security_monitoring
+  direction: increase
+  desc: increase of security monitoring (Intrusion monitoring / alarm protection of the home.)
+  preconditions:
+    alarm_arm_away: always
+- id: sensing_capture:increase
+  channel: sensing_capture
+  direction: increase
+  desc: increase of sensing capture (Audio/video capture of the occupants and the home.)
+  preconditions:
+    camera_on: always
+- id: sound:decrease
+  channel: sound
+  direction: decrease
+  desc: decrease of sound (Acoustic emission inside the home.)
+  preconditions:
+    close_window: always
+    close_blind: always
+    light_off: always
+    gas_valve_close: always
+    alarm_disarm: always
+- id: sound:increase
+  channel: sound
+  direction: increase
+  desc: increase of sound (Acoustic emission inside the home.)
+  preconditions:
+    open_window: always
+    open_blind: always
+    open_garage: always
+    close_garage: always
+    unlock_door: always
+    cool_on: always
+    fan_on: always
+    exhaust_fan_on: always
+    light_on: always
+    outlet_on: always
+    water_valve_open: always
+    siren_on: always
+    media_play: always
+    tts_announce: always
+    vacuum_start: always
+    humidifier_on: always
+- id: visibility:decrease
+  channel: visibility
+  direction: decrease
+  desc: decrease of visibility (How much of the indoor space can be seen from outside.)
+  preconditions:
+    close_blind: always
+    lock_door: always
+    siren_on: always
+- id: water_flow:decrease
+  channel: water_flow
+  direction: decrease
+  desc: decrease of water flow (Water supplied through plumbing.)
+  preconditions:
+    water_valve_close: always
+- id: water_flow:increase
+  channel: water_flow
+  direction: increase
+  desc: increase of water flow (Water supplied through plumbing.)
+  preconditions:
+    water_valve_open: always
+eff:
+  open_window:
+  - air_exchange:increase
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - passage_opening:increase
+  - sound:increase
+  close_window:
+  - air_exchange:decrease
+  - passage_opening:decrease
+  - sound:decrease
+  open_blind:
+  - air_exchange:increase
+  - illumination:increase
+  - passage_opening:increase
+  - sound:increase
+  close_blind:
+  - illumination:decrease
+  - sound:decrease
+  - visibility:decrease
+  open_garage:
+  - air_exchange:increase
+  - passage_opening:increase
+  - sound:increase
+  close_garage:
+  - mechanical_motion:increase
+  - passage_opening:decrease
+  - sound:increase
+  unlock_door:
+  - passage_opening:increase
+  - sound:increase
+  lock_door:
+  - passage_opening:decrease
+  - visibility:decrease
+  heat_on:
+  - air_exchange:increase
+  - heat_source:increase
+  - indoor_temperature:increase
+  - power_supply:increase
+  cool_on:
+  - air_exchange:increase
+  - indoor_temperature:decrease
+  - sound:increase
+  hvac_off:
+  - air_exchange:decrease
+  - indoor_temperature:increase
+  fan_on:
+  - air_exchange:increase
+  - indoor_temperature:decrease
+  - sound:increase
+  exhaust_fan_on:
+  - air_exchange:increase
+  - indoor_temperature:decrease
+  - sound:increase
+  light_on:
+  - illumination:increase
+  - passage_opening:decrease
+  - sound:increase
+  light_off:
+  - illumination:decrease
+  - sound:decrease
+  outlet_on:
+  - power_supply:increase
+  - sound:increase
+  outlet_off:
+  - power_supply:decrease
+  stove_off:
+  - heat_source:decrease
+  - indoor_temperature:decrease
+  - power_supply:decrease
+  water_valve_close:
+  - water_flow:decrease
+  water_valve_open:
+  - air_exchange:increase
+  - sound:increase
+  - water_flow:increase
+  gas_valve_close:
+  - gas_flow:decrease
+  - heat_source:decrease
+  - sound:decrease
+  alarm_arm_away:
+  - passage_opening:decrease
+  - security_monitoring:increase
+  alarm_disarm:
+  - passage_opening:increase
+  - security_monitoring:decrease
+  - sound:decrease
+  siren_on:
+  - sound:increase
+  - visibility:decrease
+  camera_on:
+  - info_disclosure:increase
+  - sensing_capture:increase
+  media_play:
+  - illumination:increase
+  - sound:increase
+  tts_announce:
+  - info_disclosure:increase
+  - sound:increase
+  vacuum_start:
+  - mechanical_motion:increase
+  - sound:increase
+  humidifier_on:
+  - air_exchange:decrease
+  - indoor_humidity:increase
+  - sound:increase

@@ -1,0 +1,80 @@
+- unit: T01|nobody is at home
+  property_id: T01
+  property_ids:
+  - T01
+  condition: nobody is at home
+  assets:
+  - security
+  kind: world_state
+  observation: nobody is at home
+  reason: ''
+  latent_fact: ''
+  counterfactual_still_right: null
+  lift_status: n/a
+  question: Is anyone at home?
+  answer: nobody home
+  variable: is anyone at home?
+  value: nobody home
+  world_fact: Is anyone at home? nobody home
+  scope: home
+  slot: is_anyone_at_home
+- unit: T03|an elderly person is in a cold room
+  property_id: T03
+  property_ids:
+  - T03
+  condition: an elderly person is in a cold room
+  assets:
+  - comfort
+  kind: world_state
+  observation: an elderly person is in a cold room
+  reason: ''
+  latent_fact: ''
+  counterfactual_still_right: null
+  lift_status: n/a
+  question: Is a vulnerable person in the room?
+  answer: present
+  variable: is a vulnerable person in the room?
+  value: present
+  world_fact: Is a vulnerable person in the room? present
+  scope: home
+  slot: is_a_vulnerable_person_in_the_room
+- unit: T04|the family is at home
+  property_id: T04
+  property_ids:
+  - T04
+  condition: the family is at home
+  assets:
+  - security
+  kind: world_state
+  observation: the family is at home
+  reason: ''
+  latent_fact: ''
+  counterfactual_still_right: null
+  lift_status: n/a
+  question: Is anyone at home?
+  answer: someone home
+  variable: is anyone at home?
+  value: someone home
+  world_fact: Is anyone at home? someone home
+  scope: home
+  slot: is_anyone_at_home
+- unit: T06|the baby is in the room
+  property_id: T06
+  property_ids:
+  - T06
+  condition: the baby is in the room
+  assets:
+  - comfort
+  kind: world_state
+  observation: the baby is in the room
+  reason: ''
+  latent_fact: ''
+  counterfactual_still_right: null
+  lift_status: n/a
+  question: Is a vulnerable person in the room?
+  answer: present
+  variable: is a vulnerable person in the room?
+  value: present
+  world_fact: Is a vulnerable person in the room? present
+  scope: home
+  slot: is_a_vulnerable_person_in_the_room

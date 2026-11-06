@@ -3,6 +3,8 @@
 Order (see README):  check -> m1 -> m2 (A: m2-extract, m2-dims, m2-values, [human seed], m2-seed-check;
 B: m2-elicit; C: m2-consolidate; D: m2-freeze) -> m3 -> m2-audit -> m3-refute -> m2-refine ->
 (next round: m2-consolidate --base current, m2-freeze, vocab-migrate, m3 --only-stale) -> baseline-direct ->
+[expansion triggers: m2-ingest --src <new properties> | m2-elicit --effects <new effects> | m3-refute + m2-refine,
+ each followed by m2-consolidate --base current -> review -> m2-freeze]
 m4-export -> (annotate) -> m4-score -> m5/m6 per layout -> sim -> (annotate)
 -> eval -> robust -> rq3 -> tokens -> report
 """
@@ -22,7 +24,7 @@ def main():
     ap.add_argument("--intents", default="system", help="system | path to annotated intent CSV")
     ap.add_argument("--pairs", type=int, default=None, help="M3: only first N (effect,asset) pairs (pilot)")
     ap.add_argument("--k", type=int, default=None, help="M1: samples (1 = no self-consistency ablation)")
-    ap.add_argument("--backend", default=None, help="override llm.backend (ollama|mock)")
+    ap.add_argument("--backend", default=None, help="override llm.backend (ollama|deepseek|mock)")
     ap.add_argument("--config", default=None)
     ap.add_argument("--no-llm", action="store_true", help="eval: skip B2 LLM baseline")
     # M2 / versioning
@@ -43,25 +45,33 @@ def main():
     ap.add_argument("--b", default=None, help="k-compare: spec B")
     ap.add_argument("--tag", default=None, help="snapshot: run name")
     ap.add_argument("--zero-max", type=int, default=None, help="m3-refute: max '0'-region claims per pair")
+    ap.add_argument("--compare", nargs="*", default=None, help="m2-report: label=out_dir pairs, e.g. v3=runs/old v4=out")
+    ap.add_argument("--allow-heldout", action="store_true", help="m2-ingest: allow held-out corpus properties (normally refused)")
     a = ap.parse_args()
     ctx = Ctx(a.config, a.backend)
     s = a.step
     show = lambda x: print(json.dumps(x, indent=2, ensure_ascii=False, default=str)[:4000])
 
     if s == "check":
-        from .llm import check_ollama
-        print(check_ollama(ctx.cfg))
+        from .llm import check_backend
+        print(check_backend(ctx.cfg))
         print(f"vocab {ctx.vocab.version}: {len(ctx.vocab.factors)} factors, |Sigma|={len(ctx.vocab.sigma())}")
     elif s == "m1":
         from .effects import run_m1
         r = run_m1(ctx, k=a.k, tag="" if not a.k or a.k == ctx.cfg["method"]["m1_samples"] else f"_k{a.k}")
-        print(f"M1: {len(r['effects'])} effect types for {len(r['eff'])} actions; out-of-vocab rejected {r['rejected_out_of_vocab']}")
+        print(f"M1: {len(r['effects'])} effect types for {len(r['eff'])} actions; out-of-vocab rejected "
+              f"{r['rejected_out_of_vocab']}; bidirectional {r['n_bidirectional']} (rule {r['direction_rule']})")
     elif s == "m1-gold-export":
         from .metrics_m1 import export_m1_gold
         print(export_m1_gold(ctx))
     elif s == "m1-score":
         from .metrics_m1 import score_m1
         show(score_m1(ctx, a.gold[0]))
+    elif s == "m1-agree":
+        from .metrics_m1 import agree_m1
+        if len(a.gold) != 2:
+            raise SystemExit("m1-agree -g <annotator A csv> <annotator B csv>")
+        show(agree_m1(ctx, a.gold[0], a.gold[1]))
     elif s == "m2-extract":
         from .vocab import run_extract
         r = run_extract(ctx)
@@ -78,15 +88,41 @@ def main():
     elif s == "m2-dims":
         from .vocab import run_dims
         r = run_dims(ctx, runs=a.runs)
-        print(f"A2: {r['n_conditions']} conditions, kinds {r['kinds']}; {r['with_world_variable']} carry a world variable")
+        print(f"A2 [{r['coding']}]: {r['n_units']} evidence units ({r['n_distinct_conditions']} distinct conditions), "
+              f"kinds {r['kinds']}; {r['with_world_variable']} enter the grouping")
+        if r.get("lift_status"):
+            print(f"  lift: {r['lift_status']}  (lift_failed units are kept out of the grouping and listed in A2_dims.yaml)")
         for d in r["slots"]:
             if d["kind"] == "situation":
                 v = d.get("verification", {})
-                print(f"  {d['id']:32s} {d['n_conditions']:3d} conditions  variables {d['variables']}"
+                what = (f"[{d['subject']}] {d['desc']}  facts {d['variables']}" if d.get("subject")
+                        else f"questions {d['variables']}")
+                print(f"  {d['id']:32s} {d['n_conditions']:3d} conditions  {what}"
                       f"{'' if v.get('single_variable', True) else '  [NOT one variable]'}{'  ' + str(v['issues']) if v.get('issues') else ''}")
         print("excluded:", {d["id"]: d["n_conditions"] for d in r["slots"] if d["kind"] == "excluded"})
+        if r.get("relation_grouping"):
+            rg = r["relation_grouping"]
+            print("relation grouping:", rg["subjects"], f"| mixed-aspect components split: {rg['mixed_aspect_components']}"
+                  f" | implications: {rg['implications']}  (check annotate/m2_A2_relations_CHECK.csv)")
         if "stability" in r:
             print("stability:", r["stability"])
+    elif s == "m2-ingest":
+        from .vocab import run_ingest
+        if not a.src:
+            raise SystemExit("m2-ingest needs --src <csv of new properties: id,source,text[,scope]>")
+        show(run_ingest(ctx, a.src, allow_heldout=a.allow_heldout))
+    elif s == "m2-report":
+        from .m2_report import run_m2_report
+        r = run_m2_report(ctx, a.compare)
+        show({"dir": r["dir"], "summary": r["summary"], "agreement": r["agreement"]})
+    elif s == "m2-dev":
+        from .vocab import run_dev
+        r = run_dev(ctx)
+        print({k: v for k, v in r.items() if k != "items"})
+        for it in r["items"]:
+            if not it["found"] or it["got_kind"] != it["kind"] or (it["dim"] == "none") != (it["got_dim"] == "none"):
+                print(f"  MISS {it['property']:12s} {it['condition'][:45]:45s} want {it['kind']}/{it['dim']} "
+                      f"got {it.get('got_kind')}/{it.get('got_dim')}")
     elif s == "m2-values":
         from .vocab import run_values
         r = run_values(ctx)

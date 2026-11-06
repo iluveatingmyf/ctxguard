@@ -1,0 +1,193 @@
+runs: 3
+per_run:
+- run: 1
+  n_dimensions: 13
+  ari_vs_run0: 0.6289
+  kind_kappa_vs_run0: 0.899
+- run: 2
+  n_dimensions: 13
+  ari_vs_run0: 0.756
+  kind_kappa_vs_run0: 1.0
+dimension_recurrence:
+  people_at_home:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: presence
+      jaccard: 0.636
+    - run: 2
+      best_match: people_activity
+      jaccard: 0.75
+  temperature:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: temperature
+      jaccard: 0.714
+    - run: 2
+      best_match: temperature
+      jaccard: 0.714
+  home_mode:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: vacation_mode
+      jaccard: 0.5
+    - run: 2
+      best_match: specific_mode
+      jaccard: 0.5
+  door_status:
+    recurrence: 0.5
+    matches:
+    - run: 1
+      best_match: door_status
+      jaccard: 1.0
+    - run: 2
+      best_match: door_status
+      jaccard: 0.333
+  specific_room_events:
+    recurrence: 0.0
+    matches:
+    - run: 1
+      best_match: air_quality
+      jaccard: 0.059
+    - run: 2
+      best_match: abnormal_events
+      jaccard: 0.053
+  light_level:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: room_change
+      jaccard: 1.0
+    - run: 2
+      best_match: light_change
+      jaccard: 1.0
+  daytime_light:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: illuminance_during_daytime
+      jaccard: 1.0
+    - run: 2
+      best_match: illuminance_level
+      jaccard: 1.0
+  daytime_light_general:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: general_illuminance
+      jaccard: 1.0
+    - run: 2
+      best_match: what_is_the_indoor_illuminance_level
+      jaccard: 1.0
+  security_status:
+    recurrence: 0.0
+    matches:
+    - run: 1
+      best_match: vacation_mode
+      jaccard: 0.0
+    - run: 2
+      best_match: door_status
+      jaccard: 0.333
+  sensor_status:
+    recurrence: 0.5
+    matches:
+    - run: 1
+      best_match: air_quality
+      jaccard: 0.059
+    - run: 2
+      best_match: what_is_the_state_of_the_water_sensor
+      jaccard: 1.0
+  door_status_general:
+    recurrence: 0.5
+    matches:
+    - run: 1
+      best_match: dangerous_events
+      jaccard: 0.5
+    - run: 2
+      best_match: door_status
+      jaccard: 0.333
+  time_of_day:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: time_of_day
+      jaccard: 1.0
+    - run: 2
+      best_match: time_of_day
+      jaccard: 1.0
+  how_warm_or_cold_is_the_home:
+    recurrence: 0.0
+    matches:
+    - run: 1
+      best_match: temperature
+      jaccard: 0.167
+    - run: 2
+      best_match: temperature
+      jaccard: 0.167
+  is_the_user_near_the_home:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: user_location
+      jaccard: 1.0
+    - run: 2
+      best_match: user_presence
+      jaccard: 1.0
+  is_there_any_motion_in_the_room:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: motion
+      jaccard: 1.0
+    - run: 2
+      best_match: motion
+      jaccard: 1.0
+  what_is_the_air_quality_in_the_home:
+    recurrence: 0.5
+    matches:
+    - run: 1
+      best_match: air_quality
+      jaccard: 0.059
+    - run: 2
+      best_match: dangerous_event
+      jaccard: 0.5
+  abnormal_events:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: air_quality
+      jaccard: 0.65
+    - run: 2
+      best_match: abnormal_events
+      jaccard: 0.667
+  intruder:
+    recurrence: 0.0
+    matches:
+    - run: 1
+      best_match: presence
+      jaccard: 0.05
+    - run: 2
+      best_match: what_is_the_state_of_the_water_sensor
+      jaccard: 0.0
+  people_activity:
+    recurrence: 0.0
+    matches:
+    - run: 1
+      best_match: user_activity
+      jaccard: 0.333
+    - run: 2
+      best_match: people_activity
+      jaccard: 0.158
+  room_people_activity:
+    recurrence: 0.0
+    matches:
+    - run: 1
+      best_match: presence
+      jaccard: 0.15
+    - run: 2
+      best_match: abnormal_events
+      jaccard: 0.158
+mean_ari: 0.6925
+mean_kind_kappa: 0.9495

@@ -1,0 +1,335 @@
+- factor: time_period
+  scope: global
+  semantics: Period of day when the action executes.
+  values:
+    day: Daytime hours when residents are normally active.
+    night: Night hours when residents normally sleep.
+  origin: corpus
+  evidence:
+    corpus: none
+    corpus_properties: 0
+    elicitation:
+      items: 0
+      pairs: 0
+      by_source: {}
+    refutation_counterexamples: 0
+    value_provenance: {}
+    stability_recurrence: {}
+  necessity:
+    in_global_core: false
+    pairs_where_necessary: 0
+    conflict_classes_if_removed: 0
+    pairs: []
+  value_partition:
+  - - day
+    - night
+  rules_check: not annotated
+  verdict:
+  - 'DROP candidate: no label in K depends on this factor (not in the global core)'
+- factor: effect_zone
+  scope: action
+  semantics: Type of the area in which the action's effect acts.
+  values:
+    bedroom: A sleeping room.
+    kitchen: A cooking area.
+    bathroom: A bathroom or shower room.
+    living: Living room, dining room, study or hallway.
+    entry: Front door, entrance hall, garage.
+    utility: Laundry, storage, technical room.
+  origin: derived
+  evidence:
+    corpus: derived from the action's target area
+    corpus_properties: 0
+    elicitation:
+      items: 0
+      pairs: 0
+      by_source: {}
+    refutation_counterexamples: 0
+    value_provenance: {}
+    stability_recurrence: {}
+  necessity:
+    in_global_core: false
+    pairs_where_necessary: 0
+    conflict_classes_if_removed: 0
+    pairs: []
+  value_partition:
+  - - bedroom
+    - kitchen
+    - bathroom
+    - living
+    - entry
+    - utility
+  rules_check: not annotated
+  verdict:
+  - 'DROP candidate: no label in K depends on this factor (not in the global core)'
+- factor: home_occupancy
+  scope: global
+  semantics: Whether any resident is at home.
+  values:
+    occupied: At least one resident is at home.
+    away: No resident is at home.
+  origin: corpus
+  evidence:
+    corpus: none
+    corpus_properties: 0
+    elicitation:
+      items: 0
+      pairs: 0
+      by_source: {}
+    refutation_counterexamples: 0
+    value_provenance: {}
+    stability_recurrence: {}
+  necessity:
+    in_global_core: true
+    pairs_where_necessary: 3
+    conflict_classes_if_removed: 8640
+    pairs:
+    - passage_opening:increase x security
+    - security_monitoring:increase x security
+    - sensing_capture:increase x privacy
+  value_partition:
+  - - occupied
+  - - away
+  rules_check: not annotated
+  verdict:
+  - KEEP
+- factor: zone_occupant
+  scope: zone
+  semantics: State of the people inside the effect zone.
+  values:
+    empty: Nobody is in the zone.
+    awake: Someone awake is in the zone.
+    asleep: Someone is asleep in the zone and nobody awake is there.
+    watching_a_movie: watching a movie
+  origin: corpus
+  evidence:
+    corpus: none
+    corpus_properties: 0
+    elicitation:
+      items: 1
+      pairs: 1
+      by_source:
+        refutation: 1
+    refutation_counterexamples: 1
+    value_provenance:
+      empty:
+        signature: '0'
+        source: existing
+        absorbed_states: []
+        extended_by: []
+        phrases:
+        - 'empty: Nobody is in the zone.'
+      awake:
+        signature: '0'
+        source: existing
+        absorbed_states: []
+        extended_by: []
+        phrases:
+        - 'awake: Someone awake is in the zone.'
+      asleep:
+        signature: '-'
+        source: existing
+        absorbed_states: []
+        extended_by: []
+        phrases:
+        - 'asleep: Someone is asleep in the zone and nobody awake is there.'
+      watching_a_movie:
+        signature: '-'
+        source: evidence
+        merged_states: []
+        parent: awake
+        indiscernible_from:
+        - asleep
+        phrases:
+        - watching a movie
+    stability_recurrence: {}
+  necessity:
+    in_global_core: true
+    pairs_where_necessary: 2
+    conflict_classes_if_removed: 6480
+    pairs:
+    - passage_opening:increase x security
+    - sound:increase x comfort
+  value_partition:
+  - - empty
+    - awake
+  - - asleep
+  - - watching_a_movie
+  rules_check: not annotated
+  verdict:
+  - 'MERGE candidate: decision-preserving value groups [[''empty'', ''awake''], [''asleep''], [''watching_a_movie'']]'
+- factor: vulnerable_present
+  scope: zone
+  semantics: Whether a child, elderly or impaired person, or a pet is in the effect zone.
+  values:
+    'yes': At least one vulnerable person or a pet is in the zone.
+    'no': No vulnerable person or pet is in the zone.
+  origin: corpus
+  evidence:
+    corpus: none
+    corpus_properties: 0
+    elicitation:
+      items: 2
+      pairs: 2
+      by_source:
+        elicit: 2
+    refutation_counterexamples: 0
+    value_provenance: {}
+    stability_recurrence: {}
+  necessity:
+    in_global_core: true
+    pairs_where_necessary: 5
+    conflict_classes_if_removed: 22608
+    pairs:
+    - air_exchange:increase x life_health
+    - indoor_temperature:decrease x life_health
+    - indoor_temperature:increase x life_health
+    - mechanical_motion:increase x life_health
+    - power_supply:decrease x life_health
+  value_partition:
+  - - 'yes'
+  - - 'no'
+  rules_check: not annotated
+  verdict:
+  - KEEP
+- factor: active_hazard
+  scope: global
+  semantics: The hazard currently present in the home and its source.
+  values:
+    none: No hazard.
+    cooking_fumes: Smoke, CO or heat produced by normal cooking (not a fire).
+    fire: An uncontrolled fire.
+    gas_leak: Fuel gas is leaking.
+    water_leak: Water is leaking or flooding.
+    intrusion: An unauthorized person is entering or inside.
+  origin: corpus
+  evidence:
+    corpus: none
+    corpus_properties: 0
+    elicitation:
+      items: 0
+      pairs: 0
+      by_source: {}
+    refutation_counterexamples: 0
+    value_provenance: {}
+    stability_recurrence: {}
+  necessity:
+    in_global_core: true
+    pairs_where_necessary: 5
+    conflict_classes_if_removed: 16920
+    pairs:
+    - air_exchange:increase x life_health
+    - gas_flow:decrease x life_health
+    - passage_opening:increase x life_health
+    - passage_opening:increase x security
+    - water_flow:decrease x property
+  value_partition:
+  - - none
+  - - cooking_fumes
+  - - fire
+  - - gas_leak
+  - - water_leak
+  - - intrusion
+  rules_check: not annotated
+  verdict:
+  - KEEP
+- factor: outdoor_condition
+  scope: global
+  semantics: Outdoor weather/air relative to what is acceptable indoors.
+  values:
+    benign: Mild, dry and clean outdoors.
+    cold: Outdoor temperature is low enough to chill the home.
+    hot: Outdoor temperature is high enough to overheat the home.
+    rain_storm: Rain, storm or strong wind.
+    polluted: Outdoor air quality is poor (smog, smoke, pollen).
+  origin: corpus
+  evidence:
+    corpus: none
+    corpus_properties: 0
+    elicitation:
+      items: 0
+      pairs: 0
+      by_source: {}
+    refutation_counterexamples: 0
+    value_provenance: {}
+    stability_recurrence: {}
+  necessity:
+    in_global_core: true
+    pairs_where_necessary: 3
+    conflict_classes_if_removed: 11808
+    pairs:
+    - air_exchange:increase x comfort
+    - air_exchange:increase x life_health
+    - air_exchange:increase x property
+  value_partition:
+  - - benign
+  - - cold
+  - - hot
+  - - rain_storm
+  - - polluted
+  rules_check: not annotated
+  verdict:
+  - KEEP
+- factor: indoor_air
+  scope: zone
+  semantics: Air quality in the effect zone.
+  values:
+    good: CO2, humidity and pollutants are within healthy ranges.
+    poor: CO2, humidity or pollutants exceed healthy ranges.
+  origin: corpus
+  evidence:
+    corpus: none
+    corpus_properties: 0
+    elicitation:
+      items: 0
+      pairs: 0
+      by_source: {}
+    refutation_counterexamples: 0
+    value_provenance: {}
+    stability_recurrence: {}
+  necessity:
+    in_global_core: true
+    pairs_where_necessary: 1
+    conflict_classes_if_removed: 3780
+    pairs:
+    - air_exchange:increase x life_health
+  value_partition:
+  - - good
+  - - poor
+  rules_check: not annotated
+  verdict:
+  - KEEP
+- factor: indoor_thermal
+  scope: zone
+  semantics: Thermal state of the effect zone.
+  values:
+    cold: Too cold for comfort or health.
+    comfortable: Within the comfort range.
+    hot: Too hot for comfort or health.
+  origin: corpus
+  evidence:
+    corpus: none
+    corpus_properties: 0
+    elicitation:
+      items: 0
+      pairs: 0
+      by_source: {}
+    refutation_counterexamples: 0
+    value_provenance: {}
+    stability_recurrence: {}
+  necessity:
+    in_global_core: true
+    pairs_where_necessary: 4
+    conflict_classes_if_removed: 17400
+    pairs:
+    - indoor_temperature:decrease x comfort
+    - indoor_temperature:decrease x life_health
+    - indoor_temperature:increase x life_health
+    - power_supply:decrease x life_health
+  value_partition:
+  - - cold
+  - - comfortable
+  - - hot
+  rules_check: not annotated
+  verdict:
+  - KEEP

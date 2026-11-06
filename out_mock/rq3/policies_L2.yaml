@@ -1,0 +1,2262 @@
+- rule: L2_r01
+  Fa:
+  - home_occupancy
+  - zone_occupant
+  - vulnerable_present
+  - active_hazard
+  - outdoor_condition
+  - indoor_air
+  - indoor_thermal
+  - rho:indoor_air
+  domain_size: 54432
+  dispositions:
+    ask: 18234
+    block: 30240
+    execute: 5958
+  branches:
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - fire
+      - intrusion
+      - none
+      - water_leak
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      outdoor_condition:
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      vulnerable_present:
+      - 'yes'
+      indoor_air:
+      - '?'
+      - poor
+      indoor_thermal:
+      - cold
+      - hot
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      active_hazard:
+      - fire
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      outdoor_condition:
+      - '?'
+      - cold
+      - hot
+      - polluted
+      - rain_storm
+      indoor_air:
+      - '?'
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - fire
+      - gas_leak
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      vulnerable_present:
+      - '?'
+      - 'yes'
+      indoor_air:
+      - '?'
+      - poor
+      indoor_thermal:
+      - '?'
+      - cold
+      - hot
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - asleep
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - fire
+      - intrusion
+      - none
+      - water_leak
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      vulnerable_present:
+      - 'yes'
+      outdoor_condition:
+      - cold
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      active_hazard:
+      - '?'
+      - fire
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      vulnerable_present:
+      - '?'
+      - 'yes'
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - fire
+      - gas_leak
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      indoor_thermal:
+      - '?'
+      - cold
+      - hot
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      outdoor_condition:
+      - '?'
+      - polluted
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      zone_occupant:
+      - '?'
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - fire
+      - gas_leak
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - fire
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      active_hazard:
+      - '?'
+      - fire
+      - intrusion
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      active_hazard:
+      - '?'
+      - fire
+      - gas_leak
+      outdoor_condition:
+      - '?'
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      active_hazard:
+      - '?'
+      - fire
+      - gas_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - asleep
+      indoor_air:
+      - '?'
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      vulnerable_present:
+      - '?'
+      - 'yes'
+      outdoor_condition:
+      - '?'
+      - cold
+      - polluted
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      vulnerable_present:
+      - '?'
+      - 'yes'
+      active_hazard:
+      - '?'
+      - fire
+      - gas_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      indoor_thermal:
+      - '?'
+      - cold
+      - hot
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: block
+    when:
+      rho:indoor_air:
+      - good
+  - disposition: block
+    when:
+      indoor_air:
+      - good
+  - disposition: execute
+    when:
+      vulnerable_present:
+      - '?'
+      - 'no'
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - cold
+      - hot
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - poor
+  - disposition: execute
+    when:
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - hot
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      indoor_thermal:
+      - '?'
+      - comfortable
+      rho:indoor_air:
+      - poor
+  - disposition: execute
+    when:
+      zone_occupant:
+      - asleep
+      vulnerable_present:
+      - '?'
+      - 'no'
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - cold
+      - hot
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - poor
+  - disposition: execute
+    when:
+      home_occupancy:
+      - away
+      vulnerable_present:
+      - '?'
+      - 'no'
+      active_hazard:
+      - cooking_fumes
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - cold
+      - hot
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - poor
+  - disposition: execute
+    when:
+      vulnerable_present:
+      - '?'
+      - 'no'
+      active_hazard:
+      - intrusion
+      outdoor_condition:
+      - '?'
+      - benign
+      - cold
+      - hot
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - poor
+  - disposition: execute
+    when:
+      zone_occupant:
+      - asleep
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - hot
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      indoor_thermal:
+      - '?'
+      - comfortable
+      rho:indoor_air:
+      - poor
+  - disposition: execute
+    when:
+      zone_occupant:
+      - asleep
+      - awake
+      - empty
+      vulnerable_present:
+      - 'no'
+      active_hazard:
+      - gas_leak
+      outdoor_condition:
+      - benign
+      - cold
+      - hot
+      indoor_air:
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: execute
+    when:
+      home_occupancy:
+      - occupied
+      zone_occupant:
+      - awake
+      - empty
+      vulnerable_present:
+      - 'no'
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - none
+      - water_leak
+      outdoor_condition:
+      - benign
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: execute
+    when:
+      home_occupancy:
+      - away
+      active_hazard:
+      - cooking_fumes
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - hot
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      indoor_thermal:
+      - '?'
+      - comfortable
+      rho:indoor_air:
+      - poor
+  - disposition: execute
+    when:
+      home_occupancy:
+      - occupied
+      zone_occupant:
+      - awake
+      - empty
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - none
+      - water_leak
+      outdoor_condition:
+      - benign
+      indoor_air:
+      - '?'
+      - poor
+      indoor_thermal:
+      - comfortable
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: execute
+    when:
+      active_hazard:
+      - intrusion
+      outdoor_condition:
+      - '?'
+      - benign
+      - hot
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      indoor_thermal:
+      - '?'
+      - comfortable
+      rho:indoor_air:
+      - poor
+  - disposition: execute
+    when:
+      home_occupancy:
+      - occupied
+      zone_occupant:
+      - awake
+      - empty
+      vulnerable_present:
+      - 'no'
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - none
+      - water_leak
+      outdoor_condition:
+      - benign
+      - cold
+      - hot
+      indoor_air:
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: execute
+    when:
+      zone_occupant:
+      - asleep
+      - awake
+      - empty
+      active_hazard:
+      - gas_leak
+      outdoor_condition:
+      - benign
+      - hot
+      indoor_air:
+      - poor
+      indoor_thermal:
+      - comfortable
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: execute
+    when:
+      zone_occupant:
+      - awake
+      - empty
+      vulnerable_present:
+      - 'no'
+      active_hazard:
+      - gas_leak
+      outdoor_condition:
+      - benign
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: execute
+    when:
+      vulnerable_present:
+      - 'no'
+      active_hazard:
+      - gas_leak
+      outdoor_condition:
+      - cold
+      - hot
+      indoor_air:
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: execute
+    when:
+      zone_occupant:
+      - awake
+      - empty
+      active_hazard:
+      - gas_leak
+      outdoor_condition:
+      - benign
+      indoor_air:
+      - '?'
+      - poor
+      indoor_thermal:
+      - comfortable
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: execute
+    when:
+      home_occupancy:
+      - occupied
+      zone_occupant:
+      - awake
+      - empty
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - none
+      - water_leak
+      outdoor_condition:
+      - benign
+      - hot
+      indoor_air:
+      - poor
+      indoor_thermal:
+      - comfortable
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: execute
+    when:
+      active_hazard:
+      - gas_leak
+      outdoor_condition:
+      - hot
+      indoor_air:
+      - poor
+      indoor_thermal:
+      - comfortable
+      rho:indoor_air:
+      - '?'
+      - poor
+  n_branches: 40
+  mismatches: 0
+  enumeration_s: 0.708
+  reuse_key: '{"a": "open_window", "alts": [], "e": "air_exchange:increase", "rho": {"indoor_air": ["poor"]}, "v": "life_health",
+    "zone": "bedroom"}'
+- rule: L2_r02
+  Fa:
+  - home_occupancy
+  - zone_occupant
+  - active_hazard
+  - rho:active_hazard
+  domain_size: 588
+  dispositions:
+    ask: 24
+    block: 540
+    execute: 24
+  branches:
+  - disposition: ask
+    when:
+      active_hazard:
+      - '?'
+      rho:active_hazard:
+      - '?'
+      - fire
+  - disposition: block
+    when:
+      rho:active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+  - disposition: block
+    when:
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+  - disposition: execute
+    when:
+      active_hazard:
+      - fire
+      rho:active_hazard:
+      - '?'
+      - fire
+  n_branches: 4
+  mismatches: 0
+  enumeration_s: 0.003
+  reuse_key: '{"a": "unlock_door", "alts": [], "e": "passage_opening:increase", "rho": {"active_hazard": ["fire"]}, "v": "life_health",
+    "zone": "entry"}'
+- rule: L2_r03
+  Fa:
+  - home_occupancy
+  - zone_occupant
+  - vulnerable_present
+  - active_hazard
+  - outdoor_condition
+  - indoor_air
+  - indoor_thermal
+  - rho:active_hazard
+  domain_size: 127008
+  dispositions:
+    ask: 9180
+    block: 116640
+    execute: 1188
+  branches:
+  - disposition: ask
+    when:
+      active_hazard:
+      - '?'
+      - fire
+      rho:active_hazard:
+      - '?'
+  - disposition: ask
+    when:
+      active_hazard:
+      - fire
+      rho:active_hazard:
+      - '?'
+      - fire
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      active_hazard:
+      - '?'
+      - fire
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      rho:active_hazard:
+      - '?'
+      - fire
+  - disposition: ask
+    when:
+      vulnerable_present:
+      - 'yes'
+      active_hazard:
+      - '?'
+      - fire
+      indoor_thermal:
+      - cold
+      - hot
+      rho:active_hazard:
+      - '?'
+      - fire
+  - disposition: ask
+    when:
+      active_hazard:
+      - '?'
+      - fire
+      outdoor_condition:
+      - polluted
+      rho:active_hazard:
+      - '?'
+      - fire
+  - disposition: ask
+    when:
+      vulnerable_present:
+      - 'yes'
+      active_hazard:
+      - '?'
+      - fire
+      outdoor_condition:
+      - cold
+      - polluted
+      rho:active_hazard:
+      - '?'
+      - fire
+  - disposition: block
+    when:
+      rho:active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+  - disposition: block
+    when:
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+  - disposition: execute
+    when:
+      vulnerable_present:
+      - '?'
+      - 'no'
+      active_hazard:
+      - '?'
+      outdoor_condition:
+      - cold
+      - hot
+      - rain_storm
+      rho:active_hazard:
+      - fire
+  - disposition: execute
+    when:
+      active_hazard:
+      - '?'
+      outdoor_condition:
+      - hot
+      - rain_storm
+      indoor_thermal:
+      - '?'
+      - comfortable
+      rho:active_hazard:
+      - fire
+  - disposition: execute
+    when:
+      zone_occupant:
+      - asleep
+      vulnerable_present:
+      - '?'
+      - 'no'
+      active_hazard:
+      - '?'
+      outdoor_condition:
+      - '?'
+      - benign
+      - cold
+      - hot
+      - rain_storm
+      rho:active_hazard:
+      - fire
+  - disposition: execute
+    when:
+      zone_occupant:
+      - asleep
+      active_hazard:
+      - '?'
+      outdoor_condition:
+      - '?'
+      - benign
+      - hot
+      - rain_storm
+      indoor_thermal:
+      - '?'
+      - comfortable
+      rho:active_hazard:
+      - fire
+  n_branches: 12
+  mismatches: 0
+  enumeration_s: 1.326
+  reuse_key: '{"a": "open_window", "alts": [], "e": "air_exchange:increase", "rho": {"active_hazard": ["fire"]}, "v": "life_health",
+    "zone": "living"}'
+- rule: L2_r04
+  Fa:
+  - active_hazard
+  - rho:active_hazard
+  domain_size: 49
+  dispositions:
+    block: 45
+    execute: 4
+  branches:
+  - disposition: block
+    when:
+      rho:active_hazard:
+      - cooking_fumes
+      - fire
+      - gas_leak
+      - intrusion
+      - none
+  - disposition: block
+    when:
+      active_hazard:
+      - cooking_fumes
+      - fire
+      - gas_leak
+      - intrusion
+      - none
+  - disposition: execute
+    when:
+      active_hazard:
+      - '?'
+      - water_leak
+      rho:active_hazard:
+      - '?'
+      - water_leak
+  n_branches: 3
+  mismatches: 0
+  enumeration_s: 0.0
+  reuse_key: '{"a": "water_valve_close", "alts": [], "e": "water_flow:decrease", "rho": {"active_hazard": ["water_leak"]},
+    "v": "property", "zone": "bathroom"}'
+- rule: L2_r05
+  Fa:
+  - home_occupancy
+  - zone_occupant
+  - vulnerable_present
+  - active_hazard
+  - outdoor_condition
+  - indoor_air
+  - indoor_thermal
+  - rho:indoor_thermal
+  domain_size: 72576
+  dispositions:
+    ask: 13779
+    block: 54432
+    execute: 4365
+  branches:
+  - disposition: ask
+    when:
+      vulnerable_present:
+      - '?'
+      - 'yes'
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+  - disposition: ask
+    when:
+      outdoor_condition:
+      - polluted
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: ask
+    when:
+      active_hazard:
+      - fire
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - fire
+      - intrusion
+      - none
+      - water_leak
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+  - disposition: ask
+    when:
+      vulnerable_present:
+      - 'yes'
+      indoor_thermal:
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - fire
+      - gas_leak
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - polluted
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: ask
+    when:
+      outdoor_condition:
+      - '?'
+      - cold
+      - hot
+      - polluted
+      - rain_storm
+      indoor_thermal:
+      - '?'
+      rho:indoor_thermal:
+      - '?'
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      vulnerable_present:
+      - '?'
+      - 'yes'
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - fire
+      - gas_leak
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: ask
+    when:
+      vulnerable_present:
+      - 'yes'
+      outdoor_condition:
+      - cold
+      - polluted
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - asleep
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - fire
+      - intrusion
+      - none
+      - water_leak
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      active_hazard:
+      - '?'
+      - fire
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: ask
+    when:
+      outdoor_condition:
+      - '?'
+      - polluted
+      - rain_storm
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      active_hazard:
+      - '?'
+      - fire
+      - gas_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - fire
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: ask
+    when:
+      active_hazard:
+      - '?'
+      - fire
+      - intrusion
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      vulnerable_present:
+      - '?'
+      - 'yes'
+      active_hazard:
+      - '?'
+      - fire
+      - gas_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      zone_occupant:
+      - '?'
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - fire
+      - gas_leak
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      active_hazard:
+      - '?'
+      - fire
+      - gas_leak
+      outdoor_condition:
+      - '?'
+      - polluted
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - asleep
+      indoor_thermal:
+      - '?'
+      rho:indoor_thermal:
+      - '?'
+  - disposition: block
+    when:
+      rho:indoor_thermal:
+      - cold
+      - comfortable
+  - disposition: block
+    when:
+      indoor_thermal:
+      - cold
+      - comfortable
+  - disposition: execute
+    when:
+      vulnerable_present:
+      - '?'
+      - 'no'
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - cold
+      - hot
+      - rain_storm
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - hot
+  - disposition: execute
+    when:
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - hot
+      - rain_storm
+      indoor_thermal:
+      - '?'
+      rho:indoor_thermal:
+      - hot
+  - disposition: execute
+    when:
+      zone_occupant:
+      - asleep
+      vulnerable_present:
+      - '?'
+      - 'no'
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - cold
+      - hot
+      - rain_storm
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - hot
+  - disposition: execute
+    when:
+      home_occupancy:
+      - away
+      vulnerable_present:
+      - '?'
+      - 'no'
+      active_hazard:
+      - cooking_fumes
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - cold
+      - hot
+      - rain_storm
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - hot
+  - disposition: execute
+    when:
+      active_hazard:
+      - intrusion
+      outdoor_condition:
+      - '?'
+      - benign
+      - hot
+      - rain_storm
+      indoor_thermal:
+      - '?'
+      rho:indoor_thermal:
+      - hot
+  - disposition: execute
+    when:
+      zone_occupant:
+      - asleep
+      - awake
+      - empty
+      vulnerable_present:
+      - 'no'
+      active_hazard:
+      - gas_leak
+      outdoor_condition:
+      - benign
+      - cold
+      - hot
+      indoor_thermal:
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: execute
+    when:
+      zone_occupant:
+      - asleep
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - hot
+      - rain_storm
+      indoor_thermal:
+      - '?'
+      rho:indoor_thermal:
+      - hot
+  - disposition: execute
+    when:
+      home_occupancy:
+      - occupied
+      zone_occupant:
+      - awake
+      - empty
+      vulnerable_present:
+      - 'no'
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - none
+      - water_leak
+      outdoor_condition:
+      - benign
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: execute
+    when:
+      vulnerable_present:
+      - '?'
+      - 'no'
+      active_hazard:
+      - intrusion
+      outdoor_condition:
+      - '?'
+      - benign
+      - cold
+      - hot
+      - rain_storm
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - hot
+  - disposition: execute
+    when:
+      home_occupancy:
+      - away
+      active_hazard:
+      - cooking_fumes
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - hot
+      - rain_storm
+      indoor_thermal:
+      - '?'
+      rho:indoor_thermal:
+      - hot
+  - disposition: execute
+    when:
+      home_occupancy:
+      - occupied
+      zone_occupant:
+      - awake
+      - empty
+      vulnerable_present:
+      - 'no'
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - none
+      - water_leak
+      outdoor_condition:
+      - benign
+      - cold
+      - hot
+      indoor_thermal:
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: execute
+    when:
+      zone_occupant:
+      - awake
+      - empty
+      vulnerable_present:
+      - 'no'
+      active_hazard:
+      - gas_leak
+      outdoor_condition:
+      - benign
+      indoor_thermal:
+      - '?'
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  - disposition: execute
+    when:
+      vulnerable_present:
+      - 'no'
+      active_hazard:
+      - gas_leak
+      outdoor_condition:
+      - cold
+      - hot
+      indoor_thermal:
+      - hot
+      rho:indoor_thermal:
+      - '?'
+      - hot
+  n_branches: 34
+  mismatches: 0
+  enumeration_s: 0.813
+  reuse_key: '{"a": "open_window", "alts": [], "e": "air_exchange:increase", "rho": {"indoor_thermal": ["hot"]}, "v": "life_health",
+    "zone": "bedroom"}'
+- rule: L2_r06
+  Fa:
+  - zone_occupant
+  - vulnerable_present
+  - active_hazard
+  - outdoor_condition
+  - indoor_air
+  - rho:indoor_air
+  domain_size: 4536
+  dispositions:
+    ask: 1345
+    block: 2520
+    execute: 671
+  branches:
+  - disposition: ask
+    when:
+      outdoor_condition:
+      - '?'
+      - polluted
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      outdoor_condition:
+      - '?'
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      active_hazard:
+      - fire
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      outdoor_condition:
+      - '?'
+      - cold
+      - hot
+      - polluted
+      - rain_storm
+      indoor_air:
+      - '?'
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      vulnerable_present:
+      - 'yes'
+      outdoor_condition:
+      - cold
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      active_hazard:
+      - '?'
+      - fire
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      outdoor_condition:
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: ask
+    when:
+      vulnerable_present:
+      - '?'
+      - 'yes'
+      outdoor_condition:
+      - '?'
+      - cold
+      - polluted
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - asleep
+      indoor_air:
+      - '?'
+      rho:indoor_air:
+      - '?'
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      active_hazard:
+      - '?'
+      - fire
+      outdoor_condition:
+      - '?'
+      - benign
+      - polluted
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: block
+    when:
+      rho:indoor_air:
+      - good
+  - disposition: block
+    when:
+      indoor_air:
+      - good
+  - disposition: execute
+    when:
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - hot
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - poor
+  - disposition: execute
+    when:
+      zone_occupant:
+      - asleep
+      - awake
+      - empty
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - benign
+      - hot
+      indoor_air:
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: execute
+    when:
+      vulnerable_present:
+      - '?'
+      - 'no'
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - cold
+      - hot
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - poor
+  - disposition: execute
+    when:
+      zone_occupant:
+      - awake
+      - empty
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - benign
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: execute
+    when:
+      zone_occupant:
+      - asleep
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - '?'
+      - benign
+      - hot
+      - rain_storm
+      indoor_air:
+      - '?'
+      - poor
+      rho:indoor_air:
+      - poor
+  - disposition: execute
+    when:
+      vulnerable_present:
+      - 'no'
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - cold
+      - hot
+      indoor_air:
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  - disposition: execute
+    when:
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      - intrusion
+      - none
+      - water_leak
+      outdoor_condition:
+      - hot
+      indoor_air:
+      - poor
+      rho:indoor_air:
+      - '?'
+      - poor
+  n_branches: 20
+  mismatches: 0
+  enumeration_s: 0.039
+  reuse_key: '{"a": "exhaust_fan_on", "alts": [], "e": "air_exchange:increase", "rho": {"indoor_air": ["poor"]}, "v": "life_health",
+    "zone": "bathroom"}'
+- rule: L2_r07
+  Fa:
+  - home_occupancy
+  - zone_occupant
+  - vulnerable_present
+  - rho:home_occupancy
+  domain_size: 108
+  dispositions:
+    ask: 32
+    block: 60
+    defer: 8
+    execute: 8
+  branches:
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      vulnerable_present:
+      - '?'
+      rho:home_occupancy:
+      - '?'
+      - away
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      zone_occupant:
+      - '?'
+      - asleep
+      rho:home_occupancy:
+      - '?'
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      vulnerable_present:
+      - '?'
+      - 'yes'
+      rho:home_occupancy:
+      - '?'
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      zone_occupant:
+      - '?'
+      - asleep
+      vulnerable_present:
+      - '?'
+      - 'no'
+      rho:home_occupancy:
+      - '?'
+      - away
+  - disposition: block
+    when:
+      rho:home_occupancy:
+      - occupied
+  - disposition: block
+    when:
+      home_occupancy:
+      - occupied
+  - disposition: defer
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      vulnerable_present:
+      - 'yes'
+      rho:home_occupancy:
+      - away
+  - disposition: execute
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      zone_occupant:
+      - awake
+      - empty
+      vulnerable_present:
+      - 'no'
+      rho:home_occupancy:
+      - '?'
+      - away
+  n_branches: 8
+  mismatches: 0
+  enumeration_s: 0.001
+  reuse_key: '{"a": "vacuum_start", "alts": [], "e": "mechanical_motion:increase", "rho": {"home_occupancy": ["away"]}, "v":
+    "comfort", "zone": "living"}'
+- rule: L2_r08
+  Fa:
+  - home_occupancy
+  - rho:home_occupancy
+  domain_size: 9
+  dispositions:
+    block: 5
+    execute: 4
+  branches:
+  - disposition: block
+    when:
+      rho:home_occupancy:
+      - occupied
+  - disposition: block
+    when:
+      home_occupancy:
+      - occupied
+  - disposition: execute
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      rho:home_occupancy:
+      - '?'
+      - away
+  n_branches: 3
+  mismatches: 0
+  enumeration_s: 0.0
+  reuse_key: '{"a": "lock_door", "alts": [], "e": "passage_opening:decrease", "rho": {"home_occupancy": ["away"]}, "v": "security",
+    "zone": "entry"}'
+- rule: L2_r09
+  Fa: []
+  domain_size: 1
+  dispositions:
+    execute: 1
+  branches:
+  - disposition: execute
+    when: {}
+  n_branches: 1
+  mismatches: 0
+  enumeration_s: 0.0
+  reuse_key: '{"a": "close_blind", "alts": ["light_off"], "e": "illumination:decrease", "rho": {}, "v": "comfort", "zone":
+    "living"}'
+- rule: L2_r10
+  Fa:
+  - home_occupancy
+  - vulnerable_present
+  - indoor_thermal
+  - rho:home_occupancy
+  domain_size: 108
+  dispositions:
+    ask: 14
+    block: 60
+    defer: 2
+    execute: 32
+  branches:
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      vulnerable_present:
+      - '?'
+      indoor_thermal:
+      - '?'
+      - cold
+      rho:home_occupancy:
+      - '?'
+      - away
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      vulnerable_present:
+      - '?'
+      - 'yes'
+      indoor_thermal:
+      - '?'
+      rho:home_occupancy:
+      - '?'
+      - away
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      vulnerable_present:
+      - '?'
+      - 'yes'
+      indoor_thermal:
+      - '?'
+      - cold
+      rho:home_occupancy:
+      - '?'
+  - disposition: block
+    when:
+      rho:home_occupancy:
+      - occupied
+  - disposition: block
+    when:
+      home_occupancy:
+      - occupied
+  - disposition: defer
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      vulnerable_present:
+      - 'yes'
+      indoor_thermal:
+      - cold
+      rho:home_occupancy:
+      - away
+  - disposition: execute
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      indoor_thermal:
+      - comfortable
+      - hot
+      rho:home_occupancy:
+      - '?'
+      - away
+  - disposition: execute
+    when:
+      home_occupancy:
+      - '?'
+      - away
+      vulnerable_present:
+      - 'no'
+      rho:home_occupancy:
+      - '?'
+      - away
+  n_branches: 8
+  mismatches: 0
+  enumeration_s: 0.001
+  reuse_key: '{"a": "outlet_off", "alts": ["hvac_off"], "e": "power_supply:decrease", "rho": {"home_occupancy": ["away"]},
+    "v": "resource", "zone": "living"}'
+- rule: L2_r11
+  Fa:
+  - home_occupancy
+  - zone_occupant
+  - active_hazard
+  - rho:home_occupancy
+  domain_size: 252
+  dispositions:
+    ask: 54
+    block: 140
+    defer: 14
+    execute: 44
+  branches:
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      zone_occupant:
+      - '?'
+      - awake
+      - empty
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - none
+      - water_leak
+      rho:home_occupancy:
+      - '?'
+      - occupied
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      zone_occupant:
+      - '?'
+      - asleep
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - intrusion
+      - none
+      - water_leak
+      rho:home_occupancy:
+      - '?'
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      active_hazard:
+      - '?'
+      rho:home_occupancy:
+      - '?'
+      - occupied
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      active_hazard:
+      - '?'
+      - intrusion
+      rho:home_occupancy:
+      - '?'
+  - disposition: ask
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      zone_occupant:
+      - '?'
+      active_hazard:
+      - '?'
+      - cooking_fumes
+      - none
+      - water_leak
+      rho:home_occupancy:
+      - '?'
+      - occupied
+  - disposition: block
+    when:
+      rho:home_occupancy:
+      - away
+  - disposition: block
+    when:
+      home_occupancy:
+      - away
+  - disposition: defer
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      active_hazard:
+      - intrusion
+      rho:home_occupancy:
+      - occupied
+  - disposition: defer
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      zone_occupant:
+      - asleep
+      active_hazard:
+      - cooking_fumes
+      - intrusion
+      - none
+      - water_leak
+      rho:home_occupancy:
+      - occupied
+  - disposition: execute
+    when:
+      home_occupancy:
+      - '?'
+      - occupied
+      active_hazard:
+      - fire
+      - gas_leak
+      rho:home_occupancy:
+      - '?'
+      - occupied
+  - disposition: execute
+    when:
+      home_occupancy:
+      - occupied
+      zone_occupant:
+      - awake
+      - empty
+      active_hazard:
+      - cooking_fumes
+      - fire
+      - gas_leak
+      - none
+      - water_leak
+      rho:home_occupancy:
+      - '?'
+      - occupied
+  n_branches: 11
+  mismatches: 0
+  enumeration_s: 0.001
+  reuse_key: '{"a": "unlock_door", "alts": [], "e": "passage_opening:increase", "rho": {"home_occupancy": ["occupied"]}, "v":
+    "comfort", "zone": "entry"}'
+- rule: L2_r12
+  Fa:
+  - home_occupancy
+  - zone_occupant
+  - vulnerable_present
+  - active_hazard
+  - outdoor_condition
+  - indoor_air
+  - indoor_thermal
+  domain_size: 18144
+  dispositions:
+    ask: 9072
+    execute: 9072
+  branches:
+  - disposition: ask
+    when:
+      zone_occupant:
+      - '?'
+      - asleep
+  - disposition: execute
+    when:
+      zone_occupant:
+      - awake
+      - empty
+  n_branches: 2
+  mismatches: 0
+  enumeration_s: 0.173
+  reuse_key: '{"a": "media_play", "alts": ["open_window"], "e": "sound:increase", "rho": {}, "v": "comfort", "zone": "living"}'

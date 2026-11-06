@@ -1,0 +1,25 @@
+version: F-v0b
+parent: F-v0
+file: out_mock/vocab/factors_v0b.yaml
+source: out_mock/m2/C3_factors_candidate.yaml
+n_factors: 9
+sigma: 20880
+product: 34560
+diff_vs_parent:
+  added_factors: []
+  removed_factors: []
+  changed:
+    zone_occupant:
+      added_values:
+      - watching_a_movie
+      removed_values: []
+provenance_check: false
+refines:
+  zone_occupant:
+    split:
+      awake:
+      - awake
+      - watching_a_movie
+    extend: []
+    extend_meaning: {}
+changes_without_refines_entry: []

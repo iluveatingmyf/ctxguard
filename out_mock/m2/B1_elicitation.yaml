@@ -1,0 +1,90 @@
+items:
+- effect: mechanical_motion:increase
+  asset: life_health
+  attribute: a toddler is crawling
+  label: '-'
+  dimension: NEW:vulnerable_present
+  why: trap
+  source: elicit
+  round: 1
+- effect: sound:increase
+  asset: comfort
+  attribute: a baby is asleep
+  label: '-'
+  dimension: NEW:vulnerable_present
+  why: baby
+  source: elicit
+  round: 1
+- effect: sound:increase
+  asset: comfort
+  attribute: watching a movie
+  label: '-'
+  dimension: zone_occupant
+  why: someone is watching a movie in the living room
+  source: refutation
+  claim: 148
+- effect: ''
+  asset: comfort
+  attribute: present
+  label: null
+  dimension: zone_occupant
+  why: mock reason
+  source: property
+  property_id: N02
+  has_pair: false
+rejected:
+- effect: illumination:increase
+  asset: comfort
+  attribute: someone is watching a movie
+  label: '-'
+  dimension: occupant_activity
+  why: glare
+  source: elicit
+  round: 1
+  reject_reason: dimension is neither existing nor NEW:<name>
+- effect: illumination:increase
+  asset: comfort
+  attribute: someone is reading
+  label: +
+  dimension: occupant_activity
+  why: light
+  source: elicit
+  round: 1
+  reject_reason: dimension is neither existing nor NEW:<name>
+- effect: sound:increase
+  asset: comfort
+  attribute: someone is watching a movie
+  label: '-'
+  dimension: occupant_activity
+  why: noise
+  source: elicit
+  round: 1
+  reject_reason: dimension is neither existing nor NEW:<name>
+- effect: sound:increase
+  asset: comfort
+  attribute: someone is asleep
+  label: '-'
+  dimension: occupant_activity
+  why: wakes
+  source: elicit
+  round: 1
+  reject_reason: dimension is neither existing nor NEW:<name>
+rounds:
+- round: 1
+  base: out_mock/m2/A3_factors_corpus.yaml
+  pairs_queried: 150
+  new_items: 2
+  rejected_new: 4
+  items_total: 2
+  pairs_with_items: 2
+  per_dimension:
+    NEW:vulnerable_present:
+      attributes: 2
+      eliciting_pairs: 2
+  per_asset:
+    life_health: 1
+    comfort: 1
+- refinement_items: 1
+- ingest: tests/ingest_properties_TEST.csv
+  properties: 2
+  items: 1

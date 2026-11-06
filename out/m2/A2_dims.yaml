@@ -1,35 +1,525 @@
-version: S-induced-v2 (variable-level coding)
-n_conditions: 90
+version: S-induced-v4 (lift coding)
+coding: lift
+n_conditions: 142
+n_units: 142
+n_distinct_conditions: 89
 kinds:
-  sensor_reading: 37
-  user_configuration: 15
-  obligation: 18
-  event: 7
-  device_state: 5
-  home_mode: 6
-  world_state: 2
-with_world_variable: 33
-n_dimensions: 16
+  world_state: 38
+  sensor_reading: 76
+  home_mode: 13
+  user_configuration: 5
+  obligation: 8
+  event: 1
+  device_state: 1
+lift_status:
+  world_fact: 38
+  lift_failed: 63
+  lifted: 27
+  no_fact: 14
+lift_failed:
+- unit: C007|the door opens while the user is not at home
+  kind: sensor_reading
+  observation: door opens
+  latent_fact: user is not at home
+  counterfactual_still_right: true
+- unit: C019|the smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke is present
+  counterfactual_still_right: true
+- unit: C020|CO is detected
+  kind: sensor_reading
+  observation: CO detector alarm
+  latent_fact: CO is present
+  counterfactual_still_right: true
+- unit: C022|CO2 is greater than a predefined value
+  kind: sensor_reading
+  observation: CO2 level exceeds the predefined threshold
+  latent_fact: CO2 level exceeds the predefined threshold
+  counterfactual_still_right: false
+- unit: C025|CO is detected
+  kind: sensor_reading
+  observation: CO detector alarm
+  latent_fact: CO is present
+  counterfactual_still_right: true
+- unit: C026|CO is detected
+  kind: sensor_reading
+  observation: CO detector alarm
+  latent_fact: CO is present
+  counterfactual_still_right: true
+- unit: C027|CO is detected
+  kind: sensor_reading
+  observation: CO detector alarm
+  latent_fact: CO is present
+  counterfactual_still_right: true
+- unit: C032|CO2 is greater than a predefined value
+  kind: sensor_reading
+  observation: CO2 level exceeds the predefined threshold
+  latent_fact: CO2 level exceeds the predefined threshold
+  counterfactual_still_right: false
+- unit: C034|the smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: C035|CO is detected
+  kind: sensor_reading
+  observation: CO detector alarm
+  latent_fact: CO levels are high
+  counterfactual_still_right: true
+- unit: C037|home mode is away
+  kind: home_mode
+  observation: home mode set to away
+  latent_fact: home is unoccupied
+  counterfactual_still_right: true
+- unit: C041|air quality drops below a threshold
+  kind: sensor_reading
+  observation: air quality reading below the threshold
+  latent_fact: air quality reading below the threshold
+  counterfactual_still_right: false
+- unit: C043|the water/moisture sensor detects a leak
+  kind: sensor_reading
+  observation: water/moisture sensor detects a leak
+  latent_fact: water/moisture detected
+  counterfactual_still_right: true
+- unit: C043|no smoke is detected
+  kind: sensor_reading
+  observation: no smoke detected
+  latent_fact: no fire
+  counterfactual_still_right: true
+- unit: C044|smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: C045|smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: C046|there is water leakage
+  kind: sensor_reading
+  observation: water leakage detected
+  latent_fact: water leakage is present
+  counterfactual_still_right: true
+- unit: C047a|smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: C047a|in night mode
+  kind: home_mode
+  observation: home mode set to night
+  latent_fact: people are sleeping
+  counterfactual_still_right: true
+- unit: C047b|smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke is present
+  counterfactual_still_right: true
+- unit: C048|smoke or CO is detected
+  kind: sensor_reading
+  observation: smoke or CO detector alarm
+  latent_fact: smoke or CO present
+  counterfactual_still_right: true
+- unit: C049a|home mode is away
+  kind: home_mode
+  observation: home mode set to away
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+- unit: C049b|home mode is away
+  kind: home_mode
+  observation: home mode set to away
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+- unit: C050|smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: C051|smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: C052|smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: C053|smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: C055|the temperature drops below the lower threshold
+  kind: sensor_reading
+  observation: temperature reading below the lower threshold
+  latent_fact: temperature reading below the lower threshold
+  counterfactual_still_right: false
+- unit: C060|air quality drops below a threshold
+  kind: sensor_reading
+  observation: air quality reading below the threshold
+  latent_fact: air quality reading below the threshold
+  counterfactual_still_right: false
+- unit: C069|the water sensor is wet
+  kind: sensor_reading
+  observation: water sensor is wet
+  latent_fact: water present in the area
+  counterfactual_still_right: true
+- unit: C082|the home is in sleep mode
+  kind: home_mode
+  observation: home mode set to sleep
+  latent_fact: home mode set to sleep
+  counterfactual_still_right: true
+- unit: C083a|the home is in away mode
+  kind: home_mode
+  observation: home mode set to away
+  latent_fact: home mode set to away
+  counterfactual_still_right: true
+- unit: C083b|the home is in away mode
+  kind: home_mode
+  observation: home mode set to away
+  latent_fact: home mode set to away
+  counterfactual_still_right: true
+- unit: C086|the door is closed
+  kind: sensor_reading
+  observation: door closed
+  latent_fact: door is closed
+  counterfactual_still_right: true
+- unit: C097|the moisture sensor detects a leak
+  kind: sensor_reading
+  observation: moisture sensor detects a leak
+  latent_fact: there is a leak
+  counterfactual_still_right: true
+- unit: C101|smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: C104|no intruder is detected
+  kind: sensor_reading
+  observation: no intruder detected
+  latent_fact: no intruder present
+  counterfactual_still_right: true
+- unit: C105|an intruder is detected
+  kind: sensor_reading
+  observation: intruder detection
+  latent_fact: intruder is present
+  counterfactual_still_right: true
+- unit: C111|CO exceeds a predefined level
+  kind: sensor_reading
+  observation: CO level exceeds the predefined threshold
+  latent_fact: CO level exceeds the predefined threshold
+  counterfactual_still_right: false
+- unit: C112|CO exceeds a predefined level
+  kind: sensor_reading
+  observation: CO level exceeds the predefined threshold
+  latent_fact: CO level exceeds the predefined threshold
+  counterfactual_still_right: false
+- unit: C116|humidity exceeds a predefined value
+  kind: sensor_reading
+  observation: humidity reading above the predefined threshold
+  latent_fact: humidity reading above the predefined threshold
+  counterfactual_still_right: false
+- unit: C118|there is motion
+  kind: sensor_reading
+  observation: motion detected
+  latent_fact: motion detected
+  counterfactual_still_right: true
+- unit: C139|Motion detected
+  kind: sensor_reading
+  observation: motion detected
+  latent_fact: motion present
+  counterfactual_still_right: true
+- unit: C150|someone is detected
+  kind: sensor_reading
+  observation: motion sensor detection
+  latent_fact: motion detected
+  counterfactual_still_right: true
+- unit: C178|The door is clear of any objects
+  kind: sensor_reading
+  observation: door clear of objects
+  latent_fact: door clear of objects
+  counterfactual_still_right: true
+- unit: C183a|there is smoke
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: C183a|there is CO
+  kind: sensor_reading
+  observation: CO detector alarm
+  latent_fact: CO is present
+  counterfactual_still_right: true
+- unit: C184|when water sensor is wet
+  kind: sensor_reading
+  observation: water sensor alarm
+  latent_fact: water present in the monitored area
+  counterfactual_still_right: true
+- unit: C194a|The doors/windows are opening
+  kind: sensor_reading
+  observation: door/window opening detected
+  latent_fact: door/window opening detected
+  counterfactual_still_right: true
+- unit: C203|water/moisture sensor detects leak around a location such as basement
+  kind: sensor_reading
+  observation: water/moisture sensor detects leak
+  latent_fact: there is a leak around the basement
+  counterfactual_still_right: true
+- unit: C203|water/moisture sensor detects leak around a location such as laundry room
+  kind: sensor_reading
+  observation: water/moisture sensor detects leak
+  latent_fact: leak present in laundry room
+  counterfactual_still_right: true
+- unit: Soteria-P10|There is smoke
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke is present
+  counterfactual_still_right: true
+- unit: Soteria-P30|if a leak is detected
+  kind: sensor_reading
+  observation: leak detected
+  latent_fact: water damage is occurring or imminent
+  counterfactual_still_right: true
+- unit: IoTCom-P6|light level changes
+  kind: sensor_reading
+  observation: light level changes
+  latent_fact: light level changes
+  counterfactual_still_right: false
+- unit: IoTCom-P8|mode is away
+  kind: home_mode
+  observation: home mode set to away
+  latent_fact: home mode set to away
+  counterfactual_still_right: true
+- unit: IoTCom-P12|mode is away
+  kind: home_mode
+  observation: home mode set to away
+  latent_fact: home mode set to away
+  counterfactual_still_right: true
+- unit: IoTCom-P13|mode is vacation
+  kind: home_mode
+  observation: home mode set to vacation
+  latent_fact: home mode set to vacation
+  counterfactual_still_right: true
+- unit: IoTCom-P16|mode is away
+  kind: home_mode
+  observation: home mode set to away
+  latent_fact: home mode set to away
+  counterfactual_still_right: false
+- unit: IoTCom-P17|smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: IoTCom-P17|mode is away
+  kind: home_mode
+  observation: home mode set to away
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+- unit: IoTCom-P19|smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: IoTCom-P22|smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  latent_fact: smoke present
+  counterfactual_still_right: true
+- unit: IoTCom-P25|fan is on
+  kind: sensor_reading
+  observation: fan is on
+  latent_fact: fan is on
+  counterfactual_still_right: false
+grouping: relation
+relation_grouping:
+  subjects:
+    home:
+      facts: 23
+      pairs_asked: 253
+      pair_mode: exhaustive
+      relations:
+        independent: 115
+        exclusive: 90
+        same: 16
+        a_implies_b: 32
+      slots: 5
+    person:
+      facts: 2
+      pairs_asked: 1
+      pair_mode: exhaustive
+      relations:
+        same: 1
+      slots: 1
+    room:
+      facts: 14
+      pairs_asked: 91
+      pair_mode: exhaustive
+      relations:
+        independent: 63
+        exclusive: 14
+        a_implies_b: 12
+        same: 2
+      slots: 4
+  mixed_aspect_components: 2
+  splits:
+  - subject: home
+    from:
+    - home|an_unauthorized_person_is_at_the_door
+    - home|current_time_is_within_user_specified_times
+    - home|home_is_in_away_mode
+    - home|home_is_in_vacation_mode
+    - home|home_mode_is_away
+    - home|is_anyone_at_home
+    - home|someone_is_at_home
+    - home|user_arrives_home
+    - home|user_at_home
+    - home|user_location
+    - home|motion_detected
+    - home|motion_is_detected
+    - home|motion_is_present
+    - home|nobody_at_home
+    - home|people_are_not_at_home
+    - home|user_is_not_nearby_home
+    - home|user_not_at_home
+    - home|user_not_present
+    - home|smoke_is_present
+    - home|the_fan_is_on
+    - home|the_temperature_is_below_the_predefined_value
+    - home|the_user_is_not_awake_to_monitor_the_home
+    - home|user_within_specified_distance_of_the_house
+    into:
+    - - home|home_is_in_away_mode
+      - home|home_is_in_vacation_mode
+      - home|home_mode_is_away
+      - home|is_anyone_at_home
+      - home|someone_is_at_home
+      - home|user_arrives_home
+      - home|user_at_home
+      - home|user_location
+      - home|motion_detected
+      - home|motion_is_detected
+      - home|motion_is_present
+      - home|nobody_at_home
+      - home|people_are_not_at_home
+      - home|user_is_not_nearby_home
+      - home|user_not_at_home
+      - home|user_not_present
+      - home|the_user_is_not_awake_to_monitor_the_home
+    - - home|an_unauthorized_person_is_at_the_door
+      - home|user_within_specified_distance_of_the_house
+    - - home|the_fan_is_on
+      - home|the_temperature_is_below_the_predefined_value
+    - - home|current_time_is_within_user_specified_times
+    - - home|smoke_is_present
+  - subject: room
+    from:
+    - room|door_is_closed
+    - room|motion_is_detected
+    - room|motion_is_present
+    - room|someone_is_at_home
+    - room|someone_is_home
+    - room|user_not_present
+    into:
+    - - room|motion_is_detected
+      - room|motion_is_present
+      - room|someone_is_at_home
+      - room|someone_is_home
+      - room|user_not_present
+    - - room|door_is_closed
+  implications: 38
+with_world_variable: 65
+n_dimensions: 10
 unverified_or_failed: []
 asset_named: []
 slots:
-- id: temperature
-  desc: temperature
+- id: home_user_presence
+  desc: is_anyone_at_home
+  subject: home
   variables:
-  - temperature
-  origin: unassigned by the grouping call
+  - home is in away mode
+  - home is in vacation mode
+  - home mode is away
+  - Is anyone at home?
+  - someone is at home
+  - user arrives home
+  - user at home
+  - user location
+  - motion detected
+  - motion is detected
+  - motion is present
+  - nobody at home
+  - people are not at home
+  - user is not nearby-home
+  - user not at home
+  - user not present
+  - the user is not awake to monitor the home
+  origin: relation grouping
   verification:
     single_variable: true
-    checked: false
+    checked: true
+    method: pairwise dependency
     issues: []
   kind: situation
-  n_conditions: 8
+  n_conditions: 38
   scope: global
   property_ids:
+  - C003
+  - C005
+  - C006
+  - C007
+  - C008
   - C009
+  - C012
+  - C038
+  - C042
+  - C047b
+  - C049a
+  - C049b
+  - C065
+  - C066
+  - C085
+  - C087
+  - C095
+  - C099
+  - C107
+  - C113
+  - C117
+  - C159
+  - C160
+  - C174
+  - C179b
+  - C182
+  - C186a
+  - IoTCom-P18
+  - IoTCom-P24
+  - IoTCom-P5
+  - IoTSan-T1
+  - Soteria-P1
+  - Soteria-P12
+- id: zone_temperature_state
+  desc: is the temperature comfortable?
+  subject: room
+  variables:
+  - temperature is below the user threshold
+  - temperature is low
+  - the temperature is above the comfort threshold
+  - the temperature is above the user threshold
+  - the temperature is below the comfort threshold
+  - the temperature is below the predefined value
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 9
+  scope: zone
+  property_ids:
   - C014
   - C054
-  - C055
   - C056
   - C066
   - C113
@@ -37,283 +527,179 @@ slots:
   - C115
   - C159
   - IoTCom-P7
-- id: leak
-  desc: The presence or absence of a leak in the environment.
+- id: zone_user_presence
+  desc: is_someone_at_home?
+  subject: room
   variables:
-  - leak
-  - leak around a location
-  - leak around the laundry room
-  origin: grouped
+  - motion is detected
+  - motion is present
+  - someone is at home
+  - someone is home
+  - user not present
+  origin: relation grouping
   verification:
     single_variable: true
     checked: true
-    reason: All members refer to the presence or absence of a leak in a specific location.
+    method: pairwise dependency
     issues: []
   kind: situation
   n_conditions: 5
-  scope: global
+  scope: zone
   property_ids:
-  - C043
-  - C097
-  - C203
-  - Soteria-P30
-- id: smoke
-  desc: The presence or absence of smoke in the environment.
+  - C100
+  - C114
+  - C175
+  - IoTCom-P25
+  - IoTCom-P9
+- id: zone_lighting_time
+  desc: is it day or night?
+  subject: room
   variables:
-  - smoke
-  origin: grouped
-  verification:
-    single_variable: true
-    checked: false
-    issues: []
-  kind: situation
-  n_conditions: 3
-  scope: global
-  property_ids:
-  - C019
-  - C028
-  - C034
-  - C043
-  - C045
-  - C047a
-  - C047b
-  - C051
-  - C052
-  - C053
-  - C101
-  - IoTCom-P17
-  - IoTCom-P19
-  - IoTCom-P22
-- id: co_level
-  desc: 'The presence or absence of carbon monoxide in the environment. (split: co level)'
-  variables:
-  - co level
-  origin: split of co_level
+  - indoor illuminance is high
+  - it is daytime
+  origin: relation grouping
   verification:
     single_variable: true
     checked: true
-    issues: &id001 []
-  kind: situation
-  n_conditions: 3
-  scope: global
-  property_ids:
-  - C020
-  - C025
-  - C026
-  - C027
-  - C035
-  - C111
-  - C112
-  - C183a
-- id: illuminance
-  desc: The level of light in the environment.
-  variables:
-  - illuminance
-  origin: grouped
-  verification:
-    single_variable: true
-    checked: false
+    method: pairwise dependency
     issues: []
   kind: situation
-  n_conditions: 2
-  scope: global
+  n_conditions: 3
+  scope: zone
   property_ids:
   - C119
   - C120
-- id: motion_detected
-  desc: The presence or absence of motion in the environment.
+- id: home_user_location_status
+  desc: is the user at the door or away from the house?
+  subject: home
   variables:
-  - entering
-  - motion detected
-  origin: grouped
+  - an unauthorized person is at the door
+  - user within specified distance of the house
+  origin: relation grouping
   verification:
     single_variable: true
     checked: true
-    reason: Both 'entering' and 'motion detected' refer to the presence or absence of motion in the environment.
+    method: pairwise dependency
     issues: []
   kind: situation
   n_conditions: 2
   scope: global
   property_ids:
-  - C175
-  - C183b
-- id: air_quality
-  desc: The quality of the air in the environment.
+  - C192
+  - C196
+- id: home_fan_operation_status
+  desc: is the fan on due to temperature being below the predefined value?
+  subject: home
   variables:
-  - air quality
-  origin: grouped
-  verification:
-    single_variable: true
-    checked: false
-    issues: []
-  kind: situation
-  n_conditions: 1
-  scope: global
-  property_ids:
-  - C041
-  - C060
-- id: co2_level
-  desc: The level of carbon dioxide in the environment.
-  variables:
-  - co2 level
-  origin: grouped
-  verification:
-    single_variable: true
-    checked: false
-    issues: []
-  kind: situation
-  n_conditions: 1
-  scope: global
-  property_ids:
-  - C022
-  - C032
-- id: humidity
-  desc: The level of humidity in the environment.
-  variables:
-  - humidity
-  origin: grouped
-  verification:
-    single_variable: true
-    checked: false
-    issues: []
-  kind: situation
-  n_conditions: 1
-  scope: global
-  property_ids:
-  - C116
-- id: intruder
-  desc: The presence or absence of an intruder in the environment.
-  variables:
-  - intruder
-  origin: grouped
-  verification:
-    single_variable: true
-    checked: false
-    issues: []
-  kind: situation
-  n_conditions: 1
-  scope: global
-  property_ids:
-  - C104
-- id: smoke_or_co
-  desc: 'The presence or absence of carbon monoxide in the environment. (split: smoke or co)'
-  variables:
-  - smoke or co
-  origin: split of co_level
+  - the fan is on
+  - the temperature is below the predefined value
+  origin: relation grouping
   verification:
     single_variable: true
     checked: true
-    issues: *id001
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: global
+  property_ids:
+  - C009
+  - IoTCom-P24
+- id: home_smoke_presence
+  desc: is smoke present
+  subject: home
+  variables:
+  - smoke is present
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: global
+  property_ids:
+  - C028
+  - C094
+- id: person_user_location_arrives
+  desc: where_is_the_user_when_arriving_home?
+  subject: person
+  variables:
+  - user arrives home
+  - user location
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: zone
+  property_ids:
+  - C102
+  - C177
+- id: home_time_of_day
+  desc: what time of day is it?
+  subject: home
+  variables:
+  - current time is within user-specified times
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
   kind: situation
   n_conditions: 1
   scope: global
   property_ids:
-  - C048
-- id: door_state
-  desc: 'The state of a door in the environment. (split: door state)'
+  - C194b
+- id: zone_door_state
+  desc: is the door open or closed?
+  subject: room
   variables:
-  - door state
-  origin: split of door_state
+  - door is closed
+  origin: relation grouping
   verification:
     single_variable: true
     checked: true
-    issues: &id002 []
+    method: pairwise dependency
+    issues: []
   kind: situation
   n_conditions: 1
   scope: zone
   property_ids:
   - IoTCom-P2
-- id: objects_near_door
-  desc: 'The state of a door in the environment. (split: objects near the door)'
-  variables:
-  - objects near the door
-  origin: split of door_state
-  verification:
-    single_variable: true
-    checked: true
-    issues: *id002
-  kind: situation
-  n_conditions: 1
-  scope: zone
-  property_ids:
-  - C178
-- id: occupancy
-  desc: 'The state of a door in the environment. (split: occupancy)'
-  variables:
-  - occupancy
-  origin: split of door_state
-  verification:
-    single_variable: true
-    checked: true
-    issues: *id002
-  kind: situation
-  n_conditions: 1
-  scope: global
-  property_ids:
-  - IoTCom-P18
-  - IoTCom-P5
-- id: water_sensor_state
-  desc: 'The state of water in the environment. (split: water sensor state)'
-  variables:
-  - water sensor state
-  origin: split of water_state
-  verification:
-    single_variable: true
-    checked: true
-    issues: &id003 []
-  kind: situation
-  n_conditions: 1
-  scope: global
-  property_ids:
-  - C069
-- id: water_state
-  desc: 'The state of water in the environment. (split: water state)'
-  variables:
-  - water state
-  origin: split of water_state
-  verification:
-    single_variable: true
-    checked: true
-    issues: *id003
-  kind: situation
-  n_conditions: 1
-  scope: global
-  property_ids:
-  - C184
 - id: device_state
   kind: excluded
   desc: conditions coded as device_state (no world variable)
-  n_conditions: 5
-- id: no_variable_given
+  n_conditions: 1
+- id: lift_failed
   kind: excluded
-  desc: conditions coded as no_variable_given (no world variable)
-  n_conditions: 19
+  desc: conditions coded as lift_failed (no world variable)
+  n_conditions: 63
 - id: obligation
   kind: excluded
   desc: conditions coded as obligation (no world variable)
-  n_conditions: 18
+  n_conditions: 8
 - id: user_configuration
   kind: excluded
   desc: conditions coded as user_configuration (no world variable)
-  n_conditions: 15
+  n_conditions: 5
 coverage:
-  co_level: 3
-  co2_level: 1
-  no_variable_given: 19
-  user_configuration: 15
-  objects_near_door: 1
-  obligation: 18
-  leak: 5
-  air_quality: 1
-  door_state: 1
-  motion_detected: 2
-  device_state: 5
-  humidity: 1
-  illuminance: 2
-  intruder: 1
-  occupancy: 1
-  smoke: 3
-  smoke_or_co: 1
-  temperature: 8
-  water_sensor_state: 1
-  water_state: 1
+  home_user_presence: 38
+  lift_failed: 63
+  home_fan_operation_status: 2
+  zone_temperature_state: 9
+  home_smoke_presence: 2
+  user_configuration: 5
+  zone_user_presence: 5
+  person_user_location_arrives: 2
+  zone_lighting_time: 3
+  obligation: 8
+  home_user_location_status: 2
+  home_time_of_day: 1
+  zone_door_state: 1
+  device_state: 1

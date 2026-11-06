@@ -1,0 +1,41 @@
+zone_occupant:
+  phrases:
+  - 'empty: Nobody is in the zone.'
+  - 'awake: Someone awake is in the zone.'
+  - 'asleep: Someone is asleep in the zone and nobody awake is there.'
+  - 'watching_a_movie: watching a movie'
+  - present
+  - watching a movie
+  n_existing: 4
+  states:
+  - name: empty
+    semantics: 'empty: Nobody is in the zone.'
+    members:
+    - 0
+    parent: empty
+  - name: awake
+    semantics: 'awake: Someone awake is in the zone.'
+    members:
+    - 1
+    parent: awake
+  - name: asleep
+    semantics: 'asleep: Someone is asleep in the zone and nobody awake is there.'
+    members:
+    - 2
+    parent: asleep
+  - name: watching_a_movie
+    semantics: 'watching_a_movie: watching a movie'
+    members:
+    - 3
+    parent: watching_a_movie
+  - name: present
+    semantics: present
+    members:
+    - 4
+    parent: ''
+  - name: watching_a_movie
+    semantics: watching a movie
+    members:
+    - 5
+    parent: awake
+  dropped: []

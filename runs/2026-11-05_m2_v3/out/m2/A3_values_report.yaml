@@ -1,0 +1,226 @@
+per_dimension:
+  people_at_home:
+    n_conditions: 16
+    values:
+    - nobody_at_home
+    - someone_at_home
+    covered: 16
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence: []
+  abnormal_events:
+    n_conditions: 16
+    values:
+    - smoke_present
+    - leak_detected
+    - co_present
+    - co_level_high
+    - baseline
+    covered: 13
+    coverage: 0.812
+    unassigned:
+    - an intruder is detected
+    - motion is detected
+    - the door opens
+    values_without_evidence: []
+  temperature:
+    n_conditions: 6
+    values:
+    - above_threshold
+    - below_lower_threshold
+    - low
+    - baseline
+    covered: 6
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - baseline
+  people_activity:
+    n_conditions: 3
+    values:
+    - arriving_home
+    - leaving_home
+    - baseline
+    covered: 3
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - baseline
+  room_people_activity:
+    n_conditions: 3
+    values:
+    - asleep
+    - present
+    - absent
+    - baseline
+    covered: 3
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - absent
+    - baseline
+  home_mode:
+    n_conditions: 2
+    values:
+    - vacation_mode
+    - night_mode
+    - normal_mode
+    - baseline
+    covered: 2
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - normal_mode
+    - baseline
+  door_status:
+    n_conditions: 1
+    values:
+    - closed
+    - baseline
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - baseline
+  specific_room_events:
+    n_conditions: 1
+    values:
+    - leak_present
+    - baseline
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - baseline
+  light_level:
+    n_conditions: 1
+    values:
+    - baseline
+    - dark
+    covered: 0
+    coverage: 0.0
+    unassigned:
+    - light level changes
+    values_without_evidence:
+    - baseline
+    - dark
+  daytime_light:
+    n_conditions: 1
+    values:
+    - below_80_lux
+    - baseline
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - baseline
+  daytime_light_general:
+    n_conditions: 1
+    values:
+    - above_600_lux
+    - baseline
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - baseline
+  security_status:
+    n_conditions: 1
+    values:
+    - unauthorized_access
+    - baseline
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - baseline
+  sensor_status:
+    n_conditions: 1
+    values:
+    - wet
+    - dry
+    - baseline
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - dry
+    - baseline
+  door_status_general:
+    n_conditions: 1
+    values:
+    - unlocking
+    - locked
+    - baseline
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - locked
+    - baseline
+  time_of_day:
+    n_conditions: 1
+    values:
+    - noon
+    - baseline
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - baseline
+  how_warm_or_cold_is_the_home:
+    n_conditions: 1
+    values:
+    - below_predefined_threshold
+    - within_predefined_threshold
+    - above_predefined_threshold
+    - baseline
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - within_predefined_threshold
+    - above_predefined_threshold
+    - baseline
+  is_the_user_near_the_home:
+    n_conditions: 1
+    values:
+    - 'yes'
+    - baseline
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - baseline
+  is_there_any_motion_in_the_room:
+    n_conditions: 1
+    values:
+    - motion_present
+    - baseline
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - baseline
+  what_is_the_air_quality_in_the_home:
+    n_conditions: 1
+    values:
+    - below_threshold
+    - baseline
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - baseline
+  intruder:
+    n_conditions: 1
+    values:
+    - no_intruder
+    - none
+    covered: 1
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - none
+n_conditions_with_variable: 60
+overall_coverage: 0.933

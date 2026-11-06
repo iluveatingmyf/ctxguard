@@ -1,0 +1,274 @@
+vocab_version: F-v0b
+effects_version: E-k3
+bindings:
+- pattern:
+    outdoor_condition:
+    - polluted
+  effect: air_exchange:increase
+  asset: life_health
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 4176
+- pattern:
+    active_hazard:
+    - fire
+  effect: air_exchange:increase
+  asset: life_health
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 3600
+- pattern:
+    vulnerable_present:
+    - 'yes'
+    outdoor_condition:
+    - cold
+    - polluted
+  effect: air_exchange:increase
+  asset: life_health
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 4176
+- pattern:
+    active_hazard:
+    - none
+    - cooking_fumes
+    - gas_leak
+    - water_leak
+    - intrusion
+    outdoor_condition:
+    - benign
+    - hot
+    - rain_storm
+    indoor_air:
+    - poor
+  effect: air_exchange:increase
+  asset: life_health
+  label: +
+  harm: ''
+  meta:
+    cells: 5184
+- pattern:
+    active_hazard:
+    - cooking_fumes
+    - gas_leak
+    outdoor_condition:
+    - benign
+    - hot
+    - rain_storm
+  effect: air_exchange:increase
+  asset: life_health
+  label: +
+  harm: ''
+  meta:
+    cells: 3888
+- pattern:
+    vulnerable_present:
+    - 'no'
+    active_hazard:
+    - none
+    - cooking_fumes
+    - gas_leak
+    - water_leak
+    - intrusion
+    outdoor_condition:
+    - benign
+    - cold
+    - hot
+    - rain_storm
+    indoor_air:
+    - poor
+  effect: air_exchange:increase
+  asset: life_health
+  label: +
+  harm: ''
+  meta:
+    cells: 3456
+- pattern:
+    vulnerable_present:
+    - 'no'
+    active_hazard:
+    - cooking_fumes
+    - gas_leak
+    outdoor_condition:
+    - benign
+    - cold
+    - hot
+    - rain_storm
+  effect: air_exchange:increase
+  asset: life_health
+  label: +
+  harm: ''
+  meta:
+    cells: 2592
+- pattern:
+    outdoor_condition:
+    - rain_storm
+  effect: air_exchange:increase
+  asset: property
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 4176
+- pattern:
+    outdoor_condition:
+    - cold
+    - hot
+    - rain_storm
+  effect: air_exchange:increase
+  asset: comfort
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 12528
+- pattern:
+    active_hazard:
+    - fire
+    - gas_leak
+  effect: gas_flow:decrease
+  asset: life_health
+  label: +
+  harm: ''
+  meta:
+    cells: 7200
+- pattern:
+    vulnerable_present:
+    - 'yes'
+    indoor_thermal:
+    - cold
+  effect: indoor_temperature:decrease
+  asset: life_health
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 3480
+- pattern:
+    indoor_thermal:
+    - hot
+  effect: indoor_temperature:decrease
+  asset: comfort
+  label: +
+  harm: ''
+  meta:
+    cells: 6960
+- pattern:
+    vulnerable_present:
+    - 'yes'
+    indoor_thermal:
+    - hot
+  effect: indoor_temperature:increase
+  asset: life_health
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 3480
+- pattern:
+    vulnerable_present:
+    - 'yes'
+  effect: mechanical_motion:increase
+  asset: life_health
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 10440
+- pattern:
+    active_hazard:
+    - fire
+    - gas_leak
+  effect: passage_opening:increase
+  asset: life_health
+  label: +
+  harm: ''
+  meta:
+    cells: 7200
+- pattern:
+    active_hazard:
+    - intrusion
+  effect: passage_opening:increase
+  asset: security
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 3600
+- pattern:
+    zone_occupant:
+    - asleep
+    active_hazard:
+    - none
+    - cooking_fumes
+    - water_leak
+    - intrusion
+  effect: passage_opening:increase
+  asset: security
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 2880
+- pattern:
+    home_occupancy:
+    - away
+    active_hazard:
+    - none
+    - cooking_fumes
+    - water_leak
+    - intrusion
+  effect: passage_opening:increase
+  asset: security
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 2160
+- pattern:
+    vulnerable_present:
+    - 'yes'
+    indoor_thermal:
+    - cold
+  effect: power_supply:decrease
+  asset: life_health
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 3480
+- pattern:
+    home_occupancy:
+    - away
+  effect: security_monitoring:increase
+  asset: security
+  label: +
+  harm: ''
+  meta:
+    cells: 3600
+- pattern:
+    home_occupancy:
+    - occupied
+  effect: sensing_capture:increase
+  asset: privacy
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 17280
+- pattern:
+    zone_occupant:
+    - asleep
+    - watching_a_movie
+  effect: sound:increase
+  asset: comfort
+  label: '-'
+  harm: mock mechanism
+  meta:
+    cells: 8640
+- pattern:
+    active_hazard:
+    - water_leak
+  effect: water_flow:decrease
+  asset: property
+  label: +
+  harm: ''
+  meta:
+    cells: 3600
+llm_calls:
+  relevance_calls: 150
+  region_calls: 76
+  point_calls: 549

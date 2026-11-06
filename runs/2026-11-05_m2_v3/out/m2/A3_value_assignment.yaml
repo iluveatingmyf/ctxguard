@@ -1,0 +1,466 @@
+- dimension: people_at_home
+  condition: The user is not home
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - Soteria-P1
+  - Soteria-P12
+- dimension: people_at_home
+  condition: a user is not present at home
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - C174
+- dimension: people_at_home
+  condition: home mode is away
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - C037
+  - C049a
+  - C049b
+- dimension: people_at_home
+  condition: mode is away
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - IoTCom-P17
+- dimension: people_at_home
+  condition: no one is home
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - IoTCom-P18
+  - IoTCom-P5
+- dimension: people_at_home
+  condition: nobody is at home
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - C066
+  - C107
+  - C117
+- dimension: people_at_home
+  condition: nobody is present
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - C085
+  - C113
+- dimension: people_at_home
+  condition: someone is at home
+  world_fact: Is anyone at home? someone at home
+  observed_value: someone at home
+  value: someone_at_home
+  property_ids:
+  - C009
+  - C042
+  - C047b
+  - C065
+- dimension: people_at_home
+  condition: someone is home
+  world_fact: Is anyone at home? someone is home
+  observed_value: someone is home
+  value: someone_at_home
+  property_ids:
+  - IoTCom-P9
+- dimension: people_at_home
+  condition: the home is empty
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - C160
+- dimension: people_at_home
+  condition: the home is in away mode
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - C083a
+  - C083b
+- dimension: people_at_home
+  condition: the home is in sleep mode
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - C082
+- dimension: people_at_home
+  condition: the user is not at home
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - C005
+  - C006
+  - C007
+  - C008
+  - C012
+  - C095
+- dimension: people_at_home
+  condition: the user is not nearby-home
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - C005
+  - C006
+  - C007
+  - C008
+  - C012
+- dimension: people_at_home
+  condition: the user is not present
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - C099
+  - C100
+- dimension: people_at_home
+  condition: user is not at home
+  world_fact: Is anyone at home? nobody at home
+  observed_value: nobody at home
+  value: nobody_at_home
+  property_ids:
+  - C186a
+- dimension: abnormal_events
+  condition: CO exceeds a predefined level
+  world_fact: What dangerous condition is present in the home? CO level high
+  observed_value: CO level high
+  value: co_level_high
+  property_ids:
+  - C111
+  - C112
+- dimension: abnormal_events
+  condition: CO is detected
+  world_fact: What abnormal or dangerous event is happening in the home? CO present
+  observed_value: CO present
+  value: co_present
+  property_ids:
+  - C020
+  - C025
+  - C026
+  - C027
+  - C035
+- dimension: abnormal_events
+  condition: a leak is detected
+  world_fact: What abnormal or dangerous event is happening in the home? leak present
+  observed_value: leak present
+  value: leak_detected
+  property_ids:
+  - Soteria-P30
+- dimension: abnormal_events
+  condition: an intruder is detected
+  world_fact: What abnormal or dangerous event is happening in the home? intruder detected
+  observed_value: intruder detected
+  value: null
+  property_ids:
+  - C105
+- dimension: abnormal_events
+  condition: motion is detected
+  world_fact: What abnormal or dangerous event is happening in the home? motion present
+  observed_value: motion present
+  value: null
+  property_ids:
+  - C049a
+  - C049b
+  - C087
+  - IoTCom-P24
+  - IoTCom-P25
+- dimension: abnormal_events
+  condition: no smoke is detected
+  world_fact: What abnormal or dangerous event is happening in the home? no smoke
+  observed_value: no smoke
+  value: baseline
+  property_ids:
+  - C043
+- dimension: abnormal_events
+  condition: smoke is detected
+  world_fact: What abnormal or dangerous event is happening in the home? smoke present
+  observed_value: smoke present
+  value: smoke_present
+  property_ids:
+  - C045
+  - C047a
+  - C047b
+  - C051
+  - C052
+  - C053
+  - C101
+  - IoTCom-P17
+  - IoTCom-P19
+  - IoTCom-P22
+- dimension: abnormal_events
+  condition: smoke or CO is detected
+  world_fact: What abnormal or dangerous event is happening in the home? smoke or CO present
+  observed_value: smoke or CO present
+  value: smoke_present
+  property_ids:
+  - C048
+- dimension: abnormal_events
+  condition: the door opens
+  world_fact: What abnormal or dangerous event is happening in the home? door opens
+  observed_value: door opens
+  value: null
+  property_ids:
+  - C007
+- dimension: abnormal_events
+  condition: the moisture sensor detects a leak
+  world_fact: What abnormal or dangerous event is happening in the home? leak detected
+  observed_value: leak detected
+  value: leak_detected
+  property_ids:
+  - C097
+- dimension: abnormal_events
+  condition: the smoke is detected
+  world_fact: What abnormal or dangerous event is happening in the home? smoke present
+  observed_value: smoke present
+  value: smoke_present
+  property_ids:
+  - C019
+  - C028
+  - C034
+- dimension: abnormal_events
+  condition: the water/moisture sensor detects a leak
+  world_fact: What abnormal or dangerous event is happening in the home? leak detected
+  observed_value: leak detected
+  value: leak_detected
+  property_ids:
+  - C043
+- dimension: abnormal_events
+  condition: there is CO
+  world_fact: What abnormal or dangerous event is happening in the home? CO present
+  observed_value: CO present
+  value: co_present
+  property_ids:
+  - C183a
+- dimension: abnormal_events
+  condition: there is smoke
+  world_fact: What abnormal or dangerous event is happening in the home? smoke present
+  observed_value: smoke present
+  value: smoke_present
+  property_ids:
+  - C183a
+- dimension: abnormal_events
+  condition: there is water leakage
+  world_fact: What abnormal or dangerous event is happening in the home? water leakage present
+  observed_value: water leakage present
+  value: leak_detected
+  property_ids:
+  - C046
+- dimension: abnormal_events
+  condition: water/moisture sensor detects leak around a location such as basement
+  world_fact: What abnormal or dangerous event is happening in the home? leak detected
+  observed_value: leak detected
+  value: leak_detected
+  property_ids:
+  - C203
+- dimension: temperature
+  condition: temperature is low
+  world_fact: How warm or cold is the room? temperature is low
+  observed_value: temperature is low
+  value: low
+  property_ids:
+  - C159
+  - IoTCom-P7
+- dimension: temperature
+  condition: the temperature drops below the lower threshold
+  world_fact: How warm or cold is the room? below the lower threshold
+  observed_value: below the lower threshold
+  value: below_lower_threshold
+  property_ids:
+  - C055
+- dimension: temperature
+  condition: the temperature is above a threshold
+  world_fact: How warm or cold is the room? above the threshold
+  observed_value: above the threshold
+  value: above_threshold
+  property_ids:
+  - C066
+- dimension: temperature
+  condition: the temperature is below the threshold
+  world_fact: How warm or cold is the room? below the user threshold
+  observed_value: below the user threshold
+  value: above_threshold
+  property_ids:
+  - C056
+- dimension: temperature
+  condition: the temperature rises above a predefined value
+  world_fact: How warm or cold is the room? above the predefined value
+  observed_value: above the predefined value
+  value: above_threshold
+  property_ids:
+  - C014
+- dimension: temperature
+  condition: the temperature rises above the threshold
+  world_fact: How warm or cold is the room? above the threshold
+  observed_value: above the threshold
+  value: above_threshold
+  property_ids:
+  - C054
+- dimension: people_activity
+  condition: The user arrives home
+  world_fact: What are the people doing? user arrives home
+  observed_value: user arrives home
+  value: arriving_home
+  property_ids:
+  - C177
+- dimension: people_activity
+  condition: people leave home
+  world_fact: What are the people doing? leaving home
+  observed_value: leaving home
+  value: leaving_home
+  property_ids:
+  - C179b
+- dimension: people_activity
+  condition: the user arrives home
+  world_fact: What are the people doing? user arrives home
+  observed_value: user arrives home
+  value: arriving_home
+  property_ids:
+  - C003
+  - C102
+- dimension: room_people_activity
+  condition: a user is sleeping
+  world_fact: What are the people in the room doing? asleep
+  observed_value: asleep
+  value: asleep
+  property_ids:
+  - C174
+- dimension: room_people_activity
+  condition: people are at home
+  world_fact: What are the people in the room doing? people are at home
+  observed_value: people are at home
+  value: present
+  property_ids:
+  - IoTSan-T1
+- dimension: room_people_activity
+  condition: someone is present
+  world_fact: What are the people in the room doing? someone is present
+  observed_value: someone is present
+  value: present
+  property_ids:
+  - C114
+- dimension: home_mode
+  condition: home mode is vacation
+  world_fact: Is the home in vacation mode? vacation mode
+  observed_value: vacation mode
+  value: vacation_mode
+  property_ids:
+  - C038
+- dimension: home_mode
+  condition: night mode
+  world_fact: Is the home in a specific mode? night mode
+  observed_value: night mode
+  value: night_mode
+  property_ids:
+  - C047a
+- dimension: door_status
+  condition: door is closed
+  world_fact: Is the door closed or open? closed
+  observed_value: closed
+  value: closed
+  property_ids:
+  - IoTCom-P2
+- dimension: specific_room_events
+  condition: water/moisture sensor detects leak around a location such as laundry room
+  world_fact: What abnormal or dangerous event is happening in the laundry room? leak present
+  observed_value: leak present
+  value: leak_present
+  property_ids:
+  - C203
+- dimension: light_level
+  condition: light level changes
+  world_fact: What is the current light level in the room?
+  observed_value: ''
+  value: null
+  property_ids:
+  - IoTCom-P6
+- dimension: daytime_light
+  condition: indoor illuminance is below 80 lux in daytime
+  world_fact: What is the indoor illuminance level during the daytime? below 80 lux
+  observed_value: below 80 lux
+  value: below_80_lux
+  property_ids:
+  - C119
+- dimension: daytime_light_general
+  condition: indoor illuminance exceeds 600 lux
+  world_fact: What is the indoor illuminance level? exceeds 600 lux
+  observed_value: exceeds 600 lux
+  value: above_600_lux
+  property_ids:
+  - C120
+- dimension: security_status
+  condition: a camera does not recognize an unauthorized face
+  world_fact: What is the security status of the door? unauthorized access detected
+  observed_value: unauthorized access detected
+  value: unauthorized_access
+  property_ids:
+  - C196
+- dimension: sensor_status
+  condition: the water sensor is wet
+  world_fact: What is the state of the water sensor? wet
+  observed_value: wet
+  value: wet
+  property_ids:
+  - C069
+- dimension: door_status_general
+  condition: the doors are unlocking
+  world_fact: What is the status of the doors? unlocking
+  observed_value: unlocking
+  value: unlocking
+  property_ids:
+  - C194b
+- dimension: time_of_day
+  condition: at noon every day
+  world_fact: What time of day is it? noon
+  observed_value: noon
+  value: noon
+  property_ids:
+  - C106
+- dimension: how_warm_or_cold_is_the_home
+  condition: the temperature is below a predefined value
+  world_fact: How warm or cold is the home? below the predefined threshold
+  observed_value: below the predefined threshold
+  value: below_predefined_threshold
+  property_ids:
+  - C009
+  - C113
+  - C114
+- dimension: is_the_user_near_the_home
+  condition: a user is within a specified distance of the house
+  world_fact: Is the user near the home? yes
+  observed_value: 'yes'
+  value: 'yes'
+  property_ids:
+  - C192
+- dimension: is_there_any_motion_in_the_room
+  condition: Motion detected
+  world_fact: Is there any motion in the room? motion present
+  observed_value: motion present
+  value: motion_present
+  property_ids:
+  - C139
+- dimension: what_is_the_air_quality_in_the_home
+  condition: air quality drops below a threshold
+  world_fact: What is the air quality in the home? below threshold
+  observed_value: below threshold
+  value: below_threshold
+  property_ids:
+  - C041
+  - C060
+- dimension: intruder
+  condition: no intruder is detected
+  world_fact: Is there an intruder in the home? no intruder
+  observed_value: no intruder
+  value: no_intruder
+  property_ids:
+  - C104

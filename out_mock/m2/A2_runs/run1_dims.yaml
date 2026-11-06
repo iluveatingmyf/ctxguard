@@ -1,0 +1,57 @@
+dims:
+- id: home_nobody
+  desc: 'mock: nobody home; someone home'
+  subject: home
+  variables:
+  - nobody home
+  - someone home
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: home_present
+  desc: 'mock: present'
+  subject: home
+  variables:
+  - present
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+grouping:
+  pair_budget: 2000
+  subjects:
+    home:
+      facts: 3
+      pairs_asked: 3
+      pair_mode: exhaustive
+      relations:
+        independent: 2
+        exclusive: 1
+      slots: 2
+  relations:
+  - subject: home
+    a: present
+    b: someone home
+    relation: independent
+    raw: independent
+    reason: mock
+  - subject: home
+    a: nobody home
+    b: someone home
+    relation: exclusive
+    raw: exclusive
+    reason: mock
+  - subject: home
+    a: nobody home
+    b: present
+    relation: independent
+    raw: independent
+    reason: mock
+  violations: []
+  splits: []
+  implications: []

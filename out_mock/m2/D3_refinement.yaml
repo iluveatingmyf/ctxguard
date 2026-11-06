@@ -1,0 +1,23 @@
+confirmed_counterexamples: 1
+used_as_evidence: 1
+affected_dimensions:
+- zone_occupant
+affected_pairs:
+- sound:increase x comfort
+next: m2-consolidate --base current --dims zone_occupant
+items:
+- claim: 148
+  effect: sound:increase
+  asset: comfort
+  pattern:
+    zone_occupant:
+    - empty
+    - awake
+  claimed_label: '0'
+  narrative: someone is watching a movie in the living room
+  expected_label: '-'
+  judge_label: '-'
+  missing_attribute: watching a movie
+  dimension: zone_occupant
+  is_world_state: true
+  used: true

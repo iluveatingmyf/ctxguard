@@ -1,0 +1,29 @@
+version: F-ablation_topdown
+schema: S-v1
+factors:
+- name: occupancy_f
+  scope: global
+  semantics: Whether residents are at home, away, arriving or leaving.
+  values:
+    none: baseline
+    present: holds
+  provenance:
+    slot: occupancy
+    n_conditions: 2
+    dey: location/identity
+    statements_per_value:
+      none: 0
+      present: 2
+- name: effect_zone
+  scope: action
+  semantics: Type of the area in which the action's effect acts.
+  values:
+    bedroom: A sleeping room.
+    kitchen: A cooking area.
+    bathroom: A bathroom or shower room.
+    living: Living room, dining room, study or hallway.
+    entry: Front door, entrance hall, garage.
+    utility: Laundry, storage, technical room.
+  provenance:
+    derived: action target area
+feasibility: []

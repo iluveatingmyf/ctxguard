@@ -1,0 +1,1330 @@
+version: E-k1
+samples: 1
+temperature: 0.0
+direction_rule: unanimity_else_both
+prompt_version: M1-v3 (direction 'either'; channel vote + direction rule)
+rejected_out_of_vocab: 0
+discarded_extra_device: 15
+n_bidirectional: 22
+bidirectional:
+- close_blind:indoor_temperature
+- close_garage:indoor_humidity
+- close_garage:indoor_temperature
+- close_window:indoor_humidity
+- close_window:indoor_temperature
+- cool_on:air_exchange
+- exhaust_fan_on:indoor_temperature
+- fan_on:indoor_humidity
+- fan_on:indoor_temperature
+- humidifier_on:indoor_temperature
+- hvac_off:indoor_humidity
+- hvac_off:indoor_temperature
+- open_blind:indoor_temperature
+- open_garage:indoor_humidity
+- open_garage:indoor_temperature
+- open_window:indoor_humidity
+- open_window:indoor_temperature
+- unlock_door:air_exchange
+- unlock_door:visibility
+- vacuum_start:illumination
+- vacuum_start:indoor_humidity
+- water_valve_open:indoor_temperature
+effects:
+- id: air_exchange:decrease
+  channel: air_exchange
+  direction: decrease
+  desc: decrease of air exchange (Rate of air exchange between indoor zone and outdoors (ventilation).)
+  preconditions:
+    close_window: always
+    close_blind: if the window behind the blind is open
+    close_garage: always
+    unlock_door: If the door is opened after unlocking, air exchange increases; if the door remains closed, air exchange stays
+      the same.
+    cool_on: If the system is a central air conditioner with a fresh air intake, air exchange increases; if it is a ductless
+      split or window unit that recirculates indoor air, air exchange remains unchanged.
+    hvac_off: If the HVAC system includes a ventilation fan that was running, turning it off reduces air exchange; otherwise
+      no change.
+- id: air_exchange:increase
+  channel: air_exchange
+  direction: increase
+  desc: increase of air exchange (Rate of air exchange between indoor zone and outdoors (ventilation).)
+  preconditions:
+    open_window: always
+    open_blind: if the window behind the blind is open
+    open_garage: always
+    unlock_door: If the door is opened after unlocking, air exchange increases; if the door remains closed, air exchange stays
+      the same.
+    heat_on: if the heating system includes a ventilation fan or if it draws combustion air from indoors
+    cool_on: If the system is a central air conditioner with a fresh air intake, air exchange increases; if it is a ductless
+      split or window unit that recirculates indoor air, air exchange remains unchanged.
+    fan_on: always
+    exhaust_fan_on: always
+    vacuum_start: always
+- id: gas_flow:decrease
+  channel: gas_flow
+  direction: decrease
+  desc: decrease of gas flow (Fuel gas supplied through piping.)
+  preconditions:
+    stove_off: if the stove is gas-powered
+    gas_valve_close: always
+- id: gas_flow:increase
+  channel: gas_flow
+  direction: increase
+  desc: increase of gas flow (Fuel gas supplied through piping.)
+  preconditions:
+    heat_on: if the heating system uses natural gas or propane
+- id: heat_source:decrease
+  channel: heat_source
+  direction: decrease
+  desc: decrease of heat source (An active heating element or open flame is running (stove, oven, space heater).)
+  preconditions:
+    stove_off: always
+- id: heat_source:increase
+  channel: heat_source
+  direction: increase
+  desc: increase of heat source (An active heating element or open flame is running (stove, oven, space heater).)
+  preconditions:
+    heat_on: always
+- id: illumination:decrease
+  channel: illumination
+  direction: decrease
+  desc: decrease of illumination (Light level inside the zone.)
+  preconditions:
+    close_window: if the window admits daylight and closing it blocks light
+    close_blind: always
+    light_off: always
+    vacuum_start: If vacuum has lights and they turn on, illumination increases; otherwise no change.
+- id: illumination:increase
+  channel: illumination
+  direction: increase
+  desc: increase of illumination (Light level inside the zone.)
+  preconditions:
+    open_blind: always
+    open_garage: If it is daytime and the garage door opening lets in outdoor light.
+    light_on: always
+    camera_on: if the camera has a status LED or IR illuminator
+    vacuum_start: If vacuum has lights and they turn on, illumination increases; otherwise no change.
+- id: indoor_humidity:decrease
+  channel: indoor_humidity
+  direction: decrease
+  desc: decrease of indoor humidity (Relative humidity of the indoor zone.)
+  preconditions:
+    open_window: If outdoor humidity is higher than indoor, indoor humidity rises; if outdoor humidity is lower, indoor humidity
+      falls.
+    close_window: if outdoor humidity is higher than indoor, closing the window decreases indoor humidity; if outdoor humidity
+      is lower, closing the window increases indoor humidity
+    open_garage: If the outdoor humidity is higher than the indoor humidity, indoor humidity increases; if lower, it decreases.
+    close_garage: If outdoor humidity is higher than indoor, closing the door reduces moisture ingress and indoor humidity
+      may fall; if outdoor humidity is lower, closing the door reduces moisture egress and indoor humidity may rise.
+    heat_on: always
+    cool_on: always
+    hvac_off: If the HVAC was dehumidifying (cooling), humidity may increase; if it was humidifying, humidity may decrease;
+      if no humidity control, no change.
+    fan_on: If the fan increases evaporation from wet surfaces or occupants, humidity may increase; if it increases air exchange
+      with drier outdoor air, humidity may decrease.
+    exhaust_fan_on: if indoor humidity is higher than outdoor humidity
+    stove_off: if the stove was producing steam (e.g., boiling water)
+    vacuum_start: If vacuum has wet cleaning function and is used with water, humidity increases; otherwise no significant
+      change.
+- id: indoor_humidity:increase
+  channel: indoor_humidity
+  direction: increase
+  desc: increase of indoor humidity (Relative humidity of the indoor zone.)
+  preconditions:
+    open_window: If outdoor humidity is higher than indoor, indoor humidity rises; if outdoor humidity is lower, indoor humidity
+      falls.
+    close_window: if outdoor humidity is higher than indoor, closing the window decreases indoor humidity; if outdoor humidity
+      is lower, closing the window increases indoor humidity
+    open_garage: If the outdoor humidity is higher than the indoor humidity, indoor humidity increases; if lower, it decreases.
+    close_garage: If outdoor humidity is higher than indoor, closing the door reduces moisture ingress and indoor humidity
+      may fall; if outdoor humidity is lower, closing the door reduces moisture egress and indoor humidity may rise.
+    hvac_off: If the HVAC was dehumidifying (cooling), humidity may increase; if it was humidifying, humidity may decrease;
+      if no humidity control, no change.
+    fan_on: If the fan increases evaporation from wet surfaces or occupants, humidity may increase; if it increases air exchange
+      with drier outdoor air, humidity may decrease.
+    water_valve_open: if water is released into the indoor environment (e.g., open faucet, leak, or appliance use)
+    vacuum_start: If vacuum has wet cleaning function and is used with water, humidity increases; otherwise no significant
+      change.
+    humidifier_on: always
+- id: indoor_temperature:decrease
+  channel: indoor_temperature
+  direction: decrease
+  desc: decrease of indoor temperature (Air temperature of the indoor zone.)
+  preconditions:
+    open_window: If outdoor temperature is higher than indoor, indoor temperature rises; if outdoor temperature is lower,
+      indoor temperature falls.
+    close_window: if it is warmer outside than inside, closing the window decreases indoor temperature (reduces heat gain);
+      if it is colder outside, closing the window increases indoor temperature (reduces heat loss)
+    open_blind: increases if sunlight enters and warms the room; decreases if the window is open and outside is cooler than
+      inside
+    close_blind: increases if the blind blocks sunlight that would otherwise heat the room; decreases if the blind provides
+      insulation reducing heat loss to outside
+    open_garage: If the outdoor temperature is higher than the indoor temperature, indoor temperature increases; if lower,
+      it decreases.
+    close_garage: If the garage is warmer than outside, closing the door reduces heat loss and indoor temperature may rise;
+      if the garage is cooler than outside, closing the door reduces heat gain and indoor temperature may fall.
+    cool_on: always
+    hvac_off: If the HVAC was heating, indoor temperature decreases; if it was cooling, indoor temperature increases; if it
+      was off or fan-only, no change.
+    fan_on: If the air moved by the fan is cooler than the occupants' skin or surfaces, it can increase convective heat loss
+      making the room feel cooler, but the fan motor also adds heat, so actual air temperature may increase slightly; overall
+      effect on measured air temperature is either depending on conditions.
+    exhaust_fan_on: decreases if indoor air is warmer than outdoor air; increases if indoor air is cooler than outdoor air
+    stove_off: always
+    water_valve_open: increases if the water is warmer than the indoor air and transfers heat; decreases if the water is colder
+      and absorbs heat
+    humidifier_on: If the humidifier uses a heating element (warm mist), it increases indoor temperature; if it is an evaporative
+      or ultrasonic cool mist humidifier, it may slightly decrease indoor temperature due to evaporative cooling.
+- id: indoor_temperature:increase
+  channel: indoor_temperature
+  direction: increase
+  desc: increase of indoor temperature (Air temperature of the indoor zone.)
+  preconditions:
+    open_window: If outdoor temperature is higher than indoor, indoor temperature rises; if outdoor temperature is lower,
+      indoor temperature falls.
+    close_window: if it is warmer outside than inside, closing the window decreases indoor temperature (reduces heat gain);
+      if it is colder outside, closing the window increases indoor temperature (reduces heat loss)
+    open_blind: increases if sunlight enters and warms the room; decreases if the window is open and outside is cooler than
+      inside
+    close_blind: increases if the blind blocks sunlight that would otherwise heat the room; decreases if the blind provides
+      insulation reducing heat loss to outside
+    open_garage: If the outdoor temperature is higher than the indoor temperature, indoor temperature increases; if lower,
+      it decreases.
+    close_garage: If the garage is warmer than outside, closing the door reduces heat loss and indoor temperature may rise;
+      if the garage is cooler than outside, closing the door reduces heat gain and indoor temperature may fall.
+    heat_on: always
+    hvac_off: If the HVAC was heating, indoor temperature decreases; if it was cooling, indoor temperature increases; if it
+      was off or fan-only, no change.
+    fan_on: If the air moved by the fan is cooler than the occupants' skin or surfaces, it can increase convective heat loss
+      making the room feel cooler, but the fan motor also adds heat, so actual air temperature may increase slightly; overall
+      effect on measured air temperature is either depending on conditions.
+    exhaust_fan_on: decreases if indoor air is warmer than outdoor air; increases if indoor air is cooler than outdoor air
+    light_on: if the light is not LED or other high-efficiency type; incandescent/halogen produce significant heat
+    water_valve_open: increases if the water is warmer than the indoor air and transfers heat; decreases if the water is colder
+      and absorbs heat
+    humidifier_on: If the humidifier uses a heating element (warm mist), it increases indoor temperature; if it is an evaporative
+      or ultrasonic cool mist humidifier, it may slightly decrease indoor temperature due to evaporative cooling.
+- id: info_disclosure:increase
+  channel: info_disclosure
+  direction: increase
+  desc: increase of info disclosure (Information emitted outside the device (spoken announcement, notification, upload).)
+  preconditions:
+    alarm_arm_away: if the system sends a notification to a monitoring service or user device
+    siren_on: always
+    camera_on: if the camera is connected to a network or storage
+    media_play: if the media content is streamed from an online service or if playback is reported to a remote server
+    tts_announce: always
+- id: mechanical_motion:increase
+  channel: mechanical_motion
+  direction: increase
+  desc: increase of mechanical motion (Moving machinery that can collide with or trap people/pets (robot vacuum, garage door,
+    motorized covers).)
+  preconditions:
+    open_blind: always
+    close_blind: if the blind is motorized
+    open_garage: always
+    close_garage: always
+    fan_on: always
+    vacuum_start: always
+- id: passage_opening:decrease
+  channel: passage_opening
+  direction: decrease
+  desc: decrease of passage opening (Physical openness of a passage between outside and inside (door, window, garage) - who/what
+    can pass.)
+  preconditions:
+    close_window: always
+    close_garage: always
+    lock_door: always
+- id: passage_opening:increase
+  channel: passage_opening
+  direction: increase
+  desc: increase of passage opening (Physical openness of a passage between outside and inside (door, window, garage) - who/what
+    can pass.)
+  preconditions:
+    open_window: always
+    open_blind: if the blind covers a window that can be opened and is currently open
+    open_garage: always
+    unlock_door: always
+- id: power_supply:decrease
+  channel: power_supply
+  direction: decrease
+  desc: decrease of power supply (Electrical power delivered to a load (outlet, appliance, device).)
+  preconditions:
+    hvac_off: If the HVAC system was consuming electrical power, turning it off reduces power supply to the HVAC unit; otherwise
+      no change.
+    outlet_off: always
+- id: power_supply:increase
+  channel: power_supply
+  direction: increase
+  desc: increase of power supply (Electrical power delivered to a load (outlet, appliance, device).)
+  preconditions:
+    heat_on: always
+    cool_on: always
+    exhaust_fan_on: always
+    light_on: always
+    outlet_on: always
+    camera_on: always
+    media_play: always
+    vacuum_start: always
+    humidifier_on: always
+- id: security_monitoring:decrease
+  channel: security_monitoring
+  direction: decrease
+  desc: decrease of security monitoring (Intrusion monitoring / alarm protection of the home.)
+  preconditions:
+    open_garage: If the garage door is part of a security system that monitors its open/closed state.
+    unlock_door: always
+    alarm_disarm: always
+- id: security_monitoring:increase
+  channel: security_monitoring
+  direction: increase
+  desc: increase of security monitoring (Intrusion monitoring / alarm protection of the home.)
+  preconditions:
+    close_garage: always
+    lock_door: always
+    alarm_arm_away: always
+    siren_on: always
+    camera_on: if the camera is used for surveillance
+- id: sensing_capture:increase
+  channel: sensing_capture
+  direction: increase
+  desc: increase of sensing capture (Audio/video capture of the occupants and the home.)
+  preconditions:
+    camera_on: always
+- id: sound:decrease
+  channel: sound
+  direction: decrease
+  desc: decrease of sound (Acoustic emission inside the home.)
+  preconditions:
+    hvac_off: If the HVAC system was running and producing noise, turning it off reduces sound; otherwise no change.
+    stove_off: if the stove was making noise (e.g., fan, burner sound)
+- id: sound:increase
+  channel: sound
+  direction: increase
+  desc: increase of sound (Acoustic emission inside the home.)
+  preconditions:
+    open_window: always
+    close_window: if the window is motorized or has moving parts that produce noise during closing
+    open_blind: if the blind motor is noisy
+    close_blind: if the blind is motorized
+    open_garage: always
+    close_garage: always
+    unlock_door: always
+    lock_door: if the lock mechanism is audible
+    heat_on: always
+    cool_on: always
+    fan_on: always
+    exhaust_fan_on: always
+    light_on: if the light has a ballast, transformer, or dimmer that hums; otherwise no significant sound
+    water_valve_open: if water flows through pipes or fixtures, causing noise
+    alarm_arm_away: if the alarm panel or keypad emits a confirmation beep or voice prompt
+    siren_on: always
+    camera_on: if the camera has a mechanical IR cut filter or pan/tilt motor
+    media_play: always
+    tts_announce: always
+    vacuum_start: always
+    humidifier_on: always
+- id: visibility:decrease
+  channel: visibility
+  direction: decrease
+  desc: decrease of visibility (How much of the indoor space can be seen from outside.)
+  preconditions:
+    close_window: if the window is transparent and closing it blocks the view from outside
+    close_blind: always
+    close_garage: always
+    unlock_door: If the door is opened after unlocking, visibility from outside into the home increases; if the door remains
+      closed, visibility stays the same.
+- id: visibility:increase
+  channel: visibility
+  direction: increase
+  desc: increase of visibility (How much of the indoor space can be seen from outside.)
+  preconditions:
+    open_window: always
+    open_blind: always
+    open_garage: always
+    unlock_door: If the door is opened after unlocking, visibility from outside into the home increases; if the door remains
+      closed, visibility stays the same.
+- id: water_flow:decrease
+  channel: water_flow
+  direction: decrease
+  desc: decrease of water flow (Water supplied through plumbing.)
+  preconditions:
+    water_valve_close: always
+- id: water_flow:increase
+  channel: water_flow
+  direction: increase
+  desc: increase of water flow (Water supplied through plumbing.)
+  preconditions:
+    water_valve_open: always
+eff:
+  open_window:
+  - air_exchange:increase
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - passage_opening:increase
+  - sound:increase
+  - visibility:increase
+  close_window:
+  - air_exchange:decrease
+  - illumination:decrease
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - passage_opening:decrease
+  - sound:increase
+  - visibility:decrease
+  open_blind:
+  - air_exchange:increase
+  - illumination:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - mechanical_motion:increase
+  - passage_opening:increase
+  - sound:increase
+  - visibility:increase
+  close_blind:
+  - air_exchange:decrease
+  - illumination:decrease
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - mechanical_motion:increase
+  - sound:increase
+  - visibility:decrease
+  open_garage:
+  - air_exchange:increase
+  - illumination:increase
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - mechanical_motion:increase
+  - passage_opening:increase
+  - security_monitoring:decrease
+  - sound:increase
+  - visibility:increase
+  close_garage:
+  - air_exchange:decrease
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - mechanical_motion:increase
+  - passage_opening:decrease
+  - security_monitoring:increase
+  - sound:increase
+  - visibility:decrease
+  unlock_door:
+  - air_exchange:decrease
+  - air_exchange:increase
+  - passage_opening:increase
+  - security_monitoring:decrease
+  - sound:increase
+  - visibility:decrease
+  - visibility:increase
+  lock_door:
+  - passage_opening:decrease
+  - security_monitoring:increase
+  - sound:increase
+  heat_on:
+  - air_exchange:increase
+  - gas_flow:increase
+  - heat_source:increase
+  - indoor_humidity:decrease
+  - indoor_temperature:increase
+  - power_supply:increase
+  - sound:increase
+  cool_on:
+  - air_exchange:decrease
+  - air_exchange:increase
+  - indoor_humidity:decrease
+  - indoor_temperature:decrease
+  - power_supply:increase
+  - sound:increase
+  hvac_off:
+  - air_exchange:decrease
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - power_supply:decrease
+  - sound:decrease
+  fan_on:
+  - air_exchange:increase
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - mechanical_motion:increase
+  - sound:increase
+  exhaust_fan_on:
+  - air_exchange:increase
+  - indoor_humidity:decrease
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - power_supply:increase
+  - sound:increase
+  light_on:
+  - illumination:increase
+  - indoor_temperature:increase
+  - power_supply:increase
+  - sound:increase
+  light_off:
+  - illumination:decrease
+  outlet_on:
+  - power_supply:increase
+  outlet_off:
+  - power_supply:decrease
+  stove_off:
+  - gas_flow:decrease
+  - heat_source:decrease
+  - indoor_humidity:decrease
+  - indoor_temperature:decrease
+  - sound:decrease
+  water_valve_close:
+  - water_flow:decrease
+  water_valve_open:
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - sound:increase
+  - water_flow:increase
+  gas_valve_close:
+  - gas_flow:decrease
+  alarm_arm_away:
+  - info_disclosure:increase
+  - security_monitoring:increase
+  - sound:increase
+  alarm_disarm:
+  - security_monitoring:decrease
+  siren_on:
+  - info_disclosure:increase
+  - security_monitoring:increase
+  - sound:increase
+  camera_on:
+  - illumination:increase
+  - info_disclosure:increase
+  - power_supply:increase
+  - security_monitoring:increase
+  - sensing_capture:increase
+  - sound:increase
+  media_play:
+  - info_disclosure:increase
+  - power_supply:increase
+  - sound:increase
+  tts_announce:
+  - info_disclosure:increase
+  - sound:increase
+  vacuum_start:
+  - air_exchange:increase
+  - illumination:decrease
+  - illumination:increase
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - mechanical_motion:increase
+  - power_supply:increase
+  - sound:increase
+  humidifier_on:
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - power_supply:increase
+  - sound:increase
+votes:
+  open_window:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    passage_opening:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    visibility:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  close_window:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    illumination:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    passage_opening:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    visibility:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+  open_blind:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    illumination:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    mechanical_motion:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    passage_opening:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    visibility:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  close_blind:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    illumination:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    mechanical_motion:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    visibility:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+  open_garage:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    illumination:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    mechanical_motion:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    passage_opening:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    security_monitoring:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    visibility:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  close_garage:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    mechanical_motion:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    passage_opening:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    security_monitoring:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    visibility:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+  unlock_door:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    passage_opening:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    security_monitoring:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    visibility:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+  lock_door:
+    passage_opening:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    security_monitoring:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  heat_on:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    gas_flow:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    heat_source:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    power_supply:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  cool_on:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    power_supply:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  hvac_off:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    power_supply:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+  fan_on:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    mechanical_motion:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  exhaust_fan_on:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    power_supply:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  light_on:
+    illumination:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    power_supply:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  light_off:
+    illumination:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+  outlet_on:
+    power_supply:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  outlet_off:
+    power_supply:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+  stove_off:
+    gas_flow:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    heat_source:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+  water_valve_close:
+    water_flow:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+  water_valve_open:
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    water_flow:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  gas_valve_close:
+    gas_flow:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+  alarm_arm_away:
+    info_disclosure:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    security_monitoring:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  alarm_disarm:
+    security_monitoring:
+      mentioned_in: 1
+      direction_votes:
+        decrease: 1
+      kept:
+      - decrease
+  siren_on:
+    info_disclosure:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    security_monitoring:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  camera_on:
+    illumination:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    info_disclosure:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    power_supply:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    security_monitoring:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sensing_capture:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  media_play:
+    info_disclosure:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    power_supply:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  tts_announce:
+    info_disclosure:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  vacuum_start:
+    air_exchange:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    illumination:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    mechanical_motion:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    power_supply:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+  humidifier_on:
+    indoor_humidity:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    indoor_temperature:
+      mentioned_in: 1
+      direction_votes:
+        either: 1
+      kept:
+      - increase
+      - decrease
+    power_supply:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase
+    sound:
+      mentioned_in: 1
+      direction_votes:
+        increase: 1
+      kept:
+      - increase

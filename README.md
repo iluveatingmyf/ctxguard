@@ -22,6 +22,64 @@ python tests/smoke_mock.py
 
 以后每次新开终端，先 `cd ctxguard && source .venv/bin/activate`。
 
+### 0b. 用 DeepSeek API 跑（可选，和 ollama 的结果分开存）
+
+```bash
+export DEEPSEEK_API_KEY=sk-...                       # 只放在环境变量里，不写进任何文件
+python -m ctxguard.cli check --config config_deepseek.yaml   # 应显示 OK deepseek-chat
+python -m ctxguard.cli m2-extract --config config_deepseek.yaml
+python -m ctxguard.cli m2-dims --config config_deepseek.yaml
+```
+
+`config_deepseek.yaml` 的方法参数与 `config.yaml` 相同，结果写到 `out_deepseek/`；缓存按"后端 + 模型"区分，两边永不混。
+后面用到 M1 效果库的步骤（m2-elicit、m2-ingest、m3 …）要先在这个配置下跑一次 `m1`。
+
+### 0c. 新版 M2 A 阶段（2026-11-05）先跑这三步看结果
+
+```bash
+python -m ctxguard.cli m2-extract            # A1，不变
+python -m ctxguard.cli m2-dims               # A2：提升 + 两两关系分槽（默认）
+python -m ctxguard.cli m2-values             # A3，不变
+```
+
+看三处：`out/m2/A2_dims.yaml`（槽、每个槽的 subject 和事实、`lift_failed`、`relation_grouping`），
+`out/annotate/m2_A2_relations_CHECK.csv`（抽检两两关系），`out/annotate/m2_A2_coding_CHECK.csv`（抽检提升）。
+想复现旧做法做对比：在 config 里设 `m2_coding: question` 和 `m2_grouping: llm`，并把 `paths.out` 改成另一个文件夹。
+
+### 0d. M1-v3 与 M2 lift-v4.1（2026-11-06）与实验记录规范
+
+**改了什么（都有 config 开关，旧做法保留为消融，可从缓存零调用复现）：**
+
+| 开关（`method.*`） | 默认（新） | 消融（旧） | 为什么 |
+|---|---|---|---|
+| `m1_direction_rule` | `unanimity_else_both` | `majority` | 开/关窗对室温、湿度的方向取决于室内外，旧规则按方向分别投票，把少数方向投掉（v2 结果 0 个双向效果）。新规则：通道按多数票保留；方向全体一致才取单向，否则（含 `either`）两个方向都保留 |
+| prompt M1-v3 | `direction` 可取 `either` | — | 让"随情境而定"能直接表达 |
+| `m2_lift_prompt` | `v4.1` | `v4` | v4 的 preamble 禁止"添加原因"，任务却要求写出读数背后的事实，二者矛盾 |
+| `m2_lift_gate` | `evidence` | `counterfactual` | 反事实题对安全类 property 会得到"仍然该做"（谨慎原则），v4 因此拒掉 52 个正确提升；新门槛：事实不能是问句、不能含读数/模式/阈值等词、不能复述读数；反事实只记录 |
+| `m2_codebook` | `a2_codebook_v1.yaml` | `a2_codebook.yaml` | v1 示例带 `reason`、`latent_fact`；**助手起草，必须人工核对后填 `reviewed_by`** |
+
+**实验记录规范：**每次打分或运行都会追加一行到 `out/eval/experiment_log.csv`
+（模型、后端、方法版本、prompts.py 哈希、method 配置哈希、码本版本、样本数、指标 JSON）。
+**论文表格里的数字必须能在这个文件里找到对应行。**dev 分数另存到 `out/eval/dev_history/`，不会被覆盖。
+prompt 或方法的改动只看 dev / 人工答案，**不看留出集**（56 条留出 property 只在最后 `m2-map` 时用一次）。
+
+**跑之前先存快照（新的 m1 / m2-dims 会覆盖旧文件）：**
+```bash
+python -m ctxguard.cli snapshot --tag before_m1v3_m2v41
+```
+**M1：**
+```bash
+python -m ctxguard.cli m1 && python -m ctxguard.cli m1 --k 1        # 同时写出 *_alt-majority.yaml（消融，零额外调用）
+python -m ctxguard.cli m1-score -g out/annotate/m1_effects_gold.csv  # 通道级、效果级 P/R/F1 + 双向召回
+python -m ctxguard.cli m1-agree -g <A 的表> <B 的表>                 # 两位标注者的 κ
+```
+**M2 A2：**
+```bash
+python -m ctxguard.cli m2-dims && python -m ctxguard.cli m2-dev      # 先看 dev，再决定是否全量
+python -m ctxguard.cli m2-dims --runs 3 && python -m ctxguard.cli m2-values
+```
+看到 `out/m2/A3_STALE.txt` 说明 A3 落后于 A2，必须重跑 `m2-values`。
+
 ## 1. 离线知识（RQ1，Sec. IV）：全部自动跑，只在 ★ 处需要你标注
 
 | 顺序 | 命令 | 产出 | 预计耗时(14B) |
@@ -47,7 +105,7 @@ python tests/smoke_mock.py
 | 阶段 | 命令 | 你要做什么 | 留下的中间结果（都可进 evaluation） |
 |---|---|---|---|
 | A1 | `m2-extract` | 无 | `A1_conditions.yaml`、`A1_report.yaml`（按利益统计语料覆盖）、★`annotate/m2_A1_extraction_CHECK.csv` |
-| A2 | `m2-dims --runs 3` | 无 | `A2_dims.yaml`、`A2_coding.yaml`、`A2_grouping.yaml`、`A2_runs/`、`A2_stability.yaml`、★`m2_A2_coding_CHECK.csv` |
+| A2 | ★先核对 `data/vocab/a2_codebook.yaml`（码本示例和 dev 集，约 20 分钟）→ `m2-dims --runs 3` → `m2-dev`（看 dev 分数） | 核对码本 | `A2_dims.yaml`、`A2_coding.yaml`、`A2_grouping.yaml`、`A2_runs/`、`A2_stability.yaml`、★`m2_A2_coding_CHECK.csv` |
 | A3 | `m2-values` | 无 | `A3_factors_corpus.yaml`、`A3_value_assignment.yaml`（条件→取值）、`A3_values_report.yaml`（覆盖率、没分配上的条件） |
 | A4 | ★人工审 `A3_factors_corpus.yaml`，按 R1–R4 写成 `data/vocab/factors_seed.yaml`（每个因子写 provenance）→ `m2-seed-check` | 约 1 小时 | `A4_seed_check.yaml`（审核改了什么） |
 | B | `m2-elicit` | 无 | `B1_elicitation.yaml`（含被拒条目）、★`m2_B1_elicit_CHECK_round1.csv` |
@@ -55,6 +113,7 @@ python tests/smoke_mock.py
 | D1 | ★审 `C3_factors_candidate.yaml`（可以直接改）→ `m2-freeze --src out/m2/C3_factors_candidate.yaml --name v1 --parent data/vocab/factors_seed.yaml` | 约 30 分钟 | `data/vocab/factors_v1.yaml`、`m2/versions/F-v1.yaml`、★`m2_rules_CHECK_F-v1.csv`（两人各标） |
 | D2 | 改 config → `m3` → `m2-audit` | 无 | `D2_decision_tables.csv.gz`、`D2_core_matrix.csv`、`D2_reducts.yaml`、`D2_value_partition.yaml`、`D2_prime_check.yaml`、`D2_dimension_cards.md/.yaml`、`D2_audit_summary.yaml` |
 | D3 | `m3-refute` → `m2-refine` | 看 `D3_refinement.yaml` 的 next | `m3/refutation.yaml`、`D3_refinement.yaml`、★`m2_D3_counterexample_CHECK.csv` |
+| 扩展：新 property | `m2-ingest --src <新 property 的 csv>` → `m2-consolidate --base current --dims <它给出的维度>` → 审 → 冻结 | 核对 ★`m2_I1_ingest_CHECK.csv` | `I1_ingest.yaml`（能表达的不动词表；不能表达的才变成证据） |
 | 下一版 | `m2-consolidate --base current --dims <D3 给出的维度>` → 审 → `m2-freeze --src … --name v2` → 改 config → `vocab-migrate --old data/vocab/factors_v1.yaml` → `m3 --only-stale` → `m2-audit` | 同 D1 | `m3/spec_F-v1.yaml`（旧 K）、`m3/stale_pairs.yaml`、`m3/only_stale_stats.yaml` |
 | 打分 | `m2-check-score -g <填好的 ★ 表…>` | 无 | `eval/m2_checks.yaml`（各项人工核对率、κ） |
 | 快照 | `snapshot --tag m2_v1` | 无 | `runs/<日期>_m2_v1/` |

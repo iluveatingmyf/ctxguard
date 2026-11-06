@@ -1,0 +1,246 @@
+B2/*:
+  calls: 154
+  cached_calls: 0
+  prompt_tokens: 104757
+  completion_tokens: 1694
+  seconds: 0.0
+  cost_class: per-trigger (baseline LLM guard)
+B2/llm_adjudicate:
+  calls: 154
+  cached_calls: 0
+  prompt_tokens: 104757
+  completion_tokens: 1694
+  seconds: 0.0
+  cost_class: per-trigger (baseline LLM guard)
+BASE/*:
+  calls: 105
+  cached_calls: 0
+  prompt_tokens: 96183
+  completion_tokens: 723
+  seconds: 0.0
+  cost_class: evaluation baselines
+BASE/direct_constraints:
+  calls: 15
+  cached_calls: 0
+  prompt_tokens: 13224
+  completion_tokens: 63
+  seconds: 0.0
+  cost_class: evaluation baselines
+BASE/point_label_audit:
+  calls: 90
+  cached_calls: 0
+  prompt_tokens: 82959
+  completion_tokens: 660
+  seconds: 0.0
+  cost_class: evaluation baselines
+M1/*:
+  calls: 116
+  cached_calls: 0
+  prompt_tokens: 70644
+  completion_tokens: 6180
+  seconds: 0.0
+  cost_class: one-time knowledge
+M1/effects:
+  calls: 116
+  cached_calls: 0
+  prompt_tokens: 70644
+  completion_tokens: 6180
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/*:
+  calls: 207
+  cached_calls: 0
+  prompt_tokens: 117994
+  completion_tokens: 1932
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/assign_value:
+  calls: 3
+  cached_calls: 0
+  prompt_tokens: 1082
+  completion_tokens: 17
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/attribute_dimension:
+  calls: 1
+  cached_calls: 0
+  prompt_tokens: 585
+  completion_tokens: 18
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/canonicalize:
+  calls: 1
+  cached_calls: 0
+  prompt_tokens: 457
+  completion_tokens: 55
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/classify_condition:
+  calls: 4
+  cached_calls: 0
+  prompt_tokens: 2652
+  completion_tokens: 72
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/contrast_label:
+  calls: 8
+  cached_calls: 0
+  prompt_tokens: 2723
+  completion_tokens: 48
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/dimension_values:
+  calls: 2
+  cached_calls: 0
+  prompt_tokens: 928
+  completion_tokens: 66
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/elicit:
+  calls: 150
+  cached_calls: 0
+  prompt_tokens: 80740
+  completion_tokens: 606
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/embed:
+  calls: 1
+  cached_calls: 0
+  prompt_tokens: 24
+  completion_tokens: 0
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/expand_values:
+  calls: 2
+  cached_calls: 0
+  prompt_tokens: 2194
+  completion_tokens: 89
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/extract_predicates:
+  calls: 4
+  cached_calls: 0
+  prompt_tokens: 1737
+  completion_tokens: 42
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/fact_relation:
+  calls: 6
+  cached_calls: 0
+  prompt_tokens: 2570
+  completion_tokens: 64
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/lift_condition:
+  calls: 8
+  cached_calls: 0
+  prompt_tokens: 8926
+  completion_tokens: 474
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/map_property:
+  calls: 6
+  cached_calls: 0
+  prompt_tokens: 9560
+  completion_tokens: 120
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/name_factor:
+  calls: 2
+  cached_calls: 0
+  prompt_tokens: 725
+  completion_tokens: 91
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/name_slot:
+  calls: 4
+  cached_calls: 0
+  prompt_tokens: 1594
+  completion_tokens: 60
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/property_assets:
+  calls: 4
+  cached_calls: 0
+  prompt_tokens: 1089
+  completion_tokens: 22
+  seconds: 0.0
+  cost_class: one-time knowledge
+M2/slot_values:
+  calls: 1
+  cached_calls: 0
+  prompt_tokens: 408
+  completion_tokens: 88
+  seconds: 0.0
+  cost_class: one-time knowledge
+M3/*:
+  calls: 944
+  cached_calls: 0
+  prompt_tokens: 888892
+  completion_tokens: 7420
+  seconds: 0.0
+  cost_class: one-time knowledge
+M3/judge:
+  calls: 1
+  cached_calls: 0
+  prompt_tokens: 191
+  completion_tokens: 7
+  seconds: 0.0
+  cost_class: one-time knowledge
+M3/point_label:
+  calls: 543
+  cached_calls: 0
+  prompt_tokens: 499976
+  completion_tokens: 3450
+  seconds: 0.0
+  cost_class: one-time knowledge
+M3/refute:
+  calls: 178
+  cached_calls: 0
+  prompt_tokens: 180920
+  completion_tokens: 985
+  seconds: 0.0
+  cost_class: one-time knowledge
+M3/region:
+  calls: 72
+  cached_calls: 0
+  prompt_tokens: 74899
+  completion_tokens: 1628
+  seconds: 0.0
+  cost_class: one-time knowledge
+M3/relevance:
+  calls: 150
+  cached_calls: 0
+  prompt_tokens: 132906
+  completion_tokens: 1350
+  seconds: 0.0
+  cost_class: one-time knowledge
+M5/*:
+  calls: 68
+  cached_calls: 0
+  prompt_tokens: 104985
+  completion_tokens: 2141
+  seconds: 0.0
+  cost_class: per-home deployment
+M5/grounding:
+  calls: 68
+  cached_calls: 0
+  prompt_tokens: 104985
+  completion_tokens: 2141
+  seconds: 0.0
+  cost_class: per-home deployment
+M6/*:
+  calls: 30
+  cached_calls: 0
+  prompt_tokens: 30806
+  completion_tokens: 1164
+  seconds: 0.0
+  cost_class: per-home deployment
+M6/intent:
+  calls: 30
+  cached_calls: 0
+  prompt_tokens: 30806
+  completion_tokens: 1164
+  seconds: 0.0
+  cost_class: per-home deployment
+_note: Runtime adjudication (ours, M7-M11) makes 0 LLM calls; see runtime latency in runtime_metrics.

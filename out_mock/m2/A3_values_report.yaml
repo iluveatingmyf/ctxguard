@@ -1,0 +1,24 @@
+per_dimension:
+  home_nobody:
+    n_conditions: 2
+    values:
+    - nobody_home
+    - someone_home
+    - none
+    covered: 2
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - none
+  home_present:
+    n_conditions: 2
+    values:
+    - present
+    - none
+    covered: 2
+    coverage: 1.0
+    unassigned: []
+    values_without_evidence:
+    - none
+n_conditions_with_variable: 4
+overall_coverage: 1.0

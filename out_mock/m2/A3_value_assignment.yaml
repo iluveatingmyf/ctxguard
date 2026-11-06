@@ -1,0 +1,32 @@
+- dimension: home_nobody
+  condition: nobody is at home
+  world_fact: nobody home
+  observation: nobody is at home
+  observed_value: nobody home
+  value: nobody_home
+  property_ids:
+  - T01
+- dimension: home_nobody
+  condition: the family is at home
+  world_fact: someone home
+  observation: the family is at home
+  observed_value: someone home
+  value: someone_home
+  property_ids:
+  - T04
+- dimension: home_present
+  condition: an elderly person is in a cold room
+  world_fact: present
+  observation: an elderly person is in a cold room
+  observed_value: present
+  value: present
+  property_ids:
+  - T03
+- dimension: home_present
+  condition: the baby is in the room
+  world_fact: present
+  observation: the baby is in the room
+  observed_value: present
+  value: present
+  property_ids:
+  - T06

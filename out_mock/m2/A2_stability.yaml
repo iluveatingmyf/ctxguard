@@ -1,0 +1,21 @@
+runs: 2
+per_run:
+- run: 1
+  n_dimensions: 2
+  ari_vs_run0: 1.0
+  kind_kappa_vs_run0: 1.0
+dimension_recurrence:
+  home_nobody:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: home_nobody
+      jaccard: 1.0
+  home_present:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: home_present
+      jaccard: 1.0
+mean_ari: 1.0
+mean_kind_kappa: 1.0

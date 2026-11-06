@@ -1,0 +1,49 @@
+# Same method settings as config.yaml, DeepSeek backend, separate output folder (results never mix).
+# Before running:  export DEEPSEEK_API_KEY=sk-...      (the key is read from the environment, never stored)
+# Run any step with:  python -m ctxguard.cli <step> --config config_deepseek.yaml
+llm:
+  backend: deepseek
+  base_url: https://api.deepseek.com
+  api_key_env: DEEPSEEK_API_KEY
+  model: deepseek-v4-pro
+  host: http://localhost:11434
+  embed_model: nomic-embed-text
+  thinking: disabled
+  max_tokens:  4096
+  timeout_s: 120
+  max_retries: 3
+paths:
+  data: data
+  out: out_deepseek
+  factors: data/vocab/factors_v0.yaml
+method:
+  seed: 7
+  m1_samples: 3
+  m1_temperature: 0.7
+  m1_direction_rule: unanimity_else_both
+  spot_check_k: 3
+  max_nodes_per_pair: 60
+  refute_max_counterexamples: 3
+  property_test_ratio: 0.3
+  m2_coding: lift
+  m2_lift_strict: true
+  m2_lift_prompt: v4.1
+  m2_lift_gate: evidence
+  m2_codebook: data/vocab/a2_codebook_v1.yaml
+  m2_grouping: relation
+  m2_pair_budget: 2000
+eval:
+  audit_items: 300
+  scenarios_per_rule:
+    random_rho: 2
+    gap_a: 2
+    b1_forged: 1
+    b2_ambiguous: 1
+    missing: 1
+  missing_ratios:
+  - 0.0
+  - 0.1
+  - 0.2
+  - 0.3
+  - 0.4
+  - 0.5

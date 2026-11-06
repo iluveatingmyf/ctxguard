@@ -1,0 +1,5 @@
+factor,scope,semantics,values,source,A_R1_world_state(1/0),A_R2_one_variable(1/0),A_R3_exclusive_exhaustive(1/0),A_R4_cause_not_reading(1/0),B_R1_world_state(1/0),B_R2_one_variable(1/0),B_R3_exclusive_exhaustive(1/0),B_R4_cause_not_reading(1/0),note
+home_nobody,global,mock: nobody home; someone home,nobody_home = nobody home; someone_home = someone home; none = baseline,corpus,,,,,,,,,
+home_present,global,mock: present,present = present; none = baseline,corpus,,,,,,,,,
+effect_zone,action,Type of the area in which the action's effect acts.,"bedroom = A sleeping room.; kitchen = A cooking area.; bathroom = A bathroom or shower room.; living = Living room, dining room, study or hallway.; entry = Front door, entrance hall, garage.; utility = Laundry, storage, technical room.",derived,,,,,,,,,
+vulnerable_present,zone,New dimension elicited from 2 attributes in 2 effect x asset pairs.,a_baby_is_asleep = a baby is asleep; a toddler is crawling; none = None of the elicited states holds.,elicited,,,,,,,,,

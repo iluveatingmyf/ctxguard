@@ -1,0 +1,103 @@
+runs: 3
+per_run:
+- run: 1
+  n_dimensions: 13
+  ari_vs_run0: 0.6691
+  kind_kappa_vs_run0: 0.978
+- run: 2
+  n_dimensions: 14
+  ari_vs_run0: 0.5967
+  kind_kappa_vs_run0: 1.0
+dimension_recurrence:
+  home_user_presence:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: home_occupancy_status
+      jaccard: 0.711
+    - run: 2
+      best_match: home_occupancy_status
+      jaccard: 0.721
+  home_user_location_status:
+    recurrence: 0.5
+    matches:
+    - run: 1
+      best_match: home_user_location_around
+      jaccard: 0.5
+    - run: 2
+      best_match: home_time_distance
+      jaccard: 0.333
+  home_fan_operation_status:
+    recurrence: 0.5
+    matches:
+    - run: 1
+      best_match: home_temperature_status
+      jaccard: 0.5
+    - run: 2
+      best_match: home_temperature_setting
+      jaccard: 0.333
+  home_time_of_day:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: home_time_of_day
+      jaccard: 0.5
+    - run: 2
+      best_match: home_time_distance
+      jaccard: 0.5
+  home_smoke_presence:
+    recurrence: 0.5
+    matches:
+    - run: 1
+      best_match: home_smoke_status
+      jaccard: 0.333
+    - run: 2
+      best_match: home_smoke_presence
+      jaccard: 0.5
+  person_user_location_arrives:
+    recurrence: 0.5
+    matches:
+    - run: 1
+      best_match: home_occupancy_status
+      jaccard: 0.051
+    - run: 2
+      best_match: person_user_location
+      jaccard: 0.5
+  zone_user_presence:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: zone_person_status
+      jaccard: 0.5
+    - run: 2
+      best_match: zone_user_presence
+      jaccard: 0.6
+  zone_door_state:
+    recurrence: 0.0
+    matches:
+    - run: 1
+      best_match: zone_time_of_day
+      jaccard: 0.0
+    - run: 2
+      best_match: zone_user_presence
+      jaccard: 0.0
+  zone_lighting_time:
+    recurrence: 1.0
+    matches:
+    - run: 1
+      best_match: zone_lighting_level
+      jaccard: 0.667
+    - run: 2
+      best_match: zone_time_of_day
+      jaccard: 0.667
+  zone_temperature_state:
+    recurrence: 0.5
+    matches:
+    - run: 1
+      best_match: zone_temperature_status
+      jaccard: 0.889
+    - run: 2
+      best_match: zone_temperature_level
+      jaccard: 0.4
+mean_ari: 0.6329
+mean_kind_kappa: 0.989

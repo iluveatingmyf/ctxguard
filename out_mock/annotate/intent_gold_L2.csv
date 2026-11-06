@@ -1,0 +1,135 @@
+rule_id,alias,rule,action_type,effects_to_choose_from,GOLD_rho(e.g. indoor_air=poor; time_period=day|night),GOLD_intended_effect,GOLD_served_asset
+L2_r01,Ventilate bedroom when CO2 is high,"id: L2_r01
+alias: Ventilate bedroom when CO2 is high
+trigger:
+- platform: numeric_state
+  entity_id: sensor.bedroom_co2
+  above: 1000
+action:
+- service: cover.open_cover
+  target:
+    entity_id: cover.bedroom_window
+",open_window,air_exchange:increase indoor_temperature:decrease indoor_temperature:increase passage_opening:increase sound:increase visibility:increase,,,
+L2_r02,Unlock front door when smoke is detected,"id: L2_r02
+alias: Unlock front door when smoke is detected
+trigger:
+- platform: state
+  entity_id: binary_sensor.kitchen_smoke
+  to: 'on'
+action:
+- service: lock.unlock
+  target:
+    entity_id: lock.front_door
+",unlock_door,passage_opening:increase,,,
+L2_r03,Open living window on smoke,"id: L2_r03
+alias: Open living window on smoke
+trigger:
+- platform: state
+  entity_id: binary_sensor.kitchen_smoke
+  to: 'on'
+action:
+- service: cover.open_cover
+  target:
+    entity_id: cover.living_window
+",open_window,air_exchange:increase indoor_temperature:decrease indoor_temperature:increase passage_opening:increase sound:increase visibility:increase,,,
+L2_r04,Shut water main on leak,"id: L2_r04
+alias: Shut water main on leak
+trigger:
+- platform: state
+  entity_id: binary_sensor.bathroom_leak
+  to: 'on'
+action:
+- service: valve.close_valve
+  target:
+    entity_id: valve.water_main
+",water_valve_close,water_flow:decrease,,,
+L2_r05,Cool bedroom through the window when hot inside,"id: L2_r05
+alias: Cool bedroom through the window when hot inside
+trigger:
+- platform: numeric_state
+  entity_id: sensor.bedroom_temperature
+  above: 28
+action:
+- service: cover.open_cover
+  target:
+    entity_id: cover.bedroom_window
+",open_window,air_exchange:increase indoor_temperature:decrease indoor_temperature:increase passage_opening:increase sound:increase visibility:increase,,,
+L2_r06,Bathroom exhaust on humidity,"id: L2_r06
+alias: Bathroom exhaust on humidity
+trigger:
+- platform: numeric_state
+  entity_id: sensor.bathroom_humidity
+  above: 75
+action:
+- service: fan.turn_on
+  target:
+    entity_id: fan.bathroom_exhaust
+",exhaust_fan_on,air_exchange:increase indoor_humidity:decrease sound:increase,,,
+L2_r07,Start robot vacuum when Jordan leaves,"id: L2_r07
+alias: Start robot vacuum when Jordan leaves
+trigger:
+- platform: state
+  entity_id: person.jordan
+  to: not_home
+action:
+- service: vacuum.start
+  target:
+    entity_id: vacuum.robot
+",vacuum_start,mechanical_motion:increase sound:increase,,,
+L2_r08,Lock the door when Jordan leaves,"id: L2_r08
+alias: Lock the door when Jordan leaves
+trigger:
+- platform: state
+  entity_id: person.jordan
+  to: not_home
+action:
+- service: lock.lock
+  target:
+    entity_id: lock.front_door
+",lock_door,passage_opening:decrease,,,
+L2_r09,Close living blind at sunset,"id: L2_r09
+alias: Close living blind at sunset
+trigger:
+- platform: sun
+  event: sunset
+action:
+- service: cover.close_cover
+  target:
+    entity_id: cover.living_blind
+",close_blind,illumination:decrease visibility:decrease,,,
+L2_r10,Turn living outlet off when Jordan leaves,"id: L2_r10
+alias: Turn living outlet off when Jordan leaves
+trigger:
+- platform: state
+  entity_id: person.jordan
+  to: not_home
+action:
+- service: switch.turn_off
+  target:
+    entity_id: switch.living_outlet
+",outlet_off,power_supply:decrease,,,
+L2_r11,Unlock door when Casey arrives,"id: L2_r11
+alias: Unlock door when Casey arrives
+trigger:
+- platform: state
+  entity_id: person.casey
+  to: home
+action:
+- service: lock.unlock
+  target:
+    entity_id: lock.front_door
+",unlock_door,passage_opening:increase,,,
+L2_r12,Play music in the living room when someone enters,"id: L2_r12
+alias: Play music in the living room when someone enters
+trigger:
+- platform: state
+  entity_id: binary_sensor.living_motion
+  to: 'on'
+action:
+- service: media_player.play_media
+  target:
+    entity_id: media_player.living_speaker
+  data:
+    media_content_id: playlist
+    media_content_type: music
+",media_play,sound:increase,,,

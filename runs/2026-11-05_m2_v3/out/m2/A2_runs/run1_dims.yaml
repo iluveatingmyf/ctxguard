@@ -1,0 +1,336 @@
+dims:
+- id: air_quality
+  desc: What is the indoor air quality like in the home?
+  variables: &id002
+  - what is the air quality like in the home?
+  - what indoor air quality issue is present?
+  - what abnormal or dangerous event is happening in the laundry room?
+  - what abnormal or dangerous event is happening in the home?
+  origin: grouped
+  verification:
+    single_variable: false
+    checked: true
+    reason: Member 2 and 3 ask about abnormal or dangerous events, not air quality.
+    issues: &id003 []
+- id: temperature
+  desc: How warm or cold is the room or home?
+  variables: &id004
+  - how warm or cold is the room?
+  - how warm or cold is the home?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: true
+    reason: Both questions ask about the temperature of the same entity (room or home) without introducing any additional
+      context or device-specific details.
+    issues: &id005 []
+- id: presence
+  desc: Is anyone at home or in the room?
+  variables: &id006
+  - is anyone intruding?
+  - what are the people doing?
+  - what are the people in the room doing?
+  - is anyone at home?
+  origin: grouped
+  verification:
+    single_variable: false
+    checked: true
+    reason: Members ask different questions. 'is anyone intruding?' asks about intruders, 'what are the people doing?' and
+      'what are the people in the room doing?' ask about actions, and 'is anyone at home?' asks about the presence of people
+      at home.
+    issues: &id007 []
+- id: motion
+  desc: Is there motion in the room?
+  variables:
+  - is there motion in the room?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: time_of_day
+  desc: What time of day is it?
+  variables:
+  - what time of day is it?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: user_activity
+  desc: What is the user doing?
+  variables:
+  - what is the user doing?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: door_status
+  desc: Is the door closed or open?
+  variables:
+  - is the door closed or open?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: dangerous_events
+  desc: What dangerous or abnormal event is happening in the home or laundry room?
+  variables: &id008
+  - what dangerous event is happening in the home?
+  - what is happening at the doors?
+  origin: grouped
+  verification:
+    single_variable: false
+    checked: true
+    reason: Members ask different situation questions. Member 0 asks about dangerous events in the home, while Member 1 asks
+      about specific events at the doors.
+    issues: &id009 []
+- id: vacation_mode
+  desc: Is the home in vacation mode?
+  variables:
+  - is the home in vacation mode?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: user_location
+  desc: What is the user's location relative to the home?
+  variables:
+  - what is the user's location relative to the home?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: room_change
+  desc: What change is happening in the room?
+  variables:
+  - what change is happening in the room?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: illuminance_during_daytime
+  desc: 'What is the indoor illuminance level? (split: what is the indoor illuminance level during the daytime?)'
+  variables:
+  - what is the indoor illuminance level during the daytime?
+  origin: split of illuminance
+  verification:
+    single_variable: true
+    checked: true
+    issues: &id001 []
+- id: general_illuminance
+  desc: 'What is the indoor illuminance level? (split: what is the indoor illuminance level?)'
+  variables:
+  - what is the indoor illuminance level?
+  origin: split of illuminance
+  verification:
+    single_variable: true
+    checked: true
+    issues: *id001
+grouping:
+  variables:
+  - variable: what is the air quality like in the home?
+    count: 1
+    example_values:
+    - below threshold
+  - variable: is anyone intruding?
+    count: 1
+    example_values:
+    - no intruder
+  - variable: what change is happening in the room?
+    count: 1
+    example_values: []
+  - variable: how warm or cold is the room?
+    count: 5
+    example_values:
+    - temperature is low
+    - below the lower threshold
+    - above the threshold
+    - below the user threshold
+    - above the predefined value
+  - variable: what are the people doing?
+    count: 2
+    example_values:
+    - user arrives home
+    - leaving home
+  - variable: is the home in vacation mode?
+    count: 1
+    example_values:
+    - vacation mode
+  - variable: what is the indoor illuminance level during the daytime?
+    count: 1
+    example_values:
+    - below 80 lux
+  - variable: what dangerous event is happening in the home?
+    count: 1
+    example_values:
+    - CO present
+  - variable: is the door closed or open?
+    count: 1
+    example_values:
+    - closed
+  - variable: what indoor air quality issue is present?
+    count: 1
+    example_values:
+    - CO2 level high
+  - variable: what are the people in the room doing?
+    count: 3
+    example_values:
+    - asleep
+    - people are at home
+    - someone present
+  - variable: is there motion in the room?
+    count: 1
+    example_values:
+    - motion present
+  - variable: what time of day is it?
+    count: 1
+    example_values:
+    - noon
+  - variable: what is the indoor illuminance level?
+    count: 1
+    example_values:
+    - exceeds 600 lux
+  - variable: what is the user doing?
+    count: 1
+    example_values:
+    - arrives home
+  - variable: what is happening at the doors?
+    count: 1
+    example_values:
+    - doors unlocking
+  - variable: what abnormal or dangerous event is happening in the laundry room?
+    count: 1
+    example_values:
+    - leak present
+  - variable: what abnormal or dangerous event is happening in the home?
+    count: 14
+    example_values:
+    - CO present
+    - leak present
+    - intruder detected
+    - motion present
+    - no smoke
+    - smoke present
+  - variable: how warm or cold is the home?
+    count: 1
+    example_values:
+    - below the predefined threshold
+  - variable: is anyone at home?
+    count: 14
+    example_values:
+    - nobody at home
+    - someone at home
+    - someone is home
+  - variable: what is the user's location relative to the home?
+    count: 1
+    example_values:
+    - within specified distance
+  grouping_answer:
+  - id: air_quality
+    definition: What is the indoor air quality like in the home?
+    members:
+    - 0
+    - 9
+    - 16
+    - 17
+  - id: temperature
+    definition: How warm or cold is the room or home?
+    members:
+    - 3
+    - 18
+  - id: presence
+    definition: Is anyone at home or in the room?
+    members:
+    - 1
+    - 4
+    - 10
+    - 19
+  - id: motion
+    definition: Is there motion in the room?
+    members:
+    - 11
+  - id: time_of_day
+    definition: What time of day is it?
+    members:
+    - 12
+  - id: illuminance
+    definition: What is the indoor illuminance level?
+    members:
+    - 6
+    - 13
+  - id: user_activity
+    definition: What is the user doing?
+    members:
+    - 14
+  - id: door_status
+    definition: Is the door closed or open?
+    members:
+    - 8
+  - id: dangerous_events
+    definition: What dangerous or abnormal event is happening in the home or laundry room?
+    members:
+    - 7
+    - 15
+    - 16
+    - 17
+    - 19
+  - id: vacation_mode
+    definition: Is the home in vacation mode?
+    members:
+    - 5
+  - id: user_location
+    definition: What is the user's location relative to the home?
+    members:
+    - 20
+  - id: room_change
+    definition: What change is happening in the room?
+    members:
+    - 2
+  duplicate_assignments:
+  - what abnormal or dangerous event is happening in the laundry room?
+  - what abnormal or dangerous event is happening in the home?
+  - is anyone at home?
+  verification:
+  - dimension: air_quality
+    members: *id002
+    single_variable: false
+    reason: Member 2 and 3 ask about abnormal or dangerous events, not air quality.
+    split_applied: false
+    issues: *id003
+  - dimension: temperature
+    members: *id004
+    single_variable: true
+    reason: Both questions ask about the temperature of the same entity (room or home) without introducing any additional
+      context or device-specific details.
+    split_applied: false
+    issues: *id005
+  - dimension: presence
+    members: *id006
+    single_variable: false
+    reason: Members ask different questions. 'is anyone intruding?' asks about intruders, 'what are the people doing?' and
+      'what are the people in the room doing?' ask about actions, and 'is anyone at home?' asks about the presence of people
+      at home.
+    split_applied: false
+    issues: *id007
+  - dimension: illuminance
+    members:
+    - what is the indoor illuminance level during the daytime?
+    - what is the indoor illuminance level?
+    single_variable: false
+    reason: Members ask different questions. Member 0 asks about the indoor illuminance level during the daytime, while member
+      1 does not specify a time.
+    split_applied: true
+    issues: *id001
+  - dimension: dangerous_events
+    members: *id008
+    single_variable: false
+    reason: Members ask different situation questions. Member 0 asks about dangerous events in the home, while Member 1 asks
+      about specific events at the doors.
+    split_applied: false
+    issues: *id009

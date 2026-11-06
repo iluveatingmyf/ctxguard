@@ -1,0 +1,17 @@
+A: out_mock/m3/spec.yaml
+B: out_mock/m3/spec_scratch.yaml
+cells_per_pair: 20880
+pairs: 15
+agreement: 1.0
+kappa: 1.0
+confusion(rows=A,cols=B; 0,+,-):
+- - 196836
+  - 0
+  - 0
+- - 0
+  - 36876
+  - 0
+- - 0
+  - 0
+  - 79488
+pairs_below_0.95: {}

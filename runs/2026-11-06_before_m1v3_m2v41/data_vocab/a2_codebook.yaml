@@ -1,0 +1,53 @@
+# A2 human codebook (the researcher's initial coding of a corpus sample).
+# This is how qualitative coding normally starts: the researcher codes a small sample by hand,
+# the model codes the rest following those examples, and agreement is then measured on a
+# further hand-coded sample that the model never sees.
+#   examples: shown to the model (few-shot). Taken from the corpus; they name some situation
+#             questions, which is intended: they ARE the human's seed codes. Report them in the paper.
+#   dev:      NEVER shown to the model. Used only by `m2-dev` to score A2 (kind accuracy and
+#             agreement of the condition -> dimension grouping, ARI). `dim` is just a cluster label.
+#             `seen` = the dimension also occurs in the examples (tests following the codebook);
+#             unseen ones test whether the model finds new situation questions on its own.
+# STATUS: draft written by the assistant from the corpus -- CHECK AND CORRECT before use.
+version: CB-v0-draft
+examples:
+  - {property: C012, condition: "the user is not at home", kind: world_state, observation: "user location",
+     question: "Is anyone at home?", answer: "nobody at home", scope: home}
+  - {property: C019, condition: "smoke is detected", kind: sensor_reading, observation: "smoke detector alarm",
+     question: "What abnormal or dangerous event is happening in the home?", answer: "smoke present", scope: home}
+  - {property: C056, condition: "the temperature is below the threshold", kind: sensor_reading,
+     observation: "temperature reading below the user threshold", question: "How warm or cold is the room?",
+     answer: "below the user threshold", scope: room}
+  - {property: C083a, condition: "Home is in away mode", kind: home_mode, observation: "home mode set to away",
+     question: "Is anyone at home?", answer: "nobody at home", scope: home}
+  - {property: C185, condition: "When the user is sleeping", kind: world_state, observation: "user sleeping",
+     question: "What are the people in the room doing?", answer: "asleep", scope: room}
+  - {property: IoTCom-P22, condition: "heater is on", kind: device_state, observation: "heater switched on",
+     question: "", answer: "", scope: room}
+  - {property: C188, condition: "The user specifies heating and cooling values.", kind: user_configuration,
+     observation: "user-set heating and cooling values", question: "", answer: "", scope: home}
+  - {property: Soteria-P1, condition: "door must be locked", kind: obligation, observation: "required door state",
+     question: "", answer: "", scope: home}
+dev:
+  - {property: C005, condition: "user is not nearby-home", kind: world_state, dim: occupancy, seen: true}
+  - {property: IoTCom-P18, condition: "Someone is home", kind: world_state, dim: occupancy, seen: true}
+  - {property: C179b, condition: "People are leaving home.", kind: event, dim: occupancy, seen: true}
+  - {property: C174, condition: "user_sleeping", kind: world_state, dim: activity, seen: true}
+  - {property: C020, condition: "CO is detected", kind: sensor_reading, dim: hazard, seen: true}
+  - {property: Soteria-P30, condition: "Leak is detected", kind: sensor_reading, dim: hazard, seen: true}
+  - {property: C105, condition: "intruder is detected", kind: sensor_reading, dim: hazard, seen: true}
+  - {property: C097, condition: "moisture_sensor detects a leak", kind: sensor_reading, dim: hazard, seen: true}
+  - {property: C054, condition: "temperature rises above the threshold", kind: sensor_reading, dim: thermal, seen: true}
+  - {property: IoTCom-P7, condition: "temperature is low", kind: sensor_reading, dim: thermal, seen: true}
+  - {property: C022, condition: "CO2 is greater than a predefined value", kind: sensor_reading, dim: air, seen: false}
+  - {property: C041, condition: "air quality drops below a threshold", kind: sensor_reading, dim: air, seen: false}
+  - {property: C116, condition: "Humidity exceeds predefined value", kind: sensor_reading, dim: air, seen: false}
+  - {property: C119, condition: "indoor illuminance is below 80 lux", kind: sensor_reading, dim: light, seen: false}
+  - {property: C120, condition: "Indoor illuminance exceeds 600 lux", kind: sensor_reading, dim: light, seen: false}
+  - {property: C160, condition: "time is nighttime", kind: world_state, dim: time, seen: false}
+  - {property: IoTCom-P6, condition: "It is daytime", kind: world_state, dim: time, seen: false}
+  - {property: C042, condition: "External temperature is high", kind: sensor_reading, dim: outdoor, seen: false}
+  - {property: IoTCom-P24, condition: "fan_on", kind: device_state, dim: none, seen: true}
+  - {property: C184, condition: "user specifies water level threshold", kind: user_configuration, dim: none, seen: true}
+  - {property: C187a, condition: "the alarm is operational", kind: device_state, dim: none, seen: true}
+  - {property: C196, condition: "door is unlocked", kind: device_state, dim: none, seen: true}

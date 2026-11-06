@@ -1,0 +1,58 @@
+version: F-A3
+schema: S-induced-v4 (lift coding)
+factors:
+- name: home_nobody
+  scope: global
+  semantics: 'mock: nobody home; someone home'
+  values:
+    nobody_home: nobody home
+    someone_home: someone home
+    none: baseline
+  provenance:
+    dimension: home_nobody
+    variables:
+    - nobody home
+    - someone home
+    n_conditions: 2
+    conditions_per_value:
+      nobody_home: 1
+      someone_home: 1
+      none: 0
+    property_ids_per_value:
+      nobody_home:
+      - T01
+      someone_home:
+      - T04
+      none: []
+- name: home_present
+  scope: global
+  semantics: 'mock: present'
+  values:
+    present: present
+    none: baseline
+  provenance:
+    dimension: home_present
+    variables:
+    - present
+    n_conditions: 2
+    conditions_per_value:
+      present: 2
+      none: 0
+    property_ids_per_value:
+      present:
+      - T03
+      - T06
+      none: []
+- name: effect_zone
+  scope: action
+  semantics: Type of the area in which the action's effect acts.
+  values:
+    bedroom: A sleeping room.
+    kitchen: A cooking area.
+    bathroom: A bathroom or shower room.
+    living: Living room, dining room, study or hallway.
+    entry: Front door, entrance hall, garage.
+    utility: Laundry, storage, technical room.
+  provenance:
+    derived: action target area (NOT induced from the corpus)
+feasibility: []

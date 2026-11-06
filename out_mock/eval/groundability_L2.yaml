@@ -1,0 +1,20 @@
+layout: L2
+entries: 24
+groundable: 10
+ratio: 0.417
+invalid_rules_dropped: 0
+ungroundable:
+- zone_occupant@bedroom
+- zone_occupant@kitchen
+- zone_occupant@bathroom
+- vulnerable_present@bedroom
+- vulnerable_present@living_room
+- vulnerable_present@kitchen
+- vulnerable_present@bathroom
+- vulnerable_present@entrance
+- indoor_air@living_room
+- indoor_air@kitchen
+- indoor_air@entrance
+- indoor_thermal@kitchen
+- indoor_thermal@bathroom
+- indoor_thermal@entrance

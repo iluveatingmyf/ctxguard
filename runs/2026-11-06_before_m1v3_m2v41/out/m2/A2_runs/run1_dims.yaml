@@ -1,0 +1,4351 @@
+dims:
+- id: home_occupancy_status
+  desc: is_anyone_at_home
+  subject: home
+  variables:
+  - home is in vacation mode
+  - someone is in the home
+  - user at home
+  - user location
+  - Is anyone at home?
+  - someone is at home
+  - someone is detected
+  - user arrives home
+  - someone is home
+  - The user is not at home.
+  - user is not nearby-home
+  - the home is unoccupied
+  - user not nearby-home
+  - user not at home
+  - nobody at home
+  - nobody is at home
+  - people are not at home
+  - people are at home
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: home_motion_or_person
+  desc: is_motion_detected_or_unauthorized_person_present
+  subject: home
+  variables:
+  - motion is detected
+  - unauthorized person present
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: home_risk
+  desc: what_is_current_hazard
+  subject: home
+  variables:
+  - fire is unlikely
+  - water damage is occurring
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: home_door_window_status
+  desc: are_doors_or_windows_opening
+  subject: home
+  variables:
+  - doors or windows are opening
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: home_smoke_status
+  desc: is there smoke?
+  subject: home
+  variables:
+  - smoke is present
+  - smoke present
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: home_time_of_day
+  desc: when are the user-specified times
+  subject: home
+  variables:
+  - There is a water leak.
+  - user-specified times
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: home_user_location_around
+  desc: is the user inside or outside the house?
+  subject: home
+  variables:
+  - user proximity to the house
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: home_air_quality
+  desc: is_co_present
+  subject: home
+  variables:
+  - CO is present
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: home_temperature_status
+  desc: is the temperature too cold?
+  subject: home
+  variables:
+  - the temperature is below the threshold
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: zone_time_of_day
+  desc: when is it and what is the user doing?
+  subject: room
+  variables:
+  - it is daytime
+  - the user is not awake
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: zone_person_status
+  desc: is_person_at_home
+  subject: room
+  variables:
+  - motion is detected
+  - someone is at home
+  - user not present
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: zone_lighting_level
+  desc: what_is_the_room Lighting_level_during_the_day
+  subject: room
+  variables:
+  - daytime and indoor illuminance below 80 lux
+  - indoor illuminance is high
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+- id: zone_temperature_status
+  desc: is the temperature comfortable?
+  subject: room
+  variables:
+  - temperature is above the comfort threshold
+  - the temperature is above the user comfort threshold
+  - the temperature is above the comfort threshold
+  - temperature is below the user threshold
+  - temperature is low
+  - the temperature is low
+  - the temperature is below a predefined value
+  - the temperature is below the comfort threshold
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+grouping:
+  pair_budget: 2000
+  subjects:
+    home:
+      facts: 30
+      pairs_asked: 435
+      pair_mode: exhaustive
+      relations:
+        exclusive: 142
+        independent: 227
+        a_implies_b: 45
+        same: 21
+      slots: 9
+    room:
+      facts: 15
+      pairs_asked: 105
+      pair_mode: exhaustive
+      relations:
+        same: 4
+        independent: 67
+        exclusive: 20
+        b_implies_a: 1
+        a_implies_b: 13
+      slots: 4
+  relations:
+  - subject: home
+    a: The user is not at home.
+    b: unauthorized person present
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A says the user is not at home, while B indicates an unauthorized person is present. These two situations
+      cannot coexist as the user being absent implies no unauthorized person can be present, and the presence of an unauthorized
+      person suggests the user is likely not at home, but the statements are not mutually inclusive in all scenarios.
+  - subject: home
+    a: unauthorized person present
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states an unauthorized person is present, which contradicts B where the user is not nearby-home.
+  - subject: home
+    a: home is in vacation mode
+    b: unauthorized person present
+    relation: independent
+    raw: independent
+    reason: A describes the home being in vacation mode, which typically means devices are set to a certain state to save
+      energy or protect the home. B states that an unauthorized person is present, which could happen regardless of the vacation
+      mode. These statements can be true independently of each other.
+  - subject: home
+    a: smoke is present
+    b: unauthorized person present
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the presence of an unauthorized person are two distinct conditions that can occur independently
+      of each other.
+  - subject: home
+    a: someone is in the home
+    b: unauthorized person present
+    relation: exclusive
+    raw: exclusive
+    reason: A states that someone is in the home, which can include authorized individuals. B states that an unauthorized
+      person is present, which excludes authorized individuals. Both cannot be true at the same time if 'someone' in A refers
+      to an authorized individual.
+  - subject: home
+    a: motion is detected
+    b: unauthorized person present
+    relation: exclusive
+    raw: exclusive
+    reason: Motion can be detected for various reasons, not necessarily involving an unauthorized person.
+  - subject: home
+    a: CO is present
+    b: unauthorized person present
+    relation: independent
+    raw: independent
+    reason: The presence of CO and the presence of an unauthorized person are independent conditions that do not imply each
+      other based on the given statements.
+  - subject: home
+    a: fire is unlikely
+    b: unauthorized person present
+    relation: independent
+    raw: independent
+    reason: 'The two statements are about different conditions: one regarding the likelihood of a fire, and the other about
+      the presence of an unauthorized person. There is no direct implication between the two statements based solely on the
+      information provided.'
+  - subject: home
+    a: unauthorized person present
+    b: user at home
+    relation: exclusive
+    raw: exclusive
+    reason: The presence of an unauthorized person and the presence of the user are mutually exclusive under normal circumstances,
+      as they cannot both be true at the same time in the context of home security.
+  - subject: home
+    a: the home is unoccupied
+    b: unauthorized person present
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A suggests the home is unoccupied, which implies no unauthorized persons are present. Statement
+      B directly states an unauthorized person is present, which contradicts statement A.
+  - subject: home
+    a: unauthorized person present
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A statement indicates an unauthorized person is present, which implies someone is not authorized to be in the
+      home. B states the user is not nearby, suggesting the user is away. These two situations cannot coexist under the given
+      conditions as an unauthorized person would be in the home, contradicting the user's absence.
+  - subject: home
+    a: unauthorized person present
+    b: user location
+    relation: independent
+    raw: independent
+    reason: The statement 'unauthorized person present' does not imply any specific location for the user, and 'user location'
+      does not imply the presence of an unauthorized person.
+  - subject: home
+    a: Is anyone at home?
+    b: unauthorized person present
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A asks if anyone is at home, which includes authorized persons. Statement B specifically mentions an
+      unauthorized person present, which cannot both be true at the same time if we consider 'anyone at home' inclusively.
+  - subject: home
+    a: someone is at home
+    b: unauthorized person present
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A says someone is at home, which includes authorized persons. Statement B says an unauthorized person
+      is present, which cannot be true if someone authorized is at home. Thus, these two cannot both be true at the same time.
+  - subject: home
+    a: unauthorized person present
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: A statement indicates an unauthorized person is present, which contradicts B where the user is not at home. Both
+      cannot be true simultaneously as the user's presence would imply authorization.
+  - subject: home
+    a: someone is detected
+    b: unauthorized person present
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A refers to someone being detected, which could include authorized persons, while statement B specifically
+      mentions an unauthorized person. These two statements cannot both be true simultaneously based on the given information.
+  - subject: home
+    a: nobody at home
+    b: unauthorized person present
+    relation: exclusive
+    raw: exclusive
+    reason: A states that no one is at home, while B states the presence of an unauthorized person, which cannot both be true
+      at the same time.
+  - subject: home
+    a: unauthorized person present
+    b: user arrives home
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A indicates the presence of an unauthorized person, while B indicates the user arriving home. These
+      two situations cannot occur simultaneously under normal circumstances as stated.
+  - subject: home
+    a: someone is home
+    b: unauthorized person present
+    relation: exclusive
+    raw: exclusive
+    reason: A states that someone is home, which includes authorized individuals. B states that an unauthorized person is
+      present, which cannot be true if someone authorized is home.
+  - subject: home
+    a: unauthorized person present
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: The statement A refers to an unauthorized person present, which is a situation about the security of the home.
+      Statement B refers to the user's proximity to the house, which is about the location of the user. These two statements
+      can be true independently of each other and do not imply each other's truth.
+  - subject: home
+    a: nobody is at home
+    b: unauthorized person present
+    relation: exclusive
+    raw: exclusive
+    reason: A states that nobody is at home, while B states that an unauthorized person is present. These two statements cannot
+      both be true at the same time.
+  - subject: home
+    a: smoke present
+    b: unauthorized person present
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the presence of an unauthorized person are not mutually exclusive and can occur independently
+      of each other.
+  - subject: home
+    a: the temperature is below the threshold
+    b: unauthorized person present
+    relation: independent
+    raw: independent
+    reason: Statement A is about temperature and Statement B is about unauthorized person presence. There is no information
+      that links these two states directly.
+  - subject: home
+    a: people are not at home
+    b: unauthorized person present
+    relation: exclusive
+    raw: exclusive
+    reason: A states there are no people at home, while B implies there is an unauthorized person present, which cannot both
+      be true under the given conditions.
+  - subject: home
+    a: unauthorized person present
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The presence of an unauthorized person and the occurrence of water damage are two distinct situations that can
+      happen independently of each other. One does not imply the other, and they do not mutually exclude each other.
+  - subject: home
+    a: There is a water leak.
+    b: unauthorized person present
+    relation: independent
+    raw: independent
+    reason: A water leak and an unauthorized person present are two distinct conditions that do not necessarily correlate
+      with each other. The presence of one does not imply the presence or absence of the other.
+  - subject: home
+    a: people are at home
+    b: unauthorized person present
+    relation: exclusive
+    raw: exclusive
+    reason: A states a fact about the presence of authorized people, while B refers to an unauthorized person. These cannot
+      both be true simultaneously without contradiction.
+  - subject: home
+    a: doors or windows are opening
+    b: unauthorized person present
+    relation: independent
+    raw: independent
+    reason: The fact that doors or windows are opening does not inherently imply the presence of an unauthorized person, and
+      the presence of an unauthorized person does not necessarily mean that doors or windows are opening.
+  - subject: home
+    a: unauthorized person present
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A refers to an unauthorized person being present, which is a situation about security. Statement B refers
+      to user-specified times, which is about scheduling. These two statements do not depend on each other's truth and can
+      be true independently of one another.
+  - subject: home
+    a: The user is not at home.
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A says the user is not at home, while B specifies the user is not nearby-home. These two statements
+      cannot both be true simultaneously as being not at home implies not being nearby-home, but the reverse is not necessarily
+      true.
+  - subject: home
+    a: home is in vacation mode
+    b: The user is not at home.
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If the home is in vacation mode, it implies that the user is not at home, as vacation mode is typically activated
+      when the residents are away.
+  - subject: home
+    a: smoke is present
+    b: The user is not at home.
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the user's absence from home are two separate conditions that can occur independently
+      of each other.
+  - subject: home
+    a: someone is in the home
+    b: The user is not at home.
+    relation: exclusive
+    raw: exclusive
+    reason: The two statements present mutually exclusive conditions regarding the presence of the user at home.
+  - subject: home
+    a: motion is detected
+    b: The user is not at home.
+    relation: exclusive
+    raw: exclusive
+    reason: Motion being detected implies someone or something is present, which contradicts the user not being at home.
+  - subject: home
+    a: CO is present
+    b: The user is not at home.
+    relation: independent
+    raw: independent
+    reason: The presence of CO is a world fact and the user's location is also a world fact. They do not depend on each other
+      and can be true independently.
+  - subject: home
+    a: fire is unlikely
+    b: The user is not at home.
+    relation: independent
+    raw: independent
+    reason: The absence of the user and the likelihood of fire are unrelated statements. One does not imply the other.
+  - subject: home
+    a: The user is not at home.
+    b: user at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually exclusive as the user cannot simultaneously be at home and not at home.
+  - subject: home
+    a: the home is unoccupied
+    b: The user is not at home.
+    relation: exclusive
+    raw: exclusive
+    reason: A states the home is unoccupied, which could mean the user is not at home, but also could mean guests are present
+      or the home is unoccupied for other reasons. B specifically states the user is not at home, so both cannot be true simultaneously
+      as stated.
+  - subject: home
+    a: The user is not at home.
+    b: user not nearby-home
+    relation: same
+    raw: same
+    reason: Both statements express that the user is not in the vicinity of the home.
+  - subject: home
+    a: The user is not at home.
+    b: user location
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A directly states the user is not at home, while statement B is about user location. These cannot both
+      be true at the same time as the user cannot be at home and not at home simultaneously.
+  - subject: home
+    a: Is anyone at home?
+    b: The user is not at home.
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A suggests that someone is at home, while statement B explicitly states that the user is not at home.
+      These two statements cannot both be true at the same time.
+  - subject: home
+    a: someone is at home
+    b: The user is not at home.
+    relation: exclusive
+    raw: exclusive
+    reason: The two statements are mutually exclusive; someone cannot be at home and not at home simultaneously.
+  - subject: home
+    a: The user is not at home.
+    b: user not at home
+    relation: same
+    raw: same
+    reason: Both statements express the same fact about the user's presence, just in different words.
+  - subject: home
+    a: someone is detected
+    b: The user is not at home.
+    relation: exclusive
+    raw: exclusive
+    reason: A statement says 'someone is detected' which implies a person is present, while B states 'The user is not at home'
+      which implies no person is present. Both cannot be true at the same time.
+  - subject: home
+    a: nobody at home
+    b: The user is not at home.
+    relation: exclusive
+    raw: exclusive
+    reason: A states 'nobody at home' while B states 'The user is not at home.' These cannot both be true simultaneously as
+      'nobody at home' would include the user not being at home, but it also excludes the possibility of the user being somewhere
+      else, whereas B only excludes the user from being at home.
+  - subject: home
+    a: The user is not at home.
+    b: user arrives home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements describe opposite conditions regarding the user's presence at home, hence they cannot both be true
+      at the same time.
+  - subject: home
+    a: someone is home
+    b: The user is not at home.
+    relation: exclusive
+    raw: exclusive
+    reason: The two statements provide mutually exclusive answers to the situation question 'Who is at home?'.
+  - subject: home
+    a: The user is not at home.
+    b: user proximity to the house
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A explicitly states the user is not at home, which directly contradicts the implication of user proximity
+      to the house in statement B. Therefore, they cannot both be true simultaneously.
+  - subject: home
+    a: nobody is at home
+    b: The user is not at home.
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If nobody is at home, it necessarily means the user is not at home, but the user not being at home does not necessarily
+      mean nobody is at home (e.g., a guest could be present).
+  - subject: home
+    a: smoke present
+    b: The user is not at home.
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the user's absence from home are two separate conditions that can occur independently
+      of each other.
+  - subject: home
+    a: the temperature is below the threshold
+    b: The user is not at home.
+    relation: independent
+    raw: independent
+    reason: The temperature being below the threshold and the user not being at home are two separate conditions that do not
+      necessarily influence each other as stated.
+  - subject: home
+    a: people are not at home
+    b: The user is not at home.
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If people are not at home, it necessarily means the user is not at home, but the second statement does not exclude
+      the possibility of other people being at home.
+  - subject: home
+    a: The user is not at home.
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The user not being at home does not provide evidence for or against water damage occurring, and water damage occurring
+      does not imply the user is not at home.
+  - subject: home
+    a: The user is not at home.
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The user's presence and the occurrence of a water leak are independent events that do not affect each other as
+      stated.
+  - subject: home
+    a: people are at home
+    b: The user is not at home.
+    relation: exclusive
+    raw: exclusive
+    reason: The two statements provide mutually exclusive information about the presence of the user in the home.
+  - subject: home
+    a: doors or windows are opening
+    b: The user is not at home.
+    relation: independent
+    raw: independent
+    reason: The statement A is a world fact about the physical state of the doors or windows, while B is a situation question
+      about the user's location. They can both be true independently of each other without any direct implication between
+      them.
+  - subject: home
+    a: The user is not at home.
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about the user's physical presence, while B is about user-specified times. They do not directly
+      imply each other.
+  - subject: home
+    a: home is in vacation mode
+    b: user is not nearby-home
+    relation: independent
+    raw: independent
+    reason: A describes the home’s mode, while B describes the user's location. They can be true independently of each other.
+  - subject: home
+    a: smoke is present
+    b: user is not nearby-home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the user's proximity to the home are two independent conditions that can exist without
+      each other.
+  - subject: home
+    a: someone is in the home
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states that someone is in the home, while B states that the user is not nearby the home. These two statements
+      cannot both be true at the same time.
+  - subject: home
+    a: motion is detected
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: Motion can be detected even if the user is not nearby the home.
+  - subject: home
+    a: CO is present
+    b: user is not nearby-home
+    relation: independent
+    raw: independent
+    reason: The presence of CO and the user's location are independent facts as stated. The CO level does not determine the
+      user's location, and the user's location does not determine the presence of CO.
+  - subject: home
+    a: fire is unlikely
+    b: user is not nearby-home
+    relation: independent
+    raw: independent
+    reason: The lack of a nearby user does not directly correlate with the likelihood of a fire, and vice versa. These statements
+      address different aspects of the situation without mutual exclusivity or implication.
+  - subject: home
+    a: user at home
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'user at home' and 'user is not nearby-home' cannot both be true at the same time as they are direct
+      opposites.
+  - subject: home
+    a: the home is unoccupied
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A home can be unoccupied while a user might still be nearby, and a user not being nearby does not necessarily
+      mean the home is unoccupied.
+  - subject: home
+    a: user is not nearby-home
+    b: user not nearby-home
+    relation: same
+    raw: same
+    reason: Both statements express the same fact about the user's location, just in different words.
+  - subject: home
+    a: user is not nearby-home
+    b: user location
+    relation: exclusive
+    raw: exclusive
+    reason: The statement 'user is not nearby-home' directly contradicts the possibility of 'user location', which would imply
+      the user is somewhere, potentially nearby-home or elsewhere.
+  - subject: home
+    a: Is anyone at home?
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A suggests someone is at home, while statement B explicitly says the user is not nearby the home. These
+      two statements cannot both be true at the same time.
+  - subject: home
+    a: someone is at home
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states that someone is at home, while B states that the user is not nearby the home. These two statements cannot
+      both be true at the same time.
+  - subject: home
+    a: user is not nearby-home
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'user is not nearby-home' and 'user not at home' cannot both be true simultaneously as 'not at
+      home' implies a broader condition that includes 'not nearby-home', but 'not nearby-home' can still be true if the user
+      is away but close enough to be considered nearby, just not close enough to be considered at home.
+  - subject: home
+    a: someone is detected
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states that someone is detected, while B states that the user is not nearby-home. These two statements cannot
+      both be true at the same time given the information provided.
+  - subject: home
+    a: nobody at home
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states nobody is at home, which includes the user. B states the user is not nearby-home, which is consistent
+      with A but does not imply A. Therefore, A and B can be true independently but cannot both be true if the user is nearby-home
+      and also at home.
+  - subject: home
+    a: user arrives home
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements A and B are mutually exclusive; the user cannot both be at home and not nearby-home at the same
+      time.
+  - subject: home
+    a: someone is home
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states that someone is home, while B states that the user is not nearby-home. These two statements cannot both
+      be true at the same time.
+  - subject: home
+    a: user is not nearby-home
+    b: user proximity to the house
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A asserts the user is not nearby-home, while B states the user's proximity to the house. These two
+      statements cannot both be true at the same time given the context.
+  - subject: home
+    a: nobody is at home
+    b: user is not nearby-home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If nobody is at home, then it necessarily follows that the user is not nearby-home, but the user not being nearby-home
+      does not necessarily mean nobody is at home.
+  - subject: home
+    a: smoke present
+    b: user is not nearby-home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the user's location are two independent conditions that can exist without each other.
+  - subject: home
+    a: the temperature is below the threshold
+    b: user is not nearby-home
+    relation: independent
+    raw: independent
+    reason: The temperature being below the threshold and the user not being nearby-home are two separate conditions that
+      do not necessarily influence each other based on the given information.
+  - subject: home
+    a: people are not at home
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states that there are no people at home, while B states that the user is not nearby. These two statements cannot
+      both be true at the same time if the user is a person at home.
+  - subject: home
+    a: user is not nearby-home
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The absence of a nearby user and water damage are independent conditions; one does not imply the other.
+  - subject: home
+    a: There is a water leak.
+    b: user is not nearby-home
+    relation: independent
+    raw: independent
+    reason: A water leak can exist regardless of the user's location.
+  - subject: home
+    a: people are at home
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A claims that people are at home, while B states that the user is not nearby-home. These two statements
+      cannot both be true at the same time given the context provided.
+  - subject: home
+    a: doors or windows are opening
+    b: user is not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A door or window being opened (statement A) implies the user is not nearby-home (statement B) cannot be true simultaneously,
+      as the user would need to be present to open them.
+  - subject: home
+    a: user is not nearby-home
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about the user's physical location, while statement B is about specified times. These can be true
+      independently of each other.
+  - subject: home
+    a: home is in vacation mode
+    b: smoke is present
+    relation: independent
+    raw: independent
+    reason: Vacation mode is a user-chosen setting and the presence of smoke are two distinct conditions that can exist independently
+      of each other.
+  - subject: home
+    a: home is in vacation mode
+    b: someone is in the home
+    relation: independent
+    raw: independent
+    reason: A situation can be in vacation mode regardless of whether someone is present in the home or not.
+  - subject: home
+    a: home is in vacation mode
+    b: motion is detected
+    relation: independent
+    raw: independent
+    reason: A situation question about vacation mode does not inherently exclude motion detection, and vice versa. The home
+      can be in vacation mode without motion, and motion can be detected even when the home is not in vacation mode.
+  - subject: home
+    a: CO is present
+    b: home is in vacation mode
+    relation: independent
+    raw: independent
+    reason: CO presence and vacation mode are two distinct conditions that can be true independently of each other.
+  - subject: home
+    a: fire is unlikely
+    b: home is in vacation mode
+    relation: independent
+    raw: independent
+    reason: The first statement, 'fire is unlikely,' is a world fact about the likelihood of a fire, which does not depend
+      on any device or system mode. The second statement, 'home is in vacation mode,' is about a system mode which could influence
+      the likelihood of a fire, but does not directly state or imply the likelihood of a fire. Therefore, these two statements
+      can be true independently of each other.
+  - subject: home
+    a: home is in vacation mode
+    b: user at home
+    relation: exclusive
+    raw: exclusive
+    reason: A home cannot be in vacation mode and have a user at home simultaneously, as vacation mode typically implies the
+      absence of users.
+  - subject: home
+    a: home is in vacation mode
+    b: the home is unoccupied
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: Vacation mode typically implies that the home is unoccupied, but a home can be unoccupied without being in vacation
+      mode.
+  - subject: home
+    a: home is in vacation mode
+    b: user not nearby-home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: When the home is in vacation mode, it typically means that no one is nearby, as this mode is often used when the
+      occupants are away. However, the home can be in vacation mode even if the user is nearby, such as if the user is away
+      for a short time and has not interacted with the system.
+  - subject: home
+    a: home is in vacation mode
+    b: user location
+    relation: independent
+    raw: independent
+    reason: Statement A describes the home being in vacation mode, which is unrelated to the user's location as stated in
+      B.
+  - subject: home
+    a: home is in vacation mode
+    b: Is anyone at home?
+    relation: exclusive
+    raw: exclusive
+    reason: A statement indicates the home is in vacation mode, implying no one is at home. B is a question about whether
+      anyone is at home, and if someone is at home, it contradicts the vacation mode.
+  - subject: home
+    a: home is in vacation mode
+    b: someone is at home
+    relation: exclusive
+    raw: exclusive
+    reason: A statement indicates vacation mode, meaning no one should be at home, while B states that someone is at home,
+      which are mutually exclusive conditions.
+  - subject: home
+    a: home is in vacation mode
+    b: user not at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If the home is in vacation mode, it typically implies that the user is not at home, as vacation mode is often
+      used when the occupants are away to save energy or security settings. However, the user not being at home does not necessarily
+      mean the home is in vacation mode.
+  - subject: home
+    a: home is in vacation mode
+    b: someone is detected
+    relation: exclusive
+    raw: exclusive
+    reason: Vacation mode typically means no one is at home, but detecting someone contradicts this.
+  - subject: home
+    a: home is in vacation mode
+    b: nobody at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If the home is in vacation mode, it implies that nobody is at home, as vacation mode is typically activated when
+      the residents are away.
+  - subject: home
+    a: home is in vacation mode
+    b: user arrives home
+    relation: exclusive
+    raw: exclusive
+    reason: A states the home is in vacation mode, which implies no one is expected to be home. B states the user arrives
+      home, which contradicts the expectation set by vacation mode.
+  - subject: home
+    a: home is in vacation mode
+    b: someone is home
+    relation: exclusive
+    raw: exclusive
+    reason: A statement indicates vacation mode, which typically means no one is expected to be home, contradicting the second
+      statement that someone is home.
+  - subject: home
+    a: home is in vacation mode
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: The statement 'home is in vacation mode' is a world fact about the home's state. 'User proximity to the house'
+      is an observation about the user's location relative to the home. These two statements do not necessarily depend on
+      each other and can be true independently.
+  - subject: home
+    a: home is in vacation mode
+    b: nobody is at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If the home is in vacation mode, it implies that nobody is at home, as vacation mode is typically activated when
+      all residents are away.
+  - subject: home
+    a: home is in vacation mode
+    b: smoke present
+    relation: independent
+    raw: independent
+    reason: Vacation mode is a setting or preference for the home, unrelated to the presence of smoke, which is an observation
+      about the home's surroundings.
+  - subject: home
+    a: home is in vacation mode
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: Vacation mode does not necessarily affect temperature settings, and the temperature being below the threshold
+      does not imply the home is in vacation mode.
+  - subject: home
+    a: home is in vacation mode
+    b: people are not at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If the home is in vacation mode, it implies that people are not at home, but the reverse is not necessarily true.
+  - subject: home
+    a: home is in vacation mode
+    b: water damage is occurring
+    relation: exclusive
+    raw: exclusive
+    reason: A states the home is in vacation mode, implying all devices are set to save energy or security. B states water
+      damage is occurring, which is a critical issue not aligned with vacation mode.
+  - subject: home
+    a: home is in vacation mode
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The statements describe different conditions. A states the home is in vacation mode, while B states there is a
+      water leak. These conditions do not necessarily preclude each other and can coexist independently.
+  - subject: home
+    a: home is in vacation mode
+    b: people are at home
+    relation: exclusive
+    raw: exclusive
+    reason: A statement indicates the home is set to vacation mode, implying people are not actively using the home. B suggests
+      people are at home, which contradicts the vacation mode setting.
+  - subject: home
+    a: doors or windows are opening
+    b: home is in vacation mode
+    relation: independent
+    raw: independent
+    reason: Statement A describes a situation where doors or windows are opening, which is a direct observation. Statement
+      B indicates that the home is in vacation mode, which could include settings like setting doors or windows to be secure
+      but does not directly state that doors or windows are opening. These statements can be true independently of each other.
+  - subject: home
+    a: home is in vacation mode
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: A statement about the home's mode, B about user-specified times. Vacation mode does not specify times, and user-specified
+      times do not imply vacation mode.
+  - subject: home
+    a: smoke is present
+    b: someone is in the home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the presence of someone in the home are two separate conditions that can occur independently
+      of each other.
+  - subject: home
+    a: motion is detected
+    b: smoke is present
+    relation: independent
+    raw: independent
+    reason: Detection of motion and presence of smoke are two separate conditions that can occur independently of each other.
+  - subject: home
+    a: CO is present
+    b: smoke is present
+    relation: independent
+    raw: independent
+    reason: The presence of CO and smoke are distinct and do not necessarily imply the presence of the other. They can coexist
+      or be present independently.
+  - subject: home
+    a: fire is unlikely
+    b: smoke is present
+    relation: exclusive
+    raw: exclusive
+    reason: A statement suggests a low likelihood of fire, while B directly states the presence of smoke, which is a strong
+      indicator of a fire. Both cannot be true simultaneously without contradiction.
+  - subject: home
+    a: smoke is present
+    b: user at home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke does not inherently imply the user's presence, and the user's presence does not imply smoke
+      is present.
+  - subject: home
+    a: smoke is present
+    b: the home is unoccupied
+    relation: independent
+    raw: independent
+    reason: The presence of smoke does not depend on the occupancy of the home, and the home can be unoccupied regardless
+      of smoke presence.
+  - subject: home
+    a: smoke is present
+    b: user not nearby-home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the user not being nearby-home are two separate conditions that can occur independently
+      of each other.
+  - subject: home
+    a: smoke is present
+    b: user location
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the user's location are two distinct facts that can be true independently of each other.
+      Smoke can be present in the home without the user being in any particular location, and the user can be present in the
+      home without smoke being present.
+  - subject: home
+    a: Is anyone at home?
+    b: smoke is present
+    relation: independent
+    raw: independent
+    reason: The statement 'Is anyone at home?' refers to the presence or absence of people, while 'smoke is present' refers
+      to the presence of smoke. These are two distinct conditions that can exist independently of each other.
+  - subject: home
+    a: smoke is present
+    b: someone is at home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the presence of someone at home can coexist without one implying the other. Smoke could
+      be from a non-human source, and someone could be at home without there being smoke.
+  - subject: home
+    a: smoke is present
+    b: user not at home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the user's location are two independent facts that can be true at the same time without
+      influencing each other as stated.
+  - subject: home
+    a: smoke is present
+    b: someone is detected
+    relation: independent
+    raw: independent
+    reason: The presence of smoke does not necessarily mean someone is detected, and someone can be detected without smoke
+      being present.
+  - subject: home
+    a: nobody at home
+    b: smoke is present
+    relation: exclusive
+    raw: exclusive
+    reason: A states that there is no person at home, while B states that there is smoke present. These two conditions cannot
+      coexist under normal circumstances without additional context, making them mutually exclusive.
+  - subject: home
+    a: smoke is present
+    b: user arrives home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the user arriving home are two distinct events that can occur independently of each
+      other.
+  - subject: home
+    a: smoke is present
+    b: someone is home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the fact that someone is home can be true independently of each other. Smoke could be
+      present due to a natural cause or a malfunction, and someone could be home by chance or for other reasons.
+  - subject: home
+    a: smoke is present
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of smoke, which is a world fact. Statement B is about user proximity to the
+      house, which is an observation or situation. There is no direct implication or exclusivity between the two that can
+      be inferred solely from the given statements.
+  - subject: home
+    a: nobody is at home
+    b: smoke is present
+    relation: exclusive
+    raw: exclusive
+    reason: A states that nobody is at home, while B states that smoke is present. These two conditions cannot coexist as
+      stated, making them exclusive.
+  - subject: home
+    a: smoke is present
+    b: smoke present
+    relation: same
+    raw: same
+    reason: Both statements A and B express the presence of smoke, albeit in slightly different wording.
+  - subject: home
+    a: smoke is present
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: Statement A is a world fact about the presence of smoke, while Statement B is about the temperature being below
+      a threshold, which could be set by a device and is not necessarily related to the presence of smoke.
+  - subject: home
+    a: people are not at home
+    b: smoke is present
+    relation: independent
+    raw: independent
+    reason: The presence of smoke does not depend on the presence or absence of people in the home.
+  - subject: home
+    a: smoke is present
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the occurrence of water damage are two distinct conditions that can exist independently
+      of each other. The presence of smoke does not imply water damage is occurring, and vice versa.
+  - subject: home
+    a: smoke is present
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The presence of smoke does not affect the presence of a water leak, and vice versa.
+  - subject: home
+    a: people are at home
+    b: smoke is present
+    relation: independent
+    raw: independent
+    reason: The statement about people being at home and the presence of smoke can both be true independently of each other.
+      People can be at home without smoke, and smoke can be present without people being there.
+  - subject: home
+    a: doors or windows are opening
+    b: smoke is present
+    relation: independent
+    raw: independent
+    reason: The opening of doors or windows and the presence of smoke are two separate conditions that can occur independently
+      of each other. There is no direct implication between the two statements based on the information provided.
+  - subject: home
+    a: smoke is present
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of smoke, which is a world fact. Statement B is about user-specified times,
+      which are not related to the presence of smoke. They can be true independently of each other.
+  - subject: home
+    a: motion is detected
+    b: someone is in the home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: Detection of motion does not necessarily imply the presence of someone, as motion could be caused by non-human
+      factors. However, if someone is in the home, motion is likely to be detected.
+  - subject: home
+    a: CO is present
+    b: someone is in the home
+    relation: independent
+    raw: independent
+    reason: The presence of CO does not determine if someone is in the home, and vice versa.
+  - subject: home
+    a: fire is unlikely
+    b: someone is in the home
+    relation: independent
+    raw: independent
+    reason: The likelihood of a fire and the presence of someone in the home are two separate conditions that do not necessarily
+      influence each other as stated.
+  - subject: home
+    a: someone is in the home
+    b: user at home
+    relation: same
+    raw: same
+    reason: Both statements indicate the presence of a user in the home, expressed in different words.
+  - subject: home
+    a: someone is in the home
+    b: the home is unoccupied
+    relation: exclusive
+    raw: exclusive
+    reason: The statements A and B are mutually exclusive as they cannot both be true at the same time. If someone is in the
+      home (A), then the home cannot be unoccupied (B), and vice versa.
+  - subject: home
+    a: someone is in the home
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states that someone is in the home, while B states that the user is not nearby the home. These two statements
+      cannot both be true at the same time.
+  - subject: home
+    a: someone is in the home
+    b: user location
+    relation: independent
+    raw: independent
+    reason: Statement A states that someone is in the home, while statement B refers to the user's location. These can be
+      true independently of each other. Someone could be in the home without being the user, and the user could be elsewhere.
+  - subject: home
+    a: Is anyone at home?
+    b: someone is in the home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If anyone is at home (statement A), then it is true that someone is in the home (statement B). However, someone
+      being in the home does not necessarily mean that anyone is at home, as the person could be just visiting or present
+      without being at home.
+  - subject: home
+    a: someone is at home
+    b: someone is in the home
+    relation: same
+    raw: same
+    reason: Both statements A and B indicate the presence of a person in the home, just using different prepositions ('at'
+      vs 'in').
+  - subject: home
+    a: someone is in the home
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually exclusive as 'someone is in the home' and 'user not at home' cannot both be true simultaneously.
+  - subject: home
+    a: someone is detected
+    b: someone is in the home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If someone is detected, it implies someone is in the home, but someone can be in the home without being detected
+      by a specific device.
+  - subject: home
+    a: nobody at home
+    b: someone is in the home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'nobody at home' and 'someone is in the home' are mutually exclusive; they cannot both be true
+      at the same time.
+  - subject: home
+    a: someone is in the home
+    b: user arrives home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement 'someone is in the home' can be true whenever 'user arrives home' is true, but a person could be
+      in the home without the user arriving (e.g., a visitor or a family member).
+  - subject: home
+    a: someone is home
+    b: someone is in the home
+    relation: same
+    raw: same
+    reason: Both statements A and B describe the presence of a person in the home, just using different words.
+  - subject: home
+    a: someone is in the home
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: A statement is about someone being in the home, while B is about user proximity to the house. These can be true
+      independently of each other.
+  - subject: home
+    a: nobody is at home
+    b: someone is in the home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements cannot both be true at the same time as they directly contradict each other.
+  - subject: home
+    a: smoke present
+    b: someone is in the home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the presence of someone in the home are two separate conditions that can occur independently
+      of each other.
+  - subject: home
+    a: someone is in the home
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of someone in the home, which is a world fact. Statement B is about the temperature
+      being below a threshold, which is an observation and not directly related to the presence of someone in the home. There
+      is no mutual exclusivity or implication between the two statements as stated.
+  - subject: home
+    a: people are not at home
+    b: someone is in the home
+    relation: exclusive
+    raw: exclusive
+    reason: The two statements provide mutually exclusive information about the presence of people in the home.
+  - subject: home
+    a: someone is in the home
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The statement about someone being in the home does not provide information about water damage, and the occurrence
+      of water damage does not imply the presence of someone in the home.
+  - subject: home
+    a: someone is in the home
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of someone in the home, while statement B is about a water leak. There is no
+      direct implication between the presence of someone and the occurrence of a water leak.
+  - subject: home
+    a: people are at home
+    b: someone is in the home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If people are at home, then it is necessarily true that someone is in the home. However, the reverse is not necessarily
+      true; someone could be in the home without it being true that people are at home (e.g., a pet or a delivery person).
+  - subject: home
+    a: doors or windows are opening
+    b: someone is in the home
+    relation: independent
+    raw: independent
+    reason: The statement A refers to physical states of doors or windows, which can be true even if no one is in the home,
+      such as when someone is away and a door is accidentally left open. Statement B refers to the presence of a person in
+      the home, which does not directly imply the state of doors or windows. Therefore, these statements can be true independently
+      of each other.
+  - subject: home
+    a: someone is in the home
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: The statement A refers to the presence of a person in the home, while B refers to user-specified times. These
+      two statements can be true independently of each other.
+  - subject: home
+    a: CO is present
+    b: motion is detected
+    relation: independent
+    raw: independent
+    reason: The presence of CO and the detection of motion are two separate conditions that can occur independently of each
+      other.
+  - subject: home
+    a: fire is unlikely
+    b: motion is detected
+    relation: independent
+    raw: independent
+    reason: The likelihood of a fire and the detection of motion are unrelated events as stated. The presence or absence of
+      motion does not determine the likelihood of a fire, and vice versa.
+  - subject: home
+    a: motion is detected
+    b: user at home
+    relation: independent
+    raw: independent
+    reason: Motion being detected does not imply the user is at home, and the user being at home does not necessarily mean
+      motion is detected.
+  - subject: home
+    a: motion is detected
+    b: the home is unoccupied
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A suggests motion is detected, which implies the presence of people. Statement B claims the home
+      is unoccupied, meaning no people are present. These two situations cannot coexist.
+  - subject: home
+    a: motion is detected
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: Motion can be detected even if the user is not nearby the home.
+  - subject: home
+    a: motion is detected
+    b: user location
+    relation: independent
+    raw: independent
+    reason: Motion detection and user location are two distinct observations that can occur independently of each other. Motion
+      can be detected even if the user is not present, and a user can be present without triggering motion detection.
+  - subject: home
+    a: Is anyone at home?
+    b: motion is detected
+    relation: exclusive
+    raw: exclusive
+    reason: A states that there is someone at home, while B states motion is detected, which could be from an animal or a
+      device, not necessarily a person.
+  - subject: home
+    a: motion is detected
+    b: someone is at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: Detection of motion does not necessarily imply that someone is at home, but if someone is at home, motion detection
+      could occur.
+  - subject: home
+    a: motion is detected
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: Motion detection can occur even if the user is not at home, and a user can also be absent without motion being
+      detected.
+  - subject: home
+    a: motion is detected
+    b: someone is detected
+    relation: independent
+    raw: independent
+    reason: Detection of motion and detection of someone can occur independently of each other. Motion could be detected by
+      a sensor without a person being present, and vice versa.
+  - subject: home
+    a: motion is detected
+    b: nobody at home
+    relation: exclusive
+    raw: exclusive
+    reason: Motion detection indicates presence, which contradicts the statement that nobody is at home.
+  - subject: home
+    a: motion is detected
+    b: user arrives home
+    relation: independent
+    raw: independent
+    reason: Motion being detected does not imply the user has arrived, and the user arriving does not necessarily trigger
+      motion detection.
+  - subject: home
+    a: motion is detected
+    b: someone is home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If motion is detected, it implies that someone is home, but someone being home does not necessarily mean motion
+      is detected.
+  - subject: home
+    a: motion is detected
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: Motion detection does not provide information about user proximity to the house.
+  - subject: home
+    a: motion is detected
+    b: nobody is at home
+    relation: exclusive
+    raw: exclusive
+    reason: Motion detection indicates someone or something is present, which contradicts the statement that nobody is at
+      home.
+  - subject: home
+    a: motion is detected
+    b: smoke present
+    relation: independent
+    raw: independent
+    reason: Motion detection and smoke presence are two separate conditions that can occur independently of each other.
+  - subject: home
+    a: motion is detected
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: Motion detection and temperature are independent sensor readings that can occur simultaneously without one implying
+      the other.
+  - subject: home
+    a: motion is detected
+    b: people are not at home
+    relation: exclusive
+    raw: exclusive
+    reason: Motion detection can occur even when there are no people at home, for instance, due to animals or a burglar.
+  - subject: home
+    a: motion is detected
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: Motion detection and water damage are two separate conditions that can occur independently of each other. The
+      presence of one does not imply the presence of the other.
+  - subject: home
+    a: motion is detected
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: Detection of motion and presence of a water leak are two separate conditions that can occur independently of each
+      other.
+  - subject: home
+    a: motion is detected
+    b: people are at home
+    relation: independent
+    raw: independent
+    reason: Motion detection does not imply the presence of people, and people at home do not necessarily trigger motion detection.
+  - subject: home
+    a: doors or windows are opening
+    b: motion is detected
+    relation: independent
+    raw: independent
+    reason: The statements describe two distinct conditions that can occur independently of each other. Doors or windows opening
+      does not necessarily mean motion is detected, and motion being detected does not imply doors or windows are opening.
+  - subject: home
+    a: motion is detected
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Motion detection is an observation about the current state of the home, while user-specified times are preferences
+      or settings that do not directly relate to the current presence of motion.
+  - subject: home
+    a: CO is present
+    b: fire is unlikely
+    relation: independent
+    raw: independent
+    reason: The presence of CO does not necessarily imply a fire is unlikely, and a fire does not necessarily mean CO is present.
+      These are two separate conditions that can exist independently.
+  - subject: home
+    a: CO is present
+    b: user at home
+    relation: independent
+    raw: independent
+    reason: The presence of CO (carbon monoxide) and the presence of a user at home are two separate conditions that can be
+      true independently of each other. CO can be present even if no user is at home, and a user can be present without CO
+      being present.
+  - subject: home
+    a: CO is present
+    b: the home is unoccupied
+    relation: independent
+    raw: independent
+    reason: The presence of CO (carbon monoxide) does not necessarily imply the home is unoccupied, and the home being unoccupied
+      does not necessarily mean CO is present.
+  - subject: home
+    a: CO is present
+    b: user not nearby-home
+    relation: independent
+    raw: independent
+    reason: The presence of CO is a world fact, whereas the user not being nearby-home is an observation about the user's
+      location. These two statements do not imply each other and can both be true independently.
+  - subject: home
+    a: CO is present
+    b: user location
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of CO, which is a world fact. Statement B is about the user location, which
+      is not directly related to CO presence and could be true regardless of CO presence.
+  - subject: home
+    a: CO is present
+    b: Is anyone at home?
+    relation: independent
+    raw: independent
+    reason: The presence of CO (carbon monoxide) is a device state or observation, while 'Is anyone at home?' is a situation
+      question about the presence or absence of people. These two statements can be true independently of each other.
+  - subject: home
+    a: CO is present
+    b: someone is at home
+    relation: independent
+    raw: independent
+    reason: The presence of CO (carbon monoxide) and the presence of someone at home can both be true without the other. CO
+      can be present even if no one is at home, and someone can be at home without CO being present.
+  - subject: home
+    a: CO is present
+    b: user not at home
+    relation: independent
+    raw: independent
+    reason: The presence of CO does not depend on the user's location. The user not being at home does not negate the possibility
+      of CO being present.
+  - subject: home
+    a: CO is present
+    b: someone is detected
+    relation: independent
+    raw: independent
+    reason: The presence of CO does not necessarily mean someone is detected, and someone can be detected without CO being
+      present.
+  - subject: home
+    a: CO is present
+    b: nobody at home
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A indicates the presence of CO, which would require someone to be present to sense or generate it, contradicting
+      Statement B that nobody is at home.
+  - subject: home
+    a: CO is present
+    b: user arrives home
+    relation: independent
+    raw: independent
+    reason: CO is present
+  - subject: home
+    a: CO is present
+    b: someone is home
+    relation: independent
+    raw: independent
+    reason: The presence of CO and the fact that someone is home are two separate conditions that can occur independently
+      of each other.
+  - subject: home
+    a: CO is present
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: Statement A is a world fact about the presence of CO, while Statement B is an observation about user proximity.
+      They do not directly relate to each other and can be true independently.
+  - subject: home
+    a: CO is present
+    b: nobody is at home
+    relation: independent
+    raw: independent
+    reason: The presence of CO is a condition that can exist regardless of whether anyone is at home or not.
+  - subject: home
+    a: CO is present
+    b: smoke present
+    relation: independent
+    raw: independent
+    reason: The presence of CO does not imply the presence of smoke, and vice versa. They are distinct substances that can
+      be present independently of each other.
+  - subject: home
+    a: CO is present
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: The presence of CO and the temperature being below a threshold are independent conditions that can be true simultaneously
+      without one implying the other.
+  - subject: home
+    a: CO is present
+    b: people are not at home
+    relation: independent
+    raw: independent
+    reason: The presence of CO (carbon monoxide) is a condition of the environment, while people not being at home is a statement
+      about the occupancy status. These two facts can exist independently of each other.
+  - subject: home
+    a: CO is present
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: CO is present
+  - subject: home
+    a: CO is present
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The presence of CO and the presence of a water leak are two separate conditions that do not necessarily correlate
+      with each other. One can be true while the other is false, and vice versa.
+  - subject: home
+    a: CO is present
+    b: people are at home
+    relation: independent
+    raw: independent
+    reason: The presence of CO (carbon monoxide) and the presence of people at home are two separate conditions that can occur
+      independently of each other.
+  - subject: home
+    a: CO is present
+    b: doors or windows are opening
+    relation: independent
+    raw: independent
+    reason: CO presence and doors/windows opening can both be true without the other. CO presence does not inherently cause
+      doors or windows to open, and doors/windows opening does not necessarily imply CO is present.
+  - subject: home
+    a: CO is present
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of CO, which is a world fact. Statement B is about user-specified times, which
+      is about when something is set to occur and not related to CO levels. They can be true independently of each other.
+  - subject: home
+    a: fire is unlikely
+    b: user at home
+    relation: independent
+    raw: independent
+    reason: The statements do not directly imply each other. The fact that fire is unlikely does not determine if a user is
+      at home, and the presence or absence of a user does not determine the likelihood of a fire.
+  - subject: home
+    a: fire is unlikely
+    b: the home is unoccupied
+    relation: independent
+    raw: independent
+    reason: The unlikelihood of fire and the occupancy status of the home are independent conditions that do not necessarily
+      correlate with each other.
+  - subject: home
+    a: fire is unlikely
+    b: user not nearby-home
+    relation: independent
+    raw: independent
+    reason: The first statement about fire likelihood does not depend on the user's location, and the user not being nearby-home
+      does not imply anything about the likelihood of a fire.
+  - subject: home
+    a: fire is unlikely
+    b: user location
+    relation: independent
+    raw: independent
+    reason: Statement A discusses the likelihood of a fire, which is a world fact. Statement B refers to the user's location,
+      which is an observation or a dimension of the situation. These statements do not depend on each other and can be true
+      independently.
+  - subject: home
+    a: fire is unlikely
+    b: Is anyone at home?
+    relation: independent
+    raw: independent
+    reason: Statement A expresses a prediction about the absence of a fire, while statement B is a question about the presence
+      of people in the home. These are unrelated facts that can both be true or false independently of each other.
+  - subject: home
+    a: fire is unlikely
+    b: someone is at home
+    relation: independent
+    raw: independent
+    reason: The likelihood of a fire and the presence of someone at home are two separate conditions that do not necessarily
+      influence each other as stated.
+  - subject: home
+    a: fire is unlikely
+    b: user not at home
+    relation: independent
+    raw: independent
+    reason: The first statement about fire likelihood does not depend on the user's location, and the second statement about
+      the user's absence does not imply anything about the likelihood of fire.
+  - subject: home
+    a: fire is unlikely
+    b: someone is detected
+    relation: independent
+    raw: independent
+    reason: The statements about the likelihood of fire and the detection of a person are unrelated and can both be true independently
+      of each other.
+  - subject: home
+    a: fire is unlikely
+    b: nobody at home
+    relation: independent
+    raw: independent
+    reason: The likelihood of a fire is not dependent on whether anyone is at home or not.
+  - subject: home
+    a: fire is unlikely
+    b: user arrives home
+    relation: independent
+    raw: independent
+    reason: Statement A is about the likelihood of a fire, while Statement B is about the user arriving home. These are unrelated
+      events that can occur independently of each other.
+  - subject: home
+    a: fire is unlikely
+    b: someone is home
+    relation: independent
+    raw: independent
+    reason: The likelihood of a fire and the presence of someone in the home are unrelated facts as stated. The absence of
+      one does not imply the presence or absence of the other.
+  - subject: home
+    a: fire is unlikely
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: Statement A is about the likelihood of a fire, while B is about the user's proximity to the house. These are two
+      distinct pieces of information that can be true independently of each other.
+  - subject: home
+    a: fire is unlikely
+    b: nobody is at home
+    relation: independent
+    raw: independent
+    reason: The absence of people in the home does not directly imply the likelihood of fire, and the likelihood of fire does
+      not determine whether people are present or not.
+  - subject: home
+    a: fire is unlikely
+    b: smoke present
+    relation: exclusive
+    raw: exclusive
+    reason: A statement suggests a low likelihood of fire, while B explicitly mentions the presence of smoke, which is a strong
+      indicator of a fire. Both cannot be true simultaneously without contradiction.
+  - subject: home
+    a: fire is unlikely
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: The statement about fire likelihood does not imply anything about temperature, and the temperature being below
+      a threshold does not imply anything about the likelihood of fire.
+  - subject: home
+    a: fire is unlikely
+    b: people are not at home
+    relation: independent
+    raw: independent
+    reason: 'The likelihood of a fire is not dependent on whether people are present or not. A: fire is unlikely and B: people
+      are not at home can both be true independently of each other.'
+  - subject: home
+    a: fire is unlikely
+    b: water damage is occurring
+    relation: exclusive
+    raw: exclusive
+    reason: 'The statements refer to two distinct events: the likelihood of a fire, and the occurrence of water damage. These
+      cannot both be true simultaneously based on the given information.'
+  - subject: home
+    a: fire is unlikely
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The statements about the likelihood of a fire and the presence of a water leak are independent of each other.
+      The absence of one does not imply the presence or absence of the other.
+  - subject: home
+    a: fire is unlikely
+    b: people are at home
+    relation: independent
+    raw: independent
+    reason: The likelihood of a fire and the presence of people at home are two separate conditions that do not necessarily
+      influence each other as stated.
+  - subject: home
+    a: doors or windows are opening
+    b: fire is unlikely
+    relation: independent
+    raw: independent
+    reason: Statement A is about doors or windows opening, which is a direct observation. Statement B is about the likelihood
+      of a fire, which is not directly related to the state of doors or windows and does not involve any devices or protected
+      assets. They can be true independently of each other.
+  - subject: home
+    a: fire is unlikely
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about the likelihood of a fire, while Statement B is about user-specified times. These are two
+      separate facts that do not depend on each other.
+  - subject: home
+    a: the home is unoccupied
+    b: user at home
+    relation: exclusive
+    raw: exclusive
+    reason: The home cannot be unoccupied and have a user at home simultaneously.
+  - subject: home
+    a: user at home
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: 'The statements A and B are mutually exclusive as they describe opposite conditions: the user is either at home
+      or not nearby the home.'
+  - subject: home
+    a: user at home
+    b: user location
+    relation: same
+    raw: same
+    reason: Both statements refer to the presence or location of the user in the home, just with different levels of detail.
+  - subject: home
+    a: Is anyone at home?
+    b: user at home
+    relation: same
+    raw: same
+    reason: Both statements are asking about the presence of a user at home.
+  - subject: home
+    a: someone is at home
+    b: user at home
+    relation: same
+    raw: same
+    reason: Both statements A and B describe the presence of a user at home, just using different terms.
+  - subject: home
+    a: user at home
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'user at home' and 'user not at home' cannot both be true at the same time.
+  - subject: home
+    a: someone is detected
+    b: user at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement A (someone is detected) can be true even if the user is not specifically detected, whereas statement
+      B (user at home) is a more specific condition under which A could be true.
+  - subject: home
+    a: nobody at home
+    b: user at home
+    relation: exclusive
+    raw: exclusive
+    reason: The two statements are mutually exclusive; if nobody is at home, then it cannot be true that the user is at home,
+      and vice versa.
+  - subject: home
+    a: user arrives home
+    b: user at home
+    relation: same
+    raw: same
+    reason: Both statements describe the user being present in the home, just in slightly different terms.
+  - subject: home
+    a: someone is home
+    b: user at home
+    relation: same
+    raw: same
+    reason: Both statements A and B express the presence of a user in the home without any additional qualifiers that would
+      make them exclusive or imply one another.
+  - subject: home
+    a: user at home
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: The first statement 'user at home' and the second statement 'user proximity to the house' can both be true independently
+      of each other. The user could be inside the home or outside in the proximity of the house without contradicting the
+      other statement.
+  - subject: home
+    a: nobody is at home
+    b: user at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements cannot both be true at the same time as they present mutually exclusive conditions regarding the
+      presence of a user at home.
+  - subject: home
+    a: smoke present
+    b: user at home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the user being at home are two independent conditions that can exist without each other.
+  - subject: home
+    a: the temperature is below the threshold
+    b: user at home
+    relation: independent
+    raw: independent
+    reason: Statement A is about the temperature relative to a threshold, while Statement B is about the presence of a user.
+      These statements do not depend on each other for their truth.
+  - subject: home
+    a: people are not at home
+    b: user at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually exclusive as 'people are not at home' cannot be true if 'user at home' is true.
+  - subject: home
+    a: user at home
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of a user in the home, while statement B is about water damage. These two statements
+      can be true independently of each other without any direct implication from one to the other.
+  - subject: home
+    a: There is a water leak.
+    b: user at home
+    relation: independent
+    raw: independent
+    reason: A water leak can exist independently of the user's presence at home. The user can be at home without a water leak,
+      and a water leak can occur even if the user is not at home.
+  - subject: home
+    a: people are at home
+    b: user at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement 'people are at home' includes the user, so if people are at home, the user must be at home. However,
+      the user being at home does not necessarily mean that people are at home, as the user could be the only person there.
+  - subject: home
+    a: doors or windows are opening
+    b: user at home
+    relation: independent
+    raw: independent
+    reason: Statement A describes a situation where doors or windows are opening, which could happen even if the user is not
+      at home. Statement B states that the user is at home, which is a situation about the presence of the user regardless
+      of the state of doors or windows. Both statements can be true independently of each other.
+  - subject: home
+    a: user at home
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A refers to the presence of a user in the home, while statement B refers to user-specified times. These
+      can be true independently of each other.
+  - subject: home
+    a: the home is unoccupied
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states the home is unoccupied, while B states the user is not nearby the home. Both statements cannot be true
+      simultaneously as the user cannot be both in and not near the home at the same time.
+  - subject: home
+    a: the home is unoccupied
+    b: user location
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A directly claims the home is unoccupied, while B suggests there is a user location, which implies
+      the presence of at least one user. These two statements cannot both be true simultaneously.
+  - subject: home
+    a: Is anyone at home?
+    b: the home is unoccupied
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A asks if anyone is at home, which implies the presence of people. Statement B directly states that
+      the home is unoccupied, meaning no one is at home. These statements cannot both be true at the same time.
+  - subject: home
+    a: someone is at home
+    b: the home is unoccupied
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'someone is at home' and 'the home is unoccupied' cannot both be true at the same time according
+      to the given text.
+  - subject: home
+    a: the home is unoccupied
+    b: user not at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If the home is unoccupied, it necessarily means the user is not at home, but the user not being at home does not
+      necessarily mean the home is unoccupied (e.g., the user could be away but someone else could be at home).
+  - subject: home
+    a: someone is detected
+    b: the home is unoccupied
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'someone is detected' and 'the home is unoccupied' are mutually exclusive as they cannot both be
+      true at the same time.
+  - subject: home
+    a: nobody at home
+    b: the home is unoccupied
+    relation: same
+    raw: same
+    reason: Both statements indicate that there are no people present in the home.
+  - subject: home
+    a: the home is unoccupied
+    b: user arrives home
+    relation: exclusive
+    raw: exclusive
+    reason: The home cannot be unoccupied and have a user arriving home simultaneously.
+  - subject: home
+    a: someone is home
+    b: the home is unoccupied
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'someone is home' and 'the home is unoccupied' cannot both be true at the same time, as they describe
+      opposite conditions of the home's occupancy.
+  - subject: home
+    a: the home is unoccupied
+    b: user proximity to the house
+    relation: exclusive
+    raw: exclusive
+    reason: A states the home is unoccupied, while B concerns user proximity to the house. These cannot both be true simultaneously
+      as an unoccupied home implies no user is nearby.
+  - subject: home
+    a: nobody is at home
+    b: the home is unoccupied
+    relation: same
+    raw: same
+    reason: Both statements A and B express the absence of people in the home.
+  - subject: home
+    a: smoke present
+    b: the home is unoccupied
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the occupancy status of the home are two separate conditions that can exist independently
+      of each other. Smoke can be present regardless of whether someone is in the home or not.
+  - subject: home
+    a: the home is unoccupied
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: The home being unoccupied does not necessarily mean the temperature is below the threshold, and the temperature
+      being below the threshold does not necessarily mean the home is unoccupied.
+  - subject: home
+    a: people are not at home
+    b: the home is unoccupied
+    relation: same
+    raw: same
+    reason: Both statements express the absence of people in the home.
+  - subject: home
+    a: the home is unoccupied
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The absence of occupants (statement A) does not prevent water damage from occurring (statement B), and water damage
+      does not imply the absence of occupants.
+  - subject: home
+    a: the home is unoccupied
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The statement about the home being unoccupied does not provide information about the presence of a water leak,
+      and vice versa.
+  - subject: home
+    a: people are at home
+    b: the home is unoccupied
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'people are at home' and 'the home is unoccupied' cannot both be true at the same time. If people
+      are at home, the home cannot be unoccupied, and vice versa.
+  - subject: home
+    a: doors or windows are opening
+    b: the home is unoccupied
+    relation: exclusive
+    raw: exclusive
+    reason: A door or window opening typically implies someone is present, which contradicts the home being unoccupied.
+  - subject: home
+    a: the home is unoccupied
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: A statement about the occupancy of the home (A) is unrelated to user-specified times (B). The home can be unoccupied
+      at any time, regardless of user-specified times.
+  - subject: home
+    a: user location
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements A (user location) and B (user not nearby-home) cannot both be true at the same time. If the user
+      is nearby the home, they cannot simultaneously be not nearby the home.
+  - subject: home
+    a: Is anyone at home?
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A asks if anyone is at home, while B explicitly states the user is not nearby the home. These statements
+      cannot both be true at the same time.
+  - subject: home
+    a: someone is at home
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states that someone is at home, while B states that the user is not nearby the home. These two statements cannot
+      both be true at the same time.
+  - subject: home
+    a: user not at home
+    b: user not nearby-home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If the user is not at home, they are by definition not nearby the home. However, the user could be nearby the
+      home without being at home.
+  - subject: home
+    a: someone is detected
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states that someone is detected, while B states that the user is not nearby the home. These two statements cannot
+      both be true at the same time given the information provided.
+  - subject: home
+    a: nobody at home
+    b: user not nearby-home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If nobody is at home, then it is necessarily true that the user is not nearby-home. However, the user not being
+      nearby-home does not necessarily mean that nobody is at home.
+  - subject: home
+    a: user arrives home
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually exclusive as the user cannot be both at home and not nearby the home at the same time.
+  - subject: home
+    a: someone is home
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states that someone is home, while B states that the user is not nearby the home. These two statements cannot
+      both be true at the same time.
+  - subject: home
+    a: user not nearby-home
+    b: user proximity to the house
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A states the user is not nearby the home, while statement B suggests the user's proximity to the house.
+      These two statements cannot both be true at the same time.
+  - subject: home
+    a: nobody is at home
+    b: user not nearby-home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If nobody is at home, then it is necessarily true that the user is not nearby the home. However, the user not
+      being nearby the home does not imply that nobody is at home, as the user might be elsewhere.
+  - subject: home
+    a: smoke present
+    b: user not nearby-home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the user not being nearby-home are two separate conditions that can occur independently
+      of each other.
+  - subject: home
+    a: the temperature is below the threshold
+    b: user not nearby-home
+    relation: independent
+    raw: independent
+    reason: Statement A is about the temperature being below a threshold, while Statement B is about the user not being nearby
+      the home. These statements do not depend on each other and can be true independently of one another.
+  - subject: home
+    a: people are not at home
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A states that people are not at home, while B states that the user is not nearby the home. These two statements
+      cannot both be true at the same time as they refer to different groups (people vs. user) and locations (home vs. nearby
+      home).
+  - subject: home
+    a: user not nearby-home
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The fact that the user is not nearby the home does not preclude or necessitate the occurrence of water damage,
+      and vice versa.
+  - subject: home
+    a: There is a water leak.
+    b: user not nearby-home
+    relation: independent
+    raw: independent
+    reason: A water leak can exist without the user being nearby, and the user not being nearby does not imply a water leak.
+  - subject: home
+    a: people are at home
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: People being at home and the user not being nearby-home cannot both be true at the same time.
+  - subject: home
+    a: doors or windows are opening
+    b: user not nearby-home
+    relation: exclusive
+    raw: exclusive
+    reason: A door or window being opened and the user not being nearby-home cannot both be true at the same time as stated.
+  - subject: home
+    a: user not nearby-home
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about the user's physical location, while statement B is about times set by the user. These do
+      not necessarily overlap or imply each other.
+  - subject: home
+    a: Is anyone at home?
+    b: user location
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If anyone is at home (A), it implies that the user location (B) is within the home, but the user location does
+      not necessarily mean anyone is at home.
+  - subject: home
+    a: someone is at home
+    b: user location
+    relation: independent
+    raw: independent
+    reason: Statement A refers to the presence of someone at home, while Statement B refers to the user's location. These
+      can be true independently of each other. Someone can be at home without being a specific user, and a user can be at
+      home or not.
+  - subject: home
+    a: user location
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'user location' and 'user not at home' are mutually exclusive; if the user is at home, they cannot
+      simultaneously not be at home.
+  - subject: home
+    a: someone is detected
+    b: user location
+    relation: independent
+    raw: independent
+    reason: A states that someone is detected, while B refers to the user's location. These can be true independently of each
+      other.
+  - subject: home
+    a: nobody at home
+    b: user location
+    relation: exclusive
+    raw: exclusive
+    reason: If nobody is at home, the user location cannot be defined in the same context.
+  - subject: home
+    a: user arrives home
+    b: user location
+    relation: same
+    raw: same
+    reason: 'Both statements A and B describe the same situation: the user is present at the home. The term ''user arrives
+      home'' implies the user''s location is now at home.'
+  - subject: home
+    a: someone is home
+    b: user location
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If someone is home, it implies the user's location is within the home, but the user being home does not necessarily
+      mean someone else is home.
+  - subject: home
+    a: user location
+    b: user proximity to the house
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If the user is located inside the house (A), they are necessarily close to the house (B), but the user can be
+      close to the house (B) without being inside (A).
+  - subject: home
+    a: nobody is at home
+    b: user location
+    relation: exclusive
+    raw: exclusive
+    reason: If nobody is at home, the user location cannot be determined to be inside or outside the home.
+  - subject: home
+    a: smoke present
+    b: user location
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the user's location are two distinct facts that can be true independently of each other.
+      Smoke can be present in the home without the user being located anywhere specific, and the user can be located anywhere
+      in the home without smoke being present.
+  - subject: home
+    a: the temperature is below the threshold
+    b: user location
+    relation: independent
+    raw: independent
+    reason: The temperature being below the threshold (Statement A) and user location (Statement B) are two separate facts
+      that do not depend on each other. The temperature condition does not influence the user's location and vice versa.
+  - subject: home
+    a: people are not at home
+    b: user location
+    relation: exclusive
+    raw: exclusive
+    reason: A states that people are not at home, which directly contradicts the concept of user location, implying people
+      are at home. Therefore, these two statements cannot both be true at the same time.
+  - subject: home
+    a: user location
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: Statement A describes the user's location, which does not directly imply or prevent water damage. Statement B
+      describes an event (water damage) that is unrelated to the user's location as described in statement A.
+  - subject: home
+    a: There is a water leak.
+    b: user location
+    relation: independent
+    raw: independent
+    reason: Statement A is a world fact about a physical condition in the home, while statement B is an observation about
+      the user's location, which does not depend on the presence or absence of a water leak.
+  - subject: home
+    a: people are at home
+    b: user location
+    relation: independent
+    raw: independent
+    reason: Statement A states that people are at home, which is a situation fact. Statement B refers to the user's location,
+      which could be inside or outside the home. These two facts can be true independently of each other.
+  - subject: home
+    a: doors or windows are opening
+    b: user location
+    relation: independent
+    raw: independent
+    reason: The opening of doors or windows does not provide information about the user's location, and the user's location
+      does not determine whether doors or windows are opening.
+  - subject: home
+    a: user location
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: A statement about the user's current location does not inherently depend on or contradict the statement about
+      user-specified times. The user can be at a location outside of their specified times, or within them.
+  - subject: home
+    a: Is anyone at home?
+    b: someone is at home
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A is a question and cannot be directly compared to statement B, which is an affirmative statement. However,
+      the answer to statement A would be 'no' if statement B were true, making them mutually exclusive.
+  - subject: home
+    a: Is anyone at home?
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A asks if anyone is at home, while statement B explicitly states that the user is not at home. These
+      statements cannot both be true at the same time.
+  - subject: home
+    a: Is anyone at home?
+    b: someone is detected
+    relation: same
+    raw: same
+    reason: Statement A is a question about the presence of anyone at home, while statement B directly states that someone
+      is detected. These two statements are essentially conveying the same information, just in different forms.
+  - subject: home
+    a: Is anyone at home?
+    b: nobody at home
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A asks if anyone is at home, while statement B explicitly states that nobody is at home. These cannot
+      both be true at the same time.
+  - subject: home
+    a: Is anyone at home?
+    b: user arrives home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If the user arrives home, then it is true that anyone is at home. However, anyone at home does not necessarily
+      mean the user has arrived, as there could be other people present.
+  - subject: home
+    a: Is anyone at home?
+    b: someone is home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If someone is home (B), it implies that anyone is at home (A), but not the other way around.
+  - subject: home
+    a: Is anyone at home?
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: Statement A is a binary question about the presence of anyone at the home, while B is about the user's proximity
+      to the house. These statements can be true independently of each other.
+  - subject: home
+    a: Is anyone at home?
+    b: nobody is at home
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A asks if anyone is at home, while statement B explicitly states that nobody is at home. These cannot
+      both be true at the same time.
+  - subject: home
+    a: Is anyone at home?
+    b: smoke present
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of people in the home, while statement B is about the presence of smoke. They
+      can both be true independently of each other.
+  - subject: home
+    a: Is anyone at home?
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of people in the home, while statement B is about the temperature. They do not
+      necessarily depend on each other being true.
+  - subject: home
+    a: Is anyone at home?
+    b: people are not at home
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A asks if anyone is at home, while statement B directly says people are not at home. These two statements
+      cannot both be true at the same time.
+  - subject: home
+    a: Is anyone at home?
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of people in the home, while statement B is about water damage, which are two
+      independent situations that can occur simultaneously without influencing each other.
+  - subject: home
+    a: Is anyone at home?
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The statements address different situations. 'Is anyone at home?' concerns the presence of people, while 'There
+      is a water leak' pertains to a condition of the home's infrastructure. These can be true independently of each other.
+  - subject: home
+    a: Is anyone at home?
+    b: people are at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If anyone is at home, it is true that people are at home. However, people being at home does not necessarily mean
+      that anyone is at home, as people could be present but not be 'anyone' in the context of the question.
+  - subject: home
+    a: doors or windows are opening
+    b: Is anyone at home?
+    relation: exclusive
+    raw: exclusive
+    reason: A door or window being opened does not necessarily mean that someone is at home, and someone being at home does
+      not necessarily mean that a door or window is being opened.
+  - subject: home
+    a: Is anyone at home?
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is a binary situation question about the presence of people in the home. Statement B refers to user-defined
+      time periods, which do not directly correlate with the presence of people.
+  - subject: home
+    a: someone is at home
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'someone is at home' and 'user not at home' are mutually exclusive; they cannot both be true simultaneously.
+  - subject: home
+    a: someone is at home
+    b: someone is detected
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement A, 'someone is at home,' implies that someone is detected, as detection is a method to determine
+      if someone is at home. However, detection does not necessarily mean someone is at home, for example, if a motion sensor
+      is triggered by a pet or an object.
+  - subject: home
+    a: nobody at home
+    b: someone is at home
+    relation: exclusive
+    raw: exclusive
+    reason: The two statements are mutually exclusive; if nobody is at home, then it cannot be true that someone is at home,
+      and vice versa.
+  - subject: home
+    a: someone is at home
+    b: user arrives home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement 'someone is at home' includes the user arriving home as one of the possibilities, but it also encompasses
+      other scenarios where someone else could be at home without the user being present.
+  - subject: home
+    a: someone is at home
+    b: someone is home
+    relation: same
+    raw: same
+    reason: Both statements A and B express the presence of someone in the home without any additional qualifiers or differences
+      in meaning.
+  - subject: home
+    a: someone is at home
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of someone at home, while Statement B is about the user's proximity to the house.
+      These can be true independently of each other.
+  - subject: home
+    a: nobody is at home
+    b: someone is at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'nobody is at home' and 'someone is at home' are mutually exclusive; they cannot both be true at
+      the same time.
+  - subject: home
+    a: smoke present
+    b: someone is at home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the presence of someone at home can occur independently of each other. Smoke could be
+      present due to a non-human cause, and someone could be at home without smoke being present.
+  - subject: home
+    a: someone is at home
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of someone in the home, while statement B is about the temperature relative
+      to a threshold. These two facts can be true independently of each other.
+  - subject: home
+    a: people are not at home
+    b: someone is at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements A and B are mutually exclusive; they cannot both be true at the same time as they refer to the
+      presence or absence of people in the home.
+  - subject: home
+    a: someone is at home
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The statement about someone being at home does not provide any information about water damage, and vice versa.
+      They can both be true at the same time without influencing each other.
+  - subject: home
+    a: someone is at home
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: Being at home does not imply or preclude a water leak, and a water leak does not imply or preclude someone being
+      at home.
+  - subject: home
+    a: people are at home
+    b: someone is at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If people are at home, then it is necessarily true that someone is at home. However, someone could be at home
+      without it being true that people are at home (e.g., a pet or a cleaner).
+  - subject: home
+    a: doors or windows are opening
+    b: someone is at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If doors or windows are opening, it suggests someone is at home, but someone being at home does not necessarily
+      mean doors or windows are opening.
+  - subject: home
+    a: someone is at home
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of someone in the home, while B is about user-specified times. These two statements
+      can be true independently of each other.
+  - subject: home
+    a: someone is detected
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: A states that someone is detected, while B states that the user is not at home. These two statements cannot both
+      be true at the same time given the context.
+  - subject: home
+    a: nobody at home
+    b: user not at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If nobody is at home, then it is necessarily true that the user is not at home. However, the user not being at
+      home does not necessarily mean nobody is at home.
+  - subject: home
+    a: user arrives home
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements A and B are mutually exclusive as they describe opposite conditions of the user's presence at home.
+  - subject: home
+    a: someone is home
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'someone is home' and 'user not at home' cannot both be true at the same time according to the
+      given facts.
+  - subject: home
+    a: user not at home
+    b: user proximity to the house
+    relation: exclusive
+    raw: exclusive
+    reason: A states the user is not at home, while B suggests the user is near the house. These two states cannot be true
+      simultaneously.
+  - subject: home
+    a: nobody is at home
+    b: user not at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If nobody is at home (statement A), then it is necessarily true that the user is not at home (statement B). However,
+      the user not being at home does not guarantee that nobody is at home, as there could potentially be other people not
+      mentioned in the statements.
+  - subject: home
+    a: smoke present
+    b: user not at home
+    relation: independent
+    raw: independent
+    reason: The statement 'smoke present' refers to the presence of smoke, which is a physical condition that can exist regardless
+      of the user's location. 'User not at home' is a statement about the user's location and does not imply anything about
+      the presence of smoke. These statements can be true independently of each other.
+  - subject: home
+    a: the temperature is below the threshold
+    b: user not at home
+    relation: independent
+    raw: independent
+    reason: Statement A is about the temperature being below a threshold, while Statement B is about the user's location.
+      These can be true independently of each other.
+  - subject: home
+    a: people are not at home
+    b: user not at home
+    relation: same
+    raw: same
+    reason: Both statements indicate the absence of people in the home, expressed in slightly different terms.
+  - subject: home
+    a: user not at home
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The absence of a user in the home does not inherently imply water damage, and water damage does not necessarily
+      mean the user is not at home.
+  - subject: home
+    a: There is a water leak.
+    b: user not at home
+    relation: independent
+    raw: independent
+    reason: A states a physical condition (water leak) while B states a user's absence. These can be true independently of
+      each other.
+  - subject: home
+    a: people are at home
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually exclusive as people cannot simultaneously be at home and not at home.
+  - subject: home
+    a: doors or windows are opening
+    b: user not at home
+    relation: exclusive
+    raw: exclusive
+    reason: A door or window opening implies the user is at home, contradicting statement B.
+  - subject: home
+    a: user not at home
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A describes the user's current physical location, while statement B refers to times set by the user.
+      These statements can be true independently of each other.
+  - subject: home
+    a: nobody at home
+    b: someone is detected
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually exclusive as 'nobody at home' cannot be true if 'someone is detected'.
+  - subject: home
+    a: someone is detected
+    b: user arrives home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement 'someone is detected' could encompass the arrival of the user, but 'user arrives home' is a more
+      specific condition that does not necessarily imply 'someone is detected' by a generic sensor, as someone could be in
+      the home for other reasons.
+  - subject: home
+    a: someone is detected
+    b: someone is home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If someone is detected, it implies someone is home, but someone can be home without being detected.
+  - subject: home
+    a: someone is detected
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: Statement A is about the detection of someone, which could be a visitor or a resident. Statement B is about user
+      proximity to the house, which does not necessarily imply the presence of someone at the moment. These two facts can
+      be true independently of each other.
+  - subject: home
+    a: nobody is at home
+    b: someone is detected
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually exclusive as 'nobody is at home' and 'someone is detected' cannot both be true at
+      the same time.
+  - subject: home
+    a: smoke present
+    b: someone is detected
+    relation: independent
+    raw: independent
+    reason: The presence of smoke does not inherently imply the presence of someone, and someone being detected does not necessarily
+      mean there is smoke present.
+  - subject: home
+    a: someone is detected
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: The presence of someone in the home does not depend on the temperature being below a threshold, and the temperature
+      being below a threshold does not imply the presence of someone.
+  - subject: home
+    a: people are not at home
+    b: someone is detected
+    relation: exclusive
+    raw: exclusive
+    reason: The statements cannot both be true as they contradict each other. If people are not at home, then it is impossible
+      for someone to be detected.
+  - subject: home
+    a: someone is detected
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: Statement A refers to someone being detected, which could be through various means such as motion sensors. Statement
+      B refers to water damage, which is a separate condition not directly implied by the presence of a person.
+  - subject: home
+    a: someone is detected
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The statement A refers to the detection of someone, while B refers to a water leak. These are two separate events
+      that can occur independently of each other.
+  - subject: home
+    a: people are at home
+    b: someone is detected
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If people are at home, it implies that someone is detected, but someone being detected does not necessarily mean
+      people are at home (it could be a pet or a visitor).
+  - subject: home
+    a: doors or windows are opening
+    b: someone is detected
+    relation: independent
+    raw: independent
+    reason: The statements 'doors or windows are opening' and 'someone is detected' can both be true without the other. Doors
+      or windows can open for reasons unrelated to someone being present, and someone can be in the home without opening any
+      doors or windows.
+  - subject: home
+    a: someone is detected
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A refers to the detection of someone, which is an observation or a condition in the home. Statement
+      B refers to user-specified times, which could be related to the activation or deactivation of various devices or modes,
+      but does not directly relate to the presence of someone in the home. These two statements can be true independently
+      of each other.
+  - subject: home
+    a: nobody at home
+    b: user arrives home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'nobody at home' and 'user arrives home' cannot both be true at the same moment.
+  - subject: home
+    a: nobody at home
+    b: someone is home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'nobody at home' and 'someone is home' are mutually exclusive; they cannot both be true at the
+      same time.
+  - subject: home
+    a: nobody at home
+    b: user proximity to the house
+    relation: exclusive
+    raw: exclusive
+    reason: If nobody is at home (A), it is impossible for a user to be at a proximity to the house (B), making these two
+      statements mutually exclusive.
+  - subject: home
+    a: nobody at home
+    b: nobody is at home
+    relation: same
+    raw: same
+    reason: Both statements express the same condition of the absence of people in the home without any additional details
+      or differences.
+  - subject: home
+    a: nobody at home
+    b: smoke present
+    relation: exclusive
+    raw: exclusive
+    reason: A states that nobody is at home, implying the absence of any people. B states that smoke is present, which could
+      indicate an issue even in the absence of people, such as a fire. These cannot both be true simultaneously as smoke presence
+      would suggest someone might be needed to address the issue.
+  - subject: home
+    a: nobody at home
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: The absence of people in the home does not dictate the temperature, and the temperature being below the threshold
+      does not indicate whether anyone is at home or not.
+  - subject: home
+    a: nobody at home
+    b: people are not at home
+    relation: same
+    raw: same
+    reason: Both statements indicate the absence of people in the home.
+  - subject: home
+    a: nobody at home
+    b: water damage is occurring
+    relation: exclusive
+    raw: exclusive
+    reason: A states that nobody is at home, while B states that water damage is occurring, which are mutually exclusive under
+      the given context.
+  - subject: home
+    a: nobody at home
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The absence of people and the presence of a water leak are independent conditions that can coexist without influencing
+      each other as stated.
+  - subject: home
+    a: nobody at home
+    b: people are at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'nobody at home' and 'people are at home' cannot both be true at the same time.
+  - subject: home
+    a: doors or windows are opening
+    b: nobody at home
+    relation: exclusive
+    raw: exclusive
+    reason: A door or window opening implies that someone is present, which contradicts statement B.
+  - subject: home
+    a: nobody at home
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence or absence of people at home, while statement B is about user-specified times.
+      These can be true independently of each other.
+  - subject: home
+    a: someone is home
+    b: user arrives home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement 'someone is home' can be true when 'user arrives home' is true, but 'someone is home' could also
+      be true even if the user has not yet arrived, such as if a guest arrived.
+  - subject: home
+    a: user arrives home
+    b: user proximity to the house
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: A user arriving home implies that the user is proximate to the house, but the user can be proximate to the house
+      without necessarily arriving home.
+  - subject: home
+    a: nobody is at home
+    b: user arrives home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually exclusive as 'nobody is at home' and 'user arrives home' cannot both be true at the
+      same time.
+  - subject: home
+    a: smoke present
+    b: user arrives home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke does not affect the user's arrival, and the user's arrival does not imply the presence of
+      smoke.
+  - subject: home
+    a: the temperature is below the threshold
+    b: user arrives home
+    relation: independent
+    raw: independent
+    reason: The temperature being below the threshold and a user arriving home are two separate events that do not inherently
+      depend on each other.
+  - subject: home
+    a: people are not at home
+    b: user arrives home
+    relation: exclusive
+    raw: exclusive
+    reason: The two statements cannot both be true at the same time as they describe opposite situations.
+  - subject: home
+    a: user arrives home
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: A states a user's arrival home, which is an event concerning the presence of a person. B states water damage,
+      which is a condition of the home's environment. These two statements describe different aspects of the home and can
+      be true independently of each other.
+  - subject: home
+    a: There is a water leak.
+    b: user arrives home
+    relation: independent
+    raw: independent
+    reason: Statement A describes a technical issue (water leak) that is unrelated to the presence or absence of a user in
+      the home as stated in B.
+  - subject: home
+    a: people are at home
+    b: user arrives home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If people are at home, it implies that the user has arrived home, but the user arriving home does not necessarily
+      mean that people are at home, as they could be away despite the user having arrived.
+  - subject: home
+    a: doors or windows are opening
+    b: user arrives home
+    relation: independent
+    raw: independent
+    reason: The fact that doors or windows are opening does not preclude the possibility that the user has arrived home, and
+      vice versa. These are two separate events that can occur independently.
+  - subject: home
+    a: user arrives home
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: A (user arrives home) is an immediate event, while B (user-specified times) refers to a broader timeframe. They
+      can be true independently of each other.
+  - subject: home
+    a: someone is home
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: A statement is about the presence of someone in the home, while B is about the user's location relative to the
+      house. These can be true independently of each other.
+  - subject: home
+    a: nobody is at home
+    b: someone is home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually exclusive as they cannot both be true at the same time regarding the presence of people
+      in the home.
+  - subject: home
+    a: smoke present
+    b: someone is home
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the fact that someone is home can be true independently of each other. Smoke can be
+      present without anyone being home, and someone can be home without smoke being present.
+  - subject: home
+    a: someone is home
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: Statement A is about someone being home, which is a world fact. Statement B is about the temperature being below
+      a threshold, which is an observation. There is no indication that the presence or absence of someone at home would necessarily
+      affect the temperature or vice versa.
+  - subject: home
+    a: people are not at home
+    b: someone is home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually exclusive as 'people are not at home' and 'someone is home' cannot both be true at
+      the same time.
+  - subject: home
+    a: someone is home
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The presence of someone in the home and the occurrence of water damage are two distinct situations that can happen
+      independently of each other.
+  - subject: home
+    a: someone is home
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: Being someone home and the presence of a water leak are unrelated situations as stated.
+  - subject: home
+    a: people are at home
+    b: someone is home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If people are at home, it implies that someone is home, but someone being home does not necessarily mean that
+      all people are present.
+  - subject: home
+    a: doors or windows are opening
+    b: someone is home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If doors or windows are opening, it suggests someone is home, but someone being home does not necessarily mean
+      doors or windows are opening.
+  - subject: home
+    a: someone is home
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of someone in the home, while B refers to user-specified times. These statements
+      do not necessarily depend on each other's truth value.
+  - subject: home
+    a: nobody is at home
+    b: user proximity to the house
+    relation: exclusive
+    raw: exclusive
+    reason: If nobody is at home, then the user cannot be near the house.
+  - subject: home
+    a: smoke present
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and user proximity to the house are two separate conditions that can exist independently
+      of each other.
+  - subject: home
+    a: the temperature is below the threshold
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: The temperature being below the threshold does not affect or determine user proximity to the house, and vice versa.
+  - subject: home
+    a: people are not at home
+    b: user proximity to the house
+    relation: exclusive
+    raw: exclusive
+    reason: Statement A is a world fact about the absence of people at home. Statement B is an observation about user proximity
+      to the house. These cannot both be true at the same time as per the given text.
+  - subject: home
+    a: user proximity to the house
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: User proximity to the house and water damage occurring are two separate situations that do not inherently depend
+      on each other as stated.
+  - subject: home
+    a: There is a water leak.
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of a water leak, which is a world fact. Statement B is about user proximity
+      to the house, which is not related to the presence or absence of a water leak and does not affect the truth of statement
+      A.
+  - subject: home
+    a: people are at home
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: People being at home and user proximity to the house are two separate conditions that can be true independently
+      of each other.
+  - subject: home
+    a: doors or windows are opening
+    b: user proximity to the house
+    relation: independent
+    raw: independent
+    reason: A statement is about doors or windows opening, which is a world fact. B is about user proximity to the house,
+      which is not directly related to the state of doors or windows. There is no mutual exclusivity, implication, or direct
+      connection between the two statements as they pertain to different aspects of the home.
+  - subject: home
+    a: user proximity to the house
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: The user proximity to the house (A) and user-specified times (B) are two distinct conditions that can be true
+      independently of each other. The proximity to the house does not dictate the user-specified times and vice versa.
+  - subject: home
+    a: nobody is at home
+    b: smoke present
+    relation: exclusive
+    raw: exclusive
+    reason: The statement 'nobody is at home' implies that the home is unoccupied, while 'smoke present' suggests the presence
+      of smoke, which is unrelated to the occupancy status.
+  - subject: home
+    a: nobody is at home
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of people, while B is about the temperature. They do not depend on each other
+      and can be true independently.
+  - subject: home
+    a: nobody is at home
+    b: people are not at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If nobody is at home (A), then people are not at home (B), but people not being at home does not necessarily mean
+      nobody is at home (e.g., a pet might be at home).
+  - subject: home
+    a: nobody is at home
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The presence or absence of people in the home does not provide evidence for or against water damage occurring,
+      and vice versa.
+  - subject: home
+    a: nobody is at home
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The presence of a water leak does not depend on whether anyone is at home or not.
+  - subject: home
+    a: nobody is at home
+    b: people are at home
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'nobody is at home' and 'people are at home' cannot both be true at the same time.
+  - subject: home
+    a: doors or windows are opening
+    b: nobody is at home
+    relation: exclusive
+    raw: exclusive
+    reason: A door or window opening implies that someone could be at home, which contradicts statement B.
+  - subject: home
+    a: nobody is at home
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of people in the home, while B is about user-specified times. These statements
+      can be true independently of each other.
+  - subject: home
+    a: smoke present
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and the temperature being below a threshold are two separate conditions that can exist independently
+      of each other.
+  - subject: home
+    a: people are not at home
+    b: smoke present
+    relation: independent
+    raw: independent
+    reason: The statement about people not being at home does not provide information about the presence of smoke, and the
+      presence of smoke does not indicate whether people are at home or not.
+  - subject: home
+    a: smoke present
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The presence of smoke does not imply water damage is occurring, and water damage does not imply smoke is present.
+  - subject: home
+    a: smoke present
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The presence of smoke and a water leak are two separate conditions that can occur independently of each other.
+  - subject: home
+    a: people are at home
+    b: smoke present
+    relation: independent
+    raw: independent
+    reason: The statement 'people are at home' refers to the presence or absence of individuals in the home, while 'smoke
+      present' refers to the detection of smoke. These two statements can both be true independently of each other. People
+      can be at home without smoke being present, and smoke can be present without people being at home.
+  - subject: home
+    a: doors or windows are opening
+    b: smoke present
+    relation: independent
+    raw: independent
+    reason: The statements about doors or windows opening and smoke present do not mutually exclude each other and can both
+      be true independently of one another.
+  - subject: home
+    a: smoke present
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is a world fact about the presence of smoke, which is independent of user-specified times as stated
+      in B.
+  - subject: home
+    a: people are not at home
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence or absence of people in the home, while Statement B is about the temperature
+      relative to a threshold. The temperature can be below the threshold regardless of whether people are at home or not,
+      and people can be at home even if the temperature is below the threshold.
+  - subject: home
+    a: the temperature is below the threshold
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The statements refer to different conditions (temperature and water damage) without any direct implication between
+      them as stated.
+  - subject: home
+    a: the temperature is below the threshold
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: 'The statements refer to two different conditions: temperature and water leak. There is no direct implication
+      between the two.'
+  - subject: home
+    a: people are at home
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: People being at home and the temperature being below a threshold are two separate conditions that do not necessarily
+      influence each other as stated.
+  - subject: home
+    a: doors or windows are opening
+    b: the temperature is below the threshold
+    relation: independent
+    raw: independent
+    reason: Opening of doors or windows and the temperature being below a threshold are two separate conditions that can occur
+      independently of each other.
+  - subject: home
+    a: the temperature is below the threshold
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about the temperature being below a threshold, while B is about user-specified times. These are
+      unrelated facts.
+  - subject: home
+    a: people are not at home
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The absence of people in the home does not provide evidence for or against water damage occurring, and vice versa.
+  - subject: home
+    a: people are not at home
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The presence or absence of people in the home does not directly impact the occurrence of a water leak, and vice
+      versa. These are two separate conditions that can be true independently of each other.
+  - subject: home
+    a: people are at home
+    b: people are not at home
+    relation: exclusive
+    raw: exclusive
+    reason: The two statements are mutually exclusive; both people are at home and people are not at home cannot both be true
+      at the same time.
+  - subject: home
+    a: doors or windows are opening
+    b: people are not at home
+    relation: exclusive
+    raw: exclusive
+    reason: A door or window opening typically implies the presence of someone, contradicting the statement that people are
+      not at home.
+  - subject: home
+    a: people are not at home
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of people, while B is about user-specified times. The absence of people does
+      not determine the user-specified times, and user-specified times do not determine whether people are present.
+  - subject: home
+    a: There is a water leak.
+    b: water damage is occurring
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: A water leak can cause water damage, but water damage can also occur without an active water leak (e.g., due to
+      previous leaks). However, the statement 'There is a water leak' directly implies that there is a situation that could
+      potentially lead to water damage, making A imply B.
+  - subject: home
+    a: people are at home
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The presence of people at home does not inherently cause or preclude water damage, and water damage does not necessarily
+      indicate the presence of people.
+  - subject: home
+    a: doors or windows are opening
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: The statement about doors or windows opening does not provide enough information to determine if water damage
+      is occurring, and the statement about water damage does not imply anything about doors or windows opening.
+  - subject: home
+    a: user-specified times
+    b: water damage is occurring
+    relation: independent
+    raw: independent
+    reason: A states a user-specified time, which is unrelated to B's occurrence of water damage. These statements can be
+      true independently of each other.
+  - subject: home
+    a: people are at home
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The statement about people being at home (A) does not provide any information that would directly imply or be
+      implied by the presence of a water leak (B), and vice versa. They are separate conditions without a direct implication
+      between them based solely on the given information.
+  - subject: home
+    a: doors or windows are opening
+    b: There is a water leak.
+    relation: independent
+    raw: independent
+    reason: The statement about doors or windows opening and the statement about a water leak are two separate conditions
+      that can occur independently of each other.
+  - subject: home
+    a: There is a water leak.
+    b: user-specified times
+    relation: exclusive
+    raw: exclusive
+    reason: A statement about an ongoing physical issue (water leak) cannot be simultaneously true with a statement about
+      user preferences or schedules (times).
+  - subject: home
+    a: doors or windows are opening
+    b: people are at home
+    relation: independent
+    raw: independent
+    reason: The fact that doors or windows are opening does not inherently imply that people are at home, and people being
+      at home does not necessarily mean that doors or windows are opening.
+  - subject: home
+    a: people are at home
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A refers to the presence of people at the home, while B refers to user-specified times. These can be
+      true independently of each other.
+  - subject: home
+    a: doors or windows are opening
+    b: user-specified times
+    relation: independent
+    raw: independent
+    reason: Statement A is about doors or windows opening, which is a world fact. Statement B is about user-specified times,
+      which is not a world fact and does not directly relate to the opening of doors or windows. These statements can be true
+      independently of each other.
+  - subject: room
+    a: temperature is above the comfort threshold
+    b: the temperature is above the user comfort threshold
+    relation: same
+    raw: same
+    reason: Both statements convey the same fact about the temperature being above a certain threshold, with B specifying
+      that it is the user comfort threshold.
+  - subject: room
+    a: someone is at home
+    b: temperature is above the comfort threshold
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of someone at home, which is a world fact. Statement B is about the temperature
+      being above a comfort threshold, which is an observation or condition. These two statements do not necessarily depend
+      on each other to be true.
+  - subject: room
+    a: indoor illuminance is high
+    b: temperature is above the comfort threshold
+    relation: independent
+    raw: independent
+    reason: Indoor illuminance being high does not imply the temperature is above the comfort threshold, and vice versa.
+  - subject: room
+    a: it is daytime
+    b: temperature is above the comfort threshold
+    relation: independent
+    raw: independent
+    reason: The statement about the time of day (daytime) and the temperature relative to the comfort threshold are two separate
+      facts that can be true independently of each other.
+  - subject: room
+    a: temperature is above the comfort threshold
+    b: the user is not awake
+    relation: independent
+    raw: independent
+    reason: Statement A is about the temperature being above a certain threshold, while Statement B is about the user's state
+      of being awake. There is no direct implication or exclusivity between the two states as stated.
+  - subject: room
+    a: temperature is above the comfort threshold
+    b: the temperature is above the comfort threshold
+    relation: same
+    raw: same
+    reason: Both statements convey the same fact about the temperature being above the comfort threshold.
+  - subject: room
+    a: temperature is above the comfort threshold
+    b: user not present
+    relation: independent
+    raw: independent
+    reason: Statement A is about the temperature relative to a comfort threshold, while Statement B is about the presence
+      of a user. These two facts can be true independently of each other.
+  - subject: room
+    a: temperature is above the comfort threshold
+    b: temperature is low
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A claims the temperature is above the comfort threshold, while B states the temperature is low.
+      These two cannot be true simultaneously.
+  - subject: room
+    a: temperature is above the comfort threshold
+    b: temperature is below the user threshold
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually contradictory; the temperature cannot be both above the comfort threshold and below
+      the user threshold at the same time.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: temperature is above the comfort threshold
+    relation: independent
+    raw: independent
+    reason: Statement A is about the level of indoor illuminance and its relation to daytime, while Statement B is about the
+      temperature in relation to the comfort threshold. These are two separate conditions that can be true independently of
+      each other.
+  - subject: room
+    a: motion is detected
+    b: temperature is above the comfort threshold
+    relation: independent
+    raw: independent
+    reason: The detection of motion and the temperature being above the comfort threshold are two separate conditions that
+      can occur independently of each other.
+  - subject: room
+    a: temperature is above the comfort threshold
+    b: the temperature is below the comfort threshold
+    relation: exclusive
+    raw: exclusive
+    reason: The two statements are directly contradictory, as the temperature cannot be simultaneously above and below the
+      comfort threshold.
+  - subject: room
+    a: temperature is above the comfort threshold
+    b: the temperature is low
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A claims the temperature is above the comfort threshold, while B states the temperature is low.
+      These two cannot be true simultaneously.
+  - subject: room
+    a: temperature is above the comfort threshold
+    b: the temperature is below a predefined value
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually exclusive as they cannot both be true at the same time for the same temperature reading.
+      A states the temperature is above the comfort threshold, while B states it is below a predefined value.
+  - subject: room
+    a: someone is at home
+    b: the temperature is above the user comfort threshold
+    relation: independent
+    raw: independent
+    reason: The presence of someone at home does not imply anything about the temperature relative to the user's comfort threshold,
+      and the temperature being above the threshold does not indicate whether someone is at home or not.
+  - subject: room
+    a: indoor illuminance is high
+    b: the temperature is above the user comfort threshold
+    relation: independent
+    raw: independent
+    reason: Indoor illuminance and temperature are independent variables as stated. There is no information suggesting that
+      high illuminance necessitates a temperature above the user comfort threshold, nor that a temperature above the user
+      comfort threshold necessitates high illuminance.
+  - subject: room
+    a: it is daytime
+    b: the temperature is above the user comfort threshold
+    relation: independent
+    raw: independent
+    reason: Daytime does not inherently imply the temperature is above the user comfort threshold, and the temperature being
+      above the user comfort threshold does not necessarily mean it is daytime.
+  - subject: room
+    a: the temperature is above the user comfort threshold
+    b: the user is not awake
+    relation: independent
+    raw: independent
+    reason: The temperature being above the user comfort threshold does not depend on whether the user is awake or not.
+  - subject: room
+    a: the temperature is above the comfort threshold
+    b: the temperature is above the user comfort threshold
+    relation: same
+    raw: same
+    reason: Both statements are saying that the temperature is above a comfort threshold, with B specifying that it is the
+      user's comfort threshold.
+  - subject: room
+    a: the temperature is above the user comfort threshold
+    b: user not present
+    relation: independent
+    raw: independent
+    reason: Statement A concerns the temperature relative to a user comfort threshold, while statement B indicates the user's
+      presence. These statements do not depend on each other and can be true independently of one another.
+  - subject: room
+    a: temperature is low
+    b: the temperature is above the user comfort threshold
+    relation: b_implies_a
+    raw: b_implies_a
+    reason: The statement B implies A because if the temperature is above the user comfort threshold, it must be low compared
+      to the threshold. However, A does not necessarily imply B, as the temperature could be below the comfort threshold but
+      still not low.
+  - subject: room
+    a: temperature is below the user threshold
+    b: the temperature is above the user comfort threshold
+    relation: exclusive
+    raw: exclusive
+    reason: The temperature cannot be both below the user threshold and above the user comfort threshold at the same time.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: the temperature is above the user comfort threshold
+    relation: independent
+    raw: independent
+    reason: Statement A is about the illuminance level and is a world fact. Statement B is about the temperature and user
+      comfort, which are independent of each other as stated.
+  - subject: room
+    a: motion is detected
+    b: the temperature is above the user comfort threshold
+    relation: independent
+    raw: independent
+    reason: The detection of motion and the temperature being above the user's comfort threshold are two separate conditions
+      that can occur independently of each other.
+  - subject: room
+    a: the temperature is above the user comfort threshold
+    b: the temperature is below the comfort threshold
+    relation: exclusive
+    raw: exclusive
+    reason: The temperature cannot be simultaneously above and below the user comfort threshold.
+  - subject: room
+    a: the temperature is above the user comfort threshold
+    b: the temperature is low
+    relation: exclusive
+    raw: exclusive
+    reason: The temperature cannot be both above the user comfort threshold and low simultaneously.
+  - subject: room
+    a: the temperature is above the user comfort threshold
+    b: the temperature is below a predefined value
+    relation: exclusive
+    raw: exclusive
+    reason: The temperature cannot simultaneously be above the user comfort threshold and below a predefined value.
+  - subject: room
+    a: indoor illuminance is high
+    b: someone is at home
+    relation: independent
+    raw: independent
+    reason: Indoor illuminance being high does not preclude or necessitate that someone is at home, and vice versa.
+  - subject: room
+    a: it is daytime
+    b: someone is at home
+    relation: independent
+    raw: independent
+    reason: Daytime does not imply the presence of someone at home, and someone being at home does not necessarily mean it
+      is daytime.
+  - subject: room
+    a: someone is at home
+    b: the user is not awake
+    relation: exclusive
+    raw: exclusive
+    reason: 'The two statements present mutually exclusive conditions: if someone is at home, it is not necessarily true that
+      the user is not awake. However, if the user is not awake, it is impossible for someone to be at home (assuming ''someone''
+      refers to the user).'
+  - subject: room
+    a: someone is at home
+    b: the temperature is above the comfort threshold
+    relation: independent
+    raw: independent
+    reason: The presence of someone at home does not depend on the temperature being above a comfort threshold, and the temperature
+      being above the threshold does not imply someone is at home.
+  - subject: room
+    a: someone is at home
+    b: user not present
+    relation: exclusive
+    raw: exclusive
+    reason: The statements 'someone is at home' and 'user not present' cannot both be true at the same time.
+  - subject: room
+    a: someone is at home
+    b: temperature is low
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of a person, while B is about the temperature. Neither directly implies the
+      other based on the given information.
+  - subject: room
+    a: someone is at home
+    b: temperature is below the user threshold
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of someone at home, which is a world fact. Statement B is about the temperature
+      being below a user-chosen threshold, which is an observation and not directly related to the presence of someone. There
+      is no direct implication or exclusivity between these two statements.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: someone is at home
+    relation: independent
+    raw: independent
+    reason: The statement about indoor illuminance does not imply anyone is at home, and someone being at home does not determine
+      the illuminance level.
+  - subject: room
+    a: motion is detected
+    b: someone is at home
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: Detection of motion does not necessarily imply that someone is at home, but if someone is at home, motion could
+      be detected.
+  - subject: room
+    a: someone is at home
+    b: the temperature is below the comfort threshold
+    relation: independent
+    raw: independent
+    reason: The presence of someone at home does not determine the temperature, and the temperature being below the comfort
+      threshold does not indicate the presence of someone.
+  - subject: room
+    a: someone is at home
+    b: the temperature is low
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of a person, while Statement B is about the temperature. These are two separate
+      facts that can be true independently of each other.
+  - subject: room
+    a: someone is at home
+    b: the temperature is below a predefined value
+    relation: independent
+    raw: independent
+    reason: Statement A is about the presence of someone at home, which is a world fact. Statement B is about the temperature
+      being below a predefined value, which is an observation. The presence of someone does not inherently affect the temperature
+      and vice versa, so they can be true independently of each other.
+  - subject: room
+    a: indoor illuminance is high
+    b: it is daytime
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: High indoor illuminance is more likely during the daytime, but it can also be high due to artificial lighting,
+      so it is not exclusive.
+  - subject: room
+    a: indoor illuminance is high
+    b: the user is not awake
+    relation: independent
+    raw: independent
+    reason: Indoor illuminance being high does not depend on whether the user is awake or not, and being awake does not directly
+      affect indoor illuminance.
+  - subject: room
+    a: indoor illuminance is high
+    b: the temperature is above the comfort threshold
+    relation: independent
+    raw: independent
+    reason: Indoor illuminance and temperature are two distinct environmental factors that can be high or low independently
+      of each other. The text does not provide any information that links the level of illuminance directly to the temperature
+      or vice versa.
+  - subject: room
+    a: indoor illuminance is high
+    b: user not present
+    relation: independent
+    raw: independent
+    reason: High indoor illuminance does not depend on the presence or absence of a user.
+  - subject: room
+    a: indoor illuminance is high
+    b: temperature is low
+    relation: independent
+    raw: independent
+    reason: The indoor illuminance and temperature are stated as separate facts without any direct causal relationship implied
+      between them.
+  - subject: room
+    a: indoor illuminance is high
+    b: temperature is below the user threshold
+    relation: independent
+    raw: independent
+    reason: Indoor illuminance being high does not imply or prevent the temperature from being below the user threshold, and
+      vice versa.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: indoor illuminance is high
+    relation: exclusive
+    raw: exclusive
+    reason: Indoor illuminance cannot be below 80 lux and high at the same time.
+  - subject: room
+    a: indoor illuminance is high
+    b: motion is detected
+    relation: independent
+    raw: independent
+    reason: The statement about indoor illuminance being high does not imply motion is detected, and motion being detected
+      does not imply the indoor illuminance is high.
+  - subject: room
+    a: indoor illuminance is high
+    b: the temperature is below the comfort threshold
+    relation: independent
+    raw: independent
+    reason: Indoor illuminance and temperature are independent conditions that can vary independently of each other. High
+      illuminance does not imply the temperature is below the comfort threshold, and vice versa.
+  - subject: room
+    a: indoor illuminance is high
+    b: the temperature is low
+    relation: independent
+    raw: independent
+    reason: Indoor illuminance and temperature are independent variables that can be high or low regardless of each other's
+      state.
+  - subject: room
+    a: indoor illuminance is high
+    b: the temperature is below a predefined value
+    relation: independent
+    raw: independent
+    reason: The statements refer to different physical properties of the room (light and temperature) and do not imply each
+      other's truth.
+  - subject: room
+    a: it is daytime
+    b: the user is not awake
+    relation: exclusive
+    raw: exclusive
+    reason: If it is daytime, the user could be awake or not awake, but both conditions cannot be true simultaneously based
+      on the given statements.
+  - subject: room
+    a: it is daytime
+    b: the temperature is above the comfort threshold
+    relation: independent
+    raw: independent
+    reason: The fact that it is daytime does not depend on the temperature being above the comfort threshold, and the temperature
+      being above the comfort threshold does not determine if it is daytime.
+  - subject: room
+    a: it is daytime
+    b: user not present
+    relation: independent
+    raw: independent
+    reason: The statement A refers to the time of day being daytime, while statement B refers to the user's presence or absence.
+      These are two separate conditions that can exist independently of each other.
+  - subject: room
+    a: it is daytime
+    b: temperature is low
+    relation: independent
+    raw: independent
+    reason: The statement about it being daytime does not provide any information about the temperature, and the temperature
+      being low does not imply anything about the time of day.
+  - subject: room
+    a: it is daytime
+    b: temperature is below the user threshold
+    relation: independent
+    raw: independent
+    reason: The first statement is a world fact about the time of day, while the second is about the temperature relative
+      to a user-defined threshold. These can be true independently of each other.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: it is daytime
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If the indoor illuminance is below 80 lux during the daytime, it implies that it is daytime, but not all daytime
+      periods have illuminance below 80 lux.
+  - subject: room
+    a: it is daytime
+    b: motion is detected
+    relation: independent
+    raw: independent
+    reason: Daytime does not prevent motion from being detected, and motion detection can occur at any time of the day.
+  - subject: room
+    a: it is daytime
+    b: the temperature is below the comfort threshold
+    relation: independent
+    raw: independent
+    reason: The fact that it is daytime does not imply anything about the temperature being below the comfort threshold, and
+      vice versa.
+  - subject: room
+    a: it is daytime
+    b: the temperature is low
+    relation: independent
+    raw: independent
+    reason: Daytime and temperature are independent conditions that can occur without relation to each other.
+  - subject: room
+    a: it is daytime
+    b: the temperature is below a predefined value
+    relation: independent
+    raw: independent
+    reason: The fact that it is daytime does not depend on the temperature being below a predefined value, and vice versa.
+  - subject: room
+    a: the temperature is above the comfort threshold
+    b: the user is not awake
+    relation: independent
+    raw: independent
+    reason: Statement A is about the temperature, while statement B is about the user's state. There is no direct implication
+      or exclusivity between the two statements based on the information provided.
+  - subject: room
+    a: the user is not awake
+    b: user not present
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: If the user is not awake, it implies the user is not present, but a user can be present without being awake.
+  - subject: room
+    a: temperature is low
+    b: the user is not awake
+    relation: independent
+    raw: independent
+    reason: The temperature being low does not necessarily mean the user is not awake, and the user not being awake does not
+      determine the temperature.
+  - subject: room
+    a: temperature is below the user threshold
+    b: the user is not awake
+    relation: independent
+    raw: independent
+    reason: The temperature being below the user threshold does not necessarily imply the user is not awake, and the user
+      not being awake does not imply the temperature is below the user threshold.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: the user is not awake
+    relation: independent
+    raw: independent
+    reason: The fact that the indoor illuminance is below 80 lux does not imply the user is not awake, and the user not being
+      awake does not imply the illuminance is below 80 lux.
+  - subject: room
+    a: motion is detected
+    b: the user is not awake
+    relation: exclusive
+    raw: exclusive
+    reason: A motion is detected either when the user is awake or not awake, but not both at the same time according to the
+      given statements.
+  - subject: room
+    a: the temperature is below the comfort threshold
+    b: the user is not awake
+    relation: independent
+    raw: independent
+    reason: Statement A is about the temperature in the room and statement B is about the user's state. There is no direct
+      implication or exclusivity between the two statements based solely on the information given.
+  - subject: room
+    a: the temperature is low
+    b: the user is not awake
+    relation: independent
+    raw: independent
+    reason: The temperature being low does not necessarily imply the user is not awake, and the user not being awake does
+      not determine the temperature.
+  - subject: room
+    a: the temperature is below a predefined value
+    b: the user is not awake
+    relation: independent
+    raw: independent
+    reason: The temperature being below a predefined value does not imply the user is not awake, and the user not being awake
+      does not imply the temperature is below a predefined value.
+  - subject: room
+    a: the temperature is above the comfort threshold
+    b: user not present
+    relation: independent
+    raw: independent
+    reason: The temperature being above the comfort threshold does not depend on the user's presence or absence, and the user's
+      presence does not directly affect the temperature.
+  - subject: room
+    a: temperature is low
+    b: the temperature is above the comfort threshold
+    relation: exclusive
+    raw: exclusive
+    reason: The temperature being low directly contradicts the temperature being above the comfort threshold.
+  - subject: room
+    a: temperature is below the user threshold
+    b: the temperature is above the comfort threshold
+    relation: exclusive
+    raw: exclusive
+    reason: The statements cannot both be true at the same time since the temperature cannot be simultaneously below the user
+      threshold and above the comfort threshold.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: the temperature is above the comfort threshold
+    relation: independent
+    raw: independent
+    reason: Daytime illuminance and indoor temperature are independent conditions that can vary separately.
+  - subject: room
+    a: motion is detected
+    b: the temperature is above the comfort threshold
+    relation: independent
+    raw: independent
+    reason: The detection of motion and the temperature being above the comfort threshold are two separate observations that
+      can occur independently of each other.
+  - subject: room
+    a: the temperature is above the comfort threshold
+    b: the temperature is below the comfort threshold
+    relation: exclusive
+    raw: exclusive
+    reason: The two statements are directly contradictory, as the temperature cannot simultaneously be above and below the
+      comfort threshold.
+  - subject: room
+    a: the temperature is above the comfort threshold
+    b: the temperature is low
+    relation: exclusive
+    raw: exclusive
+    reason: The temperature cannot be above the comfort threshold and low simultaneously.
+  - subject: room
+    a: the temperature is above the comfort threshold
+    b: the temperature is below a predefined value
+    relation: exclusive
+    raw: exclusive
+    reason: The statements are mutually exclusive as they describe opposite conditions regarding the temperature in the room.
+  - subject: room
+    a: temperature is low
+    b: user not present
+    relation: independent
+    raw: independent
+    reason: The statement about the temperature being low does not provide information about the user's presence, and the
+      user's presence does not determine the temperature.
+  - subject: room
+    a: temperature is below the user threshold
+    b: user not present
+    relation: independent
+    raw: independent
+    reason: The temperature being below the user threshold does not necessarily imply the user is not present, and the user
+      not being present does not necessarily mean the temperature is below the user's threshold.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: user not present
+    relation: independent
+    raw: independent
+    reason: The presence of a user and the illuminance level are independent conditions as stated. The room can be below 80
+      lux even if the user is not present, and the user can be present even if the illuminance level is above 80 lux.
+  - subject: room
+    a: motion is detected
+    b: user not present
+    relation: exclusive
+    raw: exclusive
+    reason: The statement A says that motion is detected, while statement B says that the user is not present. These two facts
+      cannot both be true at the same time because if motion is detected, it implies that someone or something is present,
+      which contradicts the user not being present.
+  - subject: room
+    a: the temperature is below the comfort threshold
+    b: user not present
+    relation: independent
+    raw: independent
+    reason: Statement A is about the temperature and Statement B is about the user's presence. They can both be true at the
+      same time without influencing each other as per the given text.
+  - subject: room
+    a: the temperature is low
+    b: user not present
+    relation: independent
+    raw: independent
+    reason: The temperature being low does not depend on the user's presence or absence, and the user's presence does not
+      determine the temperature.
+  - subject: room
+    a: the temperature is below a predefined value
+    b: user not present
+    relation: independent
+    raw: independent
+    reason: Statement A is about the temperature, while Statement B is about the user's presence. There is no direct implication
+      between the two statements based on the given information.
+  - subject: room
+    a: temperature is below the user threshold
+    b: temperature is low
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement A specifies that the temperature is below a user-defined threshold, which implies it is low. However,
+      temperature being low does not necessarily mean it is below the user's threshold, as the threshold could be set higher.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: temperature is low
+    relation: independent
+    raw: independent
+    reason: The illuminance level and temperature are two separate conditions that do not necessarily influence each other.
+      The temperature being low does not affect the illuminance level, and the illuminance level being below 80 lux does not
+      determine the temperature.
+  - subject: room
+    a: motion is detected
+    b: temperature is low
+    relation: independent
+    raw: independent
+    reason: Motion detection and temperature sensing are independent operations that can occur regardless of each other's
+      state.
+  - subject: room
+    a: temperature is low
+    b: the temperature is below the comfort threshold
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement 'temperature is low' implies that the temperature is below the comfort threshold, but the latter
+      does not necessarily mean the temperature is low, as the comfort threshold could be set at a low temperature.
+  - subject: room
+    a: temperature is low
+    b: the temperature is low
+    relation: same
+    raw: same
+    reason: Both statements A and B are expressing the same fact about the temperature being low in the room.
+  - subject: room
+    a: temperature is low
+    b: the temperature is below a predefined value
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement A directly states that the temperature is low, which can be interpreted as being below a predefined
+      value. However, B does not specify that the temperature must be low, only that it is below a predefined value, which
+      could include temperatures that are not necessarily 'low'.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: temperature is below the user threshold
+    relation: independent
+    raw: independent
+    reason: The statements are about different parameters (illuminance and temperature) and do not provide enough information
+      to infer a direct relationship between them.
+  - subject: room
+    a: motion is detected
+    b: temperature is below the user threshold
+    relation: independent
+    raw: independent
+    reason: Motion detection and temperature reading are two separate observations that can occur independently of each other.
+  - subject: room
+    a: temperature is below the user threshold
+    b: the temperature is below the comfort threshold
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The user threshold is a specific value set by the user, while the comfort threshold is a broader, possibly default
+      value that could encompass the user's threshold. Therefore, if the temperature is below the user's threshold, it must
+      also be below the comfort threshold, but not necessarily the other way around.
+  - subject: room
+    a: temperature is below the user threshold
+    b: the temperature is low
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement 'temperature is below the user threshold' implies that the temperature is low, but a temperature
+      being low does not necessarily mean it is below the user threshold.
+  - subject: room
+    a: temperature is below the user threshold
+    b: the temperature is below a predefined value
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The user threshold is a predefined value, so if the temperature is below the user threshold, it must be below
+      the predefined value. However, the temperature could be below a predefined value without being below the user threshold.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: motion is detected
+    relation: independent
+    raw: independent
+    reason: The fact that the indoor illuminance is below 80 lux during the daytime does not preclude the possibility of motion
+      being detected, and vice versa. These are two distinct observations that can occur independently.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: the temperature is below the comfort threshold
+    relation: independent
+    raw: independent
+    reason: 'The statements describe different aspects of the room''s conditions: illuminance and temperature. There is no
+      direct implication between the two statements based solely on the information provided.'
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: the temperature is low
+    relation: independent
+    raw: independent
+    reason: The statements refer to different conditions (lighting and temperature) and do not provide information that directly
+      implies or excludes the truth of the other statement.
+  - subject: room
+    a: daytime and indoor illuminance below 80 lux
+    b: the temperature is below a predefined value
+    relation: independent
+    raw: independent
+    reason: Statement A is about indoor illuminance levels and Statement B is about temperature. There is no direct implication
+      between illuminance and temperature that can be inferred from the given statements alone.
+  - subject: room
+    a: motion is detected
+    b: the temperature is below the comfort threshold
+    relation: independent
+    raw: independent
+    reason: The detection of motion and the temperature being below the comfort threshold are two separate conditions that
+      can occur independently of each other.
+  - subject: room
+    a: motion is detected
+    b: the temperature is low
+    relation: independent
+    raw: independent
+    reason: Motion detection and temperature sensing are independent operations that can occur regardless of each other's
+      state.
+  - subject: room
+    a: motion is detected
+    b: the temperature is below a predefined value
+    relation: independent
+    raw: independent
+    reason: Motion detection and temperature sensing are independent functionalities that can occur regardless of each other's
+      state.
+  - subject: room
+    a: the temperature is below the comfort threshold
+    b: the temperature is low
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement A specifies that the temperature is below a comfort threshold, which implies it is low. However,
+      B does not specify a threshold, so it could be low for reasons other than comfort.
+  - subject: room
+    a: the temperature is below a predefined value
+    b: the temperature is below the comfort threshold
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The predefined value in statement A could be the comfort threshold from statement B, or it could be a lower value.
+      Therefore, if the temperature is below the predefined value, it must be below the comfort threshold, but not necessarily
+      the other way around.
+  - subject: room
+    a: the temperature is below a predefined value
+    b: the temperature is low
+    relation: a_implies_b
+    raw: a_implies_b
+    reason: The statement A specifies the temperature is below a predefined value, which implies it is low. However, 'low'
+      does not necessarily mean it is below a predefined value, making it not a reverse implication.
+  violations:
+  - subject: home
+    component:
+    - home|co_is_present
+    - home|doors_or_windows_are_opening
+    - home|fire_is_unlikely
+    - home|home_is_in_vacation_mode
+    - home|someone_is_in_the_home
+    - home|user_at_home
+    - home|user_location
+    - home|is_anyone_at_home
+    - home|someone_is_at_home
+    - home|someone_is_detected
+    - home|user_arrives_home
+    - home|someone_is_home
+    - home|motion_is_detected
+    - home|the_user_is_not_at_home
+    - home|user_is_not_nearby_home
+    - home|the_home_is_unoccupied
+    - home|user_not_nearby_home
+    - home|user_not_at_home
+    - home|nobody_at_home
+    - home|nobody_is_at_home
+    - home|people_are_not_at_home
+    - home|people_are_at_home
+    - home|smoke_is_present
+    - home|smoke_present
+    - home|there_is_a_water_leak
+    - home|unauthorized_person_present
+    - home|user_proximity_to_the_house
+    - home|user_specified_times
+    - home|water_damage_is_occurring
+    independent_pairs:
+    - - home|co_is_present
+      - home|doors_or_windows_are_opening
+    - - home|co_is_present
+      - home|fire_is_unlikely
+    - - home|co_is_present
+      - home|home_is_in_vacation_mode
+    - - home|co_is_present
+      - home|someone_is_in_the_home
+    - - home|co_is_present
+      - home|motion_is_detected
+    - - home|co_is_present
+      - home|the_user_is_not_at_home
+    - - home|co_is_present
+      - home|people_are_at_home
+    - - home|co_is_present
+      - home|smoke_is_present
+    - - home|co_is_present
+      - home|there_is_a_water_leak
+    - - home|co_is_present
+      - home|unauthorized_person_present
+    - - home|co_is_present
+      - home|user_proximity_to_the_house
+    - - home|co_is_present
+      - home|user_specified_times
+    - - home|co_is_present
+      - home|water_damage_is_occurring
+    - - home|doors_or_windows_are_opening
+      - home|fire_is_unlikely
+    - - home|doors_or_windows_are_opening
+      - home|home_is_in_vacation_mode
+    - - home|doors_or_windows_are_opening
+      - home|someone_is_in_the_home
+    - - home|doors_or_windows_are_opening
+      - home|motion_is_detected
+    - - home|doors_or_windows_are_opening
+      - home|the_user_is_not_at_home
+    - - home|doors_or_windows_are_opening
+      - home|people_are_at_home
+    - - home|doors_or_windows_are_opening
+      - home|smoke_is_present
+    - - home|doors_or_windows_are_opening
+      - home|there_is_a_water_leak
+    - - home|doors_or_windows_are_opening
+      - home|unauthorized_person_present
+    - - home|doors_or_windows_are_opening
+      - home|user_proximity_to_the_house
+    - - home|doors_or_windows_are_opening
+      - home|user_specified_times
+    - - home|doors_or_windows_are_opening
+      - home|water_damage_is_occurring
+    - - home|fire_is_unlikely
+      - home|home_is_in_vacation_mode
+    - - home|fire_is_unlikely
+      - home|someone_is_in_the_home
+    - - home|fire_is_unlikely
+      - home|motion_is_detected
+    - - home|fire_is_unlikely
+      - home|the_user_is_not_at_home
+    - - home|fire_is_unlikely
+      - home|people_are_at_home
+    - - home|fire_is_unlikely
+      - home|there_is_a_water_leak
+    - - home|fire_is_unlikely
+      - home|unauthorized_person_present
+    - - home|fire_is_unlikely
+      - home|user_proximity_to_the_house
+    - - home|fire_is_unlikely
+      - home|user_specified_times
+    - - home|home_is_in_vacation_mode
+      - home|someone_is_in_the_home
+    - - home|home_is_in_vacation_mode
+      - home|motion_is_detected
+    - - home|home_is_in_vacation_mode
+      - home|the_user_is_not_at_home
+    - - home|home_is_in_vacation_mode
+      - home|smoke_is_present
+    - - home|home_is_in_vacation_mode
+      - home|there_is_a_water_leak
+    - - home|home_is_in_vacation_mode
+      - home|unauthorized_person_present
+    - - home|home_is_in_vacation_mode
+      - home|user_proximity_to_the_house
+    - - home|home_is_in_vacation_mode
+      - home|user_specified_times
+    - - home|someone_is_in_the_home
+      - home|motion_is_detected
+    - - home|someone_is_in_the_home
+      - home|people_are_at_home
+    - - home|someone_is_in_the_home
+      - home|smoke_is_present
+    - - home|someone_is_in_the_home
+      - home|there_is_a_water_leak
+    - - home|someone_is_in_the_home
+      - home|unauthorized_person_present
+    - - home|someone_is_in_the_home
+      - home|user_proximity_to_the_house
+    - - home|someone_is_in_the_home
+      - home|user_specified_times
+    - - home|someone_is_in_the_home
+      - home|water_damage_is_occurring
+    - - home|motion_is_detected
+      - home|people_are_at_home
+    - - home|motion_is_detected
+      - home|smoke_is_present
+    - - home|motion_is_detected
+      - home|there_is_a_water_leak
+    - - home|motion_is_detected
+      - home|user_proximity_to_the_house
+    - - home|motion_is_detected
+      - home|user_specified_times
+    - - home|motion_is_detected
+      - home|water_damage_is_occurring
+    - - home|the_user_is_not_at_home
+      - home|smoke_is_present
+    - - home|the_user_is_not_at_home
+      - home|there_is_a_water_leak
+    - - home|the_user_is_not_at_home
+      - home|user_specified_times
+    - - home|the_user_is_not_at_home
+      - home|water_damage_is_occurring
+    - - home|people_are_at_home
+      - home|smoke_is_present
+    - - home|people_are_at_home
+      - home|there_is_a_water_leak
+    - - home|people_are_at_home
+      - home|user_proximity_to_the_house
+    - - home|people_are_at_home
+      - home|user_specified_times
+    - - home|people_are_at_home
+      - home|water_damage_is_occurring
+    - - home|smoke_is_present
+      - home|there_is_a_water_leak
+    - - home|smoke_is_present
+      - home|unauthorized_person_present
+    - - home|smoke_is_present
+      - home|user_proximity_to_the_house
+    - - home|smoke_is_present
+      - home|user_specified_times
+    - - home|smoke_is_present
+      - home|water_damage_is_occurring
+    - - home|there_is_a_water_leak
+      - home|unauthorized_person_present
+    - - home|there_is_a_water_leak
+      - home|user_proximity_to_the_house
+    - - home|unauthorized_person_present
+      - home|user_proximity_to_the_house
+    - - home|unauthorized_person_present
+      - home|user_specified_times
+    - - home|unauthorized_person_present
+      - home|water_damage_is_occurring
+    - - home|user_proximity_to_the_house
+      - home|user_specified_times
+    - - home|user_proximity_to_the_house
+      - home|water_damage_is_occurring
+    - - home|user_specified_times
+      - home|water_damage_is_occurring
+  - subject: room
+    component:
+    - room|daytime_and_indoor_illuminance_below_80_lux
+    - room|indoor_illuminance_is_high
+    - room|it_is_daytime
+    - room|motion_is_detected
+    - room|someone_is_at_home
+    - room|the_user_is_not_awake
+    - room|user_not_present
+    independent_pairs:
+    - - room|daytime_and_indoor_illuminance_below_80_lux
+      - room|motion_is_detected
+    - - room|daytime_and_indoor_illuminance_below_80_lux
+      - room|someone_is_at_home
+    - - room|daytime_and_indoor_illuminance_below_80_lux
+      - room|the_user_is_not_awake
+    - - room|daytime_and_indoor_illuminance_below_80_lux
+      - room|user_not_present
+    - - room|indoor_illuminance_is_high
+      - room|motion_is_detected
+    - - room|indoor_illuminance_is_high
+      - room|someone_is_at_home
+    - - room|indoor_illuminance_is_high
+      - room|the_user_is_not_awake
+    - - room|indoor_illuminance_is_high
+      - room|user_not_present
+    - - room|it_is_daytime
+      - room|motion_is_detected
+    - - room|it_is_daytime
+      - room|someone_is_at_home
+    - - room|it_is_daytime
+      - room|user_not_present
+  splits:
+  - subject: home
+    from:
+    - home|co_is_present
+    - home|doors_or_windows_are_opening
+    - home|fire_is_unlikely
+    - home|home_is_in_vacation_mode
+    - home|someone_is_in_the_home
+    - home|user_at_home
+    - home|user_location
+    - home|is_anyone_at_home
+    - home|someone_is_at_home
+    - home|someone_is_detected
+    - home|user_arrives_home
+    - home|someone_is_home
+    - home|motion_is_detected
+    - home|the_user_is_not_at_home
+    - home|user_is_not_nearby_home
+    - home|the_home_is_unoccupied
+    - home|user_not_nearby_home
+    - home|user_not_at_home
+    - home|nobody_at_home
+    - home|nobody_is_at_home
+    - home|people_are_not_at_home
+    - home|people_are_at_home
+    - home|smoke_is_present
+    - home|smoke_present
+    - home|there_is_a_water_leak
+    - home|unauthorized_person_present
+    - home|user_proximity_to_the_house
+    - home|user_specified_times
+    - home|water_damage_is_occurring
+    into:
+    - - home|home_is_in_vacation_mode
+      - home|someone_is_in_the_home
+      - home|user_at_home
+      - home|user_location
+      - home|is_anyone_at_home
+      - home|someone_is_at_home
+      - home|someone_is_detected
+      - home|user_arrives_home
+      - home|someone_is_home
+      - home|the_user_is_not_at_home
+      - home|user_is_not_nearby_home
+      - home|the_home_is_unoccupied
+      - home|user_not_nearby_home
+      - home|user_not_at_home
+      - home|nobody_at_home
+      - home|nobody_is_at_home
+      - home|people_are_not_at_home
+      - home|people_are_at_home
+    - - home|motion_is_detected
+      - home|unauthorized_person_present
+    - - home|fire_is_unlikely
+      - home|water_damage_is_occurring
+    - - home|doors_or_windows_are_opening
+    - - home|smoke_is_present
+      - home|smoke_present
+    - - home|there_is_a_water_leak
+      - home|user_specified_times
+    - - home|user_proximity_to_the_house
+    - - home|co_is_present
+  - subject: room
+    from:
+    - room|daytime_and_indoor_illuminance_below_80_lux
+    - room|indoor_illuminance_is_high
+    - room|it_is_daytime
+    - room|motion_is_detected
+    - room|someone_is_at_home
+    - room|the_user_is_not_awake
+    - room|user_not_present
+    into:
+    - - room|it_is_daytime
+      - room|the_user_is_not_awake
+    - - room|motion_is_detected
+      - room|someone_is_at_home
+      - room|user_not_present
+    - - room|daytime_and_indoor_illuminance_below_80_lux
+      - room|indoor_illuminance_is_high
+  implications:
+  - subject: home
+    finer: doors or windows are opening
+    coarser: someone is at home
+  - subject: home
+    finer: doors or windows are opening
+    coarser: someone is home
+  - subject: home
+    finer: home is in vacation mode
+    coarser: nobody at home
+  - subject: home
+    finer: home is in vacation mode
+    coarser: nobody is at home
+  - subject: home
+    finer: home is in vacation mode
+    coarser: people are not at home
+  - subject: home
+    finer: home is in vacation mode
+    coarser: the home is unoccupied
+  - subject: home
+    finer: home is in vacation mode
+    coarser: The user is not at home.
+  - subject: home
+    finer: home is in vacation mode
+    coarser: user not at home
+  - subject: home
+    finer: home is in vacation mode
+    coarser: user not nearby-home
+  - subject: home
+    finer: Is anyone at home?
+    coarser: people are at home
+  - subject: home
+    finer: motion is detected
+    coarser: someone is at home
+  - subject: home
+    finer: motion is detected
+    coarser: someone is home
+  - subject: home
+    finer: motion is detected
+    coarser: someone is in the home
+  - subject: home
+    finer: people are at home
+    coarser: someone is at home
+  - subject: home
+    finer: people are at home
+    coarser: someone is detected
+  - subject: home
+    finer: people are at home
+    coarser: someone is home
+  - subject: home
+    finer: people are at home
+    coarser: someone is in the home
+  - subject: home
+    finer: people are at home
+    coarser: user arrives home
+  - subject: home
+    finer: people are at home
+    coarser: user at home
+  - subject: home
+    finer: There is a water leak.
+    coarser: water damage is occurring
+  - subject: home
+    finer: user arrives home
+    coarser: user proximity to the house
+  - subject: home
+    finer: user location
+    coarser: user proximity to the house
+  - subject: room
+    finer: daytime and indoor illuminance below 80 lux
+    coarser: it is daytime
+  - subject: room
+    finer: indoor illuminance is high
+    coarser: it is daytime
+  - subject: room
+    finer: motion is detected
+    coarser: someone is at home
+  - subject: room
+    finer: temperature is below the user threshold
+    coarser: temperature is low
+  - subject: room
+    finer: temperature is below the user threshold
+    coarser: the temperature is below a predefined value
+  - subject: room
+    finer: temperature is below the user threshold
+    coarser: the temperature is below the comfort threshold
+  - subject: room
+    finer: temperature is below the user threshold
+    coarser: the temperature is low
+  - subject: room
+    finer: the temperature is above the user comfort threshold
+    coarser: temperature is low
+  - subject: room
+    finer: temperature is low
+    coarser: the temperature is below a predefined value
+  - subject: room
+    finer: temperature is low
+    coarser: the temperature is below the comfort threshold
+  - subject: room
+    finer: the temperature is below a predefined value
+    coarser: the temperature is below the comfort threshold
+  - subject: room
+    finer: the temperature is below a predefined value
+    coarser: the temperature is low
+  - subject: room
+    finer: the temperature is below the comfort threshold
+    coarser: the temperature is low
+  - subject: room
+    finer: the user is not awake
+    coarser: user not present

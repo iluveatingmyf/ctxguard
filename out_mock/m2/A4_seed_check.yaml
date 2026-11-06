@@ -1,0 +1,57 @@
+seed: out_mock/m2/A3_factors_corpus.yaml
+n_factors_corpus: 3
+n_factors_seed: 3
+a2_dimensions_not_used: []
+sigma: 36
+issues: []
+per_factor:
+- factor: home_nobody
+  from_dimensions:
+  - home_nobody
+  corpus_factors:
+  - home_nobody
+  values:
+  - nobody_home
+  - someone_home
+  - none
+  values_also_in_corpus:
+  - nobody_home
+  - none
+  - someone_home
+  values_new_or_renamed: []
+  corpus_values_not_kept: []
+  removed_with_reason: []
+- factor: home_present
+  from_dimensions:
+  - home_present
+  corpus_factors:
+  - home_present
+  values:
+  - present
+  - none
+  values_also_in_corpus:
+  - none
+  - present
+  values_new_or_renamed: []
+  corpus_values_not_kept: []
+  removed_with_reason: []
+- factor: effect_zone
+  from_dimensions: []
+  corpus_factors: []
+  values:
+  - bedroom
+  - kitchen
+  - bathroom
+  - living
+  - entry
+  - utility
+  values_also_in_corpus: []
+  values_new_or_renamed:
+  - bathroom
+  - bedroom
+  - entry
+  - kitchen
+  - living
+  - utility
+  corpus_values_not_kept: []
+  removed_with_reason: []

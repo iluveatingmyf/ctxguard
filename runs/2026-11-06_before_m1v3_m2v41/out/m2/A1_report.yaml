@@ -1,0 +1,659 @@
+properties_in_scope: 178
+train: 122
+test_heldout: 56
+conditions: 142
+distinct_conditions: 89
+properties_without_condition:
+- C106
+- C183b
+- C187a
+- C187b
+- C188
+- C194c
+- C202c
+- Soteria-P28
+- Soteria-P29
+- IoTCom-P1
+coverage_per_asset:
+  life_health:
+    properties: 29
+    conditions: 34
+  security:
+    properties: 52
+    conditions: 66
+  property:
+    properties: 13
+    conditions: 16
+  privacy:
+    properties: 4
+    conditions: 7
+  resource:
+    properties: 3
+    conditions: 4
+  comfort:
+    properties: 34
+    conditions: 38
+properties:
+- property_id: C003
+  source: TAPFixer
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C005
+  source: TAPFixer
+  assets:
+  - security
+  n_conditions: 2
+- property_id: C006
+  source: TAPFixer
+  assets:
+  - security
+  n_conditions: 2
+- property_id: C007
+  source: TAPFixer
+  assets:
+  - security
+  n_conditions: 2
+- property_id: C008
+  source: TAPFixer
+  assets:
+  - security
+  n_conditions: 2
+- property_id: C009
+  source: TAPFixer
+  assets:
+  - comfort
+  n_conditions: 2
+- property_id: C012
+  source: TAPFixer
+  assets:
+  - comfort
+  n_conditions: 2
+- property_id: C014
+  source: TAPFixer
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C019
+  source: TAPFixer
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C020
+  source: TAPFixer
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C022
+  source: TAPFixer
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C025
+  source: TAPFixer
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C026
+  source: TAPFixer
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C027
+  source: TAPFixer
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C028
+  source: TAPFixer
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C032
+  source: TAPFixer
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C034
+  source: TAPFixer
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C035
+  source: TAPFixer
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C037
+  source: IoTSafe
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C038
+  source: IoTSafe
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C041
+  source: IoTSafe
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C042
+  source: IoTSafe
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C043
+  source: IoTSafe
+  assets:
+  - property
+  - life_health
+  n_conditions: 2
+- property_id: C044
+  source: IoTSafe
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C045
+  source: IoTSafe
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C046
+  source: IoTSafe
+  assets:
+  - property
+  - security
+  n_conditions: 1
+- property_id: C047a
+  source: IoTSafe
+  assets:
+  - life_health
+  n_conditions: 2
+- property_id: C047b
+  source: IoTSafe
+  assets:
+  - security
+  n_conditions: 2
+- property_id: C048
+  source: IoTSafe
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C049a
+  source: IoTSafe
+  assets:
+  - security
+  n_conditions: 2
+- property_id: C049b
+  source: IoTSafe
+  assets:
+  - security
+  n_conditions: 2
+- property_id: C050
+  source: IoTSafe
+  assets:
+  - property
+  - life_health
+  n_conditions: 1
+- property_id: C051
+  source: IoTSafe
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C052
+  source: IoTSafe
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C053
+  source: IoTSafe
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C054
+  source: IoTSafe
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C055
+  source: IoTSafe
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C056
+  source: IoTSafe
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C060
+  source: IoTSafe
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C065
+  source: IoTSafe
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C066
+  source: IoTSafe
+  assets:
+  - comfort
+  n_conditions: 2
+- property_id: C069
+  source: IoTSafe
+  assets:
+  - property
+  - resource
+  n_conditions: 2
+- property_id: C070
+  source: IoTSafe
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C082
+  source: IoTSeer
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C083a
+  source: IoTSeer
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C083b
+  source: IoTSeer
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C085
+  source: TAPInspector
+  assets:
+  - life_health
+  - property
+  n_conditions: 1
+- property_id: C086
+  source: TAPInspector
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C087
+  source: TAPInspector
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C094
+  source: TAPInspector
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C095
+  source: TAPInspector
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C097
+  source: TAPInspector
+  assets:
+  - property
+  n_conditions: 1
+- property_id: C099
+  source: TAPInspector
+  assets:
+  - privacy
+  n_conditions: 1
+- property_id: C100
+  source: TAPInspector
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C101
+  source: TAPInspector
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C102
+  source: TAPInspector
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C104
+  source: TAPInspector
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C105
+  source: TAPInspector
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C106
+  source: TAPInspector
+  assets:
+  - comfort
+  n_conditions: 0
+- property_id: C107
+  source: TAPInspector
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C111
+  source: TAPInspector
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C112
+  source: TAPInspector
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C113
+  source: TAPInspector
+  assets:
+  - comfort
+  n_conditions: 2
+- property_id: C114
+  source: TAPInspector
+  assets:
+  - comfort
+  n_conditions: 2
+- property_id: C115
+  source: TAPInspector
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C116
+  source: TAPInspector
+  assets:
+  - property
+  n_conditions: 1
+- property_id: C117
+  source: TAPInspector
+  assets:
+  - life_health
+  n_conditions: 1
+- property_id: C118
+  source: TAPInspector
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C119
+  source: TAPInspector
+  assets:
+  - comfort
+  n_conditions: 2
+- property_id: C120
+  source: TAPInspector
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C139
+  source: TAPInspector
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C150
+  source: EnvGuard
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C159
+  source: EnvGuard
+  assets:
+  - security
+  - property
+  n_conditions: 2
+- property_id: C160
+  source: EnvGuard
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C174
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 2
+- property_id: C175
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C177
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C178
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C179b
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C180
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C182
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C183a
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 2
+- property_id: C183b
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 0
+- property_id: C184
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - property
+  - resource
+  n_conditions: 2
+- property_id: C185
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  - privacy
+  n_conditions: 4
+- property_id: C186a
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C186b
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C187a
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  - property
+  n_conditions: 0
+- property_id: C187b
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - resource
+  n_conditions: 0
+- property_id: C188
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - comfort
+  n_conditions: 0
+- property_id: C189
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C191
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: C192
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - comfort
+  n_conditions: 2
+- property_id: C194a
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C194b
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  - privacy
+  n_conditions: 2
+- property_id: C194c
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 0
+- property_id: C196
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 1
+- property_id: C202c
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - security
+  n_conditions: 0
+- property_id: C203
+  source: IoTGuard (NDSS 2019)
+  assets:
+  - property
+  - life_health
+  n_conditions: 2
+- property_id: Soteria-P1
+  source: Soteria (USENIX ATC 2018) Table app-specific
+  assets:
+  - security
+  n_conditions: 1
+- property_id: Soteria-P10
+  source: Soteria (USENIX ATC 2018) Table app-specific
+  assets:
+  - security
+  n_conditions: 1
+- property_id: Soteria-P12
+  source: Soteria (USENIX ATC 2018) Table app-specific
+  assets:
+  - security
+  n_conditions: 1
+- property_id: Soteria-P28
+  source: Soteria (USENIX ATC 2018) Table app-specific
+  assets:
+  - privacy
+  n_conditions: 0
+- property_id: Soteria-P29
+  source: Soteria (USENIX ATC 2018) Table app-specific
+  assets:
+  - property
+  n_conditions: 0
+- property_id: Soteria-P30
+  source: Soteria (USENIX ATC 2018) Table app-specific
+  assets:
+  - property
+  n_conditions: 1
+- property_id: IoTCom-P1
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - comfort
+  n_conditions: 0
+- property_id: IoTCom-P2
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - security
+  n_conditions: 1
+- property_id: IoTCom-P5
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - security
+  n_conditions: 1
+- property_id: IoTCom-P6
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: IoTCom-P7
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: IoTCom-P8
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - security
+  n_conditions: 1
+- property_id: IoTCom-P9
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: IoTCom-P12
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - security
+  n_conditions: 1
+- property_id: IoTCom-P13
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - security
+  n_conditions: 1
+- property_id: IoTCom-P16
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: IoTCom-P17
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - security
+  - life_health
+  n_conditions: 2
+- property_id: IoTCom-P18
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - security
+  n_conditions: 1
+- property_id: IoTCom-P19
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - security
+  n_conditions: 1
+- property_id: IoTCom-P22
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - security
+  - life_health
+  n_conditions: 2
+- property_id: IoTCom-P24
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - security
+  n_conditions: 2
+- property_id: IoTCom-P25
+  source: IoTCom (ISSTA 2020) Table 1
+  assets:
+  - security
+  n_conditions: 2
+- property_id: IoTSan-T1
+  source: IoTSan (CoNEXT 2018) Table 4 samples
+  assets:
+  - comfort
+  n_conditions: 1

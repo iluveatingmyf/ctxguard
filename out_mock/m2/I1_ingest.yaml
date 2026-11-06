@@ -1,0 +1,43 @@
+base: out_mock/vocab/factors_v0b.yaml
+base_version: F-v0b
+src: tests/ingest_properties_TEST.csv
+properties: 2
+expressible_already: 1
+inexpressible: 1
+lift_status:
+  world_fact: 1
+evidence_items: 1
+items_without_effect_pair: 1
+affected_dimensions:
+- zone_occupant
+next: m2-consolidate --base current --dims zone_occupant
+per_property:
+- property_id: N01
+  text: The garage door must be locked when nobody is at home.
+  source: TEST
+  already_in_corpus: false
+  expressible: true
+  missing: ''
+  units: []
+  pattern:
+    home_occupancy:
+    - away
+  effects:
+  - passage_opening:increase
+  asset: security
+  label: '-'
+- property_id: N02
+  text: The fan must not run at high speed when a baby is asleep in the room.
+  source: TEST
+  already_in_corpus: false
+  expressible: false
+  missing: 'mock: not parsed'
+  units:
+  - condition: a baby is asleep in the room
+    kind: world_state
+    observation: a baby is asleep in the room
+    latent_fact: present
+    reason: mock reason
+    lift_status: world_fact
+    dimension: zone_occupant
+    used: true

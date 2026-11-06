@@ -1,0 +1,50 @@
+vocab_version: F-v0b
+sigma: 20880
+pairs: 150
+pairs_nonzero: 15
+global_core:
+- home_occupancy
+- zone_occupant
+- vulnerable_present
+- active_hazard
+- outdoor_condition
+- indoor_air
+- indoor_thermal
+outside_core:
+- time_period
+- effect_zone
+global_reduct:
+- home_occupancy
+- zone_occupant
+- vulnerable_present
+- active_hazard
+- outdoor_condition
+- indoor_air
+- indoor_thermal
+mean_pair_reduct: 1.53
+mean_pair_support: 1.53
+mergeable_factors:
+- time_period
+- effect_zone
+- zone_occupant
+prime: 23/23
+irredundant: 23/23
+verdicts:
+  time_period:
+  - 'DROP candidate: no label in K depends on this factor (not in the global core)'
+  effect_zone:
+  - 'DROP candidate: no label in K depends on this factor (not in the global core)'
+  home_occupancy:
+  - KEEP
+  zone_occupant:
+  - 'MERGE candidate: decision-preserving value groups [[''empty'', ''awake''], [''asleep''], [''watching_a_movie'']]'
+  vulnerable_present:
+  - KEEP
+  active_hazard:
+  - KEEP
+  outdoor_condition:
+  - KEEP
+  indoor_air:
+  - KEEP
+  indoor_thermal:
+  - KEEP

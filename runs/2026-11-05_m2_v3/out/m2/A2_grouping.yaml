@@ -1,0 +1,192 @@
+variables:
+- variable: is anyone at home?
+  count: 16
+  example_values:
+  - nobody at home
+  - someone at home
+  - someone is home
+- variable: what abnormal or dangerous event is happening in the home?
+  count: 15
+  example_values:
+  - CO present
+  - leak present
+  - intruder detected
+  - motion present
+  - no smoke
+  - smoke present
+- variable: how warm or cold is the room?
+  count: 6
+  example_values:
+  - temperature is low
+  - below the lower threshold
+  - above the threshold
+  - below the user threshold
+  - above the predefined value
+- variable: what are the people doing?
+  count: 3
+  example_values:
+  - user arrives home
+  - leaving home
+- variable: what are the people in the room doing?
+  count: 3
+  example_values:
+  - asleep
+  - people are at home
+  - someone is present
+- variable: how warm or cold is the home?
+  count: 1
+  example_values:
+  - below the predefined threshold
+- variable: is the door closed or open?
+  count: 1
+  example_values:
+  - closed
+- variable: is the home in a specific mode?
+  count: 1
+  example_values:
+  - night mode
+- variable: is the home in vacation mode?
+  count: 1
+  example_values:
+  - vacation mode
+- variable: is the user near the home?
+  count: 1
+  example_values:
+  - 'yes'
+- variable: is there an intruder in the home?
+  count: 1
+  example_values:
+  - no intruder
+- variable: is there any motion in the room?
+  count: 1
+  example_values:
+  - motion present
+- variable: what abnormal or dangerous event is happening in the laundry room?
+  count: 1
+  example_values:
+  - leak present
+- variable: what dangerous condition is present in the home?
+  count: 1
+  example_values:
+  - CO level high
+- variable: what is the air quality in the home?
+  count: 1
+  example_values:
+  - below threshold
+- variable: what is the current light level in the room?
+  count: 1
+  example_values: []
+- variable: what is the indoor illuminance level during the daytime?
+  count: 1
+  example_values:
+  - below 80 lux
+- variable: what is the indoor illuminance level?
+  count: 1
+  example_values:
+  - exceeds 600 lux
+- variable: what is the security status of the door?
+  count: 1
+  example_values:
+  - unauthorized access detected
+- variable: what is the state of the water sensor?
+  count: 1
+  example_values:
+  - wet
+- variable: what is the status of the doors?
+  count: 1
+  example_values:
+  - unlocking
+- variable: what time of day is it?
+  count: 1
+  example_values:
+  - noon
+grouping_answer:
+- id: people_at_home
+  definition: Is anyone at home?
+  members:
+  - 0
+- id: abnormal_events
+  definition: What abnormal or dangerous event is happening in the home?
+  members:
+  - 1
+  - 10
+  - 13
+- id: temperature
+  definition: How warm or cold is the room?
+  members:
+  - 2
+- id: people_activity
+  definition: What are the people doing?
+  members:
+  - 3
+  - 4
+- id: home_mode
+  definition: Is the home in a specific mode?
+  members:
+  - 7
+  - 8
+- id: door_status
+  definition: Is the door closed or open?
+  members:
+  - 6
+- id: specific_room_events
+  definition: What abnormal or dangerous event is happening in the laundry room?
+  members:
+  - 12
+- id: light_level
+  definition: What is the current light level in the room?
+  members:
+  - 15
+- id: daytime_light
+  definition: What is the indoor illuminance level during the daytime?
+  members:
+  - 16
+- id: daytime_light_general
+  definition: What is the indoor illuminance level?
+  members:
+  - 17
+- id: security_status
+  definition: What is the security status of the door?
+  members:
+  - 18
+- id: sensor_status
+  definition: What is the state of the water sensor?
+  members:
+  - 19
+- id: door_status_general
+  definition: What is the status of the doors?
+  members:
+  - 20
+- id: time_of_day
+  definition: What time of day is it?
+  members:
+  - 21
+duplicate_assignments: []
+verification:
+- dimension: abnormal_events
+  members:
+  - what abnormal or dangerous event is happening in the home?
+  - is there an intruder in the home?
+  - what dangerous condition is present in the home?
+  single_variable: false
+  reason: Members 0 and 2 are asking the same question, but member 1 is asking about a specific event (intruder) which is
+    different from the general abnormal or dangerous event asked in members 0 and 2.
+  split_applied: true
+  issues: []
+- dimension: people_activity
+  members:
+  - what are the people doing?
+  - what are the people in the room doing?
+  single_variable: false
+  reason: The members ask different situation questions. Member 0 asks about people in general, while member 1 asks specifically
+    about people in the room.
+  split_applied: true
+  issues: []
+- dimension: home_mode
+  members:
+  - is the home in a specific mode?
+  - is the home in vacation mode?
+  single_variable: false
+  reason: The members ask about different modes, not just a specific mode.
+  split_applied: false
+  issues: []

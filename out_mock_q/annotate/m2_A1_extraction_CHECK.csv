@@ -1,0 +1,5 @@
+property_id,property_text,condition,HUMAN_faithful(1/0),HUMAN_world_state(1/0),note
+T06,The robot vacuum must not run when the baby is in the room.,the baby is in the room,,,
+T03,The heater must not be turned off when an elderly person is in a cold room.,an elderly person is in a cold room,,,
+T04,Indoor cameras should be off when the family is at home.,the family is at home,,,
+T01,The front door must be locked when nobody is at home.,nobody is at home,,,

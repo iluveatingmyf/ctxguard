@@ -1,0 +1,7 @@
+id,split,text,system_expressible,system_mapping,missing,HUMAN_mapping_correct(1/0),HUMAN_expressible(1/0),note
+T01,train,The front door must be locked when nobody is at home.,1,['passage_opening:increase'] - security IF {'home_occupancy': ['away']},,,,
+T02,test,Windows should not be opened while someone is sleeping in the room.,1,['passage_opening:increase'] - security IF {'zone_occupant': ['asleep']},,,,
+T03,train,The heater must not be turned off when an elderly person is in a cold room.,0,,mock: not parsed,,,
+T04,train,Indoor cameras should be off when the family is at home.,0,,mock: not parsed,,,
+T05,test,The water main should be closed if a leak is detected.,0,,mock: not parsed,,,
+T06,train,The robot vacuum must not run when the baby is in the room.,0,,mock: not parsed,,,

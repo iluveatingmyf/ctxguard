@@ -1,0 +1,804 @@
+- property_id: C003
+  condition: the user arrives home
+  assets:
+  - security
+  - property
+  - comfort
+  property_text: IF the user arrives home, the garage door should be opened.
+- property_id: C005
+  condition: the user is not at home
+  assets: &id001
+  - security
+  - property
+  property_text: IF the user is not at home / not nearby-home, the door should be locked.
+- property_id: C005
+  condition: the user is not nearby-home
+  assets: *id001
+  property_text: IF the user is not at home / not nearby-home, the door should be locked.
+- property_id: C006
+  condition: the user is not at home
+  assets: &id002
+  - security
+  property_text: IF the user is not at home / not nearby-home, the security camera should be turned on.
+- property_id: C006
+  condition: the user is not nearby-home
+  assets: *id002
+  property_text: IF the user is not at home / not nearby-home, the security camera should be turned on.
+- property_id: C007
+  condition: the door opens
+  assets: &id003
+  - security
+  property_text: IF the door opens while the user is not at home / not nearby-home, the security camera should take pictures.
+- property_id: C007
+  condition: the user is not at home / not nearby-home
+  assets: *id003
+  property_text: IF the door opens while the user is not at home / not nearby-home, the security camera should take pictures.
+- property_id: C008
+  condition: the user is not at home
+  assets: &id004
+  - resource
+  - security
+  property_text: IF the user is not at home / not nearby-home, the switch should be turned off.
+- property_id: C008
+  condition: the user is not nearby-home
+  assets: *id004
+  property_text: IF the user is not at home / not nearby-home, the switch should be turned off.
+- property_id: C009
+  condition: the temperature is below a predefined value
+  assets: &id005
+  - comfort
+  - life_health
+  property_text: IF the temperature is below a predefined value and someone is at home, the AC should be in heating mode.
+- property_id: C009
+  condition: someone is at home
+  assets: *id005
+  property_text: IF the temperature is below a predefined value and someone is at home, the AC should be in heating mode.
+- property_id: C012
+  condition: the user is not at home
+  assets: &id006
+  - resource
+  - comfort
+  property_text: IF the user is not at home / not nearby-home, the AC should be turned off.
+- property_id: C012
+  condition: the user is not nearby-home
+  assets: *id006
+  property_text: IF the user is not at home / not nearby-home, the AC should be turned off.
+- property_id: C014
+  condition: the temperature rises above a predefined value
+  assets:
+  - life_health
+  - property
+  - comfort
+  property_text: IF the temperature rises above a predefined value, the heater should be turned off.
+- property_id: C019
+  condition: the smoke is detected
+  assets:
+  - life_health
+  - property
+  property_text: IF the smoke is detected, the alarm should be activated.
+- property_id: C020
+  condition: CO is detected
+  assets:
+  - life_health
+  property_text: IF CO is detected, the alarm should be activated.
+- property_id: C022
+  condition: CO2 is greater than a predefined value
+  assets:
+  - life_health
+  - comfort
+  property_text: IF CO2 is greater than a predefined value, the ventilating fan should be turned on.
+- property_id: C025
+  condition: CO is detected
+  assets:
+  - life_health
+  - property
+  property_text: IF CO is detected, the natural gas hot water heater should be turned off.
+- property_id: C026
+  condition: CO is detected
+  assets:
+  - life_health
+  property_text: IF CO is detected, the gas valve should shut off.
+- property_id: C027
+  condition: WHEN CO is detected
+  assets:
+  - life_health
+  - property
+  property_text: WHEN CO is detected, the gas valve should be closed.
+- property_id: C028
+  condition: the smoke is detected
+  assets:
+  - life_health
+  - property
+  property_text: IF the smoke is detected, the water valve should be turned on.
+- property_id: C032
+  condition: CO2 is greater than a predefined value
+  assets:
+  - life_health
+  - comfort
+  property_text: IF CO2 is greater than a predefined value, the window should be opened.
+- property_id: C034
+  condition: the smoke is detected
+  assets:
+  - life_health
+  - property
+  property_text: IF the smoke is detected, the window should be opened.
+- property_id: C035
+  condition: CO is detected
+  assets:
+  - life_health
+  property_text: IF CO is detected, the window should be opened.
+- property_id: C037
+  condition: home mode is away
+  assets:
+  - security
+  - privacy
+  - property
+  - resource
+  - comfort
+  property_text: WHEN home mode is away, all windows and blinds should be closed.
+- property_id: C038
+  condition: home mode is vacation
+  assets:
+  - security
+  - comfort
+  property_text: WHEN home mode is vacation, all lights should be on.
+- property_id: C041
+  condition: air quality drops below a threshold
+  assets:
+  - life_health
+  - comfort
+  property_text: IF air quality drops below a threshold, all air purifiers should be turned on.
+- property_id: C042
+  condition: someone is at home
+  assets:
+  - life_health
+  - comfort
+  property_text: WHEN someone is at home, the temperature should not exceed the upper threshold.
+- property_id: C043
+  condition: the water/moisture sensor detects a leak
+  assets: &id007
+  - property
+  - resource
+  property_text: IF the water/moisture sensor detects a leak and no smoke is detected, the water valve must shut off.
+- property_id: C043
+  condition: no smoke is detected
+  assets: *id007
+  property_text: IF the water/moisture sensor detects a leak and no smoke is detected, the water valve must shut off.
+- property_id: C044
+  condition: smoke is detected
+  assets:
+  - life_health
+  - property
+  property_text: IF smoke is detected, an SMS/push message should be sent to the owner.
+- property_id: C045
+  condition: smoke is detected
+  assets:
+  - life_health
+  - property
+  property_text: IF smoke is detected, the sprinkler valve should be ON.
+- property_id: C046
+  condition: there is water leakage
+  assets:
+  - property
+  - security
+  property_text: IF there is water leakage, an SMS/push message should be sent to the owner.
+- property_id: C047a
+  condition: smoke is detected
+  assets: &id008
+  - life_health
+  - security
+  - property
+  property_text: IF smoke is detected in night mode, the lights must be turned on.
+- property_id: C047a
+  condition: in night mode
+  assets: *id008
+  property_text: IF smoke is detected in night mode, the lights must be turned on.
+- property_id: C047b
+  condition: smoke is detected
+  assets: &id009
+  - life_health
+  property_text: IF smoke is detected and someone is at home, the door must be unlocked.
+- property_id: C047b
+  condition: someone is at home
+  assets: *id009
+  property_text: IF smoke is detected and someone is at home, the door must be unlocked.
+- property_id: C048
+  condition: smoke is detected
+  assets: &id010
+  - life_health
+  - property
+  property_text: IF smoke or CO is detected, the alarm must sound.
+- property_id: C048
+  condition: CO is detected
+  assets: *id010
+  property_text: IF smoke or CO is detected, the alarm must sound.
+- property_id: C049a
+  condition: motion is detected
+  assets: &id011
+  - security
+  property_text: IF motion is detected while home mode is away, the alarm must sound.
+- property_id: C049a
+  condition: home mode is away
+  assets: *id011
+  property_text: IF motion is detected while home mode is away, the alarm must sound.
+- property_id: C049b
+  condition: motion is detected
+  assets: &id012
+  - security
+  property_text: IF motion is detected while home mode is away, an SMS/push message must be sent.
+- property_id: C049b
+  condition: home mode is away
+  assets: *id012
+  property_text: IF motion is detected while home mode is away, an SMS/push message must be sent.
+- property_id: C050
+  condition: smoke is detected
+  assets:
+  - life_health
+  - property
+  property_text: IF smoke is detected, a water valve should be opened.
+- property_id: C051
+  condition: smoke is detected
+  assets:
+  - life_health
+  - property
+  property_text: IF smoke is detected, the gas stove should be turned off.
+- property_id: C052
+  condition: smoke is detected
+  assets:
+  - life_health
+  - property
+  property_text: IF smoke is detected, the heater should be turned off.
+- property_id: C053
+  condition: smoke is detected
+  assets:
+  - life_health
+  - property
+  property_text: IF smoke is detected, the AC should be turned off.
+- property_id: C054
+  condition: the temperature rises above the threshold
+  assets:
+  - comfort
+  - property
+  property_text: IF the temperature rises above the threshold, the vent should be turned on.
+- property_id: C055
+  condition: the temperature drops below the lower threshold
+  assets:
+  - comfort
+  - life_health
+  property_text: IF the temperature drops below the lower threshold, the AC should switch to heating mode.
+- property_id: C056
+  condition: the temperature is below the threshold
+  assets:
+  - comfort
+  property_text: IF the temperature is below the threshold, the heater should be turned on.
+- property_id: C060
+  condition: air quality drops below a threshold
+  assets:
+  - life_health
+  - comfort
+  property_text: IF air quality drops below a threshold, the air purifier should be turned ON.
+- property_id: C065
+  condition: someone is at home
+  assets:
+  - comfort
+  - life_health
+  property_text: WHEN someone is at home, the temperature should stay within a predefined range.
+- property_id: C066
+  condition: the temperature is above a threshold
+  assets: &id013
+  - resource
+  - property
+  property_text: IF the temperature is above a threshold and nobody is at home, the heater should be turned off.
+- property_id: C066
+  condition: nobody is at home
+  assets: *id013
+  property_text: IF the temperature is above a threshold and nobody is at home, the heater should be turned off.
+- property_id: C069
+  condition: the water sensor is wet
+  assets: &id014
+  - property
+  - resource
+  property_text: IF the water sensor is wet AND the user-specified water level threshold is reached, the valve must be closed.
+- property_id: C069
+  condition: the user-specified water level threshold is reached
+  assets: *id014
+  property_text: IF the water sensor is wet AND the user-specified water level threshold is reached, the valve must be closed.
+- property_id: C070
+  condition: humidity and temperature values fall outside the user-specified thresholds
+  assets:
+  - comfort
+  - resource
+  - property
+  property_text: IF humidity and temperature values fall outside the user-specified thresholds, the HVACs, fans, switches,
+    heaters and dehumidifiers must be off.
+- property_id: C082
+  condition: the home is in sleep mode
+  assets:
+  - comfort
+  - resource
+  property_text: WHEN the home is in sleep mode, the lights must be turned off.
+- property_id: C083a
+  condition: the home is in away mode
+  assets:
+  - security
+  - property
+  property_text: WHEN the home is in away mode, the door must always be locked.
+- property_id: C083b
+  condition: the home is in away mode
+  assets:
+  - resource
+  - security
+  property_text: WHEN the home is in away mode, the lights must be off.
+- property_id: C085
+  condition: nobody is present
+  assets:
+  - life_health
+  - property
+  property_text: WHEN nobody is present, the curling iron should not be turned on.
+- property_id: C086
+  condition: the door is closed
+  assets:
+  - security
+  - privacy
+  - comfort
+  property_text: WHEN the door is closed, the bell should not chime.
+- property_id: C087
+  condition: WHEN motion is detected
+  assets:
+  - security
+  property_text: WHEN motion is detected, the siren should be activated.
+- property_id: C094
+  condition: WHEN smoke is detected
+  assets:
+  - life_health
+  - property
+  property_text: WHEN smoke is detected, the water valve should not be closed.
+- property_id: C095
+  condition: the user is not at home
+  assets:
+  - security
+  property_text: WHEN the user is not at home, the security system should not be disarmed.
+- property_id: C097
+  condition: the moisture sensor detects a leak
+  assets:
+  - property
+  - resource
+  property_text: IF the moisture sensor detects a leak, the water valve should be closed.
+- property_id: C099
+  condition: the user is not present
+  assets:
+  - security
+  - resource
+  - property
+  property_text: WHEN the user is not present, the brewing function of the coffee machine should not be activated.
+- property_id: C100
+  condition: the user is not present
+  assets:
+  - life_health
+  - property
+  - resource
+  property_text: WHEN the user is not present, the heating function of the electric blanket should not be activated.
+- property_id: C101
+  condition: smoke is detected
+  assets:
+  - life_health
+  - property
+  property_text: WHEN smoke is detected, the alarm should sound.
+- property_id: C102
+  condition: WHEN the user arrives home
+  assets:
+  - comfort
+  - security
+  property_text: WHEN the user arrives home, the garage door should be open.
+- property_id: C104
+  condition: no intruder is detected
+  assets:
+  - security
+  property_text: WHEN no intruder is detected, the siren should not be activated.
+- property_id: C105
+  condition: an intruder is detected
+  assets:
+  - security
+  property_text: WHEN an intruder is detected, the siren should be activated.
+- property_id: C106
+  condition: At noon every day
+  assets:
+  - comfort
+  property_text: At noon every day, the water temperature should not be below a predefined value.
+- property_id: C107
+  condition: nobody is at home
+  assets:
+  - life_health
+  - property
+  property_text: WHEN nobody is at home, the oven should not be in the grilling state.
+- property_id: C111
+  condition: CO exceeds a predefined level
+  assets:
+  - life_health
+  - property
+  property_text: IF CO exceeds a predefined level, the natural gas hot water heater should not be on.
+- property_id: C112
+  condition: CO exceeds a predefined level
+  assets:
+  - life_health
+  - property
+  property_text: IF CO exceeds a predefined level, the gas valve should not be open.
+- property_id: C113
+  condition: the temperature is below a predefined value
+  assets: &id015
+  - resource
+  - comfort
+  property_text: WHEN the temperature is below a predefined value and nobody is present, the heater should not be on.
+- property_id: C113
+  condition: nobody is present
+  assets: *id015
+  property_text: WHEN the temperature is below a predefined value and nobody is present, the heater should not be on.
+- property_id: C114
+  condition: the temperature is below a predefined value
+  assets: &id016
+  - comfort
+  property_text: WHEN the temperature is below a predefined value and someone is present, the heater should be on.
+- property_id: C114
+  condition: someone is present
+  assets: *id016
+  property_text: WHEN the temperature is below a predefined value and someone is present, the heater should be on.
+- property_id: C115
+  condition: the temperature exceeds a predefined value
+  assets:
+  - life_health
+  - property
+  - comfort
+  property_text: WHEN the temperature exceeds a predefined value, the heater should not be turned on.
+- property_id: C116
+  condition: humidity exceeds a predefined value
+  assets:
+  - comfort
+  - property
+  property_text: WHEN humidity exceeds a predefined value, the humidifier should not be turned on.
+- property_id: C117
+  condition: nobody is at home
+  assets:
+  - life_health
+  - property
+  - resource
+  property_text: WHEN nobody is at home, the electric blanket should not be turned on.
+- property_id: C118
+  condition: there is motion
+  assets:
+  - security
+  property_text: WHEN there is motion, the security camera should be turned on.
+- property_id: C119
+  condition: indoor illuminance is below 80 lux in daytime
+  assets:
+  - comfort
+  - life_health
+  property_text: WHEN indoor illuminance is below 80 lux in daytime, the light should not be turned off.
+- property_id: C120
+  condition: indoor illuminance exceeds 600 lux
+  assets:
+  - resource
+  - comfort
+  property_text: WHEN indoor illuminance exceeds 600 lux, the light should not be turned on.
+- property_id: C150
+  condition: someone is detected
+  assets:
+  - security
+  - comfort
+  property_text: WHEN someone is detected, devices with a brightness-increasing effect must be activated.
+- property_id: C159
+  condition: someone is detected
+  assets: &id017
+  - comfort
+  - resource
+  property_text: WHEN someone is detected and the temperature is low, a cooling device must not operate.
+- property_id: C159
+  condition: the temperature is low
+  assets: *id017
+  property_text: WHEN someone is detected and the temperature is low, a cooling device must not operate.
+- property_id: C160
+  condition: the home is empty
+  assets:
+  - security
+  - property
+  property_text: WHEN the home is empty, windows must always be closed.
+- property_id: C174
+  condition: a user is not present at home
+  assets: &id018
+  - security
+  - property
+  property_text: The door must be locked when a user is not present at home or sleeping.
+- property_id: C174
+  condition: sleeping
+  assets: *id018
+  property_text: The door must be locked when a user is not present at home or sleeping.
+- property_id: C175
+  condition: the motion sensor is active
+  assets:
+  - comfort
+  - security
+  property_text: The lights (in a bedroom, hallway, etc.) must be turned on if the motion sensor is active.
+- property_id: C177
+  condition: when the user arrives home
+  assets:
+  - comfort
+  - security
+  property_text: The light must be on when the user arrives home.
+- property_id: C178
+  condition: when the door is clear of any objects
+  assets:
+  - security
+  - property
+  property_text: The camera controlled doors must be closed when the door is clear of any objects.
+- property_id: C179b
+  condition: when people leave home
+  assets:
+  - security
+  - property
+  property_text: The garage door must be closed when people leave home.
+- property_id: C180
+  condition: The location beacon must be inside a geo-fence around the home (defined by a user)
+  assets:
+  - security
+  - property
+  property_text: The location beacon must be inside a geo-fence around the home (defined by a user) to turn on the lights
+    and open the garage door.
+- property_id: C182
+  condition: when the user is not at home
+  assets:
+  - security
+  property_text: The security system must not be disarmed when the user is not at home.
+- property_id: C183a
+  condition: there is smoke
+  assets: &id019
+  - life_health
+  - property
+  property_text: The alarm must sound when there is smoke or CO.
+- property_id: C183a
+  condition: CO
+  assets: *id019
+  property_text: The alarm must sound when there is smoke or CO.
+- property_id: C183b
+  condition: an unexpected motion, tampering, or entering occurs
+  assets:
+  - security
+  property_text: The alarm must sound when an unexpected motion, tampering, or entering occurs.
+- property_id: C184
+  condition: water sensor is wet
+  assets: &id020
+  - property
+  - life_health
+  property_text: The valve must be closed when water sensor is wet and when the water level threshold specified by a user
+    is reached.
+- property_id: C184
+  condition: the water level threshold specified by a user is reached
+  assets: *id020
+  property_text: The valve must be closed when water sensor is wet and when the water level threshold specified by a user
+    is reached.
+- property_id: C185
+  condition: when the user is not at home
+  assets: &id021
+  - security
+  - property
+  - life_health
+  property_text: The devices (e.g., light switches, music player, cleaning supply cabinets, medicine drawers, or gun cases)
+    must not be open or turned on when the user is not at home or sleeping.
+- property_id: C185
+  condition: when the user is sleeping
+  assets: *id021
+  property_text: The devices (e.g., light switches, music player, cleaning supply cabinets, medicine drawers, or gun cases)
+    must not be open or turned on when the user is not at home or sleeping.
+- property_id: C186a
+  condition: when the user is not at home
+  assets:
+  - life_health
+  - security
+  - property
+  - resource
+  property_text: Some device functionality (e.g., coffee machine starting brewing, heating up dinner in a crock-pot, turning
+    on AC and heater) must not be used when the user is not at home.
+- property_id: C189
+  condition: when the mode selected by a user is changed
+  assets:
+  - comfort
+  - resource
+  property_text: The thermostat temperature (heating and cooling) entered by the user must be changed when the mode selected
+    by a user is changed (e.g., from sleeping mode to away mode).
+- property_id: C191
+  condition: when the humidity and temperature values are out of the threshold specified by the user
+  assets:
+  - comfort
+  - resource
+  - property
+  property_text: The HVACs, fans, switches, heaters, dehumidifiers must be off when the humidity and temperature values are
+    out of the threshold specified by the user (e.g., a particular degree above/below the threshold of temperature and humidity).
+- property_id: C192
+  condition: a user is within a specified distance of the house
+  assets: &id022
+  - comfort
+  property_text: The AC must be on when a user is within a specified distance of the house or at a time specified by the user.
+- property_id: C192
+  condition: at a time specified by the user
+  assets: *id022
+  property_text: The AC must be on when a user is within a specified distance of the house or at a time specified by the user.
+- property_id: C194a
+  condition: when the doors/windows are opening
+  assets:
+  - security
+  property_text: The security camera must take a photo and sound alarm when the doors/windows are opening.
+- property_id: C194b
+  condition: the doors are unlocking
+  assets: &id023
+  - security
+  - property
+  property_text: The security camera must take a photo and sound alarm when the doors are unlocking at user-specified times.
+- property_id: C194b
+  condition: at user-specified times
+  assets: *id023
+  property_text: The security camera must take a photo and sound alarm when the doors are unlocking at user-specified times.
+- property_id: C194c
+  condition: when one alarm is turned off
+  assets:
+  - security
+  property_text: All alarms must turn off when one alarm is turned off.
+- property_id: C196
+  condition: a camera does not recognize an unauthorized face
+  assets:
+  - security
+  property_text: The door must not be unlocked when a camera does not recognize an unauthorized face.
+- property_id: C202c
+  condition: there is water
+  assets:
+  - life_health
+  - property
+  property_text: Flood sensor must activate the alarm when there is water.
+- property_id: C203
+  condition: water/moisture sensor detects leak around a location such as basement and laundry room
+  assets:
+  - property
+  - resource
+  property_text: The water valve must shut off when water/moisture sensor detects leak around a location such as basement
+    and laundry room.
+- property_id: Soteria-P1
+  condition: when the user is not home
+  assets:
+  - security
+  property_text: The door must always be locked when the user is not home.
+- property_id: Soteria-P10
+  condition: when there is smoke
+  assets:
+  - life_health
+  - property
+  property_text: The alarm must always go off when there is smoke.
+- property_id: Soteria-P12
+  condition: the user is not home
+  assets:
+  - resource
+  - security
+  property_text: The light must be off when the user is not home.
+- property_id: Soteria-P28
+  condition: during the sleeping mode
+  assets:
+  - comfort
+  property_text: The sound system must not play music during the sleeping mode.
+- property_id: Soteria-P30
+  condition: a leak is detected
+  assets:
+  - property
+  - resource
+  property_text: The water valve must be closed if a leak is detected.
+- property_id: IoTCom-P1
+  condition: mode is away
+  assets:
+  - resource
+  - comfort
+  property_text: DON'T turn on the AC WHEN mode is away
+- property_id: IoTCom-P2
+  condition: door is closed
+  assets:
+  - comfort
+  - resource
+  property_text: DON'T turn on the bedroom light WHEN door is closed
+- property_id: IoTCom-P5
+  condition: no one is home
+  assets:
+  - resource
+  property_text: DON'T turn on dim light WHEN no one is home
+- property_id: IoTCom-P6
+  condition: light level changes
+  assets:
+  - comfort
+  - resource
+  property_text: DON'T turn on light/heater WHEN light level changes
+- property_id: IoTCom-P7
+  condition: temperature is low
+  assets:
+  - comfort
+  - life_health
+  property_text: DON'T turn off heater WHEN temperature is low
+- property_id: IoTCom-P8
+  condition: mode is away
+  assets:
+  - security
+  - property
+  property_text: DON'T unlock door WHEN mode is away
+- property_id: IoTCom-P9
+  condition: someone is home
+  assets:
+  - comfort
+  - security
+  property_text: DON'T turn off living room light WHEN someone is home
+- property_id: IoTCom-P12
+  condition: mode is away
+  assets:
+  - security
+  - property
+  property_text: DON'T turn off living room light WHEN mode is away
+- property_id: IoTCom-P13
+  condition: mode is vacation
+  assets:
+  - security
+  - property
+  property_text: DON'T turn off living room light WHEN mode is vacation
+- property_id: IoTCom-P16
+  condition: mode is away
+  assets:
+  - resource
+  - property
+  property_text: DON'T turn on heater WHEN mode is away
+- property_id: IoTCom-P17
+  condition: smoke is detected
+  assets: &id024
+  - life_health
+  - security
+  - property
+  property_text: DON'T open door/window WHEN smoke is detected or mode is away
+- property_id: IoTCom-P17
+  condition: mode is away
+  assets: *id024
+  property_text: DON'T open door/window WHEN smoke is detected or mode is away
+- property_id: IoTCom-P18
+  condition: no one is home
+  assets:
+  - security
+  property_text: DON'T turn off security system WHEN no one is home
+- property_id: IoTCom-P19
+  condition: WHEN smoke is detected
+  assets:
+  - life_health
+  - property
+  property_text: DON'T turn off the alarm WHEN smoke is detected
+- property_id: IoTCom-P22
+  condition: smoke is detected
+  assets: &id025
+  - life_health
+  - property
+  property_text: DON'T open the door WHEN smoke is detected and heater is on
+- property_id: IoTCom-P22
+  condition: heater is on
+  assets: *id025
+  property_text: DON'T open the door WHEN smoke is detected and heater is on
+- property_id: IoTCom-P24
+  condition: motion is detected
+  assets: &id026
+  - security
+  - privacy
+  property_text: DON'T open the door WHEN motion is detected and fan is on
+- property_id: IoTCom-P24
+  condition: fan is on
+  assets: *id026
+  property_text: DON'T open the door WHEN motion is detected and fan is on
+- property_id: IoTCom-P25
+  condition: motion is detected
+  assets: &id027
+  - security
+  property_text: DON'T unlock the door WHEN motion is detected and fan is on
+- property_id: IoTCom-P25
+  condition: fan is on
+  assets: *id027
+  property_text: DON'T unlock the door WHEN motion is detected and fan is on
+- property_id: IoTSan-T1
+  condition: when people are at home
+  assets:
+  - comfort
+  - life_health
+  property_text: Temperature should be within a predefined range when people are at home

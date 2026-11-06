@@ -1,0 +1,83 @@
+# Context-factor vocabulary F, candidate v0 (hand-proposed baseline).
+# The paper's vocabulary is factors_v1.yaml = M2 output after human freeze.
+# v0 is kept as the comparison baseline for the vocabulary metrics (Sec. VI-A).
+#
+# scope:
+#   global - one value for the whole home
+#   zone   - evaluated in the effect zone of the action (target device's area)
+#   action - derived from the action itself (target device's area type)
+version: F-v0
+factors:
+  - name: time_period
+    scope: global
+    semantics: Period of day when the action executes.
+    values:
+      day: Daytime hours when residents are normally active.
+      night: Night hours when residents normally sleep.
+  - name: effect_zone
+    scope: action
+    semantics: Type of the area in which the action's effect acts.
+    values:
+      bedroom: A sleeping room.
+      kitchen: A cooking area.
+      bathroom: A bathroom or shower room.
+      living: Living room, dining room, study or hallway.
+      entry: Front door, entrance hall, garage.
+      utility: Laundry, storage, technical room.
+  - name: home_occupancy
+    scope: global
+    semantics: Whether any resident is at home.
+    values:
+      occupied: At least one resident is at home.
+      away: No resident is at home.
+  - name: zone_occupant
+    scope: zone
+    semantics: State of the people inside the effect zone.
+    values:
+      empty: Nobody is in the zone.
+      awake: Someone awake is in the zone.
+      asleep: Someone is asleep in the zone and nobody awake is there.
+  - name: vulnerable_present
+    scope: zone
+    semantics: Whether a child, elderly or impaired person, or a pet is in the effect zone.
+    values:
+      "yes": At least one vulnerable person or a pet is in the zone.
+      "no": No vulnerable person or pet is in the zone.
+  - name: active_hazard
+    scope: global
+    semantics: The hazard currently present in the home and its source.
+    values:
+      none: No hazard.
+      cooking_fumes: Smoke, CO or heat produced by normal cooking (not a fire).
+      fire: An uncontrolled fire.
+      gas_leak: Fuel gas is leaking.
+      water_leak: Water is leaking or flooding.
+      intrusion: An unauthorized person is entering or inside.
+  - name: outdoor_condition
+    scope: global
+    semantics: Outdoor weather/air relative to what is acceptable indoors.
+    values:
+      benign: Mild, dry and clean outdoors.
+      cold: Outdoor temperature is low enough to chill the home.
+      hot: Outdoor temperature is high enough to overheat the home.
+      rain_storm: Rain, storm or strong wind.
+      polluted: Outdoor air quality is poor (smog, smoke, pollen).
+  - name: indoor_air
+    scope: zone
+    semantics: Air quality in the effect zone.
+    values:
+      good: CO2, humidity and pollutants are within healthy ranges.
+      poor: CO2, humidity or pollutants exceed healthy ranges.
+  - name: indoor_thermal
+    scope: zone
+    semantics: Thermal state of the effect zone.
+    values:
+      cold: Too cold for comfort or health.
+      comfortable: Within the comfort range.
+      hot: Too hot for comfort or health.
+# Physically impossible combinations removed from the Cartesian product.
+feasibility:
+  - if: {home_occupancy: [away]}
+    then: {zone_occupant: [empty]}
+  - if: {active_hazard: [cooking_fumes]}
+    then: {home_occupancy: [occupied]}

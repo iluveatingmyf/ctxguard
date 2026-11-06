@@ -1,0 +1,60 @@
+# A2 human codebook, version 1 (lift fields added).
+# Same structure and the SAME dev set as a2_codebook.yaml (CB-v0-draft), so dev scores of v0 and v1
+# are comparable. Changes from v0 (and nothing else):
+#   - examples that carry a world fact now show `reason` and `latent_fact`, so the model sees what a
+#     lift looks like (v0 had none, and lift prompt v4 never showed one);
+#   - C056: answer 'below the user threshold' -> 'too cold' (rule R4: a state, not a threshold).
+# STATUS: the lift fields were DRAFTED BY THE ASSISTANT on 2026-11-05 from the property texts.
+#   The researcher must check and correct them, then fill reviewed_by, BEFORE any run that is reported.
+#   Report in the paper: who coded the examples, and that dev was never shown to the model.
+version: CB-v1-draft
+reviewed_by: ""        # <- your name and date after checking
+examples:
+  - {property: C012, condition: "the user is not at home", kind: world_state, observation: "user location",
+     reason: "an AC running while nobody is at home uses energy for no one",
+     latent_fact: "nobody is at home", question: "Is anyone at home?", answer: "nobody at home", scope: home}
+  - {property: C019, condition: "smoke is detected", kind: sensor_reading, observation: "smoke detector alarm",
+     reason: "smoke in the home can come from a fire that endangers the occupants, so they must be warned",
+     latent_fact: "smoke is present in the home",
+     question: "What abnormal or dangerous event is happening in the home?", answer: "smoke present", scope: home}
+  - {property: C056, condition: "the temperature is below the threshold", kind: sensor_reading,
+     observation: "temperature reading below the user threshold",
+     reason: "a room colder than its occupants want is uncomfortable",
+     latent_fact: "the room is colder than its occupants want", question: "How warm or cold is the room?",
+     answer: "too cold", scope: room}
+  - {property: C083a, condition: "Home is in away mode", kind: home_mode, observation: "home mode set to away",
+     reason: "with nobody at home, an unlocked door lets an intruder in unnoticed",
+     latent_fact: "nobody is at home", question: "Is anyone at home?", answer: "nobody at home", scope: home}
+  - {property: C185, condition: "When the user is sleeping", kind: world_state, observation: "user sleeping",
+     reason: "a sleeping user cannot supervise open cabinets or running devices",
+     latent_fact: "a person in the room is asleep", question: "What are the people in the room doing?",
+     answer: "asleep", scope: room}
+  - {property: IoTCom-P22, condition: "heater is on", kind: device_state, observation: "heater switched on",
+     question: "", answer: "", scope: room}
+  - {property: C188, condition: "The user specifies heating and cooling values.", kind: user_configuration,
+     observation: "user-set heating and cooling values", question: "", answer: "", scope: home}
+  - {property: Soteria-P1, condition: "door must be locked", kind: obligation, observation: "required door state",
+     question: "", answer: "", scope: home}
+dev:
+  - {property: C005, condition: "user is not nearby-home", kind: world_state, dim: occupancy, seen: true}
+  - {property: IoTCom-P18, condition: "Someone is home", kind: world_state, dim: occupancy, seen: true}
+  - {property: C179b, condition: "People are leaving home.", kind: event, dim: occupancy, seen: true}
+  - {property: C174, condition: "user_sleeping", kind: world_state, dim: activity, seen: true}
+  - {property: C020, condition: "CO is detected", kind: sensor_reading, dim: hazard, seen: true}
+  - {property: Soteria-P30, condition: "Leak is detected", kind: sensor_reading, dim: hazard, seen: true}
+  - {property: C105, condition: "intruder is detected", kind: sensor_reading, dim: hazard, seen: true}
+  - {property: C097, condition: "moisture_sensor detects a leak", kind: sensor_reading, dim: hazard, seen: true}
+  - {property: C054, condition: "temperature rises above the threshold", kind: sensor_reading, dim: thermal, seen: true}
+  - {property: IoTCom-P7, condition: "temperature is low", kind: sensor_reading, dim: thermal, seen: true}
+  - {property: C022, condition: "CO2 is greater than a predefined value", kind: sensor_reading, dim: air, seen: false}
+  - {property: C041, condition: "air quality drops below a threshold", kind: sensor_reading, dim: air, seen: false}
+  - {property: C116, condition: "Humidity exceeds predefined value", kind: sensor_reading, dim: air, seen: false}
+  - {property: C119, condition: "indoor illuminance is below 80 lux", kind: sensor_reading, dim: light, seen: false}
+  - {property: C120, condition: "Indoor illuminance exceeds 600 lux", kind: sensor_reading, dim: light, seen: false}
+  - {property: C160, condition: "time is nighttime", kind: world_state, dim: time, seen: false}
+  - {property: IoTCom-P6, condition: "It is daytime", kind: world_state, dim: time, seen: false}
+  - {property: C042, condition: "External temperature is high", kind: sensor_reading, dim: outdoor, seen: false}
+  - {property: IoTCom-P24, condition: "fan_on", kind: device_state, dim: none, seen: true}
+  - {property: C184, condition: "user specifies water level threshold", kind: user_configuration, dim: none, seen: true}
+  - {property: C187a, condition: "the alarm is operational", kind: device_state, dim: none, seen: true}
+  - {property: C196, condition: "door is unlocked", kind: device_state, dim: none, seen: true}

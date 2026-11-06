@@ -1,0 +1,422 @@
+version: S-induced-v2 (variable-level coding)
+n_conditions: 90
+kinds:
+  world_state: 22
+  sensor_reading: 33
+  user_configuration: 8
+  obligation: 17
+  device_state: 3
+  home_mode: 6
+  event: 1
+with_world_variable: 60
+n_dimensions: 20
+unverified_or_failed:
+- home_mode
+asset_named:
+- security_status
+slots:
+- id: people_at_home
+  desc: Is anyone at home?
+  variables:
+  - is anyone at home?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 16
+  scope: global
+  property_ids:
+  - C005
+  - C006
+  - C007
+  - C008
+  - C009
+  - C012
+  - C037
+  - C042
+  - C047b
+  - C049a
+  - C049b
+  - C065
+  - C066
+  - C082
+  - C083a
+  - C083b
+  - C085
+  - C095
+  - C099
+  - C100
+  - C107
+  - C113
+  - C117
+  - C160
+  - C174
+  - C186a
+  - IoTCom-P17
+  - IoTCom-P18
+  - IoTCom-P5
+  - IoTCom-P9
+  - Soteria-P1
+  - Soteria-P12
+- id: abnormal_events
+  desc: 'What abnormal or dangerous event is happening in the home? (split: what abnormal or dangerous event is happening
+    in the home?; what dangerous condition is present in the home?)'
+  variables:
+  - what abnormal or dangerous event is happening in the home?
+  - what dangerous condition is present in the home?
+  origin: split of abnormal_events
+  verification:
+    single_variable: true
+    checked: true
+    issues: &id002 []
+  kind: situation
+  n_conditions: 16
+  scope: global
+  property_ids:
+  - C007
+  - C019
+  - C020
+  - C025
+  - C026
+  - C027
+  - C028
+  - C034
+  - C035
+  - C043
+  - C045
+  - C046
+  - C047a
+  - C047b
+  - C048
+  - C049a
+  - C049b
+  - C051
+  - C052
+  - C053
+  - C087
+  - C097
+  - C101
+  - C105
+  - C111
+  - C112
+  - C183a
+  - C203
+  - IoTCom-P17
+  - IoTCom-P19
+  - IoTCom-P22
+  - IoTCom-P24
+  - IoTCom-P25
+  - Soteria-P30
+- id: temperature
+  desc: How warm or cold is the room?
+  variables:
+  - how warm or cold is the room?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 6
+  scope: zone
+  property_ids:
+  - C014
+  - C054
+  - C055
+  - C056
+  - C066
+  - C159
+  - IoTCom-P7
+- id: people_activity
+  desc: 'What are the people doing? (split: what are the people doing?)'
+  variables:
+  - what are the people doing?
+  origin: split of people_activity
+  verification:
+    single_variable: true
+    checked: true
+    issues: &id001 []
+  kind: situation
+  n_conditions: 3
+  scope: global
+  property_ids:
+  - C003
+  - C102
+  - C177
+  - C179b
+- id: room_people_activity
+  desc: 'What are the people doing? (split: what are the people in the room doing?)'
+  variables:
+  - what are the people in the room doing?
+  origin: split of people_activity
+  verification:
+    single_variable: true
+    checked: true
+    issues: *id001
+  kind: situation
+  n_conditions: 3
+  scope: zone
+  property_ids:
+  - C114
+  - C174
+  - IoTSan-T1
+- id: home_mode
+  desc: Is the home in a specific mode?
+  variables:
+  - is the home in a specific mode?
+  - is the home in vacation mode?
+  origin: grouped
+  verification:
+    single_variable: false
+    checked: true
+    reason: The members ask about different modes, not just a specific mode.
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: global
+  property_ids:
+  - C038
+  - C047a
+- id: door_status
+  desc: Is the door closed or open?
+  variables:
+  - is the door closed or open?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: zone
+  property_ids:
+  - IoTCom-P2
+- id: specific_room_events
+  desc: What abnormal or dangerous event is happening in the laundry room?
+  variables:
+  - what abnormal or dangerous event is happening in the laundry room?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: zone
+  property_ids:
+  - C203
+- id: light_level
+  desc: What is the current light level in the room?
+  variables:
+  - what is the current light level in the room?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: zone
+  property_ids:
+  - IoTCom-P6
+- id: daytime_light
+  desc: What is the indoor illuminance level during the daytime?
+  variables:
+  - what is the indoor illuminance level during the daytime?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: zone
+  property_ids:
+  - C119
+- id: daytime_light_general
+  desc: What is the indoor illuminance level?
+  variables:
+  - what is the indoor illuminance level?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: zone
+  property_ids:
+  - C120
+- id: security_status
+  desc: What is the security status of the door?
+  variables:
+  - what is the security status of the door?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues:
+    - named after protected asset 'security'
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C196
+- id: sensor_status
+  desc: What is the state of the water sensor?
+  variables:
+  - what is the state of the water sensor?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C069
+- id: door_status_general
+  desc: What is the status of the doors?
+  variables:
+  - what is the status of the doors?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C194b
+- id: time_of_day
+  desc: What time of day is it?
+  variables:
+  - what time of day is it?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C106
+- id: how_warm_or_cold_is_the_home
+  desc: how warm or cold is the home?
+  variables:
+  - how warm or cold is the home?
+  origin: unassigned by the grouping call
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C009
+  - C113
+  - C114
+- id: is_the_user_near_the_home
+  desc: is the user near the home?
+  variables:
+  - is the user near the home?
+  origin: unassigned by the grouping call
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C192
+- id: is_there_any_motion_in_the_room
+  desc: is there any motion in the room?
+  variables:
+  - is there any motion in the room?
+  origin: unassigned by the grouping call
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: zone
+  property_ids:
+  - C139
+- id: what_is_the_air_quality_in_the_home
+  desc: what is the air quality in the home?
+  variables:
+  - what is the air quality in the home?
+  origin: unassigned by the grouping call
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C041
+  - C060
+- id: intruder
+  desc: 'What abnormal or dangerous event is happening in the home? (split: is there an intruder in the home?)'
+  variables:
+  - is there an intruder in the home?
+  origin: split of abnormal_events
+  verification:
+    single_variable: true
+    checked: true
+    issues: *id002
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C104
+- id: device_state
+  kind: excluded
+  desc: conditions coded as device_state (no world variable)
+  n_conditions: 3
+- id: no_variable_given
+  kind: excluded
+  desc: conditions coded as no_variable_given (no world variable)
+  n_conditions: 2
+- id: obligation
+  kind: excluded
+  desc: conditions coded as obligation (no world variable)
+  n_conditions: 17
+- id: user_configuration
+  kind: excluded
+  desc: conditions coded as user_configuration (no world variable)
+  n_conditions: 8
+coverage:
+  abnormal_events: 16
+  user_configuration: 8
+  is_there_any_motion_in_the_room: 1
+  obligation: 17
+  people_activity: 3
+  people_at_home: 16
+  security_status: 1
+  room_people_activity: 3
+  is_the_user_near_the_home: 1
+  what_is_the_air_quality_in_the_home: 1
+  time_of_day: 1
+  door_status: 1
+  device_state: 3
+  home_mode: 2
+  daytime_light_general: 1
+  daytime_light: 1
+  light_level: 1
+  intruder: 1
+  temperature: 6
+  door_status_general: 1
+  no_variable_given: 2
+  how_warm_or_cold_is_the_home: 1
+  sensor_status: 1
+  specific_room_events: 1

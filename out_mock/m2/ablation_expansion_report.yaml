@@ -1,0 +1,25 @@
+proposed: 2
+accepted: 2
+items:
+- factor: home_nobody
+  value: cooking
+  witness:
+    effect: air_exchange:increase
+    asset: life_health
+    closest_existing: nobody_home
+    why: fumes
+  labels:
+    new: +
+    closest_existing: '0'
+  decision: accepted
+- factor: home_present
+  value: cooking
+  witness:
+    effect: air_exchange:increase
+    asset: life_health
+    closest_existing: present
+    why: fumes
+  labels:
+    new: +
+    closest_existing: '0'
+  decision: accepted

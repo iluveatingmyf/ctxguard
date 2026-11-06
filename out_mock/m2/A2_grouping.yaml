@@ -1,0 +1,32 @@
+pair_budget: 2000
+subjects:
+  home:
+    facts: 3
+    pairs_asked: 3
+    pair_mode: exhaustive
+    relations:
+      independent: 2
+      exclusive: 1
+    slots: 2
+relations:
+- subject: home
+  a: nobody home
+  b: present
+  relation: independent
+  raw: independent
+  reason: mock
+- subject: home
+  a: nobody home
+  b: someone home
+  relation: exclusive
+  raw: exclusive
+  reason: mock
+- subject: home
+  a: present
+  b: someone home
+  relation: independent
+  raw: independent
+  reason: mock
+violations: []
+splits: []
+implications: []

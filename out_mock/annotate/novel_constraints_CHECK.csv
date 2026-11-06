@@ -1,0 +1,12 @@
+effect,asset,pattern,harm,HUMAN_valid(1/0),note
+air_exchange:increase,life_health,{'outdoor_condition': ['polluted']},mock mechanism,,
+air_exchange:increase,life_health,{'active_hazard': ['fire']},mock mechanism,,
+air_exchange:increase,life_health,"{'vulnerable_present': ['yes'], 'outdoor_condition': ['cold', 'polluted']}",mock mechanism,,
+air_exchange:increase,property,{'outdoor_condition': ['rain_storm']},mock mechanism,,
+air_exchange:increase,comfort,"{'outdoor_condition': ['cold', 'hot', 'rain_storm']}",mock mechanism,,
+indoor_temperature:decrease,life_health,"{'vulnerable_present': ['yes'], 'indoor_thermal': ['cold']}",mock mechanism,,
+indoor_temperature:increase,life_health,"{'vulnerable_present': ['yes'], 'indoor_thermal': ['hot']}",mock mechanism,,
+mechanical_motion:increase,life_health,{'vulnerable_present': ['yes']},mock mechanism,,
+power_supply:decrease,life_health,"{'vulnerable_present': ['yes'], 'indoor_thermal': ['cold']}",mock mechanism,,
+sensing_capture:increase,privacy,{'home_occupancy': ['occupied']},mock mechanism,,
+sound:increase,comfort,{'zone_occupant': ['asleep']},mock mechanism,,

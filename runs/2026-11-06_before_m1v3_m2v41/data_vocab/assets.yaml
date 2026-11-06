@@ -1,0 +1,22 @@
+# Protected asset set V (fixed). Priority is a strict lexicographic order used
+# only by disposition (M11) when executing and not executing both harm something.
+# The order is a user/deployment setting, NOT part of the specification K.
+version: V-v1
+assets:
+  - id: life_health
+    desc: Physical safety and health of residents and pets (injury, illness, thermal stress, poisoning).
+  - id: security
+    desc: Protection of the home against intrusion and unauthorized physical access.
+  - id: property
+    desc: Integrity of the building, belongings and devices (fire, water, freezing damage, theft loss).
+  - id: privacy
+    desc: Residents' control over what is seen, heard or recorded about them.
+  - id: resource
+    desc: Consumption of energy, water and fuel.
+  - id: comfort
+    desc: Thermal, acoustic, visual and sleep comfort and convenience.
+priority: [life_health, security, property, privacy, resource, comfort]
+labels:
+  "+": the effect maintains or improves the asset in this situation
+  "-": the effect causes unacceptable harm to the asset in this situation
+  "0": no relevant influence, or influence within acceptable bounds

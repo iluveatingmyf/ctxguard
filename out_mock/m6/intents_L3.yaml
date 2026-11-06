@@ -1,0 +1,216 @@
+layout: L3
+intents:
+  L3_r01:
+    action_type: open_window
+    entity: cover.master_window
+    area: master_bedroom
+    valid: true
+    errors: []
+    rho:
+      indoor_air:
+      - poor
+    intended_effect: air_exchange:increase
+    served_asset: life_health
+    alternative_readings: {}
+  L3_r02:
+    action_type: open_window
+    entity: cover.kids_window
+    area: kids_room
+    valid: true
+    errors: []
+    rho:
+      indoor_air:
+      - poor
+    intended_effect: air_exchange:increase
+    served_asset: life_health
+    alternative_readings: {}
+  L3_r03:
+    action_type: unlock_door
+    entity: lock.front_door
+    area: entrance
+    valid: true
+    errors: []
+    rho:
+      active_hazard:
+      - fire
+    intended_effect: passage_opening:increase
+    served_asset: life_health
+    alternative_readings:
+      active_hazard:
+      - cooking_fumes
+  L3_r04:
+    action_type: open_window
+    entity: cover.living_window
+    area: living_room
+    valid: true
+    errors: []
+    rho:
+      active_hazard:
+      - fire
+      - gas_leak
+    intended_effect: air_exchange:increase
+    served_asset: life_health
+    alternative_readings:
+      active_hazard:
+      - cooking_fumes
+  L3_r05:
+    action_type: water_valve_close
+    entity: valve.water_main
+    area: laundry
+    valid: true
+    errors: []
+    rho:
+      active_hazard:
+      - water_leak
+    intended_effect: water_flow:decrease
+    served_asset: property
+    alternative_readings: {}
+  L3_r06:
+    action_type: gas_valve_close
+    entity: valve.gas_main
+    area: kitchen
+    valid: true
+    errors: []
+    rho:
+      active_hazard:
+      - gas_leak
+    intended_effect: gas_flow:decrease
+    served_asset: life_health
+    alternative_readings: {}
+  L3_r07:
+    action_type: alarm_arm_away
+    entity: alarm_control_panel.home
+    area: entrance
+    valid: true
+    errors: []
+    rho:
+      home_occupancy:
+      - away
+    intended_effect: security_monitoring:increase
+    served_asset: security
+    alternative_readings: {}
+  L3_r08:
+    action_type: open_window
+    entity: cover.living_window
+    area: living_room
+    valid: true
+    errors: []
+    rho:
+      indoor_thermal:
+      - hot
+    intended_effect: air_exchange:increase
+    served_asset: life_health
+    alternative_readings: {}
+  L3_r09:
+    action_type: exhaust_fan_on
+    entity: fan.bathroom_exhaust
+    area: bathroom
+    valid: true
+    errors: []
+    rho:
+      indoor_air:
+      - poor
+    intended_effect: air_exchange:increase
+    served_asset: life_health
+    alternative_readings: {}
+  L3_r10:
+    action_type: open_blind
+    entity: cover.master_blind
+    area: master_bedroom
+    valid: true
+    errors: []
+    rho:
+      time_period:
+      - day
+    intended_effect: illumination:increase
+    served_asset: comfort
+    alternative_readings: {}
+  L3_r11:
+    action_type: light_on
+    entity: light.hallway
+    area: hallway
+    valid: true
+    errors: []
+    rho: {}
+    intended_effect: illumination:increase
+    served_asset: comfort
+    alternative_readings: {}
+  L3_r12:
+    action_type: outlet_off
+    entity: switch.grandma_heater_outlet
+    area: grandma_room
+    valid: true
+    errors: []
+    rho:
+      home_occupancy:
+      - away
+    intended_effect: power_supply:decrease
+    served_asset: resource
+    alternative_readings: {}
+  L3_r13:
+    action_type: vacuum_start
+    entity: vacuum.robot
+    area: living_room
+    valid: true
+    errors: []
+    rho:
+      home_occupancy:
+      - away
+    intended_effect: mechanical_motion:increase
+    served_asset: comfort
+    alternative_readings: {}
+  L3_r14:
+    action_type: camera_on
+    entity: switch.indoor_camera
+    area: living_room
+    valid: true
+    errors: []
+    rho: {}
+    intended_effect: sensing_capture:increase
+    served_asset: comfort
+    alternative_readings: {}
+  L3_r15:
+    action_type: tts_announce
+    entity: tts.google
+    area: master_bedroom
+    valid: true
+    errors: []
+    rho: {}
+    intended_effect: sound:increase
+    served_asset: comfort
+    alternative_readings: {}
+  L3_r16:
+    action_type: unlock_door
+    entity: lock.front_door
+    area: entrance
+    valid: true
+    errors: []
+    rho:
+      home_occupancy:
+      - occupied
+    intended_effect: passage_opening:increase
+    served_asset: comfort
+    alternative_readings: {}
+  L3_r17:
+    action_type: stove_off
+    entity: switch.stove
+    area: kitchen
+    valid: true
+    errors: []
+    rho: {}
+    intended_effect: power_supply:decrease
+    served_asset: resource
+    alternative_readings: {}
+  L3_r18:
+    action_type: heat_on
+    entity: climate.living
+    area: living_room
+    valid: true
+    errors: []
+    rho:
+      outdoor_condition:
+      - cold
+    intended_effect: indoor_temperature:increase
+    served_asset: comfort
+    alternative_readings: {}
+problems: []

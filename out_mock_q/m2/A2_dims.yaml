@@ -1,0 +1,49 @@
+version: S-induced-v3 (question coding, ablation)
+coding: question
+n_conditions: 4
+n_units: 4
+n_distinct_conditions: 4
+kinds:
+  world_state: 4
+lift_status: null
+lift_failed: []
+grouping: llm
+relation_grouping: null
+with_world_variable: 4
+n_dimensions: 2
+unverified_or_failed: []
+asset_named: []
+slots:
+- id: is_a_vulnerable_person_in_the_room
+  desc: is a vulnerable person in the room?
+  variables:
+  - is a vulnerable person in the room?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: global
+  property_ids:
+  - T03
+  - T06
+- id: is_anyone_at_home
+  desc: is anyone at home?
+  variables:
+  - is anyone at home?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: global
+  property_ids:
+  - T01
+  - T04
+coverage:
+  is_anyone_at_home: 2
+  is_a_vulnerable_person_in_the_room: 2

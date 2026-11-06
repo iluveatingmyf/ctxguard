@@ -1,0 +1,19 @@
+ts,step,file,sha256,bytes,model,backend,vocab_version,prompts_sha
+2026-11-06 17:30:16,m1,out_deepseek/m1/effects.yaml,abed03d696ce8e24,56637,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 17:30:16,m1,out_deepseek/m1/effects_alt-majority.yaml,b6abb9044612227e,46311,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 17:30:16,m1,out_deepseek/m1/raw_samples.yaml,d3c4aa3fd2e3551b,103455,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 17:39:39,m1,out_deepseek/m1/effects_k1.yaml,f1645a71d4625a73,37009,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 17:39:39,m1,out_deepseek/m1/effects_k1_alt-majority.yaml,8da02a5c4c252958,27099,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 17:39:39,m1,out_deepseek/m1/raw_samples_k1.yaml,5600694e38bbed99,34247,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 17:48:58,m2-extract,out_deepseek/m2/A1_conditions.yaml,9d4912c5a20cb156,26934,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 17:48:58,m2-extract,out_deepseek/m2/A1_report.yaml,a99a7c06fa7cbaba,12891,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 17:48:58,m2-extract,out_deepseek/annotate/m2_A1_extraction_CHECK.csv,acbd83f8f2c32886,5168,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 18:36:43,m2-dims,out_deepseek/m2/A2_dims.yaml,cd440eff3e4dfd1d,15495,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 18:36:43,m2-dims,out_deepseek/m2/A2_coding.yaml,f7b69f6e02e5acb3,91861,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 18:36:43,m2-dims,out_deepseek/m2/A2_grouping.yaml,37962b7d4b5d0586,323760,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 18:36:43,m2-dims,out_deepseek/annotate/m2_A2_relations_CHECK.csv,1956b10bc310c953,16379,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 18:36:43,m2-dims,out_deepseek/annotate/m2_A2_coding_CHECK.csv,07e723466db17f56,15067,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 18:38:42,m2-dev,out_deepseek/eval/m2_A2_dev.yaml,f55e54a27eaf6f75,5990,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 18:38:42,m2-dev,out_deepseek/eval/dev_history/m2_A2_dev_s_induced_v4_1__lift_coding__gate_evidence__deepseek_v4_pro_f7b69f6e02e5acb3.yaml,f55e54a27eaf6f75,5990,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 18:39:30,m2-dev,out_deepseek/eval/m2_A2_dev.yaml,f55e54a27eaf6f75,5990,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1
+2026-11-06 18:39:30,m2-dev,out_deepseek/eval/dev_history/m2_A2_dev_s_induced_v4_1__lift_coding__gate_evidence__deepseek_v4_pro_f7b69f6e02e5acb3.yaml,f55e54a27eaf6f75,5990,deepseek-v4-pro,deepseek,F-v0,6cc4644e05d9b4b1

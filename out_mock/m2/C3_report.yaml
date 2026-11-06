@@ -1,0 +1,30 @@
+time_period:
+  evidence_items: 0
+  changed: false
+home_occupancy:
+  evidence_items: 0
+  changed: false
+zone_occupant:
+  evidence_items: 2
+  states_after_canonicalize: 6
+  values_before: 4
+  values_after: 4
+  relevant_pairs: 1
+  dropped_phrases: 0
+  new_dimension: false
+  changed: true
+vulnerable_present:
+  evidence_items: 0
+  changed: false
+active_hazard:
+  evidence_items: 0
+  changed: false
+outdoor_condition:
+  evidence_items: 0
+  changed: false
+indoor_air:
+  evidence_items: 0
+  changed: false
+indoor_thermal:
+  evidence_items: 0
+  changed: false

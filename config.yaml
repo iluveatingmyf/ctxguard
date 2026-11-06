@@ -1,5 +1,5 @@
 llm:
-  backend: ollama            # ollama | mock (mock = offline smoke test only, never for results)
+  backend: ollama            # ollama | deepseek | mock (mock = offline smoke test only, never for results)
   host: http://localhost:11434
   model: qwen2.5:7b-instruct    # main model; 16GB Mac -> qwen2.5:7b-instruct
   embed_model: nomic-embed-text  # used by M2 clustering
@@ -16,10 +16,18 @@ method:
   seed: 7
   m1_samples: 3              # self-consistency samples per action (majority vote)
   m1_temperature: 0.7
+  m1_direction_rule: unanimity_else_both   # M1-v3: either/disagreeing samples -> both directions | majority (v2 ablation)
   spot_check_k: 3            # concrete cells sampled to verify each abstract "consistent" answer
   max_nodes_per_pair: 60     # split-tree node budget per (effect, asset)
   refute_max_counterexamples: 3
   property_test_ratio: 0.3   # held-out share of seed properties
+  m2_coding: lift            # A2 coding: lift (label-anchored, default) | question (v3 ablation, asset-agnostic)
+  m2_lift_strict: true       # keep failed lifts out of the grouping
+  m2_lift_prompt: v4.1       # A2 lift prompt: v4.1 (default) | v4 (ablation, original wording)
+  m2_lift_gate: evidence     # A2 lift check: evidence (default; counterfactual recorded only) | counterfactual (v4 ablation)
+  m2_codebook: data/vocab/a2_codebook_v1.yaml   # CB-v1 (lift fields) | data/vocab/a2_codebook.yaml (CB-v0)
+  m2_grouping: relation      # A2 slots: relation (pairwise same/exclusive/implies/independent, default) | llm (v3 one-call grouping)
+  m2_pair_budget: 2000       # per subject: ask every pair up to this many pairs; above it, candidate pairs only
 
 eval:
   audit_items: 300           # sampled cells for human audit of K

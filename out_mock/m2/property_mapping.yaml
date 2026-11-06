@@ -1,0 +1,50 @@
+- id: T01
+  split: train
+  text: The front door must be locked when nobody is at home.
+  source: TEST
+  expressible: true
+  missing: ''
+  pattern:
+    home_occupancy:
+    - away
+  effects:
+  - passage_opening:increase
+  asset: security
+  label: '-'
+- id: T02
+  split: test
+  text: Windows should not be opened while someone is sleeping in the room.
+  source: TEST
+  expressible: true
+  missing: ''
+  pattern:
+    zone_occupant:
+    - asleep
+  effects:
+  - passage_opening:increase
+  asset: security
+  label: '-'
+- id: T03
+  split: train
+  text: The heater must not be turned off when an elderly person is in a cold room.
+  source: TEST
+  expressible: false
+  missing: 'mock: not parsed'
+- id: T04
+  split: train
+  text: Indoor cameras should be off when the family is at home.
+  source: TEST
+  expressible: false
+  missing: 'mock: not parsed'
+- id: T05
+  split: test
+  text: The water main should be closed if a leak is detected.
+  source: TEST
+  expressible: false
+  missing: 'mock: not parsed'
+- id: T06
+  split: train
+  text: The robot vacuum must not run when the baby is in the room.
+  source: TEST
+  expressible: false
+  missing: 'mock: not parsed'

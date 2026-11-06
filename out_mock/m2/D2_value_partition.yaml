@@ -1,0 +1,162 @@
+time_period:
+  values:
+  - day
+  - night
+  decision_preserving_groups:
+  - - day
+    - night
+  mergeable: true
+  merge_conflicts:
+    day+night: 0
+effect_zone:
+  values:
+  - bedroom
+  - kitchen
+  - bathroom
+  - living
+  - entry
+  - utility
+  decision_preserving_groups:
+  - - bedroom
+    - kitchen
+    - bathroom
+    - living
+    - entry
+    - utility
+  mergeable: true
+  merge_conflicts:
+    bedroom+kitchen: 0
+    bedroom+bathroom: 0
+    bedroom+living: 0
+    bedroom+entry: 0
+    bedroom+utility: 0
+    kitchen+bathroom: 0
+    kitchen+living: 0
+    kitchen+entry: 0
+    kitchen+utility: 0
+    bathroom+living: 0
+    bathroom+entry: 0
+    bathroom+utility: 0
+    living+entry: 0
+    living+utility: 0
+    entry+utility: 0
+home_occupancy:
+  values:
+  - occupied
+  - away
+  decision_preserving_groups:
+  - - occupied
+  - - away
+  mergeable: false
+  merge_conflicts:
+    occupied+away: 8640
+zone_occupant:
+  values:
+  - empty
+  - awake
+  - asleep
+  - watching_a_movie
+  decision_preserving_groups:
+  - - empty
+    - awake
+  - - asleep
+  - - watching_a_movie
+  mergeable: true
+  merge_conflicts:
+    empty+awake: 0
+    empty+asleep: 6480
+    empty+watching_a_movie: 4320
+    awake+asleep: 6480
+    awake+watching_a_movie: 4320
+    asleep+watching_a_movie: 2160
+vulnerable_present:
+  values:
+  - 'yes'
+  - 'no'
+  decision_preserving_groups:
+  - - 'yes'
+  - - 'no'
+  mergeable: false
+  merge_conflicts:
+    yes+no: 22608
+active_hazard:
+  values:
+  - none
+  - cooking_fumes
+  - fire
+  - gas_leak
+  - water_leak
+  - intrusion
+  decision_preserving_groups:
+  - - none
+  - - cooking_fumes
+  - - fire
+  - - gas_leak
+  - - water_leak
+  - - intrusion
+  mergeable: false
+  merge_conflicts:
+    none+cooking_fumes: 1008
+    none+fire: 11160
+    none+gas_leak: 9900
+    none+water_leak: 3600
+    none+intrusion: 2160
+    cooking_fumes+fire: 8496
+    cooking_fumes+gas_leak: 6480
+    cooking_fumes+water_leak: 3888
+    cooking_fumes+intrusion: 3168
+    fire+gas_leak: 2520
+    fire+water_leak: 14760
+    fire+intrusion: 13320
+    gas_leak+water_leak: 13500
+    gas_leak+intrusion: 12060
+    water_leak+intrusion: 5760
+outdoor_condition:
+  values:
+  - benign
+  - cold
+  - hot
+  - rain_storm
+  - polluted
+  decision_preserving_groups:
+  - - benign
+  - - cold
+  - - hot
+  - - rain_storm
+  - - polluted
+  mergeable: false
+  merge_conflicts:
+    benign+cold: 5904
+    benign+hot: 4176
+    benign+rain_storm: 8352
+    benign+polluted: 3456
+    cold+hot: 1728
+    cold+rain_storm: 5904
+    cold+polluted: 5904
+    hot+rain_storm: 4176
+    hot+polluted: 7632
+    rain_storm+polluted: 11808
+indoor_air:
+  values:
+  - good
+  - poor
+  decision_preserving_groups:
+  - - good
+  - - poor
+  mergeable: false
+  merge_conflicts:
+    good+poor: 3780
+indoor_thermal:
+  values:
+  - cold
+  - comfortable
+  - hot
+  decision_preserving_groups:
+  - - cold
+  - - comfortable
+  - - hot
+  mergeable: false
+  merge_conflicts:
+    cold+comfortable: 6960
+    cold+hot: 17400
+    comfortable+hot: 10440

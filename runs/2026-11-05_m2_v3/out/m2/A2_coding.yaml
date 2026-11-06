@@ -1,0 +1,1220 @@
+- condition: CO exceeds a predefined level
+  kind: world_state
+  observation: CO level exceeds threshold
+  question: What dangerous condition is present in the home?
+  answer: CO level high
+  variable: what dangerous condition is present in the home?
+  value: CO level high
+  world_fact: What dangerous condition is present in the home? CO level high
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C111
+  - C112
+- condition: CO is detected
+  kind: sensor_reading
+  observation: CO detector alarm
+  question: What abnormal or dangerous event is happening in the home?
+  answer: CO present
+  variable: what abnormal or dangerous event is happening in the home?
+  value: CO present
+  world_fact: What abnormal or dangerous event is happening in the home? CO present
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C020
+  - C025
+  - C026
+  - C027
+  - C035
+- condition: CO2 is greater than a predefined value
+  kind: user_configuration
+  observation: CO2 level above threshold
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C022
+  - C032
+- condition: Motion detected
+  kind: sensor_reading
+  observation: motion detected
+  question: Is there any motion in the room?
+  answer: motion present
+  variable: is there any motion in the room?
+  value: motion present
+  world_fact: Is there any motion in the room? motion present
+  scope: room
+  reason: ''
+  slot: is_there_any_motion_in_the_room
+  property_ids:
+  - C139
+- condition: Some device functionality must be turned on before a time specified by a user
+  kind: obligation
+  observation: required device functionality state
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C186b
+- condition: The door is clear of any objects
+  kind: obligation
+  observation: door clear of objects
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C178
+- condition: The location beacon must be inside a geo-fence around the home (defined by a user)
+  kind: obligation
+  observation: required location beacon state
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C180
+- condition: The user arrives home
+  kind: world_state
+  observation: user arrives home
+  question: What are the people doing?
+  answer: user arrives home
+  variable: what are the people doing?
+  value: user arrives home
+  world_fact: What are the people doing? user arrives home
+  scope: home
+  reason: ''
+  slot: people_activity
+  property_ids:
+  - C177
+- condition: The user is not home
+  kind: world_state
+  observation: user location
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - Soteria-P1
+  - Soteria-P12
+- condition: a camera does not recognize an unauthorized face
+  kind: sensor_reading
+  observation: camera does not recognize unauthorized face
+  question: What is the security status of the door?
+  answer: unauthorized access detected
+  variable: what is the security status of the door?
+  value: unauthorized access detected
+  world_fact: What is the security status of the door? unauthorized access detected
+  scope: home
+  reason: ''
+  slot: security_status
+  property_ids:
+  - C196
+- condition: a leak is detected
+  kind: sensor_reading
+  observation: leak detected
+  question: What abnormal or dangerous event is happening in the home?
+  answer: leak present
+  variable: what abnormal or dangerous event is happening in the home?
+  value: leak present
+  world_fact: What abnormal or dangerous event is happening in the home? leak present
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - Soteria-P30
+- condition: a time specified by the user
+  kind: user_configuration
+  observation: user-set time
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C192
+- condition: a user is not present at home
+  kind: world_state
+  observation: user location
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - C174
+- condition: a user is sleeping
+  kind: world_state
+  observation: user sleeping
+  question: What are the people in the room doing?
+  answer: asleep
+  variable: what are the people in the room doing?
+  value: asleep
+  world_fact: What are the people in the room doing? asleep
+  scope: room
+  reason: ''
+  slot: room_people_activity
+  property_ids:
+  - C174
+- condition: a user is within a specified distance of the house
+  kind: world_state
+  observation: user within specified distance of the house
+  question: Is the user near the home?
+  answer: 'yes'
+  variable: is the user near the home?
+  value: 'yes'
+  world_fact: Is the user near the home? yes
+  scope: home
+  reason: ''
+  slot: is_the_user_near_the_home
+  property_ids:
+  - C192
+- condition: air quality drops below a threshold
+  kind: sensor_reading
+  observation: air quality below threshold
+  question: What is the air quality in the home?
+  answer: below threshold
+  variable: what is the air quality in the home?
+  value: below threshold
+  world_fact: What is the air quality in the home? below threshold
+  scope: home
+  reason: ''
+  slot: what_is_the_air_quality_in_the_home
+  property_ids:
+  - C041
+  - C060
+- condition: an intruder is detected
+  kind: sensor_reading
+  observation: intruder detected
+  question: What abnormal or dangerous event is happening in the home?
+  answer: intruder detected
+  variable: what abnormal or dangerous event is happening in the home?
+  value: intruder detected
+  world_fact: What abnormal or dangerous event is happening in the home? intruder detected
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C105
+- condition: an unexpected motion occurs
+  kind: obligation
+  observation: unexpected motion detected
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C183b
+- condition: at noon every day
+  kind: world_state
+  observation: time is noon
+  question: What time of day is it?
+  answer: noon
+  variable: what time of day is it?
+  value: noon
+  world_fact: What time of day is it? noon
+  scope: home
+  reason: ''
+  slot: time_of_day
+  property_ids:
+  - C106
+- condition: at user-specified times
+  kind: user_configuration
+  observation: user-specified times
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C194b
+- condition: based on the specific event
+  kind: user_configuration
+  observation: user-set heating and cooling values
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C188
+- condition: door is closed
+  kind: world_state
+  observation: door closed
+  question: Is the door closed or open?
+  answer: closed
+  variable: is the door closed or open?
+  value: closed
+  world_fact: Is the door closed or open? closed
+  scope: room
+  reason: ''
+  slot: door_status
+  property_ids:
+  - IoTCom-P2
+- condition: entering occurs
+  kind: obligation
+  observation: required alarm state
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C183b
+- condition: fan is on
+  kind: device_state
+  observation: fan switched on
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: device_state
+  property_ids:
+  - IoTCom-P24
+  - IoTCom-P25
+- condition: heater is on
+  kind: device_state
+  observation: heater switched on
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: device_state
+  property_ids:
+  - IoTCom-P22
+- condition: home mode is away
+  kind: home_mode
+  observation: home mode set to away
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - C037
+  - C049a
+  - C049b
+- condition: home mode is vacation
+  kind: home_mode
+  observation: home mode set to vacation
+  question: Is the home in vacation mode?
+  answer: vacation mode
+  variable: is the home in vacation mode?
+  value: vacation mode
+  world_fact: Is the home in vacation mode? vacation mode
+  scope: home
+  reason: ''
+  slot: home_mode
+  property_ids:
+  - C038
+- condition: humidity and temperature values are out of the threshold specified by the user
+  kind: obligation
+  observation: humidity and temperature out of user threshold
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C191
+- condition: humidity and temperature values fall outside the user-specified thresholds
+  kind: user_configuration
+  observation: humidity and temperature values outside user thresholds
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C070
+- condition: humidity exceeds a predefined value
+  kind: user_configuration
+  observation: humidity reading above user threshold
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C116
+- condition: indoor illuminance exceeds 600 lux
+  kind: sensor_reading
+  observation: indoor illuminance exceeds 600 lux
+  question: What is the indoor illuminance level?
+  answer: exceeds 600 lux
+  variable: what is the indoor illuminance level?
+  value: exceeds 600 lux
+  world_fact: What is the indoor illuminance level? exceeds 600 lux
+  scope: room
+  reason: ''
+  slot: daytime_light_general
+  property_ids:
+  - C120
+- condition: indoor illuminance is below 80 lux in daytime
+  kind: sensor_reading
+  observation: indoor illuminance below 80 lux
+  question: What is the indoor illuminance level during the daytime?
+  answer: below 80 lux
+  variable: what is the indoor illuminance level during the daytime?
+  value: below 80 lux
+  world_fact: What is the indoor illuminance level during the daytime? below 80 lux
+  scope: room
+  reason: ''
+  slot: daytime_light
+  property_ids:
+  - C119
+- condition: light level changes
+  kind: sensor_reading
+  observation: light level changes
+  question: What is the current light level in the room?
+  answer: ''
+  variable: what is the current light level in the room?
+  value: ''
+  world_fact: What is the current light level in the room?
+  scope: room
+  reason: ''
+  slot: light_level
+  property_ids:
+  - IoTCom-P6
+- condition: mode is away
+  kind: home_mode
+  observation: home mode set to away
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - IoTCom-P17
+- condition: motion is detected
+  kind: sensor_reading
+  observation: motion detected
+  question: What abnormal or dangerous event is happening in the home?
+  answer: motion present
+  variable: what abnormal or dangerous event is happening in the home?
+  value: motion present
+  world_fact: What abnormal or dangerous event is happening in the home? motion present
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C049a
+  - C049b
+  - C087
+  - IoTCom-P24
+  - IoTCom-P25
+- condition: night mode
+  kind: home_mode
+  observation: home mode set to night
+  question: Is the home in a specific mode?
+  answer: night mode
+  variable: is the home in a specific mode?
+  value: night mode
+  world_fact: Is the home in a specific mode? night mode
+  scope: home
+  reason: ''
+  slot: home_mode
+  property_ids:
+  - C047a
+- condition: no intruder is detected
+  kind: sensor_reading
+  observation: no intruder detected
+  question: Is there an intruder in the home?
+  answer: no intruder
+  variable: is there an intruder in the home?
+  value: no intruder
+  world_fact: Is there an intruder in the home? no intruder
+  scope: home
+  reason: ''
+  slot: intruder
+  property_ids:
+  - C104
+- condition: no one is home
+  kind: world_state
+  observation: user location
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - IoTCom-P18
+  - IoTCom-P5
+- condition: no smoke is detected
+  kind: sensor_reading
+  observation: no smoke detected
+  question: What abnormal or dangerous event is happening in the home?
+  answer: no smoke
+  variable: what abnormal or dangerous event is happening in the home?
+  value: no smoke
+  world_fact: What abnormal or dangerous event is happening in the home? no smoke
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C043
+- condition: nobody is at home
+  kind: world_state
+  observation: user location
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - C066
+  - C107
+  - C117
+- condition: nobody is present
+  kind: world_state
+  observation: user location
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - C085
+  - C113
+- condition: one alarm is turned off
+  kind: obligation
+  observation: alarms turning off
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C194c
+- condition: people are at home
+  kind: world_state
+  observation: user at home
+  question: What are the people in the room doing?
+  answer: people are at home
+  variable: what are the people in the room doing?
+  value: people are at home
+  world_fact: What are the people in the room doing? people are at home
+  scope: home
+  reason: ''
+  slot: room_people_activity
+  property_ids:
+  - IoTSan-T1
+- condition: people leave home
+  kind: world_state
+  observation: people leaving home
+  question: What are the people doing?
+  answer: leaving home
+  variable: what are the people doing?
+  value: leaving home
+  world_fact: What are the people doing? leaving home
+  scope: home
+  reason: ''
+  slot: people_activity
+  property_ids:
+  - C179b
+- condition: smoke is detected
+  kind: sensor_reading
+  observation: smoke detector alarm
+  question: What abnormal or dangerous event is happening in the home?
+  answer: smoke present
+  variable: what abnormal or dangerous event is happening in the home?
+  value: smoke present
+  world_fact: What abnormal or dangerous event is happening in the home? smoke present
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C045
+  - C047a
+  - C047b
+  - C051
+  - C052
+  - C053
+  - C101
+  - IoTCom-P17
+  - IoTCom-P19
+  - IoTCom-P22
+- condition: smoke or CO is detected
+  kind: sensor_reading
+  observation: smoke or CO detected
+  question: What abnormal or dangerous event is happening in the home?
+  answer: smoke or CO present
+  variable: what abnormal or dangerous event is happening in the home?
+  value: smoke or CO present
+  world_fact: What abnormal or dangerous event is happening in the home? smoke or CO present
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C048
+- condition: someone is at home
+  kind: world_state
+  observation: user at home
+  question: Is anyone at home?
+  answer: someone at home
+  variable: is anyone at home?
+  value: someone at home
+  world_fact: Is anyone at home? someone at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - C009
+  - C042
+  - C047b
+  - C065
+- condition: someone is detected
+  kind: obligation
+  observation: required device state
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C150
+  - C159
+- condition: someone is home
+  kind: world_state
+  observation: user presence
+  question: Is anyone at home?
+  answer: someone is home
+  variable: is anyone at home?
+  value: someone is home
+  world_fact: Is anyone at home? someone is home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - IoTCom-P9
+- condition: someone is present
+  kind: world_state
+  observation: user present
+  question: What are the people in the room doing?
+  answer: someone is present
+  variable: what are the people in the room doing?
+  value: someone is present
+  world_fact: What are the people in the room doing? someone is present
+  scope: room
+  reason: ''
+  slot: room_people_activity
+  property_ids:
+  - C114
+- condition: tampering occurs
+  kind: obligation
+  observation: required alarm state
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C183b
+- condition: temperature is low
+  kind: sensor_reading
+  observation: temperature reading is low
+  question: How warm or cold is the room?
+  answer: temperature is low
+  variable: how warm or cold is the room?
+  value: temperature is low
+  world_fact: How warm or cold is the room? temperature is low
+  scope: room
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C159
+  - IoTCom-P7
+- condition: the door is closed
+  kind: device_state
+  observation: door closed
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: device_state
+  property_ids:
+  - C086
+- condition: the door opens
+  kind: sensor_reading
+  observation: door opens
+  question: What abnormal or dangerous event is happening in the home?
+  answer: door opens
+  variable: what abnormal or dangerous event is happening in the home?
+  value: door opens
+  world_fact: What abnormal or dangerous event is happening in the home? door opens
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C007
+- condition: the doors are opening
+  kind: obligation
+  observation: required door state
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C194a
+- condition: the doors are unlocking
+  kind: event
+  observation: doors unlocking
+  question: What is the status of the doors?
+  answer: unlocking
+  variable: what is the status of the doors?
+  value: unlocking
+  world_fact: What is the status of the doors? unlocking
+  scope: home
+  reason: ''
+  slot: door_status_general
+  property_ids:
+  - C194b
+- condition: the home is empty
+  kind: world_state
+  observation: user location
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - C160
+- condition: the home is in away mode
+  kind: home_mode
+  observation: home mode set to away
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - C083a
+  - C083b
+- condition: the home is in sleep mode
+  kind: home_mode
+  observation: home mode set to sleep
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - C082
+- condition: the mode selected by a user is changed
+  kind: obligation
+  observation: required mode change
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C189
+- condition: the moisture sensor detects a leak
+  kind: sensor_reading
+  observation: moisture sensor detects a leak
+  question: What abnormal or dangerous event is happening in the home?
+  answer: leak detected
+  variable: what abnormal or dangerous event is happening in the home?
+  value: leak detected
+  world_fact: What abnormal or dangerous event is happening in the home? leak detected
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C097
+- condition: the motion sensor is active
+  kind: sensor_reading
+  observation: motion sensor active
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C175
+- condition: the smoke is detected
+  kind: sensor_reading
+  observation: smoke detected
+  question: What abnormal or dangerous event is happening in the home?
+  answer: smoke present
+  variable: what abnormal or dangerous event is happening in the home?
+  value: smoke present
+  world_fact: What abnormal or dangerous event is happening in the home? smoke present
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C019
+  - C028
+  - C034
+- condition: the temperature drops below the lower threshold
+  kind: sensor_reading
+  observation: temperature reading below the lower threshold
+  question: How warm or cold is the room?
+  answer: below the lower threshold
+  variable: how warm or cold is the room?
+  value: below the lower threshold
+  world_fact: How warm or cold is the room? below the lower threshold
+  scope: room
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C055
+- condition: the temperature exceeds a predefined value
+  kind: user_configuration
+  observation: predefined temperature threshold exceeded
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C115
+- condition: the temperature is above a threshold
+  kind: sensor_reading
+  observation: temperature reading above the threshold
+  question: How warm or cold is the room?
+  answer: above the threshold
+  variable: how warm or cold is the room?
+  value: above the threshold
+  world_fact: How warm or cold is the room? above the threshold
+  scope: room
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C066
+- condition: the temperature is below a predefined value
+  kind: sensor_reading
+  observation: temperature reading below the predefined threshold
+  question: How warm or cold is the home?
+  answer: below the predefined threshold
+  variable: how warm or cold is the home?
+  value: below the predefined threshold
+  world_fact: How warm or cold is the home? below the predefined threshold
+  scope: home
+  reason: ''
+  slot: how_warm_or_cold_is_the_home
+  property_ids:
+  - C009
+  - C113
+  - C114
+- condition: the temperature is below the threshold
+  kind: sensor_reading
+  observation: temperature reading below the user threshold
+  question: How warm or cold is the room?
+  answer: below the user threshold
+  variable: how warm or cold is the room?
+  value: below the user threshold
+  world_fact: How warm or cold is the room? below the user threshold
+  scope: room
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C056
+- condition: the temperature rises above a predefined value
+  kind: sensor_reading
+  observation: temperature reading above the predefined value
+  question: How warm or cold is the room?
+  answer: above the predefined value
+  variable: how warm or cold is the room?
+  value: above the predefined value
+  world_fact: How warm or cold is the room? above the predefined value
+  scope: room
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C014
+- condition: the temperature rises above the threshold
+  kind: sensor_reading
+  observation: temperature reading above the threshold
+  question: How warm or cold is the room?
+  answer: above the threshold
+  variable: how warm or cold is the room?
+  value: above the threshold
+  world_fact: How warm or cold is the room? above the threshold
+  scope: room
+  reason: ''
+  slot: temperature
+  property_ids:
+  - C054
+- condition: the user arrives home
+  kind: world_state
+  observation: user arrives home
+  question: What are the people doing?
+  answer: user arrives home
+  variable: what are the people doing?
+  value: user arrives home
+  world_fact: What are the people doing? user arrives home
+  scope: home
+  reason: ''
+  slot: people_activity
+  property_ids:
+  - C003
+  - C102
+- condition: the user is not at home
+  kind: world_state
+  observation: user location
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - C005
+  - C006
+  - C007
+  - C008
+  - C012
+  - C095
+- condition: the user is not nearby-home
+  kind: world_state
+  observation: user not nearby-home
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - C005
+  - C006
+  - C007
+  - C008
+  - C012
+- condition: the user is not present
+  kind: world_state
+  observation: user not present
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - C099
+  - C100
+- condition: the user-specified water level threshold is reached
+  kind: user_configuration
+  observation: user-specified water level threshold reached
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: user_configuration
+  property_ids:
+  - C069
+- condition: the water sensor is wet
+  kind: sensor_reading
+  observation: water sensor wet
+  question: What is the state of the water sensor?
+  answer: wet
+  variable: what is the state of the water sensor?
+  value: wet
+  world_fact: What is the state of the water sensor? wet
+  scope: home
+  reason: ''
+  slot: sensor_status
+  property_ids:
+  - C069
+- condition: the water/moisture sensor detects a leak
+  kind: sensor_reading
+  observation: water/moisture sensor detects a leak
+  question: What abnormal or dangerous event is happening in the home?
+  answer: leak detected
+  variable: what abnormal or dangerous event is happening in the home?
+  value: leak detected
+  world_fact: What abnormal or dangerous event is happening in the home? leak detected
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C043
+- condition: the windows are opening
+  kind: obligation
+  observation: required action by security camera
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C194a
+- condition: there is CO
+  kind: sensor_reading
+  observation: CO detector alarm
+  question: What abnormal or dangerous event is happening in the home?
+  answer: CO present
+  variable: what abnormal or dangerous event is happening in the home?
+  value: CO present
+  world_fact: What abnormal or dangerous event is happening in the home? CO present
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C183a
+- condition: there is motion
+  kind: sensor_reading
+  observation: motion detected
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: no_variable_given
+  property_ids:
+  - C118
+- condition: there is smoke
+  kind: sensor_reading
+  observation: smoke present
+  question: What abnormal or dangerous event is happening in the home?
+  answer: smoke present
+  variable: what abnormal or dangerous event is happening in the home?
+  value: smoke present
+  world_fact: What abnormal or dangerous event is happening in the home? smoke present
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C183a
+- condition: there is water leakage
+  kind: sensor_reading
+  observation: water leakage detected
+  question: What abnormal or dangerous event is happening in the home?
+  answer: water leakage present
+  variable: what abnormal or dangerous event is happening in the home?
+  value: water leakage present
+  world_fact: What abnormal or dangerous event is happening in the home? water leakage present
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C046
+- condition: user is not at home
+  kind: world_state
+  observation: user location
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: is anyone at home?
+  value: nobody at home
+  world_fact: Is anyone at home? nobody at home
+  scope: home
+  reason: ''
+  slot: people_at_home
+  property_ids:
+  - C186a
+- condition: water/moisture sensor detects leak around a location such as basement
+  kind: sensor_reading
+  observation: water/moisture sensor detects leak
+  question: What abnormal or dangerous event is happening in the home?
+  answer: leak detected
+  variable: what abnormal or dangerous event is happening in the home?
+  value: leak detected
+  world_fact: What abnormal or dangerous event is happening in the home? leak detected
+  scope: home
+  reason: ''
+  slot: abnormal_events
+  property_ids:
+  - C203
+- condition: water/moisture sensor detects leak around a location such as laundry room
+  kind: sensor_reading
+  observation: water/moisture sensor detects leak
+  question: What abnormal or dangerous event is happening in the laundry room?
+  answer: leak present
+  variable: what abnormal or dangerous event is happening in the laundry room?
+  value: leak present
+  world_fact: What abnormal or dangerous event is happening in the laundry room? leak present
+  scope: room
+  reason: ''
+  slot: specific_room_events
+  property_ids:
+  - C203
+- condition: when the user is not at home
+  kind: obligation
+  observation: required security system state
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C182
+  - C185
+- condition: when the user is sleeping
+  kind: obligation
+  observation: required device state
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C185
+- condition: when the water level threshold specified by a user is reached
+  kind: obligation
+  observation: water level threshold reached
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C184
+- condition: when there is smoke
+  kind: obligation
+  observation: alarm must go off
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - Soteria-P10
+- condition: when water sensor is wet
+  kind: obligation
+  observation: valve state
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  reason: ''
+  slot: obligation
+  property_ids:
+  - C184

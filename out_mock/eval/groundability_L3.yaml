@@ -1,0 +1,19 @@
+layout: L3
+entries: 44
+groundable: 31
+ratio: 0.705
+invalid_rules_dropped: 0
+ungroundable:
+- zone_occupant@garage
+- zone_occupant@laundry
+- indoor_air@grandma_room
+- indoor_air@kitchen
+- indoor_air@hallway
+- indoor_air@entrance
+- indoor_air@garage
+- indoor_air@laundry
+- indoor_thermal@hallway
+- indoor_thermal@bathroom
+- indoor_thermal@entrance
+- indoor_thermal@garage
+- indoor_thermal@laundry

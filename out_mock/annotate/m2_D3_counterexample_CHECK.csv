@@ -1,0 +1,2 @@
+claim,effect,asset,pattern,claimed_label,narrative,expected_label,judge_label,missing_attribute,dimension,HUMAN_real_counterexample(1/0),HUMAN_dimension_ok(1/0),note
+148,sound:increase,comfort,"{'zone_occupant': ['empty', 'awake']}",0,someone is watching a movie in the living room,-,-,watching a movie,zone_occupant,,,

@@ -1,0 +1,7 @@
+rebuilt_pairs: 6
+kept_bindings: 22
+new_bindings: 1
+llm_calls:
+  relevance_calls: 6
+  region_calls: 3
+  point_calls: 21

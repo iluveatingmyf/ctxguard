@@ -1,0 +1,2865 @@
+- unit: C003|the user arrives home
+  property_id: C003
+  property_ids:
+  - C003
+  condition: the user arrives home
+  assets:
+  - comfort
+  kind: world_state
+  observation: user arrives home
+  reason: To greet the user and provide easy access to the garage for convenience and comfort.
+  latent_fact: user arrives home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: What is the user doing?
+  answer: arrives home
+  variable: home|user_arrives_home
+  value: arrives home
+  world_fact: user arrives home
+  scope: home
+  slot: home_occupancy_status
+- unit: C005|the user is not at home
+  property_id: C005
+  property_ids:
+  - C005
+  condition: the user is not at home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: Prevent unauthorized access.
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C005|the user is not nearby-home
+  property_id: C005
+  property_ids:
+  - C005
+  condition: the user is not nearby-home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: Prevent unauthorized access when no one is around.
+  latent_fact: user not nearby-home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home or nearby?
+  answer: nobody nearby
+  variable: home|user_not_nearby_home
+  value: nobody nearby
+  world_fact: user not nearby-home
+  scope: home
+  slot: home_occupancy_status
+- unit: C006|the user is not at home
+  property_id: C006
+  property_ids:
+  - C006
+  condition: the user is not at home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: The camera can monitor the home when the user is away.
+  latent_fact: the user is not at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|the_user_is_not_at_home
+  value: nobody at home
+  world_fact: the user is not at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C006|the user is not nearby-home
+  property_id: C006
+  property_ids:
+  - C006
+  condition: the user is not nearby-home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: Reduce unnecessary camera activity when user is away.
+  latent_fact: user is not at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|user_is_not_at_home
+  value: nobody at home
+  world_fact: user is not at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C007|the door opens while the user is not at home
+  property_id: C007
+  property_ids:
+  - C007
+  condition: the door opens while the user is not at home
+  assets:
+  - security
+  kind: sensor_reading
+  observation: door opens
+  reason: Unauthorised access could compromise security.
+  latent_fact: user is not at home
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|user_is_not_at_home
+  value: nobody at home
+  world_fact: user is not at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C007|the door opens while the user is not nearby-home
+  property_id: C007
+  property_ids:
+  - C007
+  condition: the door opens while the user is not nearby-home
+  assets:
+  - security
+  kind: sensor_reading
+  observation: door opens
+  reason: Unattended access could allow intruders.
+  latent_fact: user is not at home
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is the user present in the home?
+  answer: 'no'
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C008|the user is not at home
+  property_id: C008
+  property_ids:
+  - C008
+  condition: the user is not at home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: Prevents unauthorized access.
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C008|the user is not nearby-home
+  property_id: C008
+  property_ids:
+  - C008
+  condition: the user is not nearby-home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: To prevent unauthorized access.
+  latent_fact: user not nearby-home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home or nearby?
+  answer: nobody nearby
+  variable: home|user_not_nearby_home
+  value: nobody nearby
+  world_fact: user not nearby-home
+  scope: home
+  slot: home_occupancy_status
+- unit: C009|the temperature is below a predefined value
+  property_id: C009
+  property_ids:
+  - C009
+  condition: the temperature is below a predefined value
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: temperature reading below the user threshold
+  reason: To maintain comfort by heating the home.
+  latent_fact: The temperature is below the user threshold
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: How warm or cold is the room?
+  answer: below the user threshold
+  variable: home|the_temperature_is_below_the_user_threshold
+  value: below the user threshold
+  world_fact: The temperature is below the user threshold
+  scope: home
+  slot: home_temperature_setting
+- unit: C009|someone is at home
+  property_id: C009
+  property_ids:
+  - C009
+  condition: someone is at home
+  assets:
+  - comfort
+  kind: world_state
+  observation: user location
+  reason: To ensure comfort by providing warmth when needed.
+  latent_fact: Is anyone at home?
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|is_anyone_at_home
+  value: nobody at home
+  world_fact: Is anyone at home?
+  scope: home
+  slot: home_occupancy_status
+- unit: C012|the user is not at home
+  property_id: C012
+  property_ids:
+  - C012
+  condition: the user is not at home
+  assets:
+  - comfort
+  kind: world_state
+  observation: user location
+  reason: To save energy and reduce utility costs.
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C012|the user is not nearby-home
+  property_id: C012
+  property_ids:
+  - C012
+  condition: the user is not nearby-home
+  assets:
+  - comfort
+  kind: world_state
+  observation: user location
+  reason: To save energy and prevent unnecessary cooling when no one is around to enjoy it.
+  latent_fact: user not at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|user_not_at_home
+  value: nobody at home
+  world_fact: user not at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C014|the temperature rises above a predefined value
+  property_id: C014
+  property_ids:
+  - C014
+  condition: the temperature rises above a predefined value
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: temperature reading above the predefined value
+  reason: To prevent overheating and ensure comfort.
+  latent_fact: The temperature is too high.
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: What is the current temperature in the room?
+  answer: too high
+  variable: room|the_temperature_is_too_high
+  value: too high
+  world_fact: The temperature is too high.
+  scope: room
+  slot: zone_temperature_level
+- unit: C019|the smoke is detected
+  property_id: C019
+  property_ids:
+  - C019
+  condition: the smoke is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To alert occupants of potential danger and ensure their safety.
+  latent_fact: smoke present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: What abnormal or dangerous event is happening in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C020|CO is detected
+  property_id: C020
+  property_ids:
+  - C020
+  condition: CO is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: CO detector alarm
+  reason: To prevent inhalation of harmful levels of carbon monoxide which can lead to health issues.
+  latent_fact: CO levels are dangerously high
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: What dangerous gas levels are present in the home?
+  answer: dangerously high CO levels
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C022|CO2 is greater than a predefined value
+  property_id: C022
+  property_ids:
+  - C022
+  condition: CO2 is greater than a predefined value
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: CO2 level exceeds predefined threshold
+  reason: To improve air quality and reduce the risk of CO2-induced health issues.
+  latent_fact: CO2 level exceeds predefined threshold
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: What is the CO2 level in the home?
+  answer: exceeds predefined threshold
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C025|CO is detected
+  property_id: C025
+  property_ids:
+  - C025
+  condition: CO is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: CO detector alarm
+  reason: To prevent carbon monoxide poisoning.
+  latent_fact: CO is present
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is carbon monoxide present in the home?
+  answer: present
+  variable: home|co_is_present
+  value: present
+  world_fact: CO is present
+  scope: home
+  slot: home_co_presence
+- unit: C026|CO is detected
+  property_id: C026
+  property_ids:
+  - C026
+  condition: CO is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: CO detector alarm
+  reason: To prevent carbon monoxide poisoning.
+  latent_fact: CO is present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: What dangerous gas is detected?
+  answer: CO present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C027|CO is detected
+  property_id: C027
+  property_ids:
+  - C027
+  condition: CO is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: CO detector alarm
+  reason: To prevent inhalation of carbon monoxide, which can lead to health issues or death.
+  latent_fact: CO is present in the home
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: What dangerous gases are present in the home?
+  answer: CO present
+  variable: home|co_is_present_in_the_home
+  value: CO present
+  world_fact: CO is present in the home
+  scope: home
+  slot: home_co_presence
+- unit: C028|the smoke is detected
+  property_id: C028
+  property_ids:
+  - C028
+  condition: the smoke is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To prevent a fire from spreading and endangering life.
+  latent_fact: smoke present
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: What abnormal or dangerous event is happening in the home?
+  answer: smoke present
+  variable: home|smoke_present
+  value: smoke present
+  world_fact: smoke present
+  scope: home
+  slot: home_smoke_presence
+- unit: C032|CO2 is greater than a predefined value
+  property_id: C032
+  property_ids:
+  - C032
+  condition: CO2 is greater than a predefined value
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: CO2 level exceeds predefined threshold
+  reason: High CO2 levels reduce air quality, harming comfort.
+  latent_fact: CO2 level exceeds predefined threshold
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: What is the CO2 level in the room?
+  answer: above threshold
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: C034|the smoke is detected
+  property_id: C034
+  property_ids:
+  - C034
+  condition: the smoke is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To allow smoke to escape and improve air quality.
+  latent_fact: Smoke is present in the home.
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: What abnormal or dangerous event is happening in the home?
+  answer: smoke present
+  variable: home|smoke_is_present_in_the_home
+  value: smoke present
+  world_fact: Smoke is present in the home.
+  scope: home
+  slot: home_smoke_presence
+- unit: C035|CO is detected
+  property_id: C035
+  property_ids:
+  - C035
+  condition: CO is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: CO detector alarm
+  reason: Opening the window will disperse CO, reducing the risk of poisoning.
+  latent_fact: CO is present
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is carbon monoxide present in the home?
+  answer: CO present
+  variable: home|co_is_present
+  value: CO present
+  world_fact: CO is present
+  scope: home
+  slot: home_co_presence
+- unit: C037|home mode is away
+  property_id: C037
+  property_ids:
+  - C037
+  condition: home mode is away
+  assets:
+  - security
+  kind: home_mode
+  observation: home mode set to away
+  reason: To prevent intruders from entering the home.
+  latent_fact: home is unoccupied
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C038|home mode is vacation
+  property_id: C038
+  property_ids:
+  - C038
+  condition: home mode is vacation
+  assets:
+  - comfort
+  kind: home_mode
+  observation: home mode set to vacation
+  reason: To ensure the home appears occupied and maintain a comfortable environment during absence.
+  latent_fact: home is in vacation mode
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: What is the current mode of the home system?
+  answer: vacation
+  variable: home|home_is_in_vacation_mode
+  value: vacation
+  world_fact: home is in vacation mode
+  scope: home
+  slot: home_mode
+- unit: C041|air quality drops below a threshold
+  property_id: C041
+  property_ids:
+  - C041
+  condition: air quality drops below a threshold
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: air quality reading below the threshold
+  reason: To maintain safe air quality levels for life health.
+  latent_fact: air quality reading below the threshold
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: What is the air quality in the home?
+  answer: below the threshold
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C042|someone is at home
+  property_id: C042
+  property_ids:
+  - C042
+  condition: someone is at home
+  assets:
+  - comfort
+  kind: world_state
+  observation: user at home
+  reason: High temperature can make the home uncomfortable for people present.
+  latent_fact: someone is at home
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: 'yes'
+  variable: home|someone_is_at_home
+  value: 'yes'
+  world_fact: someone is at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C043|the water/moisture sensor detects a leak
+  property_id: C043
+  property_ids:
+  - C043
+  condition: the water/moisture sensor detects a leak
+  assets:
+  - property
+  - life_health
+  kind: sensor_reading
+  observation: water/moisture sensor detects a leak
+  reason: To prevent water damage and ensure property safety.
+  latent_fact: There is a leak in the home.
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there a water leak in the home?
+  answer: 'yes'
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C043|no smoke is detected
+  property_id: C043
+  property_ids:
+  - C043
+  condition: no smoke is detected
+  assets:
+  - property
+  - life_health
+  kind: sensor_reading
+  observation: no smoke detected
+  reason: To prevent a fire from starting due to a water leak, which could be dangerous and lead to property damage or harm
+    to life health.
+  latent_fact: there is no fire
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is the home safe from fire?
+  answer: safe
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C044|smoke is detected
+  property_id: C044
+  property_ids:
+  - C044
+  condition: smoke is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To alert the owner of potential danger.
+  latent_fact: smoke is present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there a fire or smoke present in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C045|smoke is detected
+  property_id: C045
+  property_ids:
+  - C045
+  condition: smoke is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To prevent fire and protect life health.
+  latent_fact: smoke is present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: What abnormal or dangerous event is happening in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C046|there is water leakage
+  property_id: C046
+  property_ids:
+  - C046
+  condition: there is water leakage
+  assets:
+  - property
+  - security
+  kind: sensor_reading
+  observation: water leakage detected
+  reason: Water leakage poses a security risk by potentially causing damage and is a threat to the property's integrity.
+  latent_fact: Water leakage is present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there an abnormal water presence in the home?
+  answer: 'Yes'
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C047a|smoke is detected
+  property_id: C047a
+  property_ids:
+  - C047a
+  condition: smoke is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To alert occupants and improve visibility in case of smoke
+  latent_fact: smoke is present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there an abnormal or dangerous event happening in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C047a|in night mode
+  property_id: C047a
+  property_ids:
+  - C047a
+  condition: in night mode
+  assets:
+  - life_health
+  kind: home_mode
+  observation: home mode set to night
+  reason: To alert occupants to potential danger in a timely manner.
+  latent_fact: home mode set to night
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is the home in night mode?
+  answer: night
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C047b|smoke is detected
+  property_id: C047b
+  property_ids:
+  - C047b
+  condition: smoke is detected
+  assets:
+  - security
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To allow quick exit in case of fire.
+  latent_fact: smoke is present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: What abnormal or dangerous event is happening in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C047b|someone is at home
+  property_id: C047b
+  property_ids:
+  - C047b
+  condition: someone is at home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: If someone is at home, they need to be able to leave quickly in case of smoke.
+  latent_fact: someone is at home
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|someone_is_at_home
+  value: nobody at home
+  world_fact: someone is at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C048|smoke or CO is detected
+  property_id: C048
+  property_ids:
+  - C048
+  condition: smoke or CO is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: smoke or CO detector alarm
+  reason: To alert occupants to an immediate danger and allow them to evacuate safely.
+  latent_fact: abnormal gas or smoke present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: What abnormal or dangerous event is happening in the home?
+  answer: abnormal gas or smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C049a|motion is detected
+  property_id: C049a
+  property_ids:
+  - C049a
+  condition: motion is detected
+  assets:
+  - security
+  kind: sensor_reading
+  observation: motion detected
+  reason: To alert the home that an intruder might be present.
+  latent_fact: the home is unoccupied
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is the home occupied or unoccupied?
+  answer: unoccupied
+  variable: home|the_home_is_unoccupied
+  value: unoccupied
+  world_fact: the home is unoccupied
+  scope: home
+  slot: home_occupancy_status
+- unit: C049a|home mode is away
+  property_id: C049a
+  property_ids:
+  - C049a
+  condition: home mode is away
+  assets:
+  - security
+  kind: home_mode
+  observation: home mode set to away
+  reason: When home is away, security risk increases.
+  latent_fact: The home is unoccupied and vulnerable.
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is the home occupied?
+  answer: unoccupied
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C049b|motion is detected
+  property_id: C049b
+  property_ids:
+  - C049b
+  condition: motion is detected
+  assets:
+  - security
+  kind: sensor_reading
+  observation: motion detected
+  reason: To alert the user about potential intruders.
+  latent_fact: There is activity in the home when no one is expected to be there.
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there unexpected activity in the home?
+  answer: unexpected activity
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C049b|home mode is away
+  property_id: C049b
+  property_ids:
+  - C049b
+  condition: home mode is away
+  assets:
+  - security
+  kind: home_mode
+  observation: home mode set to away
+  reason: To alert the user of potential intruders while they are away.
+  latent_fact: home mode set to away
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is the home set to away mode?
+  answer: away
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C050|smoke is detected
+  property_id: C050
+  property_ids:
+  - C050
+  condition: smoke is detected
+  assets:
+  - property
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To prevent a fire from spreading and damaging the property, as well as to protect life health by suppressing smoke
+    and flames.
+  latent_fact: fire hazard present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: What abnormal or dangerous event is happening in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C051|smoke is detected
+  property_id: C051
+  property_ids:
+  - C051
+  condition: smoke is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To prevent a fire and protect life health.
+  latent_fact: smoke present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there a fire hazard in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C052|smoke is detected
+  property_id: C052
+  property_ids:
+  - C052
+  condition: smoke is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To prevent a fire from spreading and ensure safety.
+  latent_fact: There is smoke in the home.
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is there a fire or smoke in the home?
+  answer: 'Yes'
+  variable: home|there_is_smoke_in_the_home
+  value: 'Yes'
+  world_fact: There is smoke in the home.
+  scope: home
+  slot: home_smoke_presence
+- unit: C053|smoke is detected
+  property_id: C053
+  property_ids:
+  - C053
+  condition: smoke is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To prevent inhalation of smoke and ensure air quality
+  latent_fact: smoke present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there an abnormal or dangerous event happening in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C054|the temperature rises above the threshold
+  property_id: C054
+  property_ids:
+  - C054
+  condition: the temperature rises above the threshold
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: temperature reading above the user threshold
+  reason: To maintain a comfortable temperature in the room.
+  latent_fact: the temperature is above the user threshold
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: How warm or cold is the room?
+  answer: above the user threshold
+  variable: room|the_temperature_is_above_the_user_threshold
+  value: above the user threshold
+  world_fact: the temperature is above the user threshold
+  scope: room
+  slot: zone_temperature_level
+- unit: C055|the temperature drops below the lower threshold
+  property_id: C055
+  property_ids:
+  - C055
+  condition: the temperature drops below the lower threshold
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: temperature reading below the lower threshold
+  reason: To maintain comfort by providing warmth.
+  latent_fact: temperature below the lower comfort threshold
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: What is the current temperature in the room?
+  answer: below the lower comfort threshold
+  variable: room|temperature_below_the_lower_comfort_threshold
+  value: below the lower comfort threshold
+  world_fact: temperature below the lower comfort threshold
+  scope: room
+  slot: zone_temperature_level
+- unit: C056|the temperature is below the threshold
+  property_id: C056
+  property_ids:
+  - C056
+  condition: the temperature is below the threshold
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: temperature reading below the user threshold
+  reason: To maintain comfort by providing warmth.
+  latent_fact: temperature reading below the user threshold
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: How warm or cold is the room?
+  answer: below the user threshold
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: C060|air quality drops below a threshold
+  property_id: C060
+  property_ids:
+  - C060
+  condition: air quality drops below a threshold
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: air quality reading below the threshold
+  reason: To maintain healthy air for breathing.
+  latent_fact: air quality reading below the threshold
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: What is the current air quality like?
+  answer: poor
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C065|someone is at home
+  property_id: C065
+  property_ids:
+  - C065
+  condition: someone is at home
+  assets:
+  - comfort
+  kind: world_state
+  observation: user at home
+  reason: To ensure the occupants are comfortable.
+  latent_fact: Is anyone at home?
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|is_anyone_at_home
+  value: nobody at home
+  world_fact: Is anyone at home?
+  scope: home
+  slot: home_occupancy_status
+- unit: C066|the temperature is above a threshold
+  property_id: C066
+  property_ids:
+  - C066
+  condition: the temperature is above a threshold
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: temperature reading above the threshold
+  reason: Without a person at home, turning off the heater would save energy and maintain an uncomfortable temperature.
+  latent_fact: nobody is at home
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_is_at_home
+  value: nobody at home
+  world_fact: nobody is at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C066|nobody is at home
+  property_id: C066
+  property_ids:
+  - C066
+  condition: nobody is at home
+  assets:
+  - comfort
+  kind: world_state
+  observation: user location
+  reason: To prevent unnecessary heating and save energy.
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C069|the water sensor is wet
+  property_id: C069
+  property_ids:
+  - C069
+  condition: the water sensor is wet
+  assets:
+  - property
+  - resource
+  kind: sensor_reading
+  observation: water sensor is wet
+  reason: To prevent water damage and conserve water resources.
+  latent_fact: water leak is present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there a water leak in the home?
+  answer: 'yes'
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C069|the user-specified water level threshold is reached
+  property_id: C069
+  property_ids:
+  - C069
+  condition: the user-specified water level threshold is reached
+  assets:
+  - property
+  - resource
+  kind: user_configuration
+  observation: user-set water level threshold reached
+  reason: To prevent water damage and conserve water resources.
+  latent_fact: water level is at the user threshold
+  counterfactual_still_right: true
+  lift_status: no_fact
+  question: What is the current water level in the home?
+  answer: at the user threshold
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: user_configuration
+- unit: C070|humidity and temperature values fall outside the user-specified thresholds
+  property_id: C070
+  property_ids:
+  - C070
+  condition: humidity and temperature values fall outside the user-specified thresholds
+  assets:
+  - comfort
+  kind: user_configuration
+  observation: humidity and temperature readings outside user thresholds
+  reason: To ensure the occupants are comfortable.
+  latent_fact: humidity and temperature outside user-specified thresholds
+  counterfactual_still_right: false
+  lift_status: no_fact
+  question: What are the current humidity and temperature conditions in the room?
+  answer: outside user thresholds
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: user_configuration
+- unit: C082|the home is in sleep mode
+  property_id: C082
+  property_ids:
+  - C082
+  condition: the home is in sleep mode
+  assets:
+  - comfort
+  kind: home_mode
+  observation: home mode set to sleep
+  reason: To ensure the home is energy-efficient and quiet.
+  latent_fact: home mode set to sleep
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: What mode is the home system set to?
+  answer: sleep
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C083a|the home is in away mode
+  property_id: C083a
+  property_ids:
+  - C083a
+  condition: the home is in away mode
+  assets:
+  - security
+  kind: home_mode
+  observation: home mode set to away
+  reason: To prevent unauthorized access.
+  latent_fact: home mode set to away
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is the home system in a security-optimized state?
+  answer: away mode
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C083b|the home is in away mode
+  property_id: C083b
+  property_ids:
+  - C083b
+  condition: the home is in away mode
+  assets:
+  - security
+  kind: home_mode
+  observation: home mode set to away
+  reason: To prevent unauthorized access.
+  latent_fact: home mode set to away
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is the home system in a security-optimized mode?
+  answer: away mode
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C085|nobody is present
+  property_id: C085
+  property_ids:
+  - C085
+  condition: nobody is present
+  assets:
+  - life_health
+  - property
+  kind: world_state
+  observation: nobody at home
+  reason: Prevent property damage and ensure safety.
+  latent_fact: nobody at home
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C086|the door is closed
+  property_id: C086
+  property_ids:
+  - C086
+  condition: the door is closed
+  assets:
+  - security
+  kind: sensor_reading
+  observation: door closed
+  reason: To prevent unnecessary alerts and maintain security by minimizing noise.
+  latent_fact: door state
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is the door open or closed?
+  answer: closed
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C087|motion is detected
+  property_id: C087
+  property_ids:
+  - C087
+  condition: motion is detected
+  assets:
+  - security
+  kind: sensor_reading
+  observation: motion detected
+  reason: Activating the siren deters intruders and alerts nearby individuals, enhancing security.
+  latent_fact: motion is detected
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is motion being sensed in the home?
+  answer: motion detected
+  variable: home|motion_is_detected
+  value: motion detected
+  world_fact: motion is detected
+  scope: home
+  slot: home_motion_detection
+- unit: C094|smoke is detected
+  property_id: C094
+  property_ids:
+  - C094
+  condition: smoke is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To prevent flooding that could obscure or damage smoke detectors or hinder emergency response.
+  latent_fact: smoke is present
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is there a fire or smoke event happening in the home?
+  answer: smoke present
+  variable: home|smoke_is_present
+  value: smoke present
+  world_fact: smoke is present
+  scope: home
+  slot: home_smoke_presence
+- unit: C095|the user is not at home
+  property_id: C095
+  property_ids:
+  - C095
+  condition: the user is not at home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: To prevent unauthorized access.
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C097|the moisture sensor detects a leak
+  property_id: C097
+  property_ids:
+  - C097
+  condition: the moisture sensor detects a leak
+  assets:
+  - property
+  kind: sensor_reading
+  observation: moisture sensor detects a leak
+  reason: To prevent water damage to the property.
+  latent_fact: there is a leak
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is there a water leak in the home?
+  answer: 'yes'
+  variable: home|there_is_a_leak
+  value: 'yes'
+  world_fact: there is a leak
+  scope: home
+  slot: home_water_damage_risk
+- unit: C099|the user is not present
+  property_id: C099
+  property_ids:
+  - C099
+  condition: the user is not present
+  assets:
+  - privacy
+  kind: world_state
+  observation: user not present
+  reason: Prevent unauthorized access to the coffee machine.
+  latent_fact: user not present
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|user_not_present
+  value: nobody at home
+  world_fact: user not present
+  scope: home
+  slot: home_occupancy_status
+- unit: C100|the user is not present
+  property_id: C100
+  property_ids:
+  - C100
+  condition: the user is not present
+  assets:
+  - comfort
+  kind: world_state
+  observation: user not present
+  reason: To prevent unnecessary heating and ensure energy efficiency.
+  latent_fact: user not present
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone in the room?
+  answer: nobody in the room
+  variable: room|user_not_present
+  value: nobody in the room
+  world_fact: user not present
+  scope: room
+  slot: zone_user_presence
+- unit: C101|smoke is detected
+  property_id: C101
+  property_ids:
+  - C101
+  condition: smoke is detected
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To alert occupants to potential danger and prevent inhalation of smoke.
+  latent_fact: smoke present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there a fire or dangerous smoke in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C102|the user arrives home
+  property_id: C102
+  property_ids:
+  - C102
+  condition: the user arrives home
+  assets:
+  - comfort
+  kind: world_state
+  observation: user arrives home
+  reason: To ensure the user has easy access to the garage for entry and storage.
+  latent_fact: user location
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Where is the user?
+  answer: at home
+  variable: person|user_location
+  value: at home
+  world_fact: user location
+  scope: person
+  slot: person_user_location
+- unit: C104|no intruder is detected
+  property_id: C104
+  property_ids:
+  - C104
+  condition: no intruder is detected
+  assets:
+  - security
+  kind: sensor_reading
+  observation: no intruder detected
+  reason: to prevent unnecessary alarms and ensure security.
+  latent_fact: no intruders present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Are any intruders present in the home?
+  answer: no intruders present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C105|an intruder is detected
+  property_id: C105
+  property_ids:
+  - C105
+  condition: an intruder is detected
+  assets:
+  - security
+  kind: sensor_reading
+  observation: intruder detection
+  reason: activating siren deters intruders and alerts neighbors.
+  latent_fact: intruder is present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there an intruder in the home?
+  answer: intruder present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C107|nobody is at home
+  property_id: C107
+  property_ids:
+  - C107
+  condition: nobody is at home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: Prevent unauthorized access to the home.
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C111|CO exceeds a predefined level
+  property_id: C111
+  property_ids:
+  - C111
+  condition: CO exceeds a predefined level
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: CO level exceeds the threshold
+  reason: High CO levels can be deadly.
+  latent_fact: CO level exceeds the threshold
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: What harmful gas level is present in the home?
+  answer: CO level too high
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C112|CO exceeds a predefined level
+  property_id: C112
+  property_ids:
+  - C112
+  condition: CO exceeds a predefined level
+  assets:
+  - life_health
+  kind: sensor_reading
+  observation: CO level exceeds the threshold
+  reason: Exposure to high CO levels can harm health.
+  latent_fact: CO level exceeds the threshold
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: What is the CO level in the home?
+  answer: exceeds the threshold
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C113|the temperature is below a predefined value
+  property_id: C113
+  property_ids:
+  - C113
+  condition: the temperature is below a predefined value
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: temperature reading below the user threshold
+  reason: The heater would not provide additional comfort.
+  latent_fact: the temperature is below the user's comfort threshold
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: What is the desired temperature for comfort in the room?
+  answer: below the user's comfort threshold
+  variable: room|the_temperature_is_below_the_user_s_comfort_threshold
+  value: below the user's comfort threshold
+  world_fact: the temperature is below the user's comfort threshold
+  scope: room
+  slot: zone_temperature_level
+- unit: C113|nobody is present
+  property_id: C113
+  property_ids:
+  - C113
+  condition: nobody is present
+  assets:
+  - comfort
+  kind: world_state
+  observation: user location
+  reason: Without users, heating is unnecessary for comfort.
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C114|the temperature is below a predefined value
+  property_id: C114
+  property_ids:
+  - C114
+  condition: the temperature is below a predefined value
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: temperature reading below the user threshold
+  reason: To ensure the occupants remain comfortable by providing heat.
+  latent_fact: the temperature is below the user threshold
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: How warm or cold is the room?
+  answer: below the user threshold
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: C114|someone is present
+  property_id: C114
+  property_ids:
+  - C114
+  condition: someone is present
+  assets:
+  - comfort
+  kind: world_state
+  observation: user present
+  reason: To ensure the user feels comfortable in the room.
+  latent_fact: someone is present
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is anyone in the room?
+  answer: 'yes'
+  variable: room|someone_is_present
+  value: 'yes'
+  world_fact: someone is present
+  scope: room
+  slot: zone_user_presence
+- unit: C115|the temperature exceeds a predefined value
+  property_id: C115
+  property_ids:
+  - C115
+  condition: the temperature exceeds a predefined value
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: temperature reading above the predefined threshold
+  reason: Turning on the heater would make the room uncomfortably hot.
+  latent_fact: temperature reading above the predefined threshold
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: What is the temperature in the room?
+  answer: above the predefined threshold
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: C116|humidity exceeds a predefined value
+  property_id: C116
+  property_ids:
+  - C116
+  condition: humidity exceeds a predefined value
+  assets:
+  - property
+  kind: sensor_reading
+  observation: humidity reading above the predefined threshold
+  reason: To prevent damage to property due to excessive humidity.
+  latent_fact: humidity reading above the predefined threshold
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: What is the current humidity level in the home?
+  answer: above the predefined threshold
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C117|nobody is at home
+  property_id: C117
+  property_ids:
+  - C117
+  condition: nobody is at home
+  assets:
+  - life_health
+  kind: world_state
+  observation: user location
+  reason: To prevent accidents and ensure safety.
+  latent_fact: nobody at home
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C118|there is motion
+  property_id: C118
+  property_ids:
+  - C118
+  condition: there is motion
+  assets:
+  - security
+  kind: sensor_reading
+  observation: motion detected
+  reason: Turning on the security camera deters potential intruders and captures evidence if an intrusion occurs.
+  latent_fact: motion detected
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there movement in the area being monitored by the security camera?
+  answer: motion present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C119|indoor illuminance is below 80 lux
+  property_id: C119
+  property_ids:
+  - C119
+  condition: indoor illuminance is below 80 lux
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: indoor illuminance below 80 lux
+  reason: Low light in the daytime reduces comfort.
+  latent_fact: time of day is daytime
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: What is the time of day?
+  answer: daytime
+  variable: room|time_of_day_is_daytime
+  value: daytime
+  world_fact: time of day is daytime
+  scope: room
+  slot: zone_time_of_day
+- unit: C119|it is daytime
+  property_id: C119
+  property_ids:
+  - C119
+  condition: it is daytime
+  assets:
+  - comfort
+  kind: world_state
+  observation: daytime
+  reason: Low light in the daytime can cause discomfort.
+  latent_fact: it is daytime
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: What time of day is it?
+  answer: daytime
+  variable: room|it_is_daytime
+  value: daytime
+  world_fact: it is daytime
+  scope: room
+  slot: zone_time_of_day
+- unit: C120|indoor illuminance exceeds 600 lux
+  property_id: C120
+  property_ids:
+  - C120
+  condition: indoor illuminance exceeds 600 lux
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: indoor illuminance exceeds 600 lux
+  reason: Excessive light may disturb users, reducing comfort.
+  latent_fact: indoor illuminance is high
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is the indoor light level high?
+  answer: 'yes'
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: C139|Motion detected
+  property_id: C139
+  property_ids:
+  - C139
+  condition: Motion detected
+  assets:
+  - security
+  kind: sensor_reading
+  observation: motion detected
+  reason: To alert of potential intruders and deter them.
+  latent_fact: motion in the home indicates potential intruders
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there motion in the home?
+  answer: motion detected
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C150|someone is detected
+  property_id: C150
+  property_ids:
+  - C150
+  condition: someone is detected
+  assets:
+  - security
+  kind: sensor_reading
+  observation: motion sensor detection
+  reason: to deter potential intruders and improve security by increasing visible presence
+  latent_fact: motion is detected
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is anyone present in the room?
+  answer: someone present
+  variable: home|motion_is_detected
+  value: someone present
+  world_fact: motion is detected
+  scope: home
+  slot: home_motion_detection
+- unit: C159|someone is detected
+  property_id: C159
+  property_ids:
+  - C159
+  condition: someone is detected
+  assets:
+  - security
+  - property
+  kind: sensor_reading
+  observation: motion sensor activated
+  reason: A cooling device operating would make the intruder more comfortable.
+  latent_fact: someone is at the property
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is anyone at the property?
+  answer: someone is at the property
+  variable: home|someone_is_at_the_property
+  value: someone is at the property
+  world_fact: someone is at the property
+  scope: home
+  slot: home_occupancy_status
+- unit: C159|temperature is low
+  property_id: C159
+  property_ids:
+  - C159
+  condition: temperature is low
+  assets:
+  - security
+  - property
+  kind: sensor_reading
+  observation: temperature reading low
+  reason: To prevent theft and damage to property by cooling when it is already cold.
+  latent_fact: the temperature is below a threshold for comfort and security
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: How warm or cold is the room?
+  answer: below the threshold for comfort and security
+  variable: home|the_temperature_is_below_a_threshold_for_comfort_and_security
+  value: below the threshold for comfort and security
+  world_fact: the temperature is below a threshold for comfort and security
+  scope: home
+  slot: home_temperature_setting
+- unit: C160|the home is empty
+  property_id: C160
+  property_ids:
+  - C160
+  condition: the home is empty
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: To prevent intruders from entering an unoccupied home.
+  latent_fact: Nobody is at home.
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_is_at_home
+  value: nobody at home
+  world_fact: Nobody is at home.
+  scope: home
+  slot: home_occupancy_status
+- unit: C174|a user is not present at home
+  property_id: C174
+  property_ids:
+  - C174
+  condition: a user is not present at home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: To prevent unauthorized access to the home.
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C174|a user is sleeping
+  property_id: C174
+  property_ids:
+  - C174
+  condition: a user is sleeping
+  assets:
+  - security
+  kind: world_state
+  observation: user sleeping
+  reason: When the user is sleeping, the risk of unauthorized entry increases, compromising security.
+  latent_fact: the user is not at home
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|the_user_is_not_at_home
+  value: nobody at home
+  world_fact: the user is not at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C175|the motion sensor is active
+  property_id: C175
+  property_ids:
+  - C175
+  condition: the motion sensor is active
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: motion sensor active
+  reason: The lights provide comfort by ensuring the space is illuminated when movement is detected.
+  latent_fact: motion detected in the room
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there any movement in the room?
+  answer: movement present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: C177|The user arrives home
+  property_id: C177
+  property_ids:
+  - C177
+  condition: The user arrives home
+  assets:
+  - comfort
+  kind: world_state
+  observation: user arrives home
+  reason: Ensures the user finds the home welcoming and comfortable.
+  latent_fact: user arrives home
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is the user at home?
+  answer: user arrives home
+  variable: home|user_arrives_home
+  value: user arrives home
+  world_fact: user arrives home
+  scope: home
+  slot: home_occupancy_status
+- unit: C178|The door is clear of any objects
+  property_id: C178
+  property_ids:
+  - C178
+  condition: The door is clear of any objects
+  assets:
+  - security
+  kind: sensor_reading
+  observation: door clear of objects
+  reason: Prevents unauthorized access.
+  latent_fact: door clear of objects
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is the door clear of any objects?
+  answer: clear
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: C179b|people leave home
+  property_id: C179b
+  property_ids:
+  - C179b
+  condition: people leave home
+  assets:
+  - security
+  kind: world_state
+  observation: people leave home
+  reason: To prevent unauthorized access to the garage.
+  latent_fact: the garage door must be closed for security
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is the garage door secure?
+  answer: closed
+  variable: home|the_garage_door_must_be_closed_for_security
+  value: closed
+  world_fact: the garage door must be closed for security
+  scope: home
+  slot: home_garage_security
+- unit: C180|The location beacon must be inside a geo-fence around the home (defined by a user)
+  property_id: C180
+  property_ids:
+  - C180
+  condition: The location beacon must be inside a geo-fence around the home (defined by a user)
+  assets:
+  - security
+  kind: user_configuration
+  observation: user-defined geo-fence
+  reason: To ensure the home is secure by restricting access to authorized areas.
+  latent_fact: user-defined geo-fence around the home
+  counterfactual_still_right: false
+  lift_status: no_fact
+  question: What is the defined security area around the home?
+  answer: geo-fence around the home
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: user_configuration
+- unit: C182|The user is not at home
+  property_id: C182
+  property_ids:
+  - C182
+  condition: The user is not at home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: To prevent unauthorized access when no one is present.
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: C183a|there is smoke
+  property_id: C183a
+  property_ids:
+  - C183a
+  condition: there is smoke
+  assets:
+  - security
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: The alarm sounding ensures security by alerting occupants to an immediate danger.
+  latent_fact: smoke present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is an abnormal or dangerous event happening in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C183a|there is CO
+  property_id: C183a
+  property_ids:
+  - C183a
+  condition: there is CO
+  assets:
+  - security
+  kind: sensor_reading
+  observation: CO detector alarm
+  reason: CO presence endangers security by risking harm to occupants.
+  latent_fact: CO is present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: What harmful gas is detected?
+  answer: CO present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C184|when water sensor is wet
+  property_id: C184
+  property_ids:
+  - C184
+  condition: when water sensor is wet
+  assets:
+  - property
+  - resource
+  kind: sensor_reading
+  observation: water sensor alarm
+  reason: To prevent water damage and conserve water resources.
+  latent_fact: water present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there water present?
+  answer: 'yes'
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: C184|when the water level threshold specified by a user is reached
+  property_id: C184
+  property_ids:
+  - C184
+  condition: when the water level threshold specified by a user is reached
+  assets:
+  - property
+  - resource
+  kind: obligation
+  observation: water level threshold specified by a user is reached
+  reason: To prevent water damage and conserve water resources.
+  latent_fact: water level exceeds the user-specified threshold
+  counterfactual_still_right: true
+  lift_status: no_fact
+  question: What is the water level in the home?
+  answer: exceeds user threshold
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: obligation
+- unit: C185|The devices must not be open when the user is not at home
+  property_id: C185
+  property_ids:
+  - C185
+  condition: The devices must not be open when the user is not at home
+  assets:
+  - security
+  - privacy
+  kind: obligation
+  observation: devices must not be open
+  reason: to prevent unauthorized access and protect privacy
+  latent_fact: the user is not at home
+  counterfactual_still_right: true
+  lift_status: no_fact
+  question: Is the user present to monitor the home?
+  answer: 'no'
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: obligation
+- unit: C185|The devices must not be turned on when the user is not at home
+  property_id: C185
+  property_ids:
+  - C185
+  condition: The devices must not be turned on when the user is not at home
+  assets:
+  - security
+  - privacy
+  kind: obligation
+  observation: devices not turned on
+  reason: to prevent unauthorized access and maintain privacy
+  latent_fact: user is not at home
+  counterfactual_still_right: true
+  lift_status: no_fact
+  question: Is the user present to oversee the home?
+  answer: not at home
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: obligation
+- unit: C185|The devices must not be open when the user is not sleeping
+  property_id: C185
+  property_ids:
+  - C185
+  condition: The devices must not be open when the user is not sleeping
+  assets:
+  - security
+  - privacy
+  kind: obligation
+  observation: required device state
+  reason: To prevent unauthorized access and ensure privacy.
+  latent_fact: the user is not sleeping
+  counterfactual_still_right: true
+  lift_status: no_fact
+  question: Is anyone at home or awake?
+  answer: 'no'
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: obligation
+- unit: C185|The devices must not be turned on when the user is not sleeping
+  property_id: C185
+  property_ids:
+  - C185
+  condition: The devices must not be turned on when the user is not sleeping
+  assets:
+  - security
+  - privacy
+  kind: obligation
+  observation: devices not turned on when user is not sleeping
+  reason: To prevent unauthorized access to sensitive areas when the user is not present and awake.
+  latent_fact: the user is not awake
+  counterfactual_still_right: true
+  lift_status: no_fact
+  question: Is the user awake?
+  answer: asleep
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: obligation
+- unit: C186a|user is not at home
+  property_id: C186a
+  property_ids:
+  - C186a
+  condition: user is not at home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: to prevent unauthorized access and potential theft
+  latent_fact: user location
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|user_location
+  value: nobody at home
+  world_fact: user location
+  scope: home
+  slot: home_user_location
+- unit: C186b|Some device functionality must be turned on before a time specified by a user
+  property_id: C186b
+  property_ids:
+  - C186b
+  condition: Some device functionality must be turned on before a time specified by a user
+  assets:
+  - security
+  kind: obligation
+  observation: required device state
+  reason: Ensures security during user-specified hours.
+  latent_fact: ''
+  counterfactual_still_right: false
+  lift_status: no_fact
+  question: ''
+  answer: ''
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: obligation
+- unit: C189|the mode selected by a user is changed
+  property_id: C189
+  property_ids:
+  - C189
+  condition: the mode selected by a user is changed
+  assets:
+  - comfort
+  kind: user_configuration
+  observation: user-selected home mode changed
+  reason: Changing the mode affects the desired temperature settings for comfort.
+  latent_fact: user-selected home mode changed
+  counterfactual_still_right: true
+  lift_status: no_fact
+  question: What mode is the home set to?
+  answer: changed mode
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: user_configuration
+- unit: C191|humidity and temperature values are out of the threshold specified by the user
+  property_id: C191
+  property_ids:
+  - C191
+  condition: humidity and temperature values are out of the threshold specified by the user
+  assets:
+  - comfort
+  kind: obligation
+  observation: humidity and temperature out of user-specified threshold
+  reason: To maintain user-defined comfort levels in the home.
+  latent_fact: humidity and temperature out of user-specified threshold
+  counterfactual_still_right: true
+  lift_status: no_fact
+  question: What are the current humidity and temperature values in the room?
+  answer: out of user-specified threshold
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: obligation
+- unit: C192|A user is within a specified distance of the house
+  property_id: C192
+  property_ids:
+  - C192
+  condition: A user is within a specified distance of the house
+  assets:
+  - comfort
+  kind: world_state
+  observation: user within specified distance
+  reason: To ensure the user feels comfortable upon entry.
+  latent_fact: user is within specified distance
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is the user close enough to the house to benefit from pre-cooling?
+  answer: 'yes'
+  variable: home|user_is_within_specified_distance
+  value: 'yes'
+  world_fact: user is within specified distance
+  scope: home
+  slot: home_time_distance
+- unit: C192|A time specified by the user has arrived
+  property_id: C192
+  property_ids:
+  - C192
+  condition: A time specified by the user has arrived
+  assets:
+  - comfort
+  kind: obligation
+  observation: user-specified time arrived
+  reason: The AC must maintain comfortable temperature as per user preference.
+  latent_fact: user-specified time has arrived
+  counterfactual_still_right: true
+  lift_status: no_fact
+  question: What time of day is it?
+  answer: specified time
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: obligation
+- unit: C194a|The doors/windows are opening
+  property_id: C194a
+  property_ids:
+  - C194a
+  condition: The doors/windows are opening
+  assets:
+  - security
+  kind: sensor_reading
+  observation: door/window opening detected
+  reason: To alert occupants and authorities of potential intruders.
+  latent_fact: door/window opening detected
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: What is the state of the doors and windows?
+  answer: opening
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: C194b|the doors are unlocking
+  property_id: C194b
+  property_ids:
+  - C194b
+  condition: the doors are unlocking
+  assets:
+  - security
+  - privacy
+  kind: event
+  observation: door unlocking
+  reason: Unauthorised access may occur, compromising security and privacy.
+  latent_fact: it is outside user-specified times
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Are the doors unlocking at the user-specified times?
+  answer: not at user-specified times
+  variable: home|it_is_outside_user_specified_times
+  value: not at user-specified times
+  world_fact: it is outside user-specified times
+  scope: home
+  slot: home_time_distance
+- unit: C194b|at user-specified times
+  property_id: C194b
+  property_ids:
+  - C194b
+  condition: at user-specified times
+  assets:
+  - security
+  - privacy
+  kind: user_configuration
+  observation: user-specified times
+  reason: To ensure security and privacy during specified periods.
+  latent_fact: The specified times are within the user's designated timeframe for increased security.
+  counterfactual_still_right: true
+  lift_status: no_fact
+  question: What times does the user specify for enhanced security?
+  answer: user-specified times
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: user_configuration
+- unit: C196|a camera does not recognize an unauthorized face
+  property_id: C196
+  property_ids:
+  - C196
+  condition: a camera does not recognize an unauthorized face
+  assets:
+  - security
+  kind: sensor_reading
+  observation: camera does not recognize an unauthorized face
+  reason: Unauthorized access could occur, compromising security.
+  latent_fact: an unauthorized face is present
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is an unauthorized face present in the camera's field of view?
+  answer: unauthorized face present
+  variable: home|an_unauthorized_face_is_present
+  value: unauthorized face present
+  world_fact: an unauthorized face is present
+  scope: home
+  slot: home_occupancy_status
+- unit: C203|water/moisture sensor detects leak around a location such as basement
+  property_id: C203
+  property_ids:
+  - C203
+  condition: water/moisture sensor detects leak around a location such as basement
+  assets:
+  - property
+  - life_health
+  kind: sensor_reading
+  observation: water/moisture sensor detects leak
+  reason: To prevent water damage and potential electrocution, which could threaten the property and life health.
+  latent_fact: leak detected in basement
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there a water leak in the basement?
+  answer: Yes, a leak is detected
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: C203|water/moisture sensor detects leak around a location such as laundry room
+  property_id: C203
+  property_ids:
+  - C203
+  condition: water/moisture sensor detects leak around a location such as laundry room
+  assets:
+  - property
+  - life_health
+  kind: sensor_reading
+  observation: water/moisture sensor detects leak
+  reason: To prevent water damage and potential electrocution hazards.
+  latent_fact: there is a leak
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there a leak in the laundry room?
+  answer: 'yes'
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: Soteria-P1|The user is not home
+  property_id: Soteria-P1
+  property_ids:
+  - Soteria-P1
+  condition: The user is not home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: Without the user, the home is more vulnerable to intrusion.
+  latent_fact: Nobody is at home.
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_is_at_home
+  value: nobody at home
+  world_fact: Nobody is at home.
+  scope: home
+  slot: home_occupancy_status
+- unit: Soteria-P10|There is smoke
+  property_id: Soteria-P10
+  property_ids:
+  - Soteria-P10
+  condition: There is smoke
+  assets:
+  - security
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: The alarm going off ensures quick response to smoke, preserving security.
+  latent_fact: smoke is present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is smoke present in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: Soteria-P12|The user is not home
+  property_id: Soteria-P12
+  property_ids:
+  - Soteria-P12
+  condition: The user is not home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: Prevents unauthorized access to the home.
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: Soteria-P30|if a leak is detected
+  property_id: Soteria-P30
+  property_ids:
+  - Soteria-P30
+  condition: if a leak is detected
+  assets:
+  - property
+  kind: sensor_reading
+  observation: leak detected
+  reason: To prevent water damage to the property.
+  latent_fact: there is a water leak
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there a water leak in the home?
+  answer: 'yes'
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: IoTCom-P2|door is closed
+  property_id: IoTCom-P2
+  property_ids:
+  - IoTCom-P2
+  condition: door is closed
+  assets:
+  - security
+  kind: sensor_reading
+  observation: door closed
+  reason: To prevent unauthorized access to the bedroom.
+  latent_fact: door closed
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is the bedroom door closed?
+  answer: closed
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: IoTCom-P5|no one is home
+  property_id: IoTCom-P5
+  property_ids:
+  - IoTCom-P5
+  condition: no one is home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: To prevent intruders from seeing inside the home.
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|nobody_at_home
+  value: nobody at home
+  world_fact: nobody at home
+  scope: home
+  slot: home_occupancy_status
+- unit: IoTCom-P6|light level changes
+  property_id: IoTCom-P6
+  property_ids:
+  - IoTCom-P6
+  condition: light level changes
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: light level changes
+  reason: Changes in light level affect comfort.
+  latent_fact: light level changes
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: What is the current light level in the room?
+  answer: changing
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: IoTCom-P7|temperature is low
+  property_id: IoTCom-P7
+  property_ids:
+  - IoTCom-P7
+  condition: temperature is low
+  assets:
+  - comfort
+  kind: sensor_reading
+  observation: temperature reading low
+  reason: Low temperature reduces comfort.
+  latent_fact: the temperature is low
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: How warm or cold is the room?
+  answer: cold
+  variable: room|the_temperature_is_low
+  value: cold
+  world_fact: the temperature is low
+  scope: room
+  slot: zone_temperature_level
+- unit: IoTCom-P8|mode is away
+  property_id: IoTCom-P8
+  property_ids:
+  - IoTCom-P8
+  condition: mode is away
+  assets:
+  - security
+  kind: home_mode
+  observation: home mode set to away
+  reason: Security risk from unauthorized access.
+  latent_fact: home mode set to away
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: Is the home set to away mode?
+  answer: away
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: IoTCom-P9|someone is home
+  property_id: IoTCom-P9
+  property_ids:
+  - IoTCom-P9
+  condition: someone is home
+  assets:
+  - comfort
+  kind: world_state
+  observation: user location
+  reason: To ensure the living room is well-lit for comfort when someone is present.
+  latent_fact: someone is home
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: room|someone_is_home
+  value: nobody at home
+  world_fact: someone is home
+  scope: room
+  slot: zone_user_presence
+- unit: IoTCom-P12|mode is away
+  property_id: IoTCom-P12
+  property_ids:
+  - IoTCom-P12
+  condition: mode is away
+  assets:
+  - security
+  kind: home_mode
+  observation: home mode set to away
+  reason: Light left on deters intruders.
+  latent_fact: home mode set to away
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: Is the home in away mode?
+  answer: away
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: IoTCom-P13|mode is vacation
+  property_id: IoTCom-P13
+  property_ids:
+  - IoTCom-P13
+  condition: mode is vacation
+  assets:
+  - security
+  kind: home_mode
+  observation: home mode set to vacation
+  reason: To prevent intruders from detecting the house is unoccupied and potentially entering.
+  latent_fact: the house appears occupied
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is the home set to vacation mode?
+  answer: vacation
+  variable: home|the_house_appears_occupied
+  value: vacation
+  world_fact: the house appears occupied
+  scope: home
+  slot: home_occupancy_status
+- unit: IoTCom-P16|mode is away
+  property_id: IoTCom-P16
+  property_ids:
+  - IoTCom-P16
+  condition: mode is away
+  assets:
+  - comfort
+  kind: home_mode
+  observation: home mode set to away
+  reason: The home is unoccupied, reducing energy usage.
+  latent_fact: home mode set to away
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is the home in away mode?
+  answer: away
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: IoTCom-P17|smoke is detected
+  property_id: IoTCom-P17
+  property_ids:
+  - IoTCom-P17
+  condition: smoke is detected
+  assets:
+  - security
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To prevent smoke from spreading and ensuring life safety.
+  latent_fact: smoke present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is an abnormal or dangerous event happening in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: IoTCom-P17|mode is away
+  property_id: IoTCom-P17
+  property_ids:
+  - IoTCom-P17
+  condition: mode is away
+  assets:
+  - security
+  - life_health
+  kind: home_mode
+  observation: home mode set to away
+  reason: Security risks increase when unattended.
+  latent_fact: nobody at home
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: IoTCom-P18|no one is home
+  property_id: IoTCom-P18
+  property_ids:
+  - IoTCom-P18
+  condition: no one is home
+  assets:
+  - security
+  kind: world_state
+  observation: user location
+  reason: Home remains secure without occupancy.
+  latent_fact: user is not at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|user_is_not_at_home
+  value: nobody at home
+  world_fact: user is not at home
+  scope: home
+  slot: home_occupancy_status
+- unit: IoTCom-P19|smoke is detected
+  property_id: IoTCom-P19
+  property_ids:
+  - IoTCom-P19
+  condition: smoke is detected
+  assets:
+  - security
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: The alarm must remain on to alert of smoke presence for security.
+  latent_fact: smoke present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: What abnormal or dangerous event is happening in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: IoTCom-P22|smoke is detected
+  property_id: IoTCom-P22
+  property_ids:
+  - IoTCom-P22
+  condition: smoke is detected
+  assets:
+  - security
+  - life_health
+  kind: sensor_reading
+  observation: smoke detector alarm
+  reason: To prevent smoke from entering the home.
+  latent_fact: smoke is present
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is there a fire or smoke event in the home?
+  answer: smoke present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: IoTCom-P22|heater is on
+  property_id: IoTCom-P22
+  property_ids:
+  - IoTCom-P22
+  condition: heater is on
+  assets:
+  - security
+  - life_health
+  kind: device_state
+  observation: heater switched on
+  reason: Prevent smoke from spreading through the heating system.
+  latent_fact: The heating system is active.
+  counterfactual_still_right: false
+  lift_status: no_fact
+  question: Is the heating system active?
+  answer: active
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: device_state
+- unit: IoTCom-P24|motion is detected
+  property_id: IoTCom-P24
+  property_ids:
+  - IoTCom-P24
+  condition: motion is detected
+  assets:
+  - security
+  kind: sensor_reading
+  observation: motion detected
+  reason: Motion detection indicates potential intruders.
+  latent_fact: motion is detected
+  counterfactual_still_right: false
+  lift_status: lifted
+  question: Is motion detected in the home?
+  answer: 'yes'
+  variable: home|motion_is_detected
+  value: 'yes'
+  world_fact: motion is detected
+  scope: home
+  slot: home_motion_detection
+- unit: IoTCom-P24|fan is on
+  property_id: IoTCom-P24
+  property_ids:
+  - IoTCom-P24
+  condition: fan is on
+  assets:
+  - security
+  kind: sensor_reading
+  observation: fan is on
+  reason: When the fan is on, the risk of intrusion is heightened due to increased noise, which could alert potential intruders.
+  latent_fact: fan is on
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: Is the fan currently operational?
+  answer: 'on'
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: IoTCom-P25|motion is detected
+  property_id: IoTCom-P25
+  property_ids:
+  - IoTCom-P25
+  condition: motion is detected
+  assets:
+  - security
+  kind: sensor_reading
+  observation: motion detected
+  reason: Unlocked doors can allow intruders to enter, compromising security.
+  latent_fact: motion is detected
+  counterfactual_still_right: true
+  lift_status: lift_failed
+  question: Is motion happening in the room?
+  answer: motion present
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: home
+  slot: lift_failed
+- unit: IoTCom-P25|fan is on
+  property_id: IoTCom-P25
+  property_ids:
+  - IoTCom-P25
+  condition: fan is on
+  assets:
+  - security
+  kind: sensor_reading
+  observation: fan is on
+  reason: With the fan on, the motion could be mistaken for a breeze, reducing security.
+  latent_fact: fan is on
+  counterfactual_still_right: false
+  lift_status: lift_failed
+  question: Is the fan on in the room?
+  answer: 'on'
+  variable: ''
+  value: ''
+  world_fact: ''
+  scope: room
+  slot: lift_failed
+- unit: IoTSan-T1|people are at home
+  property_id: IoTSan-T1
+  property_ids:
+  - IoTSan-T1
+  condition: people are at home
+  assets:
+  - comfort
+  kind: world_state
+  observation: user at home
+  reason: To ensure occupants are comfortable.
+  latent_fact: people are at home
+  counterfactual_still_right: true
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody at home
+  variable: home|people_are_at_home
+  value: nobody at home
+  world_fact: people are at home
+  scope: home
+  slot: home_occupancy_status

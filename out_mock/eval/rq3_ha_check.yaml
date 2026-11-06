@@ -1,0 +1,9 @@
+layouts:
+  L2:
+    scenarios: 62
+    agree: 62
+    examples_disagree: []
+  L3:
+    scenarios: 92
+    agree: 92
+    examples_disagree: []

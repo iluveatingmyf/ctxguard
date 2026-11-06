@@ -1,0 +1,16 @@
+pair,time_period,effect_zone,home_occupancy,zone_occupant,vulnerable_present,active_hazard,outdoor_condition,indoor_air,indoor_thermal
+air_exchange:increase x comfort,0,0,0,0,0,0,4176,0,0
+air_exchange:increase x life_health,0,0,0,0,1728,2520,3456,3780,0
+air_exchange:increase x property,0,0,0,0,0,0,4176,0,0
+gas_flow:decrease x life_health,0,0,0,0,0,3600,0,0,0
+indoor_temperature:decrease x comfort,0,0,0,0,0,0,0,0,6960
+indoor_temperature:decrease x life_health,0,0,0,0,3480,0,0,0,3480
+indoor_temperature:increase x life_health,0,0,0,0,3480,0,0,0,3480
+mechanical_motion:increase x life_health,0,0,0,0,10440,0,0,0,0
+passage_opening:increase x life_health,0,0,0,0,0,3600,0,0,0
+passage_opening:increase x security,0,0,1440,2160,0,3600,0,0,0
+power_supply:decrease x life_health,0,0,0,0,3480,0,0,0,3480
+security_monitoring:increase x security,0,0,3600,0,0,0,0,0,0
+sensing_capture:increase x privacy,0,0,3600,0,0,0,0,0,0
+sound:increase x comfort,0,0,0,4320,0,0,0,0,0
+water_flow:decrease x property,0,0,0,0,0,3600,0,0,0

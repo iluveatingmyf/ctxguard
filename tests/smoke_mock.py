@@ -59,7 +59,8 @@ def main():
     run("m2-extract"); run("m2-dims", "--runs", "2"); run("m2-values"); run("m2-seed-check")
     run("m2-elicit"); run("m2-consolidate")
     run("m2-freeze", "--src", "out_mock/m2/C3_factors_candidate.yaml", "--name", "v1test",
-        "--dest", "out_mock/vocab/factors_v1test.yaml", "--parent", "data/vocab/factors_seed.yaml")
+        "--dest", "out_mock/vocab/factors_v1test.yaml", "--parent", "out_mock/m2/A3_factors_corpus.yaml")
+    # (no human seed in the smoke test: A3's output stands in for data/vocab/factors_seed.yaml)
     run("m2-expand")
     run("m2-slots"); run("m2-cluster"); run("m2-name")   # ablations
     run("m3")
@@ -127,6 +128,30 @@ def main():
     fill_csv(os.path.join(OUT, "annotate", "m2_C2_signature_CHECK.csv"), lambda r: r.__setitem__("HUMAN_label(+/-/0)", r["label"]))
     run("m2-check-score", "--gold", "out_mock/annotate/m2_rules_CHECK_F-v0b.csv", "out_mock/annotate/m2_C2_signature_CHECK.csv",
         config="config_mock2.yaml", env=env)
+    # ---- expansion trigger 'new property' (docs Sec. 4.6): only inexpressible properties add evidence
+    run("m2-ingest", "--src", "tests/ingest_properties_TEST.csv", config="config_mock2.yaml", env=env)
+    ing = Y.safe_load(open(os.path.join(OUT, "m2", "I1_ingest.yaml")))
+    assert ing["expressible_already"] >= 1 and ing["inexpressible"] >= 1, ing
+    ev = Y.safe_load(open(os.path.join(OUT, "m2", "B1_elicitation.yaml")))
+    assert all(i.get("source") == "property" for i in ev["items"] if i.get("property_id")), "ingest items mislabelled"
+    run("m2-consolidate", "--base", "current", config="config_mock2.yaml", env=env)
+    try:
+        run("m2-ingest", "--src", "tests/ingest_heldout_TEST.csv", config="config_mock2.yaml", env=env)
+        raise AssertionError("held-out property was ingested")
+    except SystemExit:
+        pass
+    # ---- ablation: asset-agnostic question coding (A2 v3) in a separate output folder
+    cfg3 = dict(cfg)
+    cfg3["paths"] = {**cfg["paths"], "out": "out_mock_q"}
+    cfg3["method"] = {**cfg["method"], "m2_coding": "question", "m2_grouping": "llm"}   # = the v3 procedure
+    yaml.safe_dump(cfg3, open(os.path.join(ROOT, "tests", "config_mock3.yaml"), "w"))
+    shutil.rmtree(os.path.join(ROOT, "out_mock_q"), ignore_errors=True)
+    run("m2-extract", config="config_mock3.yaml"); run("m2-dims", config="config_mock3.yaml")
+    a2q = Y.safe_load(open(os.path.join(ROOT, "out_mock_q", "m2", "A2_dims.yaml")))
+    a2l = Y.safe_load(open(os.path.join(OUT, "m2", "A2_dims.yaml")))
+    assert a2q["coding"] == "question" and a2l["coding"] == "lift", (a2q["coding"], a2l["coding"])
+    assert a2l["grouping"] == "relation" and a2q["grouping"] == "llm"
+    assert os.path.exists(os.path.join(OUT, "annotate", "m2_A2_relations_CHECK.csv"))
     print("SMOKE TEST PASSED")
 
 

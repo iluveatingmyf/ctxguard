@@ -1,0 +1,4 @@
+subject,fact_a,fact_b,relation,reason,HUMAN_relation_ok(1/0),HUMAN_relation(same/exclusive/a_implies_b/b_implies_a/independent),note
+home,nobody home,someone home,exclusive,mock,,,
+home,present,someone home,independent,mock,,,
+home,nobody home,present,independent,mock,,,

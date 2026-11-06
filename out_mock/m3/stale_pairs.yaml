@@ -1,0 +1,15 @@
+old_version: F-v0
+new_version: F-v0b
+changed_factors:
+- zone_occupant
+bindings_before: 23
+bindings_after: 23
+pairs_with_bindings: 15
+stale_pairs:
+- pair: passage_opening:increase|security
+  reasons:
+  - binding constrains changed factor zone_occupant
+- pair: sound:increase|comfort
+  reasons:
+  - binding constrains changed factor zone_occupant
+  - evidence pair of changed factor zone_occupant

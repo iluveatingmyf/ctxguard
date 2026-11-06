@@ -1,0 +1,205 @@
+rule_id,alias,rule,action_type,effects_to_choose_from,GOLD_rho(e.g. indoor_air=poor; time_period=day|night),GOLD_intended_effect,GOLD_served_asset
+L3_r01,Ventilate master bedroom when CO2 is high,"id: L3_r01
+alias: Ventilate master bedroom when CO2 is high
+trigger:
+- platform: numeric_state
+  entity_id: sensor.master_co2
+  above: 1000
+action:
+- service: cover.open_cover
+  target:
+    entity_id: cover.master_window
+",open_window,air_exchange:increase indoor_temperature:decrease indoor_temperature:increase passage_opening:increase sound:increase visibility:increase,,,
+L3_r02,Ventilate kids room when CO2 is high,"id: L3_r02
+alias: Ventilate kids room when CO2 is high
+trigger:
+- platform: numeric_state
+  entity_id: sensor.kids_co2
+  above: 1000
+action:
+- service: cover.open_cover
+  target:
+    entity_id: cover.kids_window
+",open_window,air_exchange:increase indoor_temperature:decrease indoor_temperature:increase passage_opening:increase sound:increase visibility:increase,,,
+L3_r03,Unlock front door for escape when smoke is detected,"id: L3_r03
+alias: Unlock front door for escape when smoke is detected
+trigger:
+- platform: state
+  entity_id: binary_sensor.kitchen_smoke
+  to: 'on'
+action:
+- service: lock.unlock
+  target:
+    entity_id: lock.front_door
+",unlock_door,passage_opening:increase,,,
+L3_r04,Open living window when CO rises,"id: L3_r04
+alias: Open living window when CO rises
+trigger:
+- platform: numeric_state
+  entity_id: sensor.living_co
+  above: 30
+action:
+- service: cover.open_cover
+  target:
+    entity_id: cover.living_window
+",open_window,air_exchange:increase indoor_temperature:decrease indoor_temperature:increase passage_opening:increase sound:increase visibility:increase,,,
+L3_r05,Shut water main on leak,"id: L3_r05
+alias: Shut water main on leak
+trigger:
+- platform: state
+  entity_id: binary_sensor.bathroom_leak
+  to: 'on'
+action:
+- service: valve.close_valve
+  target:
+    entity_id: valve.water_main
+",water_valve_close,water_flow:decrease,,,
+L3_r06,Shut gas main on gas detection,"id: L3_r06
+alias: Shut gas main on gas detection
+trigger:
+- platform: state
+  entity_id: binary_sensor.kitchen_gas
+  to: 'on'
+action:
+- service: valve.close_valve
+  target:
+    entity_id: valve.gas_main
+",gas_valve_close,gas_flow:decrease heat_source:decrease,,,
+L3_r07,Arm alarm when Alex leaves,"id: L3_r07
+alias: Arm alarm when Alex leaves
+trigger:
+- platform: state
+  entity_id: person.alex
+  to: not_home
+action:
+- service: alarm_control_panel.alarm_arm_away
+  target:
+    entity_id: alarm_control_panel.home
+",alarm_arm_away,security_monitoring:increase sound:increase,,,
+L3_r08,Cool the living room through the window when it is hot inside,"id: L3_r08
+alias: Cool the living room through the window when it is hot inside
+trigger:
+- platform: numeric_state
+  entity_id: sensor.living_temperature
+  above: 28
+action:
+- service: cover.open_cover
+  target:
+    entity_id: cover.living_window
+",open_window,air_exchange:increase indoor_temperature:decrease indoor_temperature:increase passage_opening:increase sound:increase visibility:increase,,,
+L3_r09,Bathroom exhaust on high humidity,"id: L3_r09
+alias: Bathroom exhaust on high humidity
+trigger:
+- platform: numeric_state
+  entity_id: sensor.bathroom_humidity
+  above: 75
+action:
+- service: fan.turn_on
+  target:
+    entity_id: fan.bathroom_exhaust
+",exhaust_fan_on,air_exchange:increase indoor_humidity:decrease sound:increase,,,
+L3_r10,Open master blind at 7:00,"id: L3_r10
+alias: Open master blind at 7:00
+trigger:
+- platform: time
+  at: 07:00:00
+action:
+- service: cover.open_cover
+  target:
+    entity_id: cover.master_blind
+",open_blind,illumination:increase visibility:increase,,,
+L3_r11,Hallway light on motion,"id: L3_r11
+alias: Hallway light on motion
+trigger:
+- platform: state
+  entity_id: binary_sensor.hallway_motion
+  to: 'on'
+action:
+- service: light.turn_on
+  target:
+    entity_id: light.hallway
+",light_on,illumination:increase power_supply:increase,,,
+L3_r12,Cut grandma room outlet when Alex leaves (energy saving),"id: L3_r12
+alias: Cut grandma room outlet when Alex leaves (energy saving)
+trigger:
+- platform: state
+  entity_id: person.alex
+  to: not_home
+action:
+- service: switch.turn_off
+  target:
+    entity_id: switch.grandma_heater_outlet
+",outlet_off,power_supply:decrease,,,
+L3_r13,Start robot vacuum when Sam leaves,"id: L3_r13
+alias: Start robot vacuum when Sam leaves
+trigger:
+- platform: state
+  entity_id: person.sam
+  to: not_home
+action:
+- service: vacuum.start
+  target:
+    entity_id: vacuum.robot
+",vacuum_start,mechanical_motion:increase sound:increase,,,
+L3_r14,Turn on indoor camera when doorbell rings,"id: L3_r14
+alias: Turn on indoor camera when doorbell rings
+trigger:
+- platform: state
+  entity_id: binary_sensor.doorbell
+  to: 'on'
+action:
+- service: switch.turn_on
+  target:
+    entity_id: switch.indoor_camera
+",camera_on,sensing_capture:increase,,,
+L3_r15,Announce washer finished in master bedroom,"id: L3_r15
+alias: Announce washer finished in master bedroom
+trigger:
+- platform: state
+  entity_id: sensor.washer_status
+  to: finished
+action:
+- service: tts.speak
+  target:
+    entity_id: tts.google
+  data:
+    media_player_entity_id: media_player.master_speaker
+    message: Laundry is done
+",tts_announce,info_disclosure:increase sound:increase,,,
+L3_r16,Unlock front door when Alex arrives,"id: L3_r16
+alias: Unlock front door when Alex arrives
+trigger:
+- platform: state
+  entity_id: person.alex
+  to: home
+action:
+- service: lock.unlock
+  target:
+    entity_id: lock.front_door
+",unlock_door,passage_opening:increase,,,
+L3_r17,Turn stove off when nobody is in the kitchen for 30 minutes,"id: L3_r17
+alias: Turn stove off when nobody is in the kitchen for 30 minutes
+trigger:
+- platform: state
+  entity_id: binary_sensor.kitchen_motion
+  to: 'off'
+  for:
+    minutes: 30
+action:
+- service: switch.turn_off
+  target:
+    entity_id: switch.stove
+",stove_off,heat_source:decrease power_supply:decrease,,,
+L3_r18,Heat living room when it is cold outside,"id: L3_r18
+alias: Heat living room when it is cold outside
+trigger:
+- platform: numeric_state
+  entity_id: sensor.outdoor_temperature
+  below: 5
+action:
+- service: climate.set_hvac_mode
+  target:
+    entity_id: climate.living
+  data:
+    hvac_mode: heat
+",heat_on,heat_source:increase indoor_temperature:increase power_supply:increase,,,

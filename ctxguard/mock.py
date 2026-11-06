@@ -253,19 +253,29 @@ def mock_answer(task, ctx, seed):
         return {"counterexamples": []}
     if task == "code_condition":
         t = ctx["condition"].lower()
-        if "nobody" in t or "at home" in t:
-            return {"kind": "world_state", "world_fact": ctx["condition"], "variable": "presence of people at home",
-                    "value": "nobody home" if "nobody" in t else "someone home", "scope": "home"}
-        if "baby" in t or "elderly" in t:
-            return {"kind": "world_state", "world_fact": ctx["condition"], "variable": "vulnerable person in the room",
-                    "value": "present", "scope": "room"}
-        if "sleep" in t:
-            return {"kind": "world_state", "world_fact": ctx["condition"], "variable": "activity of people in the room",
-                    "value": "asleep", "scope": "room"}
-        if "leak" in t:
-            return {"kind": "sensor_reading", "world_fact": "water is leaking", "variable": "water leak", "value": "present",
-                    "scope": "home"}
-        return {"kind": "device_state", "world_fact": "", "variable": "", "value": "", "scope": "home"}
+        q = ("Is anyone at home?", "nobody home" if "nobody" in t else "someone home") if ("nobody" in t or "at home" in t) else \
+            ("Is a vulnerable person in the room?", "present") if ("baby" in t or "elderly" in t) else \
+            ("What are the people in the room doing?", "asleep") if "sleep" in t else \
+            ("What abnormal or dangerous event is happening in the home?", "water leak") if "leak" in t else None
+        if q:
+            return {"kind": "world_state", "observation": ctx["condition"], "question": q[0], "answer": q[1], "scope": "home"}
+        return {"kind": "device_state", "observation": ctx["condition"], "question": "", "answer": "", "scope": "home"}
+    if task == "lift_condition":   # mock only: reuse the keyword coder; a world_state is its own latent fact
+        b = mock_answer("code_condition", ctx, seed)
+        fact = b["kind"] == "world_state"
+        return {**b, "reason": "mock reason" if fact else "", "latent_fact": b["answer"] if fact else "",
+                "counterfactual_still_right": False}
+    if task == "fact_relation":   # mock only: same text -> same; shared word + one negation -> exclusive
+        neg = {"no", "not", "nobody", "none", "absent", "empty"}
+        wa, wb = set(ctx["a"].lower().split()), set(ctx["b"].lower().split())
+        if wa == wb:
+            return {"relation": "same", "reason": "mock"}
+        if (wa - neg) & (wb - neg) and bool(wa & neg) != bool(wb & neg):
+            return {"relation": "exclusive", "reason": "mock"}
+        return {"relation": "independent", "reason": "mock"}
+    if task == "name_slot":
+        w = re.sub(r"[^a-z ]", "", " ".join(ctx["facts"]).lower()).split()
+        return {"aspect": "_".join(w[:2]) or "aspect", "question": "mock: " + "; ".join(ctx["facts"])}
     if task == "group_variables":
         return {"groups": [{"id": v.replace(" ", "_"), "definition": v, "members": [i]} for i, v in enumerate(ctx["variables"])]}
     if task == "check_dimension":

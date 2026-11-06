@@ -1,0 +1,12 @@
+- condition: an elderly person is in a cold room
+  slot: device_state
+  statement: an elderly person is in a cold room
+- condition: nobody is at home
+  slot: occupancy
+  statement: nobody is at home
+- condition: the baby is in the room
+  slot: device_state
+  statement: the baby is in the room
+- condition: the family is at home
+  slot: occupancy
+  statement: the family is at home

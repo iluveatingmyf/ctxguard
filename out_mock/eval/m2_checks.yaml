@@ -1,0 +1,28 @@
+m2_rules_CHECK_F-v0b.csv:
+  rows: 9
+  R1_world_state(1/0):
+    pass_rate_A: 1.0
+    n_both: 9
+    agreement: 1.0
+    kappa: 1.0
+  R2_one_variable(1/0):
+    pass_rate_A: 1.0
+    n_both: 9
+    agreement: 1.0
+    kappa: 1.0
+  R3_exclusive_exhaustive(1/0):
+    pass_rate_A: 1.0
+    n_both: 9
+    agreement: 1.0
+    kappa: 1.0
+  R4_cause_not_reading(1/0):
+    pass_rate_A: 1.0
+    n_both: 9
+    agreement: 1.0
+    kappa: 1.0
+m2_C2_signature_CHECK.csv:
+  rows: 4
+  label_vs_human:
+    n: 4
+    accuracy: 1.0
+    kappa: 1.0

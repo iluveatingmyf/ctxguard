@@ -1,0 +1,322 @@
+dims:
+- id: abnormal_events
+  desc: What abnormal or dangerous event is happening in the home, laundry room, or basement?
+  variables: &id003
+  - what abnormal or dangerous event is happening around the basement and laundry room?
+  - what are the people in the room doing?
+  - what abnormal or dangerous event is happening in the laundry room?
+  - what abnormal or dangerous event is happening in the home?
+  origin: grouped
+  verification:
+    single_variable: false
+    checked: true
+    reason: Members 1 and 0 ask about the basement and laundry room, while members 2 and 3 ask about the laundry room and
+      home respectively, not making them mutually exclusive alternatives for a single situation question.
+    issues: &id004 []
+- id: door_status
+  desc: Is the door closed or open, or what is the security status of the door according to the camera?
+  variables: &id005
+  - is the door closed or open?
+  - what is the security status of the door according to the camera?
+  - what is the status of the doors?
+  origin: grouped
+  verification:
+    single_variable: false
+    checked: true
+    reason: Members 0 and 1 ask about the door's physical state (closed or open) and security status (according to the camera),
+      while member 2 asks about the status of multiple doors, which is a different situation question.
+    issues: &id006 []
+- id: motion
+  desc: Is there any motion in the room?
+  variables:
+  - is there any motion in the room?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: temperature
+  desc: How warm or cold is the room?
+  variables:
+  - how warm or cold is the room?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: specific_mode
+  desc: Is the home in a specific mode for nighttime?
+  variables:
+  - is the home in a specific mode for nighttime?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: user_presence
+  desc: Is the user near the house?
+  variables:
+  - is the user near the house?
+  origin: grouped
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: dangerous_event
+  desc: What dangerous event is happening in the home?
+  variables: &id007
+  - what dangerous event is happening in the home?
+  - what is the air quality in the home?
+  origin: grouped
+  verification:
+    single_variable: false
+    checked: true
+    reason: Member 0 asks about a dangerous event, while Member 1 asks about air quality, which is not a dangerous event.
+    issues: &id008 []
+- id: what_is_the_state_of_the_water_sensor
+  desc: what is the state of the water sensor?
+  variables:
+  - what is the state of the water sensor?
+  origin: unassigned by the grouping call
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: what_is_the_indoor_illuminance_level
+  desc: what is the indoor illuminance level?
+  variables:
+  - what is the indoor illuminance level?
+  origin: unassigned by the grouping call
+  verification:
+    single_variable: true
+    checked: false
+    issues: []
+- id: light_change
+  desc: 'What are the people in the room doing, at home, or doing in the home? (split: what is the change in light level?)'
+  variables:
+  - what is the change in light level?
+  origin: split of people_presence
+  verification:
+    single_variable: true
+    checked: true
+    issues: &id001 []
+- id: people_activity
+  desc: 'What are the people in the room doing, at home, or doing in the home? (split: what are the people doing?; is anyone
+    at home?)'
+  variables:
+  - what are the people doing?
+  - is anyone at home?
+  origin: split of people_presence
+  verification:
+    single_variable: true
+    checked: true
+    issues: *id001
+- id: time_of_day
+  desc: 'What time of day is it, or what is the indoor illuminance level during the daytime? (split: what time of day is it?)'
+  variables:
+  - what time of day is it?
+  origin: split of time_of_day
+  verification:
+    single_variable: true
+    checked: true
+    issues: &id002 []
+- id: illuminance_level
+  desc: 'What time of day is it, or what is the indoor illuminance level during the daytime? (split: what is the indoor illuminance
+    level during the daytime?)'
+  variables:
+  - what is the indoor illuminance level during the daytime?
+  origin: split of time_of_day
+  verification:
+    single_variable: true
+    checked: true
+    issues: *id002
+grouping:
+  variables:
+  - variable: is there any motion in the room?
+    count: 1
+    example_values:
+    - motion present
+  - variable: what abnormal or dangerous event is happening around the basement and laundry room?
+    count: 1
+    example_values:
+    - leak present
+  - variable: is the home in a specific mode for nighttime?
+    count: 1
+    example_values:
+    - night mode
+  - variable: what time of day is it?
+    count: 1
+    example_values:
+    - noon
+  - variable: what is the state of the water sensor?
+    count: 1
+    example_values:
+    - wet
+  - variable: what is the change in light level?
+    count: 1
+    example_values: []
+  - variable: what is the indoor illuminance level?
+    count: 1
+    example_values:
+    - above 600 lux
+  - variable: what are the people in the room doing?
+    count: 4
+    example_values:
+    - asleep
+    - nobody present
+    - people are at home
+    - someone is present
+  - variable: what dangerous event is happening in the home?
+    count: 1
+    example_values:
+    - CO present
+  - variable: what abnormal or dangerous event is happening in the laundry room?
+    count: 1
+    example_values:
+    - leak present
+  - variable: what are the people doing?
+    count: 3
+    example_values:
+    - user arrives home
+    - leaving home
+  - variable: what is the indoor illuminance level during the daytime?
+    count: 1
+    example_values:
+    - below 80 lux
+  - variable: is the door closed or open?
+    count: 1
+    example_values:
+    - closed
+  - variable: is the user near the house?
+    count: 1
+    example_values:
+    - 'yes'
+  - variable: what is the security status of the door according to the camera?
+    count: 1
+    example_values:
+    - unauthorized face not recognized
+  - variable: is anyone at home?
+    count: 16
+    example_values:
+    - nobody at home
+    - someone at home
+    - someone is home
+    - nobody nearby-home
+  - variable: how warm or cold is the room?
+    count: 6
+    example_values:
+    - temperature is low
+    - below the lower threshold
+    - above the threshold
+    - below the predefined threshold
+    - below the user threshold
+    - above the predefined value
+  - variable: what is the status of the doors?
+    count: 1
+    example_values:
+    - unlocking
+  - variable: what is the air quality in the home?
+    count: 1
+    example_values:
+    - below threshold
+  - variable: what abnormal or dangerous event is happening in the home?
+    count: 13
+    example_values:
+    - CO present
+    - leak detected
+    - intruder detected
+    - motion present
+    - no smoke present
+    - smoke present
+  grouping_answer:
+  - id: abnormal_events
+    definition: What abnormal or dangerous event is happening in the home, laundry room, or basement?
+    members:
+    - 1
+    - 7
+    - 9
+    - 19
+  - id: people_presence
+    definition: What are the people in the room doing, at home, or doing in the home?
+    members:
+    - 5
+    - 7
+    - 10
+    - 15
+  - id: door_status
+    definition: Is the door closed or open, or what is the security status of the door according to the camera?
+    members:
+    - 12
+    - 14
+    - 17
+  - id: motion
+    definition: Is there any motion in the room?
+    members:
+    - 0
+  - id: time_of_day
+    definition: What time of day is it, or what is the indoor illuminance level during the daytime?
+    members:
+    - 3
+    - 11
+  - id: temperature
+    definition: How warm or cold is the room?
+    members:
+    - 16
+  - id: specific_mode
+    definition: Is the home in a specific mode for nighttime?
+    members:
+    - 2
+  - id: user_presence
+    definition: Is the user near the house?
+    members:
+    - 13
+  - id: dangerous_event
+    definition: What dangerous event is happening in the home?
+    members:
+    - 1
+    - 8
+    - 14
+    - 18
+  duplicate_assignments:
+  - what are the people in the room doing?
+  - what abnormal or dangerous event is happening around the basement and laundry room?
+  - what is the security status of the door according to the camera?
+  verification:
+  - dimension: abnormal_events
+    members: *id003
+    single_variable: false
+    reason: Members 1 and 0 ask about the basement and laundry room, while members 2 and 3 ask about the laundry room and
+      home respectively, not making them mutually exclusive alternatives for a single situation question.
+    split_applied: false
+    issues: *id004
+  - dimension: people_presence
+    members:
+    - what is the change in light level?
+    - what are the people doing?
+    - is anyone at home?
+    single_variable: false
+    reason: Members 0 and 1 ask different situation questions. Member 0 asks about the change in light level, while Member
+      1 asks about people's activities.
+    split_applied: true
+    issues: *id001
+  - dimension: door_status
+    members: *id005
+    single_variable: false
+    reason: Members 0 and 1 ask about the door's physical state (closed or open) and security status (according to the camera),
+      while member 2 asks about the status of multiple doors, which is a different situation question.
+    split_applied: false
+    issues: *id006
+  - dimension: time_of_day
+    members:
+    - what time of day is it?
+    - what is the indoor illuminance level during the daytime?
+    single_variable: false
+    reason: The members ask about different aspects (time of day vs. illuminance level), hence they do not form a single dimension.
+    split_applied: true
+    issues: *id002
+  - dimension: dangerous_event
+    members: *id007
+    single_variable: false
+    reason: Member 0 asks about a dangerous event, while Member 1 asks about air quality, which is not a dangerous event.
+    split_applied: false
+    issues: *id008

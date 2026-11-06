@@ -1,0 +1,275 @@
+layout: L2
+vocab_version: F-v0
+entries:
+- factor: time_period
+  area: null
+  groundable: true
+  rules:
+  - value: night
+    when:
+      time:
+      - '22:30'
+      - 06:30
+  default: day
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: home_occupancy
+  area: null
+  groundable: true
+  rules:
+  - value: occupied
+    when:
+      any:
+      - state: person.jordan
+        eq: home
+      - state: person.casey
+        eq: home
+  default: away
+  invalid_rules: 0
+  entities:
+  - person.casey
+  - person.jordan
+  note: ''
+- factor: zone_occupant
+  area: bedroom
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: zone_occupant
+  area: living_room
+  groundable: true
+  rules:
+  - value: awake
+    when:
+      state: binary_sensor.living_motion
+      eq: 'on'
+  default: null
+  invalid_rules: 0
+  entities:
+  - binary_sensor.living_motion
+  note: ''
+- factor: zone_occupant
+  area: kitchen
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: zone_occupant
+  area: bathroom
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: zone_occupant
+  area: entrance
+  groundable: true
+  rules:
+  - value: awake
+    when:
+      state: binary_sensor.entrance_motion
+      eq: 'on'
+  default: null
+  invalid_rules: 0
+  entities:
+  - binary_sensor.entrance_motion
+  note: ''
+- factor: vulnerable_present
+  area: bedroom
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: vulnerable_present
+  area: living_room
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: vulnerable_present
+  area: kitchen
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: vulnerable_present
+  area: bathroom
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: vulnerable_present
+  area: entrance
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: active_hazard
+  area: null
+  groundable: true
+  rules:
+  - value: cooking_fumes
+    when:
+      all:
+      - any:
+        - state: binary_sensor.kitchen_smoke
+          eq: 'on'
+      - state: switch.cooktop
+        eq: 'on'
+  - value: fire
+    when:
+      any:
+      - state: binary_sensor.kitchen_smoke
+        eq: 'on'
+  - value: water_leak
+    when:
+      any:
+      - state: binary_sensor.bathroom_leak
+        eq: 'on'
+  default: none
+  invalid_rules: 0
+  entities:
+  - binary_sensor.bathroom_leak
+  - binary_sensor.kitchen_smoke
+  - switch.cooktop
+  note: ''
+- factor: outdoor_condition
+  area: null
+  groundable: true
+  rules:
+  - value: rain_storm
+    when:
+      state: weather.home
+      in:
+      - pouring
+      - lightning-rainy
+  default: benign
+  invalid_rules: 0
+  entities:
+  - weather.home
+  note: ''
+- factor: indoor_air
+  area: bedroom
+  groundable: true
+  rules:
+  - value: poor
+    when:
+      num: sensor.bedroom_co2
+      gt: 1000
+  default: good
+  invalid_rules: 0
+  entities:
+  - sensor.bedroom_co2
+  note: ''
+- factor: indoor_air
+  area: living_room
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: indoor_air
+  area: kitchen
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: indoor_air
+  area: bathroom
+  groundable: true
+  rules:
+  - value: poor
+    when:
+      num: sensor.bathroom_humidity
+      gt: 75
+  default: good
+  invalid_rules: 0
+  entities:
+  - sensor.bathroom_humidity
+  note: ''
+- factor: indoor_air
+  area: entrance
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: indoor_thermal
+  area: bedroom
+  groundable: true
+  rules:
+  - value: cold
+    when:
+      num: sensor.bedroom_temperature
+      lt: 17
+  - value: hot
+    when:
+      num: sensor.bedroom_temperature
+      gt: 28
+  default: comfortable
+  invalid_rules: 0
+  entities:
+  - sensor.bedroom_temperature
+  note: ''
+- factor: indoor_thermal
+  area: living_room
+  groundable: true
+  rules:
+  - value: cold
+    when:
+      num: sensor.living_temperature
+      lt: 17
+  - value: hot
+    when:
+      num: sensor.living_temperature
+      gt: 28
+  default: comfortable
+  invalid_rules: 0
+  entities:
+  - sensor.living_temperature
+  note: ''
+- factor: indoor_thermal
+  area: kitchen
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: indoor_thermal
+  area: bathroom
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''
+- factor: indoor_thermal
+  area: entrance
+  groundable: false
+  rules: []
+  default: null
+  invalid_rules: 0
+  entities: []
+  note: ''

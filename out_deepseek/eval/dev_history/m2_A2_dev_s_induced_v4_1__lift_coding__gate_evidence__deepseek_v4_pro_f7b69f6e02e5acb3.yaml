@@ -1,0 +1,228 @@
+codebook: CB-v1-draft
+dev_items: 22
+found: 21
+kind_accuracy: 0.762
+has_question_accuracy: 0.952
+ari_all: 0.1993
+ari_seen_dims: 0.2857
+ari_unseen_dims: 0.2045
+items:
+- property: C005
+  condition: user is not nearby-home
+  kind: world_state
+  dim: occupancy
+  seen: true
+  found: true
+  matched_condition: the user is not nearby-home
+  got_kind: world_state
+  got_dim: home_occupancy
+  got_question: Is the user nearby-home?
+- property: IoTCom-P18
+  condition: Someone is home
+  kind: world_state
+  dim: occupancy
+  seen: true
+  found: true
+  matched_condition: no one is home
+  got_kind: world_state
+  got_dim: home_occupancy
+  got_question: Is anyone at home?
+- property: C179b
+  condition: People are leaving home.
+  kind: event
+  dim: occupancy
+  seen: true
+  found: true
+  matched_condition: when people leave home
+  got_kind: world_state
+  got_dim: home_occupancy
+  got_question: Is anyone at home?
+- property: C174
+  condition: user_sleeping
+  kind: world_state
+  dim: activity
+  seen: true
+  found: true
+  matched_condition: a user is not present at home
+  got_kind: world_state
+  got_dim: home_occupancy
+  got_question: Is anyone at home?
+- property: C020
+  condition: CO is detected
+  kind: sensor_reading
+  dim: hazard
+  seen: true
+  found: true
+  matched_condition: CO is detected
+  got_kind: sensor_reading
+  got_dim: home_air_quality
+  got_question: What dangerous gas is present in the home?
+- property: Soteria-P30
+  condition: Leak is detected
+  kind: sensor_reading
+  dim: hazard
+  seen: true
+  found: true
+  matched_condition: a leak is detected
+  got_kind: sensor_reading
+  got_dim: home_water_presence
+  got_question: Is there a water leak in the home?
+- property: C105
+  condition: intruder is detected
+  kind: sensor_reading
+  dim: hazard
+  seen: true
+  found: true
+  matched_condition: an intruder is detected
+  got_kind: sensor_reading
+  got_dim: home_occupancy
+  got_question: Is there an intruder in the home?
+- property: C097
+  condition: moisture_sensor detects a leak
+  kind: sensor_reading
+  dim: hazard
+  seen: true
+  found: true
+  matched_condition: the moisture sensor detects a leak
+  got_kind: sensor_reading
+  got_dim: home_water_presence
+  got_question: Is there a water leak in the home?
+- property: C054
+  condition: temperature rises above the threshold
+  kind: sensor_reading
+  dim: thermal
+  seen: true
+  found: true
+  matched_condition: the temperature rises above the threshold
+  got_kind: sensor_reading
+  got_dim: zone_temperature_comfort
+  got_question: How warm or cold is the room?
+- property: IoTCom-P7
+  condition: temperature is low
+  kind: sensor_reading
+  dim: thermal
+  seen: true
+  found: true
+  matched_condition: temperature is low
+  got_kind: sensor_reading
+  got_dim: home_indoor_environment
+  got_question: How warm or cold is the home?
+- property: C022
+  condition: CO2 is greater than a predefined value
+  kind: sensor_reading
+  dim: air
+  seen: false
+  found: true
+  matched_condition: CO2 is greater than a predefined value
+  got_kind: sensor_reading
+  got_dim: zone_air_quality
+  got_question: What is the air quality in the room?
+- property: C041
+  condition: air quality drops below a threshold
+  kind: sensor_reading
+  dim: air
+  seen: false
+  found: true
+  matched_condition: air quality drops below a threshold
+  got_kind: sensor_reading
+  got_dim: home_air_quality
+  got_question: What is the air quality in the home?
+- property: C116
+  condition: Humidity exceeds predefined value
+  kind: sensor_reading
+  dim: air
+  seen: false
+  found: true
+  matched_condition: humidity exceeds a predefined value
+  got_kind: sensor_reading
+  got_dim: home_air_humidity
+  got_question: How humid is the air?
+- property: C119
+  condition: indoor illuminance is below 80 lux
+  kind: sensor_reading
+  dim: light
+  seen: false
+  found: true
+  matched_condition: indoor illuminance is below 80 lux in daytime
+  got_kind: sensor_reading
+  got_dim: zone_indoor_light_level
+  got_question: How bright or dark is the indoor area?
+- property: C120
+  condition: Indoor illuminance exceeds 600 lux
+  kind: sensor_reading
+  dim: light
+  seen: false
+  found: true
+  matched_condition: indoor illuminance exceeds 600 lux
+  got_kind: sensor_reading
+  got_dim: zone_indoor_light_level
+  got_question: How bright is the indoor area?
+- property: C160
+  condition: time is nighttime
+  kind: world_state
+  dim: time
+  seen: false
+  found: true
+  matched_condition: the home is empty
+  got_kind: world_state
+  got_dim: home_occupancy
+  got_question: Is anyone at home?
+- property: IoTCom-P6
+  condition: It is daytime
+  kind: world_state
+  dim: time
+  seen: false
+  found: true
+  matched_condition: light level changes
+  got_kind: sensor_reading
+  got_dim: zone_light_level
+  got_question: What is the light level in the room?
+- property: C042
+  condition: External temperature is high
+  kind: sensor_reading
+  dim: outdoor
+  seen: false
+  found: true
+  matched_condition: someone is at home
+  got_kind: world_state
+  got_dim: home_occupancy
+  got_question: Is anyone at home?
+- property: IoTCom-P24
+  condition: fan_on
+  kind: device_state
+  dim: none
+  seen: true
+  found: true
+  matched_condition: fan is on
+  got_kind: device_state
+  got_dim: none
+  got_question: ''
+- property: C184
+  condition: user specifies water level threshold
+  kind: user_configuration
+  dim: none
+  seen: true
+  found: true
+  matched_condition: the water level threshold specified by a user is reached
+  got_kind: sensor_reading
+  got_dim: none
+  got_question: What is the water level?
+- property: C187a
+  condition: the alarm is operational
+  kind: device_state
+  dim: none
+  seen: true
+  found: false
+- property: C196
+  condition: door is unlocked
+  kind: device_state
+  dim: none
+  seen: true
+  found: true
+  matched_condition: a camera does not recognize an unauthorized face
+  got_kind: sensor_reading
+  got_dim: home_door_occupancy
+  got_question: Who is at the door?
+scored_A2:
+  version: S-induced-v4.1 (lift coding, gate=evidence)
+  A2_coding_sha: f7b69f6e02e5acb3

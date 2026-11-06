@@ -1,0 +1,67 @@
+version: S-induced-v4 (lift coding)
+coding: lift
+n_conditions: 4
+n_units: 4
+n_distinct_conditions: 4
+kinds:
+  world_state: 4
+lift_status:
+  world_fact: 4
+lift_failed: []
+grouping: relation
+relation_grouping:
+  subjects:
+    home:
+      facts: 3
+      pairs_asked: 3
+      pair_mode: exhaustive
+      relations:
+        independent: 2
+        exclusive: 1
+      slots: 2
+  mixed_aspect_components: 0
+  splits: []
+  implications: 0
+with_world_variable: 4
+n_dimensions: 2
+unverified_or_failed: []
+asset_named: []
+slots:
+- id: home_nobody
+  desc: 'mock: nobody home; someone home'
+  subject: home
+  variables:
+  - nobody home
+  - someone home
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: global
+  property_ids:
+  - T01
+  - T04
+- id: home_present
+  desc: 'mock: present'
+  subject: home
+  variables:
+  - present
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: global
+  property_ids:
+  - T03
+  - T06
+coverage:
+  home_nobody: 2
+  home_present: 2

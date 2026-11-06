@@ -1,0 +1,366 @@
+open_window:
+- effects:
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: indoor_humidity
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+close_window:
+- effects:
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+open_blind:
+- effects:
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+close_blind:
+- effects:
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: visibility
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+open_garage:
+- effects:
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+close_garage:
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+unlock_door:
+- effects:
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+lock_door:
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: visibility
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+heat_on:
+- effects:
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: heat_source
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+cool_on:
+- effects:
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+hvac_off:
+- effects:
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+fan_on:
+- effects:
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+exhaust_fan_on:
+- effects:
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+light_on:
+- effects:
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+light_off:
+- effects:
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+outlet_on:
+- effects:
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: heat_source
+    direction: increase
+    requires_extra_device: true
+    precondition: if the outlet powers a heater
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+outlet_off:
+- effects:
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+stove_off:
+- effects:
+  - channel: heat_source
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+water_valve_close:
+- effects:
+  - channel: water_flow
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+water_valve_open:
+- effects:
+  - channel: water_flow
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+gas_valve_close:
+- effects:
+  - channel: gas_flow
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: heat_source
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+alarm_arm_away:
+- effects:
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+alarm_disarm:
+- effects:
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: security_monitoring
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+siren_on:
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: visibility
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+camera_on:
+- effects:
+  - channel: sensing_capture
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+media_play:
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+tts_announce:
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+vacuum_start:
+- effects:
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+humidifier_on:
+- effects:
+  - channel: indoor_humidity
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always

@@ -1,0 +1,161 @@
+global_core:
+- home_occupancy
+- zone_occupant
+- vulnerable_present
+- active_hazard
+- outdoor_condition
+- indoor_air
+- indoor_thermal
+global_reduct:
+- home_occupancy
+- zone_occupant
+- vulnerable_present
+- active_hazard
+- outdoor_condition
+- indoor_air
+- indoor_thermal
+per_pair:
+  air_exchange:increase x comfort:
+    core:
+    - outdoor_condition
+    reduct:
+    - outdoor_condition
+    pattern_support:
+    - outdoor_condition
+    bindings: 1
+  air_exchange:increase x life_health:
+    core:
+    - vulnerable_present
+    - active_hazard
+    - outdoor_condition
+    - indoor_air
+    reduct:
+    - vulnerable_present
+    - active_hazard
+    - outdoor_condition
+    - indoor_air
+    pattern_support:
+    - vulnerable_present
+    - active_hazard
+    - outdoor_condition
+    - indoor_air
+    bindings: 7
+  air_exchange:increase x property:
+    core:
+    - outdoor_condition
+    reduct:
+    - outdoor_condition
+    pattern_support:
+    - outdoor_condition
+    bindings: 1
+  gas_flow:decrease x life_health:
+    core:
+    - active_hazard
+    reduct:
+    - active_hazard
+    pattern_support:
+    - active_hazard
+    bindings: 1
+  indoor_temperature:decrease x comfort:
+    core:
+    - indoor_thermal
+    reduct:
+    - indoor_thermal
+    pattern_support:
+    - indoor_thermal
+    bindings: 1
+  indoor_temperature:decrease x life_health:
+    core:
+    - vulnerable_present
+    - indoor_thermal
+    reduct:
+    - vulnerable_present
+    - indoor_thermal
+    pattern_support:
+    - vulnerable_present
+    - indoor_thermal
+    bindings: 1
+  indoor_temperature:increase x life_health:
+    core:
+    - vulnerable_present
+    - indoor_thermal
+    reduct:
+    - vulnerable_present
+    - indoor_thermal
+    pattern_support:
+    - vulnerable_present
+    - indoor_thermal
+    bindings: 1
+  mechanical_motion:increase x life_health:
+    core:
+    - vulnerable_present
+    reduct:
+    - vulnerable_present
+    pattern_support:
+    - vulnerable_present
+    bindings: 1
+  passage_opening:increase x life_health:
+    core:
+    - active_hazard
+    reduct:
+    - active_hazard
+    pattern_support:
+    - active_hazard
+    bindings: 1
+  passage_opening:increase x security:
+    core:
+    - home_occupancy
+    - zone_occupant
+    - active_hazard
+    reduct:
+    - home_occupancy
+    - zone_occupant
+    - active_hazard
+    pattern_support:
+    - home_occupancy
+    - zone_occupant
+    - active_hazard
+    bindings: 3
+  power_supply:decrease x life_health:
+    core:
+    - vulnerable_present
+    - indoor_thermal
+    reduct:
+    - vulnerable_present
+    - indoor_thermal
+    pattern_support:
+    - vulnerable_present
+    - indoor_thermal
+    bindings: 1
+  security_monitoring:increase x security:
+    core:
+    - home_occupancy
+    reduct:
+    - home_occupancy
+    pattern_support:
+    - home_occupancy
+    bindings: 1
+  sensing_capture:increase x privacy:
+    core:
+    - home_occupancy
+    reduct:
+    - home_occupancy
+    pattern_support:
+    - home_occupancy
+    bindings: 1
+  sound:increase x comfort:
+    core:
+    - zone_occupant
+    reduct:
+    - zone_occupant
+    pattern_support:
+    - zone_occupant
+    bindings: 1
+  water_flow:decrease x property:
+    core:
+    - active_hazard
+    reduct:
+    - active_hazard
+    pattern_support:
+    - active_hazard
+    bindings: 1

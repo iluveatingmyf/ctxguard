@@ -1,0 +1,21 @@
+variables:
+- variable: is a vulnerable person in the room?
+  count: 2
+  example_values:
+  - present
+- variable: is anyone at home?
+  count: 2
+  example_values:
+  - nobody home
+  - someone home
+grouping_answer:
+- id: is_a_vulnerable_person_in_the_room?
+  definition: is a vulnerable person in the room?
+  members:
+  - 0
+- id: is_anyone_at_home?
+  definition: is anyone at home?
+  members:
+  - 1
+duplicate_assignments: []
+verification: []

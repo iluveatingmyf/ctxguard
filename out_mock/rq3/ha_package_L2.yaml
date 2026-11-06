@@ -1,0 +1,1255 @@
+template:
+- sensor:
+  - name: ctx_time_period_home
+    state: '{% if (2 if (now().strftime(''%H:%M'') >= ''22:30'' or now().strftime(''%H:%M'') < ''06:30'') else 0) == 2 %}night{% elif (2 if (now().strftime(''%H:%M'') >= ''22:30'' or now().strftime(''%H:%M'') < ''06:30'') else 0) == 1 %}unknown{% else %}day{% endif %}'
+  - name: ctx_home_occupancy_home
+    state: '{% if ([(1 if states(''person.jordan'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''person.jordan'') == ''home'' else 0)), (1 if states(''person.casey'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''person.casey'') == ''home'' else 0))]|max) == 2 %}occupied{% elif ([(1 if states(''person.jordan'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''person.jordan'') == ''home'' else 0)), (1 if states(''person.casey'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''person.casey'') == ''home'' else 0))]|max) == 1 %}unknown{% else %}away{% endif %}'
+  - name: ctx_zone_occupant_bedroom
+    state: unknown
+  - name: ctx_zone_occupant_living_room
+    state: '{% if (1 if states(''binary_sensor.living_motion'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.living_motion'') == ''on'' else 0)) == 2 %}awake{% elif (1 if states(''binary_sensor.living_motion'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.living_motion'') == ''on'' else 0)) == 1 %}unknown{% else %}unknown{% endif %}'
+  - name: ctx_zone_occupant_kitchen
+    state: unknown
+  - name: ctx_zone_occupant_bathroom
+    state: unknown
+  - name: ctx_zone_occupant_entrance
+    state: '{% if (1 if states(''binary_sensor.entrance_motion'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.entrance_motion'') == ''on'' else 0)) == 2 %}awake{% elif (1 if states(''binary_sensor.entrance_motion'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.entrance_motion'') == ''on'' else 0)) == 1 %}unknown{% else %}unknown{% endif %}'
+  - name: ctx_vulnerable_present_bedroom
+    state: unknown
+  - name: ctx_vulnerable_present_living_room
+    state: unknown
+  - name: ctx_vulnerable_present_kitchen
+    state: unknown
+  - name: ctx_vulnerable_present_bathroom
+    state: unknown
+  - name: ctx_vulnerable_present_entrance
+    state: unknown
+  - name: ctx_active_hazard_home
+    state: '{% if ([([(1 if states(''binary_sensor.kitchen_smoke'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.kitchen_smoke'') == ''on'' else 0))]|max), (1 if states(''switch.cooktop'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''switch.cooktop'') == ''on'' else 0))]|min) == 2 %}cooking_fumes{% elif ([([(1 if states(''binary_sensor.kitchen_smoke'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.kitchen_smoke'') == ''on'' else 0))]|max), (1 if states(''switch.cooktop'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''switch.cooktop'') == ''on'' else 0))]|min) == 1 %}unknown{% else %}{% if ([(1 if states(''binary_sensor.kitchen_smoke'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.kitchen_smoke'') == ''on'' else 0))]|max) == 2 %}fire{% elif ([(1 if states(''binary_sensor.kitchen_smoke'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.kitchen_smoke'') == ''on'' else 0))]|max) == 1 %}unknown{% else %}{% if ([(1 if states(''binary_sensor.bathroom_leak'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.bathroom_leak'') == ''on'' else 0))]|max) == 2 %}water_leak{% elif ([(1 if states(''binary_sensor.bathroom_leak'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.bathroom_leak'') == ''on'' else 0))]|max) == 1 %}unknown{% else %}none{% endif %}{% endif %}{% endif %}'
+  - name: ctx_outdoor_condition_home
+    state: '{% if (1 if states(''weather.home'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''weather.home'') in [''pouring'', ''lightning-rainy''] else 0)) == 2 %}rain_storm{% elif (1 if states(''weather.home'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''weather.home'') in [''pouring'', ''lightning-rainy''] else 0)) == 1 %}unknown{% else %}benign{% endif %}'
+  - name: ctx_indoor_air_bedroom
+    state: '{% if (1 if not is_number(states(''sensor.bedroom_co2'')) else (2 if states(''sensor.bedroom_co2'')|float > 1000.0 else 0)) == 2 %}poor{% elif (1 if not is_number(states(''sensor.bedroom_co2'')) else (2 if states(''sensor.bedroom_co2'')|float > 1000.0 else 0)) == 1 %}unknown{% else %}good{% endif %}'
+  - name: ctx_indoor_air_living_room
+    state: unknown
+  - name: ctx_indoor_air_kitchen
+    state: unknown
+  - name: ctx_indoor_air_bathroom
+    state: '{% if (1 if not is_number(states(''sensor.bathroom_humidity'')) else (2 if states(''sensor.bathroom_humidity'')|float > 75.0 else 0)) == 2 %}poor{% elif (1 if not is_number(states(''sensor.bathroom_humidity'')) else (2 if states(''sensor.bathroom_humidity'')|float > 75.0 else 0)) == 1 %}unknown{% else %}good{% endif %}'
+  - name: ctx_indoor_air_entrance
+    state: unknown
+  - name: ctx_indoor_thermal_bedroom
+    state: '{% if (1 if not is_number(states(''sensor.bedroom_temperature'')) else (2 if states(''sensor.bedroom_temperature'')|float < 17.0 else 0)) == 2 %}cold{% elif (1 if not is_number(states(''sensor.bedroom_temperature'')) else (2 if states(''sensor.bedroom_temperature'')|float < 17.0 else 0)) == 1 %}unknown{% else %}{% if (1 if not is_number(states(''sensor.bedroom_temperature'')) else (2 if states(''sensor.bedroom_temperature'')|float > 28.0 else 0)) == 2 %}hot{% elif (1 if not is_number(states(''sensor.bedroom_temperature'')) else (2 if states(''sensor.bedroom_temperature'')|float > 28.0 else 0)) == 1 %}unknown{% else %}comfortable{% endif %}{% endif %}'
+  - name: ctx_indoor_thermal_living_room
+    state: '{% if (1 if not is_number(states(''sensor.living_temperature'')) else (2 if states(''sensor.living_temperature'')|float < 17.0 else 0)) == 2 %}cold{% elif (1 if not is_number(states(''sensor.living_temperature'')) else (2 if states(''sensor.living_temperature'')|float < 17.0 else 0)) == 1 %}unknown{% else %}{% if (1 if not is_number(states(''sensor.living_temperature'')) else (2 if states(''sensor.living_temperature'')|float > 28.0 else 0)) == 2 %}hot{% elif (1 if not is_number(states(''sensor.living_temperature'')) else (2 if states(''sensor.living_temperature'')|float > 28.0 else 0)) == 1 %}unknown{% else %}comfortable{% endif %}{% endif %}'
+  - name: ctx_indoor_thermal_kitchen
+    state: unknown
+  - name: ctx_indoor_thermal_bathroom
+    state: unknown
+  - name: ctx_indoor_thermal_entrance
+    state: unknown
+  - name: ctx_zone_occupant_home
+    state: '{% set v = [states(''sensor.ctx_zone_occupant_bedroom''), states(''sensor.ctx_zone_occupant_living_room''), states(''sensor.ctx_zone_occupant_kitchen''), states(''sensor.ctx_zone_occupant_bathroom''), states(''sensor.ctx_zone_occupant_entrance'')] %}{% if ''asleep'' in v %}asleep{% elif ''unknown'' in v %}unknown{% elif ''awake'' in v %}awake{% elif ''empty'' in v %}empty{% else %}unknown{% endif %}'
+  - name: ctx_vulnerable_present_home
+    state: '{% set v = [states(''sensor.ctx_vulnerable_present_bedroom''), states(''sensor.ctx_vulnerable_present_living_room''), states(''sensor.ctx_vulnerable_present_kitchen''), states(''sensor.ctx_vulnerable_present_bathroom''), states(''sensor.ctx_vulnerable_present_entrance'')] %}{% if ''yes'' in v %}yes{% elif ''unknown'' in v %}unknown{% elif ''no'' in v %}no{% else %}unknown{% endif %}'
+  - name: ctx_indoor_air_home
+    state: '{% set v = [states(''sensor.ctx_indoor_air_bedroom''), states(''sensor.ctx_indoor_air_living_room''), states(''sensor.ctx_indoor_air_kitchen''), states(''sensor.ctx_indoor_air_bathroom''), states(''sensor.ctx_indoor_air_entrance'')] %}{% if ''poor'' in v %}poor{% elif ''unknown'' in v %}unknown{% elif ''good'' in v %}good{% else %}unknown{% endif %}'
+  - name: ctx_indoor_thermal_home
+    state: '{% set v = [states(''sensor.ctx_indoor_thermal_bedroom''), states(''sensor.ctx_indoor_thermal_living_room''), states(''sensor.ctx_indoor_thermal_kitchen''), states(''sensor.ctx_indoor_thermal_bathroom''), states(''sensor.ctx_indoor_thermal_entrance'')] %}{% if ''cold'' in v %}cold{% elif ''unknown'' in v %}unknown{% elif ''hot'' in v %}hot{% elif ''comfortable'' in v %}comfortable{% else %}unknown{% endif %}'
+  - name: ctx_indoor_air_bedroom_indep_l2_r01
+    state: '{% if 1 == 2 %}poor{% elif 1 == 1 %}unknown{% else %}good{% endif %}'
+  - name: ctx_indoor_air_living_room_indep_l2_r01
+    state: unknown
+  - name: ctx_indoor_air_kitchen_indep_l2_r01
+    state: unknown
+  - name: ctx_indoor_air_bathroom_indep_l2_r01
+    state: '{% if (1 if not is_number(states(''sensor.bathroom_humidity'')) else (2 if states(''sensor.bathroom_humidity'')|float > 75.0 else 0)) == 2 %}poor{% elif (1 if not is_number(states(''sensor.bathroom_humidity'')) else (2 if states(''sensor.bathroom_humidity'')|float > 75.0 else 0)) == 1 %}unknown{% else %}good{% endif %}'
+  - name: ctx_indoor_air_entrance_indep_l2_r01
+    state: unknown
+  - name: ctx_indoor_air_home_indep_l2_r01
+    state: '{% set v = [states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01''), states(''sensor.ctx_indoor_air_living_room_indep_l2_r01''), states(''sensor.ctx_indoor_air_kitchen_indep_l2_r01''), states(''sensor.ctx_indoor_air_bathroom_indep_l2_r01''), states(''sensor.ctx_indoor_air_entrance_indep_l2_r01'')] %}{% if ''poor'' in v %}poor{% elif ''unknown'' in v %}unknown{% elif ''good'' in v %}good{% else %}unknown{% endif %}'
+  - name: ctx_active_hazard_home_indep_l2_r02
+    state: '{% if ([([1]|max), (1 if states(''switch.cooktop'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''switch.cooktop'') == ''on'' else 0))]|min) == 2 %}cooking_fumes{% elif ([([1]|max), (1 if states(''switch.cooktop'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''switch.cooktop'') == ''on'' else 0))]|min) == 1 %}unknown{% else %}{% if ([1]|max) == 2 %}fire{% elif ([1]|max) == 1 %}unknown{% else %}{% if ([(1 if states(''binary_sensor.bathroom_leak'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.bathroom_leak'') == ''on'' else 0))]|max) == 2 %}water_leak{% elif ([(1 if states(''binary_sensor.bathroom_leak'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.bathroom_leak'') == ''on'' else 0))]|max) == 1 %}unknown{% else %}none{% endif %}{% endif %}{% endif %}'
+  - name: ctx_active_hazard_home_indep_l2_r03
+    state: '{% if ([([1]|max), (1 if states(''switch.cooktop'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''switch.cooktop'') == ''on'' else 0))]|min) == 2 %}cooking_fumes{% elif ([([1]|max), (1 if states(''switch.cooktop'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''switch.cooktop'') == ''on'' else 0))]|min) == 1 %}unknown{% else %}{% if ([1]|max) == 2 %}fire{% elif ([1]|max) == 1 %}unknown{% else %}{% if ([(1 if states(''binary_sensor.bathroom_leak'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.bathroom_leak'') == ''on'' else 0))]|max) == 2 %}water_leak{% elif ([(1 if states(''binary_sensor.bathroom_leak'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.bathroom_leak'') == ''on'' else 0))]|max) == 1 %}unknown{% else %}none{% endif %}{% endif %}{% endif %}'
+  - name: ctx_active_hazard_home_indep_l2_r04
+    state: '{% if ([([(1 if states(''binary_sensor.kitchen_smoke'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.kitchen_smoke'') == ''on'' else 0))]|max), (1 if states(''switch.cooktop'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''switch.cooktop'') == ''on'' else 0))]|min) == 2 %}cooking_fumes{% elif ([([(1 if states(''binary_sensor.kitchen_smoke'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.kitchen_smoke'') == ''on'' else 0))]|max), (1 if states(''switch.cooktop'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''switch.cooktop'') == ''on'' else 0))]|min) == 1 %}unknown{% else %}{% if ([(1 if states(''binary_sensor.kitchen_smoke'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.kitchen_smoke'') == ''on'' else 0))]|max) == 2 %}fire{% elif ([(1 if states(''binary_sensor.kitchen_smoke'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''binary_sensor.kitchen_smoke'') == ''on'' else 0))]|max) == 1 %}unknown{% else %}{% if ([1]|max) == 2 %}water_leak{% elif ([1]|max) == 1 %}unknown{% else %}none{% endif %}{% endif %}{% endif %}'
+  - name: ctx_indoor_thermal_bedroom_indep_l2_r05
+    state: '{% if 1 == 2 %}cold{% elif 1 == 1 %}unknown{% else %}{% if 1 == 2 %}hot{% elif 1 == 1 %}unknown{% else %}comfortable{% endif %}{% endif %}'
+  - name: ctx_indoor_thermal_living_room_indep_l2_r05
+    state: '{% if (1 if not is_number(states(''sensor.living_temperature'')) else (2 if states(''sensor.living_temperature'')|float < 17.0 else 0)) == 2 %}cold{% elif (1 if not is_number(states(''sensor.living_temperature'')) else (2 if states(''sensor.living_temperature'')|float < 17.0 else 0)) == 1 %}unknown{% else %}{% if (1 if not is_number(states(''sensor.living_temperature'')) else (2 if states(''sensor.living_temperature'')|float > 28.0 else 0)) == 2 %}hot{% elif (1 if not is_number(states(''sensor.living_temperature'')) else (2 if states(''sensor.living_temperature'')|float > 28.0 else 0)) == 1 %}unknown{% else %}comfortable{% endif %}{% endif %}'
+  - name: ctx_indoor_thermal_kitchen_indep_l2_r05
+    state: unknown
+  - name: ctx_indoor_thermal_bathroom_indep_l2_r05
+    state: unknown
+  - name: ctx_indoor_thermal_entrance_indep_l2_r05
+    state: unknown
+  - name: ctx_indoor_thermal_home_indep_l2_r05
+    state: '{% set v = [states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05''), states(''sensor.ctx_indoor_thermal_living_room_indep_l2_r05''), states(''sensor.ctx_indoor_thermal_kitchen_indep_l2_r05''), states(''sensor.ctx_indoor_thermal_bathroom_indep_l2_r05''), states(''sensor.ctx_indoor_thermal_entrance_indep_l2_r05'')] %}{% if ''cold'' in v %}cold{% elif ''unknown'' in v %}unknown{% elif ''hot'' in v %}hot{% elif ''comfortable'' in v %}comfortable{% else %}unknown{% endif %}'
+  - name: ctx_indoor_air_bedroom_indep_l2_r06
+    state: '{% if (1 if not is_number(states(''sensor.bedroom_co2'')) else (2 if states(''sensor.bedroom_co2'')|float > 1000.0 else 0)) == 2 %}poor{% elif (1 if not is_number(states(''sensor.bedroom_co2'')) else (2 if states(''sensor.bedroom_co2'')|float > 1000.0 else 0)) == 1 %}unknown{% else %}good{% endif %}'
+  - name: ctx_indoor_air_living_room_indep_l2_r06
+    state: unknown
+  - name: ctx_indoor_air_kitchen_indep_l2_r06
+    state: unknown
+  - name: ctx_indoor_air_bathroom_indep_l2_r06
+    state: '{% if 1 == 2 %}poor{% elif 1 == 1 %}unknown{% else %}good{% endif %}'
+  - name: ctx_indoor_air_entrance_indep_l2_r06
+    state: unknown
+  - name: ctx_indoor_air_home_indep_l2_r06
+    state: '{% set v = [states(''sensor.ctx_indoor_air_bedroom_indep_l2_r06''), states(''sensor.ctx_indoor_air_living_room_indep_l2_r06''), states(''sensor.ctx_indoor_air_kitchen_indep_l2_r06''), states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06''), states(''sensor.ctx_indoor_air_entrance_indep_l2_r06'')] %}{% if ''poor'' in v %}poor{% elif ''unknown'' in v %}unknown{% elif ''good'' in v %}good{% else %}unknown{% endif %}'
+  - name: ctx_home_occupancy_home_indep_l2_r07
+    state: '{% if ([1, (1 if states(''person.casey'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''person.casey'') == ''home'' else 0))]|max) == 2 %}occupied{% elif ([1, (1 if states(''person.casey'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''person.casey'') == ''home'' else 0))]|max) == 1 %}unknown{% else %}away{% endif %}'
+  - name: ctx_home_occupancy_home_indep_l2_r08
+    state: '{% if ([1, (1 if states(''person.casey'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''person.casey'') == ''home'' else 0))]|max) == 2 %}occupied{% elif ([1, (1 if states(''person.casey'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''person.casey'') == ''home'' else 0))]|max) == 1 %}unknown{% else %}away{% endif %}'
+  - name: ctx_home_occupancy_home_indep_l2_r10
+    state: '{% if ([1, (1 if states(''person.casey'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''person.casey'') == ''home'' else 0))]|max) == 2 %}occupied{% elif ([1, (1 if states(''person.casey'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''person.casey'') == ''home'' else 0))]|max) == 1 %}unknown{% else %}away{% endif %}'
+  - name: ctx_home_occupancy_home_indep_l2_r11
+    state: '{% if ([(1 if states(''person.jordan'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''person.jordan'') == ''home'' else 0)), 1]|max) == 2 %}occupied{% elif ([(1 if states(''person.jordan'') in [''none'', ''unavailable'', ''unknown''] else (2 if states(''person.jordan'') == ''home'' else 0)), 1]|max) == 1 %}unknown{% else %}away{% endif %}'
+automation:
+- id: L2_r01_hardened
+  alias: Ventilate bedroom when CO2 is high
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.bedroom_co2
+    above: 1000
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''fire'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_outdoor_condition_home'') in [''polluted''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''yes''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''cold'', ''hot''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''fire''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''cold'', ''hot'', ''polluted'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''fire'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''polluted''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''yes''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''cold'', ''hot''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''asleep''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''fire'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''yes''] and states(''sensor.ctx_outdoor_condition_home'') in [''cold'', ''polluted''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''yes''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''fire'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''cold'', ''hot''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''polluted'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''fire'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''fire'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire'', ''intrusion''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire'', ''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''polluted''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire'', ''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''asleep''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''yes''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''cold'', ''polluted'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''yes''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire'', ''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''cold'', ''hot''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''good''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_indoor_air_bedroom'') in [''good''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Ventilate bedroom when CO2 is high] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''no''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''cold'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''poor''] }}'
+      sequence: &id001
+      - service: cover.open_cover
+        target:
+          entity_id: cover.bedroom_window
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''comfortable''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''asleep''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''no''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''cold'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''away''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''no''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''cold'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''no''] and states(''sensor.ctx_active_hazard_home'') in [''intrusion''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''cold'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''asleep''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''comfortable''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''asleep'', ''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''no''] and states(''sensor.ctx_active_hazard_home'') in [''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign'', ''cold'', ''hot''] and states(''sensor.ctx_indoor_air_bedroom'') in [''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''occupied''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''no''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''away''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''comfortable''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''occupied''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''comfortable''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''intrusion''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''comfortable''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''occupied''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''no''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign'', ''cold'', ''hot''] and states(''sensor.ctx_indoor_air_bedroom'') in [''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''asleep'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign'', ''hot''] and states(''sensor.ctx_indoor_air_bedroom'') in [''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''comfortable''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''no''] and states(''sensor.ctx_active_hazard_home'') in [''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''no''] and states(''sensor.ctx_active_hazard_home'') in [''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''cold'', ''hot''] and states(''sensor.ctx_indoor_air_bedroom'') in [''poor''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign''] and states(''sensor.ctx_indoor_air_bedroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''comfortable''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''occupied''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign'', ''hot''] and states(''sensor.ctx_indoor_air_bedroom'') in [''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''comfortable''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence: *id001
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''hot''] and states(''sensor.ctx_indoor_air_bedroom'') in [''poor''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''comfortable''] and states(''sensor.ctx_indoor_air_bedroom_indep_l2_r01'') in [''unknown'', ''poor''] }}'
+      sequence: *id001
+      alias: execute
+- id: L2_r02_hardened
+  alias: Unlock front door when smoke is detected
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.kitchen_smoke
+    to: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''unknown''] and states(''sensor.ctx_active_hazard_home_indep_l2_r02'') in [''unknown'', ''fire''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Unlock front door when smoke is detected] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home_indep_l2_r02'') in [''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Unlock front door when smoke is detected] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Unlock front door when smoke is detected] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''fire''] and states(''sensor.ctx_active_hazard_home_indep_l2_r02'') in [''unknown'', ''fire''] }}'
+      sequence:
+      - service: lock.unlock
+        target:
+          entity_id: lock.front_door
+      alias: execute
+- id: L2_r03_hardened
+  alias: Open living window on smoke
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.kitchen_smoke
+    to: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire''] and states(''sensor.ctx_active_hazard_home_indep_l2_r03'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Open living window on smoke] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''fire''] and states(''sensor.ctx_active_hazard_home_indep_l2_r03'') in [''unknown'', ''fire''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Open living window on smoke] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_living_room'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_active_hazard_home_indep_l2_r03'') in [''unknown'', ''fire''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Open living window on smoke] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_living_room'') in [''yes''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire''] and states(''sensor.ctx_indoor_thermal_living_room'') in [''cold'', ''hot''] and states(''sensor.ctx_active_hazard_home_indep_l2_r03'') in [''unknown'', ''fire''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Open living window on smoke] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire''] and states(''sensor.ctx_outdoor_condition_home'') in [''polluted''] and states(''sensor.ctx_active_hazard_home_indep_l2_r03'') in [''unknown'', ''fire''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Open living window on smoke] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_living_room'') in [''yes''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire''] and states(''sensor.ctx_outdoor_condition_home'') in [''cold'', ''polluted''] and states(''sensor.ctx_active_hazard_home_indep_l2_r03'') in [''unknown'', ''fire''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Open living window on smoke] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home_indep_l2_r03'') in [''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Open living window on smoke] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Open living window on smoke] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_living_room'') in [''unknown'', ''no''] and states(''sensor.ctx_active_hazard_home'') in [''unknown''] and states(''sensor.ctx_outdoor_condition_home'') in [''cold'', ''hot'', ''rain_storm''] and states(''sensor.ctx_active_hazard_home_indep_l2_r03'') in [''fire''] }}'
+      sequence: &id002
+      - service: cover.open_cover
+        target:
+          entity_id: cover.living_window
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''unknown''] and states(''sensor.ctx_outdoor_condition_home'') in [''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_thermal_living_room'') in [''unknown'', ''comfortable''] and states(''sensor.ctx_active_hazard_home_indep_l2_r03'') in [''fire''] }}'
+      sequence: *id002
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_living_room'') in [''asleep''] and states(''sensor.ctx_vulnerable_present_living_room'') in [''unknown'', ''no''] and states(''sensor.ctx_active_hazard_home'') in [''unknown''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''cold'', ''hot'', ''rain_storm''] and states(''sensor.ctx_active_hazard_home_indep_l2_r03'') in [''fire''] }}'
+      sequence: *id002
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_living_room'') in [''asleep''] and states(''sensor.ctx_active_hazard_home'') in [''unknown''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_thermal_living_room'') in [''unknown'', ''comfortable''] and states(''sensor.ctx_active_hazard_home_indep_l2_r03'') in [''fire''] }}'
+      sequence: *id002
+      alias: execute
+- id: L2_r04_hardened
+  alias: Shut water main on leak
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.bathroom_leak
+    to: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home_indep_l2_r04'') in [''cooking_fumes'', ''fire'', ''gas_leak'', ''intrusion'', ''none''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Shut water main on leak] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''fire'', ''gas_leak'', ''intrusion'', ''none''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Shut water main on leak] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''water_leak''] and states(''sensor.ctx_active_hazard_home_indep_l2_r04'') in [''unknown'', ''water_leak''] }}'
+      sequence:
+      - service: valve.close_valve
+        target:
+          entity_id: valve.water_main
+      alias: execute
+- id: L2_r05_hardened
+  alias: Cool bedroom through the window when hot inside
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.bedroom_temperature
+    above: 28
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''yes''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_outdoor_condition_home'') in [''polluted''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''fire''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''fire'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''yes''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''fire'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''polluted''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''cold'', ''hot'', ''polluted'', ''rain_storm''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''yes''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''fire'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''yes''] and states(''sensor.ctx_outdoor_condition_home'') in [''cold'', ''polluted''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''asleep''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''fire'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''polluted'', ''rain_storm''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire'', ''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''fire'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire'', ''intrusion''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''yes''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire'', ''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''fire'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire'', ''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''polluted''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''unknown'', ''asleep''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''cold'', ''comfortable''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_indoor_thermal_bedroom'') in [''cold'', ''comfortable''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Cool bedroom through the window when hot inside] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''no''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''cold'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''hot''] }}'
+      sequence: &id003
+      - service: cover.open_cover
+        target:
+          entity_id: cover.bedroom_window
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''hot''] }}'
+      sequence: *id003
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''asleep''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''no''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''cold'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''hot''] }}'
+      sequence: *id003
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''away''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''no''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''cold'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''hot''] }}'
+      sequence: *id003
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''intrusion''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''hot''] }}'
+      sequence: *id003
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''asleep'', ''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''no''] and states(''sensor.ctx_active_hazard_home'') in [''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign'', ''cold'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence: *id003
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''asleep''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''hot''] }}'
+      sequence: *id003
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''occupied''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''no''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence: *id003
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''unknown'', ''no''] and states(''sensor.ctx_active_hazard_home'') in [''intrusion''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''cold'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''hot''] }}'
+      sequence: *id003
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''away''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''hot''] }}'
+      sequence: *id003
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''occupied''] and states(''sensor.ctx_zone_occupant_bedroom'') in [''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''no''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign'', ''cold'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence: *id003
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bedroom'') in [''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_bedroom'') in [''no''] and states(''sensor.ctx_active_hazard_home'') in [''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''unknown'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence: *id003
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bedroom'') in [''no''] and states(''sensor.ctx_active_hazard_home'') in [''gas_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''cold'', ''hot''] and states(''sensor.ctx_indoor_thermal_bedroom'') in [''hot''] and states(''sensor.ctx_indoor_thermal_bedroom_indep_l2_r05'') in [''unknown'', ''hot''] }}'
+      sequence: *id003
+      alias: execute
+- id: L2_r06_hardened
+  alias: Bathroom exhaust on humidity
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.bathroom_humidity
+    above: 75
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''polluted'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bathroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''polluted''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''fire''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''cold'', ''hot'', ''polluted'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bathroom'') in [''yes''] and states(''sensor.ctx_outdoor_condition_home'') in [''cold'', ''polluted''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bathroom'') in [''unknown''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_outdoor_condition_home'') in [''polluted''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bathroom'') in [''unknown'', ''yes''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''cold'', ''polluted'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bathroom'') in [''unknown'', ''asleep''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bathroom'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''fire''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''polluted''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown'', ''poor''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''good''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_indoor_air_bathroom'') in [''good''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Bathroom exhaust on humidity] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''poor''] }}'
+      sequence: &id004
+      - service: fan.turn_on
+        target:
+          entity_id: fan.bathroom_exhaust
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bathroom'') in [''asleep'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign'', ''hot''] and states(''sensor.ctx_indoor_air_bathroom'') in [''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown'', ''poor''] }}'
+      sequence: *id004
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bathroom'') in [''unknown'', ''no''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''cold'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''poor''] }}'
+      sequence: *id004
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bathroom'') in [''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''benign''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown'', ''poor''] }}'
+      sequence: *id004
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_bathroom'') in [''asleep''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''unknown'', ''benign'', ''hot'', ''rain_storm''] and states(''sensor.ctx_indoor_air_bathroom'') in [''unknown'', ''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''poor''] }}'
+      sequence: *id004
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_vulnerable_present_bathroom'') in [''no''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''cold'', ''hot''] and states(''sensor.ctx_indoor_air_bathroom'') in [''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown'', ''poor''] }}'
+      sequence: *id004
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''gas_leak'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_outdoor_condition_home'') in [''hot''] and states(''sensor.ctx_indoor_air_bathroom'') in [''poor''] and states(''sensor.ctx_indoor_air_bathroom_indep_l2_r06'') in [''unknown'', ''poor''] }}'
+      sequence: *id004
+      alias: execute
+- id: L2_r07_hardened
+  alias: Start robot vacuum when Jordan leaves
+  trigger:
+  - platform: state
+    entity_id: person.jordan
+    to: not_home
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_vulnerable_present_home'') in [''unknown''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r07'') in [''unknown'', ''away''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Start robot vacuum when Jordan leaves] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_zone_occupant_home'') in [''unknown'', ''asleep''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r07'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Start robot vacuum when Jordan leaves] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_vulnerable_present_home'') in [''unknown'', ''yes''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r07'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Start robot vacuum when Jordan leaves] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_zone_occupant_home'') in [''unknown'', ''asleep''] and states(''sensor.ctx_vulnerable_present_home'') in [''unknown'', ''no''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r07'') in [''unknown'', ''away''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Start robot vacuum when Jordan leaves] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home_indep_l2_r07'') in [''occupied''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Start robot vacuum when Jordan leaves] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''occupied''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Start robot vacuum when Jordan leaves] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_vulnerable_present_home'') in [''yes''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r07'') in [''away''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Start robot vacuum when Jordan leaves] deferred'
+      alias: defer
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_zone_occupant_home'') in [''awake'', ''empty''] and states(''sensor.ctx_vulnerable_present_home'') in [''no''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r07'') in [''unknown'', ''away''] }}'
+      sequence:
+      - service: vacuum.start
+        target:
+          entity_id: vacuum.robot
+      alias: execute
+- id: L2_r08_hardened
+  alias: Lock the door when Jordan leaves
+  trigger:
+  - platform: state
+    entity_id: person.jordan
+    to: not_home
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home_indep_l2_r08'') in [''occupied''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Lock the door when Jordan leaves] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''occupied''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Lock the door when Jordan leaves] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r08'') in [''unknown'', ''away''] }}'
+      sequence:
+      - service: lock.lock
+        target:
+          entity_id: lock.front_door
+      alias: execute
+- id: L2_r09_hardened
+  alias: Close living blind at sunset
+  trigger:
+  - platform: sun
+    event: sunset
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ true }}'
+      sequence:
+      - service: cover.close_cover
+        target:
+          entity_id: cover.living_blind
+      alias: execute
+- id: L2_r10_hardened
+  alias: Turn living outlet off when Jordan leaves
+  trigger:
+  - platform: state
+    entity_id: person.jordan
+    to: not_home
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_vulnerable_present_living_room'') in [''unknown''] and states(''sensor.ctx_indoor_thermal_living_room'') in [''unknown'', ''cold''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r10'') in [''unknown'', ''away''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Turn living outlet off when Jordan leaves] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_vulnerable_present_living_room'') in [''unknown'', ''yes''] and states(''sensor.ctx_indoor_thermal_living_room'') in [''unknown''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r10'') in [''unknown'', ''away''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Turn living outlet off when Jordan leaves] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_vulnerable_present_living_room'') in [''unknown'', ''yes''] and states(''sensor.ctx_indoor_thermal_living_room'') in [''unknown'', ''cold''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r10'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Turn living outlet off when Jordan leaves] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home_indep_l2_r10'') in [''occupied''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Turn living outlet off when Jordan leaves] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''occupied''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Turn living outlet off when Jordan leaves] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_vulnerable_present_living_room'') in [''yes''] and states(''sensor.ctx_indoor_thermal_living_room'') in [''cold''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r10'') in [''away''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Turn living outlet off when Jordan leaves] deferred'
+      alias: defer
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_indoor_thermal_living_room'') in [''comfortable'', ''hot''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r10'') in [''unknown'', ''away''] }}'
+      sequence: &id005
+      - service: switch.turn_off
+        target:
+          entity_id: switch.living_outlet
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''away''] and states(''sensor.ctx_vulnerable_present_living_room'') in [''no''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r10'') in [''unknown'', ''away''] }}'
+      sequence: *id005
+      alias: execute
+- id: L2_r11_hardened
+  alias: Unlock door when Casey arrives
+  trigger:
+  - platform: state
+    entity_id: person.casey
+    to: home
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown''] and states(''sensor.ctx_zone_occupant_entrance'') in [''unknown'', ''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''none'', ''water_leak''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r11'') in [''unknown'', ''occupied''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Unlock door when Casey arrives] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_zone_occupant_entrance'') in [''unknown'', ''asleep''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r11'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Unlock door when Casey arrives] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_active_hazard_home'') in [''unknown''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r11'') in [''unknown'', ''occupied''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Unlock door when Casey arrives] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''intrusion''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r11'') in [''unknown''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Unlock door when Casey arrives] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_zone_occupant_entrance'') in [''unknown''] and states(''sensor.ctx_active_hazard_home'') in [''unknown'', ''cooking_fumes'', ''none'', ''water_leak''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r11'') in [''unknown'', ''occupied''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Unlock door when Casey arrives] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home_indep_l2_r11'') in [''away''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Unlock door when Casey arrives] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''away''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Unlock door when Casey arrives] blocked'
+      alias: block
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_active_hazard_home'') in [''intrusion''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r11'') in [''occupied''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Unlock door when Casey arrives] deferred'
+      alias: defer
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_zone_occupant_entrance'') in [''asleep''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''intrusion'', ''none'', ''water_leak''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r11'') in [''occupied''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Unlock door when Casey arrives] deferred'
+      alias: defer
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''unknown'', ''occupied''] and states(''sensor.ctx_active_hazard_home'') in [''fire'', ''gas_leak''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r11'') in [''unknown'', ''occupied''] }}'
+      sequence: &id006
+      - service: lock.unlock
+        target:
+          entity_id: lock.front_door
+      alias: execute
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_home_occupancy_home'') in [''occupied''] and states(''sensor.ctx_zone_occupant_entrance'') in [''awake'', ''empty''] and states(''sensor.ctx_active_hazard_home'') in [''cooking_fumes'', ''fire'', ''gas_leak'', ''none'', ''water_leak''] and states(''sensor.ctx_home_occupancy_home_indep_l2_r11'') in [''unknown'', ''occupied''] }}'
+      sequence: *id006
+      alias: execute
+- id: L2_r12_hardened
+  alias: Play music in the living room when someone enters
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.living_motion
+    to: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_living_room'') in [''unknown'', ''asleep''] }}'
+      sequence:
+      - service: notify.notify
+        data:
+          message: '[Play music in the living room when someone enters] needs confirmation'
+      alias: ask
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.ctx_zone_occupant_living_room'') in [''awake'', ''empty''] }}'
+      sequence:
+      - service: media_player.play_media
+        target:
+          entity_id: media_player.living_speaker
+        data:
+          media_content_id: playlist
+          media_content_type: music
+      alias: execute

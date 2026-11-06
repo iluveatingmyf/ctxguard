@@ -1,0 +1,2149 @@
+air_exchange:decrease|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.08
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+air_exchange:decrease|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+air_exchange:decrease|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+air_exchange:decrease|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+air_exchange:decrease|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+air_exchange:decrease|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+air_exchange:increase|life_health:
+  stats:
+    relevance_calls: 1
+    region_calls: 18
+    point_calls: 33
+    nodes: 18
+    leaves: 11
+    seconds: 0.93
+  leaves:
+  - pattern:
+      active_hazard:
+      - fire
+    label: '-'
+    harm: mock mechanism
+    source: region
+  - pattern:
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      outdoor_condition:
+      - polluted
+    label: '-'
+    harm: mock mechanism
+    source: region
+  - pattern:
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      outdoor_condition:
+      - cold
+      vulnerable_present:
+      - 'no'
+    label: +
+    harm: ''
+    source: region
+  - pattern:
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      outdoor_condition:
+      - cold
+      vulnerable_present:
+      - 'yes'
+    label: '-'
+    harm: mock mechanism
+    source: region
+  - pattern:
+      active_hazard:
+      - cooking_fumes
+      - gas_leak
+      outdoor_condition:
+      - benign
+      - hot
+      - rain_storm
+    label: +
+    harm: ''
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - water_leak
+      - intrusion
+      outdoor_condition:
+      - polluted
+    label: '-'
+    harm: mock mechanism
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - water_leak
+      - intrusion
+      outdoor_condition:
+      - cold
+      vulnerable_present:
+      - 'no'
+      indoor_air:
+      - poor
+    label: +
+    harm: ''
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - water_leak
+      - intrusion
+      outdoor_condition:
+      - cold
+      vulnerable_present:
+      - 'no'
+      indoor_air:
+      - good
+    label: '0'
+    harm: ''
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - water_leak
+      - intrusion
+      outdoor_condition:
+      - cold
+      vulnerable_present:
+      - 'yes'
+    label: '-'
+    harm: mock mechanism
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - water_leak
+      - intrusion
+      outdoor_condition:
+      - benign
+      - hot
+      - rain_storm
+      indoor_air:
+      - poor
+    label: +
+    harm: ''
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - water_leak
+      - intrusion
+      outdoor_condition:
+      - benign
+      - hot
+      - rain_storm
+      indoor_air:
+      - good
+    label: '0'
+    harm: ''
+    source: region
+air_exchange:increase|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+air_exchange:increase|property:
+  stats:
+    relevance_calls: 1
+    region_calls: 3
+    point_calls: 6
+    nodes: 3
+    leaves: 2
+    seconds: 0.18
+  leaves:
+  - pattern:
+      outdoor_condition:
+      - rain_storm
+    label: '-'
+    harm: mock mechanism
+    source: region
+  - pattern:
+      outdoor_condition:
+      - benign
+      - cold
+      - hot
+      - polluted
+    label: '0'
+    harm: ''
+    source: region
+air_exchange:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+air_exchange:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+air_exchange:increase|comfort:
+  stats:
+    relevance_calls: 1
+    region_calls: 3
+    point_calls: 6
+    nodes: 3
+    leaves: 2
+    seconds: 0.17
+  leaves:
+  - pattern:
+      outdoor_condition:
+      - cold
+      - hot
+      - rain_storm
+    label: '-'
+    harm: mock mechanism
+    source: region
+  - pattern:
+      outdoor_condition:
+      - benign
+      - polluted
+    label: '0'
+    harm: ''
+    source: region
+gas_flow:decrease|life_health:
+  stats:
+    relevance_calls: 1
+    region_calls: 3
+    point_calls: 6
+    nodes: 3
+    leaves: 2
+    seconds: 0.17
+  leaves:
+  - pattern:
+      active_hazard:
+      - fire
+      - gas_leak
+    label: +
+    harm: ''
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - cooking_fumes
+      - water_leak
+      - intrusion
+    label: '0'
+    harm: ''
+    source: region
+gas_flow:decrease|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+gas_flow:decrease|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+gas_flow:decrease|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+gas_flow:decrease|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+gas_flow:decrease|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+heat_source:decrease|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+heat_source:decrease|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+heat_source:decrease|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+heat_source:decrease|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+heat_source:decrease|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+heat_source:decrease|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+heat_source:increase|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+heat_source:increase|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+heat_source:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+heat_source:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+heat_source:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+heat_source:increase|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+illumination:decrease|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+illumination:decrease|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+illumination:decrease|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+illumination:decrease|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+illumination:decrease|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+illumination:decrease|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+illumination:increase|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+illumination:increase|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+illumination:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+illumination:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+illumination:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+illumination:increase|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_humidity:decrease|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_humidity:decrease|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_humidity:decrease|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_humidity:decrease|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_humidity:decrease|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_humidity:decrease|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_humidity:increase|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_humidity:increase|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_humidity:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_humidity:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_humidity:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_humidity:increase|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_temperature:decrease|life_health:
+  stats:
+    relevance_calls: 1
+    region_calls: 5
+    point_calls: 9
+    nodes: 5
+    leaves: 3
+    seconds: 0.24
+  leaves:
+  - pattern:
+      indoor_thermal:
+      - comfortable
+      - hot
+    label: '0'
+    harm: ''
+    source: region
+  - pattern:
+      indoor_thermal:
+      - cold
+      vulnerable_present:
+      - 'no'
+    label: '0'
+    harm: ''
+    source: region
+  - pattern:
+      indoor_thermal:
+      - cold
+      vulnerable_present:
+      - 'yes'
+    label: '-'
+    harm: mock mechanism
+    source: region
+indoor_temperature:decrease|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_temperature:decrease|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_temperature:decrease|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_temperature:decrease|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_temperature:decrease|comfort:
+  stats:
+    relevance_calls: 1
+    region_calls: 3
+    point_calls: 6
+    nodes: 3
+    leaves: 2
+    seconds: 0.17
+  leaves:
+  - pattern:
+      indoor_thermal:
+      - hot
+    label: +
+    harm: ''
+    source: region
+  - pattern:
+      indoor_thermal:
+      - cold
+      - comfortable
+    label: '0'
+    harm: ''
+    source: region
+indoor_temperature:increase|life_health:
+  stats:
+    relevance_calls: 1
+    region_calls: 5
+    point_calls: 9
+    nodes: 5
+    leaves: 3
+    seconds: 0.25
+  leaves:
+  - pattern:
+      indoor_thermal:
+      - hot
+      vulnerable_present:
+      - 'no'
+    label: '0'
+    harm: ''
+    source: region
+  - pattern:
+      indoor_thermal:
+      - hot
+      vulnerable_present:
+      - 'yes'
+    label: '-'
+    harm: mock mechanism
+    source: region
+  - pattern:
+      indoor_thermal:
+      - cold
+      - comfortable
+    label: '0'
+    harm: ''
+    source: region
+indoor_temperature:increase|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_temperature:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_temperature:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_temperature:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+indoor_temperature:increase|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+info_disclosure:increase|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+info_disclosure:increase|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+info_disclosure:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+info_disclosure:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+info_disclosure:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+info_disclosure:increase|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+mechanical_motion:increase|life_health:
+  stats:
+    relevance_calls: 1
+    region_calls: 3
+    point_calls: 6
+    nodes: 3
+    leaves: 2
+    seconds: 0.18
+  leaves:
+  - pattern:
+      vulnerable_present:
+      - 'no'
+    label: '0'
+    harm: ''
+    source: region
+  - pattern:
+      vulnerable_present:
+      - 'yes'
+    label: '-'
+    harm: mock mechanism
+    source: region
+mechanical_motion:increase|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+mechanical_motion:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+mechanical_motion:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+mechanical_motion:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+mechanical_motion:increase|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+passage_opening:decrease|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+passage_opening:decrease|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+passage_opening:decrease|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+passage_opening:decrease|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+passage_opening:decrease|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+passage_opening:decrease|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+passage_opening:increase|life_health:
+  stats:
+    relevance_calls: 1
+    region_calls: 3
+    point_calls: 6
+    nodes: 3
+    leaves: 2
+    seconds: 0.17
+  leaves:
+  - pattern:
+      active_hazard:
+      - fire
+      - gas_leak
+    label: +
+    harm: ''
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - cooking_fumes
+      - water_leak
+      - intrusion
+    label: '0'
+    harm: ''
+    source: region
+passage_opening:increase|security:
+  stats:
+    relevance_calls: 1
+    region_calls: 9
+    point_calls: 18
+    nodes: 9
+    leaves: 6
+    seconds: 0.69
+  leaves:
+  - pattern:
+      active_hazard:
+      - intrusion
+    label: '-'
+    harm: mock mechanism
+    source: region
+  - pattern:
+      active_hazard:
+      - fire
+      - gas_leak
+    label: '0'
+    harm: ''
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - cooking_fumes
+      - water_leak
+      zone_occupant:
+      - asleep
+    label: '-'
+    harm: mock mechanism
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - cooking_fumes
+      - water_leak
+      zone_occupant:
+      - awake
+      - watching_a_movie
+    label: '0'
+    harm: ''
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - cooking_fumes
+      - water_leak
+      zone_occupant:
+      - empty
+      home_occupancy:
+      - away
+    label: '-'
+    harm: mock mechanism
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - cooking_fumes
+      - water_leak
+      zone_occupant:
+      - empty
+      home_occupancy:
+      - occupied
+    label: '0'
+    harm: ''
+    source: region
+passage_opening:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+passage_opening:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+passage_opening:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.03
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+passage_opening:increase|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+power_supply:decrease|life_health:
+  stats:
+    relevance_calls: 1
+    region_calls: 5
+    point_calls: 9
+    nodes: 5
+    leaves: 3
+    seconds: 0.24
+  leaves:
+  - pattern:
+      indoor_thermal:
+      - comfortable
+      - hot
+    label: '0'
+    harm: ''
+    source: region
+  - pattern:
+      indoor_thermal:
+      - cold
+      vulnerable_present:
+      - 'no'
+    label: '0'
+    harm: ''
+    source: region
+  - pattern:
+      indoor_thermal:
+      - cold
+      vulnerable_present:
+      - 'yes'
+    label: '-'
+    harm: mock mechanism
+    source: region
+power_supply:decrease|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+power_supply:decrease|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+power_supply:decrease|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+power_supply:decrease|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+power_supply:decrease|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+power_supply:increase|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+power_supply:increase|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+power_supply:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+power_supply:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+power_supply:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+power_supply:increase|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+security_monitoring:decrease|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+security_monitoring:decrease|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+security_monitoring:decrease|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+security_monitoring:decrease|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+security_monitoring:decrease|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+security_monitoring:decrease|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+security_monitoring:increase|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+security_monitoring:increase|security:
+  stats:
+    relevance_calls: 1
+    region_calls: 3
+    point_calls: 6
+    nodes: 3
+    leaves: 2
+    seconds: 0.17
+  leaves:
+  - pattern:
+      home_occupancy:
+      - away
+    label: +
+    harm: ''
+    source: region
+  - pattern:
+      home_occupancy:
+      - occupied
+    label: '0'
+    harm: ''
+    source: region
+security_monitoring:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+security_monitoring:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+security_monitoring:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+security_monitoring:increase|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+sensing_capture:increase|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+sensing_capture:increase|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+sensing_capture:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+sensing_capture:increase|privacy:
+  stats:
+    relevance_calls: 1
+    region_calls: 3
+    point_calls: 6
+    nodes: 3
+    leaves: 2
+    seconds: 0.17
+  leaves:
+  - pattern:
+      home_occupancy:
+      - away
+    label: '0'
+    harm: ''
+    source: region
+  - pattern:
+      home_occupancy:
+      - occupied
+    label: '-'
+    harm: mock mechanism
+    source: region
+sensing_capture:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+sensing_capture:increase|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+sound:increase|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.06
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+sound:increase|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+sound:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+sound:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+sound:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.01
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+sound:increase|comfort:
+  stats:
+    relevance_calls: 1
+    region_calls: 3
+    point_calls: 6
+    nodes: 3
+    leaves: 2
+    seconds: 0.15
+  leaves:
+  - pattern:
+      zone_occupant:
+      - asleep
+      - watching_a_movie
+    label: '-'
+    harm: mock mechanism
+    source: region
+  - pattern:
+      zone_occupant:
+      - empty
+      - awake
+    label: '0'
+    harm: ''
+    source: region
+visibility:decrease|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+visibility:decrease|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+visibility:decrease|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+visibility:decrease|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+visibility:decrease|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+visibility:decrease|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+visibility:increase|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+visibility:increase|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+visibility:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+visibility:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+visibility:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+visibility:increase|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+water_flow:decrease|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+water_flow:decrease|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+water_flow:decrease|property:
+  stats:
+    relevance_calls: 1
+    region_calls: 3
+    point_calls: 6
+    nodes: 3
+    leaves: 2
+    seconds: 0.17
+  leaves:
+  - pattern:
+      active_hazard:
+      - water_leak
+    label: +
+    harm: ''
+    source: region
+  - pattern:
+      active_hazard:
+      - none
+      - cooking_fumes
+      - fire
+      - gas_leak
+      - intrusion
+    label: '0'
+    harm: ''
+    source: region
+water_flow:decrease|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+water_flow:decrease|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+water_flow:decrease|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+water_flow:increase|life_health:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+water_flow:increase|security:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+water_flow:increase|property:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+water_flow:increase|privacy:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+water_flow:increase|resource:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance
+water_flow:increase|comfort:
+  stats:
+    relevance_calls: 1
+    point_calls: 3
+    irrelevant: 1
+    leaves: 1
+    seconds: 0.02
+  leaves:
+  - pattern: {}
+    label: '0'
+    harm: mock
+    source: relevance

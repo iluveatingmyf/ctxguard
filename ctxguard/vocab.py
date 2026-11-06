@@ -40,18 +40,20 @@ import gzip
 import hashlib
 import os
 import random
+import re
 from collections import Counter, defaultdict
 
 import numpy as np
 
 from .common import Ctx, dump_yaml, load_yaml, p
-from .manifest import record, save_csv, save_yaml
+from .explog import log_result
+from .manifest import _sha as _file_sha, record, save_csv, save_yaml
 from .model import Binding, Vocab, contains, index_spec, label_of, normalize, pattern_to_json
-from .prompts import (CONDITION_KINDS, assign_value_prompt, attribute_dimension_prompt, canonicalize_prompt,
+from .prompts import (CONDITION_KINDS, FACT_RELATIONS, assign_value_prompt, fact_relation_prompt, name_slot_prompt, attribute_dimension_prompt, canonicalize_prompt,
                       check_dimension_prompt, classify_condition_prompt, code_condition_prompt, contrast_label_prompt,
                       dimension_values_prompt, elicit_prompt, expand_values_prompt, extract_predicates_prompt,
-                      group_variables_prompt, map_property_prompt, name_factor_prompt, property_assets_prompt,
-                      slot_values_prompt)
+                      group_variables_prompt, lift_condition_prompt, map_property_prompt, name_factor_prompt,
+                      property_assets_prompt, slot_values_prompt)
 from .roughset import INV, Tables
 
 
@@ -254,25 +256,132 @@ def _cond_property_text(ctx: Ctx) -> dict:
     return m
 
 
-def _code_conditions(ctx: Ctx, texts: list[str], temperature: float = 0.0, seed: int = 0) -> list[dict]:
-    """A2a open coding: ONE call per condition (no long lists, so a 7B model can do it).
-    Returns kind, world_fact, variable, value, scope. Rule R1 is enforced here: device
-    states, configurations and obligations never carry a variable; sensor readings and
-    home modes are mapped to the world fact they indicate."""
-    ptext = _cond_property_text(ctx)
+def _codebook(ctx: Ctx | None = None) -> dict:
+    """The human A2 codebook. method.m2_codebook selects the file (versioned, so every
+    A2 result can name the codebook it was produced with); default data/vocab/a2_codebook.yaml."""
+    rel = (ctx.cfg.get("method", {}).get("m2_codebook") if ctx else None) or "data/vocab/a2_codebook.yaml"
+    path = p(rel)
+    return load_yaml(path) if os.path.exists(path) else {"examples": [], "dev": []}
+
+
+def _lift_cfg(ctx: Ctx) -> tuple[str, str]:
+    """method.m2_lift_prompt: v4.1 (default) | v4 (ablation, original wording).
+    method.m2_lift_gate:   evidence (default) | counterfactual (v4 ablation)."""
+    m = ctx.cfg.get("method", {})
+    ver, gate = m.get("m2_lift_prompt", "v4.1"), m.get("m2_lift_gate", "evidence")
+    if gate not in LIFT_GATES:
+        raise SystemExit(f"method.m2_lift_gate must be one of {LIFT_GATES}, got {gate!r}")
+    return ver, gate
+
+
+def _units(ctx: Ctx) -> list[dict]:
+    """Evidence units of A2: one per (property, condition). A condition shared by several
+    properties is coded once PER property, because the reason it matters (and so the fact it
+    is lifted to) depends on the property's action and asset."""
+    units, seen = [], set()
+    for r in load_yaml(ctx.outp("m2", "A1_conditions.yaml")):
+        key = f"{r['property_id']}|{r['condition']}"
+        if key in seen:
+            continue
+        seen.add(key)
+        units.append({"unit": key, "property_id": r["property_id"], "condition": r["condition"],
+                      "property_text": r["property_text"], "assets": list(r.get("assets") or [])})
+    return units
+
+
+def _coding_mode(ctx: Ctx) -> str:
+    """method.m2_coding: 'lift' (default, label-anchored, docs Sec. 4.3) or 'question'
+    (v3: asset-agnostic situation-question coding, kept as the ablation)."""
+    mode = ctx.cfg.get("method", {}).get("m2_coding", "lift")
+    if mode not in ("lift", "question"):
+        raise SystemExit(f"method.m2_coding must be 'lift' or 'question', got {mode!r}")
+    return mode
+
+
+# Words that mark a statement as evidence or system state rather than a world fact (rule R1/R4).
+# This is a program check on the MODEL OUTPUT, not a prompt: no domain example is shown to the model.
+EVIDENCE_WORDS = re.compile(
+    r"\b(sensors?|detectors?|alarms?|modes?|thresholds?|predefined|pre-defined|readings?|detected|detects|detection|"
+    r"lux|ppm|settings?|configured|user[- ]specified|user[- ]set)\b"
+    r"|\b(turned|switched) (on|off)\b|\b(is|are) (on|off)\s*$", re.I)
+LIFT_GATES = ("evidence", "counterfactual")
+
+
+def _lift_check(kind: str, observation: str, latent: str, question: str, still_right, gate: str = "evidence") -> str:
+    """Programmatic check of one lift (no LLM). Returns the unit's lift status:
+      no_fact      device state / configuration / obligation / unclear, or no fact given
+      world_fact   the condition already states a world fact
+      lifted       evidence (reading, mode, event) lifted to a world fact
+      lift_failed  the 'fact' is still evidence or system state, or repeats the observation,
+                   or is written as a question
+    gate='evidence' (v4.1, default): the fact must not be a question, must not contain
+      evidence/system words (EVIDENCE_WORDS) and must differ from the observation; this
+      applies to world_state too (v4 let any unit the model called world_state through,
+      e.g. 'home is in away mode'). The counterfactual answer is recorded only.
+      Why: v4's counterfactual asks whether acting on the evidence is still right if the
+      fact is false. For safety properties a careful coder says yes (precaution under a
+      possible false alarm), so 52 of 63 v4 failures were correct lifts rejected by it,
+      including 38 of 42 hazard units. That question is gap B1, decided at runtime (M9).
+    gate='counterfactual' (v4, ablation): the original rule."""
+    if kind in NO_VARIABLE_KINDS or not latent or not question:
+        return "no_fact"
+    if gate == "counterfactual":
+        if kind == "world_state":
+            return "world_fact"
+        same = _norm(" ".join(latent.split())) == _norm(" ".join(observation.split()))
+        return "lift_failed" if (same or still_right is not False) else "lifted"
+    if latent.strip().endswith("?") or EVIDENCE_WORDS.search(latent):
+        return "lift_failed"
+    if kind == "world_state":
+        return "world_fact"
+    if _norm(" ".join(latent.split())) == _norm(" ".join(observation.split())):
+        return "lift_failed"
+    return "lifted"
+
+
+def _code_conditions(ctx: Ctx, units: list[dict], temperature: float = 0.0, seed: int = 0) -> list[dict]:
+    """A2a: ONE call per evidence unit.
+    lift mode (default): kind, observation (evidence; kept for grounding/M5), reason (why the
+      property's action is right under the condition, for its asset), latent fact (what the
+      reason depends on), counterfactual, and the situation question the LATENT FACT answers.
+      The question is the variable that A2b groups, so dimensions are at the level of the
+      facts judgments depend on, not of the sensors that report them. _lift_check decides
+      whether a unit enters the grouping; with method.m2_lift_strict (default true) failed
+      lifts are kept out and listed.
+    question mode (ablation, v3): the question the condition itself answers, asset-agnostic.
+    Rule R1: device states, configurations and obligations carry no question. Few-shot
+    examples come only from the human codebook (data/vocab/a2_codebook.yaml)."""
+    mode = _coding_mode(ctx)
+    strict = ctx.cfg.get("method", {}).get("m2_lift_strict", True)
+    examples = _codebook(ctx).get("examples", [])
+    lift_ver, gate = _lift_cfg(ctx)
     rows = []
-    for t in texts:
-        sys, user, sch = code_condition_prompt(t, ptext.get(t, t))
-        o = ctx.llm.json("M2", "code_condition", sys, user, sch, temperature=temperature, seed=seed,
-                         context={"condition": t})
+    for u in units:
+        if mode == "lift":
+            sys, user, sch = lift_condition_prompt(u["condition"], u["property_text"], u["assets"], examples, lift_ver)
+            task = "lift_condition"
+        else:
+            sys, user, sch = code_condition_prompt(u["condition"], u["property_text"], examples)
+            task = "code_condition"
+        o = ctx.llm.json("M2", task, sys, user, sch, temperature=temperature, seed=seed,
+                         context={"condition": u["condition"], "property_id": u["property_id"], "assets": u["assets"]})
         kind = o.get("kind") if o.get("kind") in CONDITION_KINDS else "unclear"
-        var = " ".join(str(o.get("variable", "")).lower().split())
-        fact = str(o.get("world_fact", "")).strip()
-        if kind in NO_VARIABLE_KINDS or not var or not fact:
-            var, fact = "", fact if kind not in NO_VARIABLE_KINDS else ""
-        rows.append({"condition": t, "kind": kind, "world_fact": fact, "variable": var,
-                     "value": str(o.get("value", "")).strip(), "scope": o.get("scope", "home"),
-                     "reason": o.get("reason", "")})
+        obs = str(o.get("observation", "")).strip()
+        q = " ".join(str(o.get("question", "")).split())
+        ans = str(o.get("answer", "")).strip()
+        latent = " ".join(str(o.get("latent_fact", "")).split()) if mode == "lift" else ""
+        still = o.get("counterfactual_still_right") if mode == "lift" else None
+        status = _lift_check(kind, obs, latent, q, still, gate) if mode == "lift" else "n/a"
+        if kind in NO_VARIABLE_KINDS or status == "no_fact" or (strict and status == "lift_failed"):
+            var, value = "", ""
+        else:
+            var, value = q.lower(), ans
+        rows.append({"unit": u["unit"], "property_id": u["property_id"], "property_ids": [u["property_id"]],
+                     "condition": u["condition"], "assets": u["assets"], "kind": kind, "observation": obs,
+                     "reason": str(o.get("reason", "")).strip(), "latent_fact": latent,
+                     "counterfactual_still_right": still, "lift_status": status,
+                     "question": q, "answer": ans, "variable": var, "value": value,
+                     "world_fact": (latent or f"{q} {ans}").strip() if var else "", "scope": o.get("scope", "home")})
     return rows
 
 
@@ -349,12 +458,201 @@ def _group_variables(ctx: Ctx, rows: list[dict], temperature: float = 0.0, seed:
     return dims, v2d, rec
 
 
-def _a2_once(ctx: Ctx, texts, temperature=0.0, seed=0, order_seed=None):
-    rows = _code_conditions(ctx, texts, temperature, seed)
-    dims, v2d, rec = _group_variables(ctx, rows, temperature, seed, order_seed)
+DEPENDENT = ("exclusive", "a_implies_b", "b_implies_a")
+# Factor name = <subject prefix>_<aspect>. The prefix is the runtime grounding scope:
+# home/outdoor/person -> one value for the home (scope global), zone -> one value per room,
+# evaluated in the room where the action's effect acts (scope zone).
+SUBJECT_PREFIX = {"home": "home", "room": "zone", "outdoor": "outdoor", "person": "person"}
+
+
+def _grouping_mode(ctx: Ctx) -> str:
+    """method.m2_grouping: 'relation' (default; slots from pairwise logical relations of facts,
+    docs Sec. 4.3 operator G) or 'llm' (one grouping call + one-question check, the v3 way)."""
+    mode = ctx.cfg.get("method", {}).get("m2_grouping", "relation")
+    if mode not in ("relation", "llm"):
+        raise SystemExit(f"method.m2_grouping must be 'relation' or 'llm', got {mode!r}")
+    return mode
+
+
+def _slots_from_relations(facts: list[str], rel: dict) -> dict:
+    """Deterministic slot construction from pairwise relations (no LLM).
+    facts: fact keys of ONE subject. rel: {(a, b): relation} for queried pairs (a < b).
+      1. 'same' pairs are merged (union-find) into values;
+      2. values linked by 'exclusive' / 'implies' form one candidate slot (connected component);
+      3. a slot must be a set of mutually DEPENDENT values: if two values in a component were
+         judged 'independent', the component mixes two aspects of the situation and is split
+         greedily into cliques of the dependency graph; every such case is reported.
+    Returns {"slots": [[fact, ...], ...], "violations": [...], "splits": [...], "implications": [...]}."""
+    parent = {f: f for f in facts}
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+    for (a, b), r in sorted(rel.items()):
+        if r == "same":
+            ra, rb = find(a), find(b)
+            if ra != rb:
+                parent[max(ra, rb)] = min(ra, rb)
+    cl = defaultdict(list)
+    for f in facts:
+        cl[find(f)].append(f)
+    roots = sorted(cl)
+    dep, ind, impl = defaultdict(set), set(), []
+    for (a, b), r in sorted(rel.items()):
+        ra, rb = find(a), find(b)
+        if ra == rb:
+            continue
+        if r in DEPENDENT:
+            dep[ra].add(rb)
+            dep[rb].add(ra)
+            if r != "exclusive":
+                impl.append({"finer": a if r == "a_implies_b" else b, "coarser": b if r == "a_implies_b" else a})
+        elif r == "independent":
+            ind.add(frozenset((ra, rb)))
+    seen, comps = set(), []
+    for r0 in roots:                                   # connected components over dependency edges
+        if r0 in seen:
+            continue
+        comp, stack = [], [r0]
+        seen.add(r0)
+        while stack:
+            x = stack.pop()
+            comp.append(x)
+            for y in sorted(dep[x]):
+                if y not in seen:
+                    seen.add(y)
+                    stack.append(y)
+        comps.append(sorted(comp))
+    slots, violations, splits = [], [], []
+    for comp in comps:
+        bad = [sorted(pair) for pair in ind if pair <= set(comp)]
+        if not bad:
+            slots.append(comp)
+            continue
+        violations.append({"component": [m for x in comp for m in cl[x]],
+                           "independent_pairs": [[cl[a][0], cl[b][0]] for a, b in sorted(bad)]})
+        left = sorted(comp, key=lambda x: (-len(dep[x] & set(comp)), x))
+        parts = []
+        while left:                                    # greedy clique cover of the dependency graph
+            clique = [left.pop(0)]
+            for y in list(left):
+                if all(y in dep[c] for c in clique):
+                    clique.append(y)
+                    left.remove(y)
+            parts.append(sorted(clique))
+        splits.append({"from": [m for x in comp for m in cl[x]], "into": [[m for x in pt for m in cl[x]] for pt in parts]})
+        slots.extend(parts)
+    return {"slots": [[m for x in s for m in cl[x]] for s in slots], "violations": violations,
+            "splits": splits, "implications": impl}
+
+
+def _group_relations(ctx: Ctx, rows: list[dict], temperature: float = 0.0, seed: int = 0,
+                     order_seed: str | None = None) -> tuple[dict, dict, dict]:
+    """A2b by pairwise relations (operator G). Every coded fact gets a subject (its scope:
+    home / room / outdoor / person); facts of different subjects are never in one slot.
+    For each subject, the relation of every PAIR of facts is asked (one small call each)
+    when the number of pairs is within method.m2_pair_budget; above it, candidate pairs come
+    from one grouping call (pairs inside a candidate group, plus all cross pairs of two
+    groups whose first members turn out dependent). _slots_from_relations then builds the
+    slots without any LLM; each slot is named by one call (the name changes nothing)."""
+    budget = ctx.cfg.get("method", {}).get("m2_pair_budget", 2000)
+    assets = {a["id"] for a in ctx.asset_list}
+    text, subj_of = {}, {}
     for r in rows:
-        r["slot"] = v2d.get(r["variable"]) if r["variable"] else (
-            r["kind"] if r["kind"] in NO_VARIABLE_KINDS else "no_variable_given")
+        if not r["variable"]:
+            continue
+        subj = r.get("scope") if r.get("scope") in ("home", "room", "outdoor", "person") else "home"
+        key = f"{subj}|{_norm(r['world_fact'])}"
+        r["variable"] = key
+        text.setdefault(key, r["world_fact"])
+        subj_of[key] = subj
+    rec = {"pair_budget": budget, "subjects": {}, "relations": [], "violations": [], "splits": [], "implications": []}
+    dims, v2d = {}, {}
+    for subj in sorted(set(subj_of.values())):
+        facts = sorted(k for k, s in subj_of.items() if s == subj)
+        if order_seed:
+            random.Random(f"{order_seed}:{subj}").shuffle(facts)
+        n = len(facts)
+        rel = {}
+
+        def ask(a, b):
+            a, b = min(a, b), max(a, b)
+            if (a, b) in rel:
+                return rel[(a, b)]
+            o = ctx.llm.json("M2", "fact_relation", *fact_relation_prompt(subj, text[a], text[b]),
+                             temperature=temperature, seed=seed, context={"subject": subj, "a": text[a], "b": text[b]})
+            r_ = o.get("relation") if o.get("relation") in FACT_RELATIONS else "independent"
+            rel[(a, b)] = r_
+            rec["relations"].append({"subject": subj, "a": text[a], "b": text[b], "relation": r_,
+                                     "raw": o.get("relation"), "reason": o.get("reason", "")})
+            return r_
+        if n * (n - 1) // 2 <= budget:
+            mode = "exhaustive"
+            for i in range(n):
+                for j in range(i + 1, n):
+                    ask(facts[i], facts[j])
+        else:
+            mode = "candidate"
+            out = ctx.llm.json("M2", "group_variables", *group_variables_prompt([text[f] for f in facts]),
+                               temperature=temperature, seed=seed, context={"variables": [text[f] for f in facts]})
+            groups, used = [], set()
+            for g in out.get("groups", []):
+                mem = [facts[i] for i in g.get("members", []) if isinstance(i, int) and 0 <= i < n and facts[i] not in used]
+                used.update(mem)
+                if mem:
+                    groups.append(mem)
+            groups += [[f] for f in facts if f not in used]
+            for g in groups:
+                for i in range(len(g)):
+                    for j in range(i + 1, len(g)):
+                        ask(g[i], g[j])
+            for gi in range(len(groups)):
+                for gj in range(gi + 1, len(groups)):
+                    if ask(groups[gi][0], groups[gj][0]) in DEPENDENT:
+                        for a in groups[gi]:
+                            for b in groups[gj]:
+                                ask(a, b)
+        res = _slots_from_relations(facts, rel)
+        rec["subjects"][subj] = {"facts": n, "pairs_asked": len(rel), "pair_mode": mode,
+                                 "relations": dict(Counter(rel.values())), "slots": len(res["slots"])}
+        rec["violations"] += [{"subject": subj, **v} for v in res["violations"]]
+        rec["splits"] += [{"subject": subj, **s} for s in res["splits"]]
+        rec["implications"] += [{"subject": subj, "finer": text[x["finer"]], "coarser": text[x["coarser"]]}
+                                for x in res["implications"]]
+        for members in res["slots"]:
+            o = ctx.llm.json("M2", "name_slot", *name_slot_prompt(subj, [text[m] for m in members]),
+                             temperature=temperature, seed=seed, context={"subject": subj, "facts": [text[m] for m in members]})
+            pre = SUBJECT_PREFIX.get(subj, subj)
+            words = [w for w in _norm(o.get("aspect", "")).split("_") if w and w not in (pre, subj)][:3]
+            did = f"{pre}_{'_'.join(words) or 'aspect'}"
+            while did in dims:
+                did += "_x"
+            issues = [f"named after protected asset '{a}'" for a in assets if a in did.split("_")]
+            dims[did] = {"id": did, "desc": o.get("question", ""), "subject": subj, "variables": [text[m] for m in members],
+                         "origin": "relation grouping", "verification": {"single_variable": True, "checked": True,
+                                                                         "method": "pairwise dependency", "issues": issues}}
+            for m in members:
+                v2d[m] = did
+    return dims, v2d, rec
+
+
+def _a2_once(ctx: Ctx, units, temperature=0.0, seed=0, order_seed=None):
+    rows = _code_conditions(ctx, units, temperature, seed)
+    if _grouping_mode(ctx) == "relation":
+        dims, v2d, rec = _group_relations(ctx, rows, temperature, seed, order_seed)
+    else:
+        dims, v2d, rec = _group_variables(ctx, rows, temperature, seed, order_seed)
+    for r in rows:
+        if r["variable"]:
+            r["slot"] = v2d.get(r["variable"])
+        elif r["kind"] in NO_VARIABLE_KINDS:
+            r["slot"] = r["kind"]
+        elif r["lift_status"] == "lift_failed":
+            r["slot"] = "lift_failed"
+        else:
+            r["slot"] = "no_variable_given"
     return rows, dims, rec
 
 
@@ -368,11 +666,10 @@ def run_dims(ctx: Ctx, runs: int = 1) -> dict:
     Stability: runs 1..R-1 repeat A2a-c with temperature 0.7 and other seeds (and a
     shuffled variable list); reported: kind agreement (kappa), ARI of the condition ->
     dimension labelling vs run 0, and per-dimension recurrence (Jaccard >= 0.5)."""
-    texts = _cond_texts(ctx)
-    cp = _cond_props(ctx)
-    rows, dims, rec = _a2_once(ctx, texts)
-    for r in rows:
-        r["property_ids"] = sorted(cp.get(r["condition"], ()))
+    units = _units(ctx)
+    keys = [u["unit"] for u in units]
+    mode = _coding_mode(ctx)
+    rows, dims, rec = _a2_once(ctx, units)
     for did, d in dims.items():
         mine = [r for r in rows if r["slot"] == did]
         d.update({"kind": "situation", "n_conditions": len(mine),
@@ -383,7 +680,22 @@ def run_dims(ctx: Ctx, runs: int = 1) -> dict:
     slots = sorted(dims.values(), key=lambda d: -d["n_conditions"]) + \
         [{"id": k, "kind": "excluded", "desc": f"conditions coded as {k} (no world variable)", "n_conditions": n}
          for k, n in sorted(excluded.items())]
-    res = {"version": "S-induced-v2 (variable-level coding)", "n_conditions": len(rows), "kinds": dict(kinds),
+    lift = Counter(r["lift_status"] for r in rows)
+    lift_ver, gate = _lift_cfg(ctx)
+    cb = _codebook(ctx)
+    res = {"version": (f"S-induced-{lift_ver} ({mode} coding, gate={gate})" if mode == "lift"
+                       else "S-induced-v3 (question coding, ablation)"),
+           "codebook": cb.get("version"),
+           "coding": mode, "n_conditions": len(rows), "n_units": len(rows),
+           "n_distinct_conditions": len({r["condition"] for r in rows}), "kinds": dict(kinds),
+           "lift_status": dict(lift) if mode == "lift" else None,
+           "lift_failed": [{"unit": r["unit"], "kind": r["kind"], "observation": r["observation"],
+                            "latent_fact": r["latent_fact"], "counterfactual_still_right": r["counterfactual_still_right"]}
+                           for r in rows if r["lift_status"] == "lift_failed"],
+           "grouping": _grouping_mode(ctx),
+           "relation_grouping": ({"subjects": rec.get("subjects"), "mixed_aspect_components": len(rec.get("violations", [])),
+                                  "splits": rec.get("splits"), "implications": len(rec.get("implications", []))}
+                                 if _grouping_mode(ctx) == "relation" else None),
            "with_world_variable": sum(1 for r in rows if r["variable"]), "n_dimensions": len(dims),
            "unverified_or_failed": [d["id"] for d in dims.values() if not d.get("verification", {}).get("single_variable", True)],
            "asset_named": [d["id"] for d in dims.values() if d.get("verification", {}).get("issues")],
@@ -391,30 +703,39 @@ def run_dims(ctx: Ctx, runs: int = 1) -> dict:
     save_yaml(ctx, "m2-dims", res, "m2", "A2_dims.yaml")
     save_yaml(ctx, "m2-dims", rows, "m2", "A2_coding.yaml")
     save_yaml(ctx, "m2-dims", rec, "m2", "A2_grouping.yaml")
+    if rec.get("relations"):
+        rs = _sample(rec["relations"], 60, lambda r: r["relation"], "A2rel")
+        save_csv(ctx, "m2-dims", ["subject", "fact_a", "fact_b", "relation", "reason",
+                                  "HUMAN_relation_ok(1/0)", "HUMAN_relation(same/exclusive/a_implies_b/b_implies_a/independent)", "note"],
+                 [[r["subject"], r["a"], r["b"], r["relation"], r["reason"], "", "", ""] for r in rs],
+                 "annotate", "m2_A2_relations_CHECK.csv")
     sample = _sample(rows, 50, lambda r: r["slot"], "A2")
-    save_csv(ctx, "m2-dims", ["condition", "kind", "world_fact", "variable", "dimension",
-                              "HUMAN_kind_ok(1/0)", "HUMAN_dimension_ok(1/0)", "HUMAN_better", "note"],
-             [[r["condition"], r["kind"], r["world_fact"], r["variable"], r["slot"], "", "", "", ""] for r in sample],
+    save_csv(ctx, "m2-dims", ["property_id", "condition", "assets", "kind", "observation", "reason", "latent_fact",
+                              "counterfactual_still_right", "lift_status", "question", "dimension",
+                              "HUMAN_kind_ok(1/0)", "HUMAN_lift_ok(1/0)", "HUMAN_dimension_ok(1/0)", "HUMAN_better", "note"],
+             [[r["property_id"], r["condition"], ";".join(r["assets"]), r["kind"], r["observation"], r["reason"],
+               r["latent_fact"], r["counterfactual_still_right"], r["lift_status"], r["question"], r["slot"],
+               "", "", "", "", ""] for r in sample],
              "annotate", "m2_A2_coding_CHECK.csv")
     if runs > 1:
-        lab0 = {r["condition"]: r["slot"] for r in rows}
-        kind0 = {r["condition"]: r["kind"] for r in rows}
-        sets0 = {did: {r["condition"] for r in rows if r["slot"] == did} for did in dims}
+        lab0 = {r["unit"]: r["slot"] for r in rows}
+        kind0 = {r["unit"]: r["kind"] for r in rows}
+        sets0 = {did: {r["unit"] for r in rows if r["slot"] == did} for did in dims}
         stab = {"runs": runs, "per_run": [], "dimension_recurrence": {}}
         hits = defaultdict(list)
         for i in range(1, runs):
-            r_i, d_i, rec_i = _a2_once(ctx, texts, temperature=0.7, seed=i, order_seed=f"{ctx.seed}:A2:{i}")
+            r_i, d_i, rec_i = _a2_once(ctx, units, temperature=0.7, seed=i, order_seed=f"{ctx.seed}:A2:{i}")
             save_yaml(ctx, "m2-dims", {"dims": list(d_i.values()), "grouping": rec_i}, "m2", "A2_runs", f"run{i}_dims.yaml")
             save_yaml(ctx, "m2-dims", r_i, "m2", "A2_runs", f"run{i}_coding.yaml")
-            lab = {r["condition"]: r["slot"] for r in r_i}
-            kd = {r["condition"]: r["kind"] for r in r_i}
+            lab = {r["unit"]: r["slot"] for r in r_i}
+            kd = {r["unit"]: r["kind"] for r in r_i}
             sets_i = defaultdict(set)
             for r in r_i:
                 if r["variable"]:
-                    sets_i[r["slot"]].add(r["condition"])
+                    sets_i[r["slot"]].add(r["unit"])
             stab["per_run"].append({"run": i, "n_dimensions": len(d_i),
-                                    "ari_vs_run0": _ari([lab0[t] for t in texts], [lab[t] for t in texts]),
-                                    "kind_kappa_vs_run0": _kappa([kind0[t] for t in texts], [kd[t] for t in texts])})
+                                    "ari_vs_run0": _ari([lab0[t] for t in keys], [lab[t] for t in keys]),
+                                    "kind_kappa_vs_run0": _kappa([kind0[t] for t in keys], [kd[t] for t in keys])})
             for did, s0 in sets0.items():
                 best = max(((len(s0 & s) / max(1, len(s0 | s)), k) for k, s in sets_i.items()), default=(0.0, None))
                 hits[did].append({"run": i, "best_match": best[1], "jaccard": round(best[0], 3)})
@@ -426,6 +747,59 @@ def run_dims(ctx: Ctx, runs: int = 1) -> dict:
         save_yaml(ctx, "m2-dims", stab, "m2", "A2_stability.yaml")
         res["stability"] = {"mean_ari": stab["mean_ari"], "mean_kind_kappa": stab["mean_kind_kappa"],
                             "recurrence": {k: v["recurrence"] for k, v in stab["dimension_recurrence"].items()}}
+    log_result(ctx, "m2-dims", ctx.outp("m2", "A2_dims.yaml"),
+               {"n_dimensions": res["n_dimensions"], "lift_status": res["lift_status"], "kinds": res["kinds"],
+                "with_world_variable": res["with_world_variable"],
+                "mean_ari": (res.get("stability") or {}).get("mean_ari"),
+                "mean_kind_kappa": (res.get("stability") or {}).get("mean_kind_kappa")},
+               method_version=res["version"], n=res["n_units"], codebook=str(cb.get("version")), note=f"runs={runs}")
+    # A3 is derived from A2: once A2 changes, the old A3 files no longer describe it.
+    if os.path.exists(ctx.outp("m2", "A3_values_report.yaml")):
+        with open(ctx.outp("m2", "A3_STALE.txt"), "w", encoding="utf-8") as f:
+            f.write(f"A2 was re-run ({res['version']}); A3_* files predate it. Run m2-values before using them.\n")
+        print("NOTE: out/m2/A3_* now describe an older A2 -> run m2-values (marker: out/m2/A3_STALE.txt)")
+    return res
+
+
+def run_dev(ctx: Ctx) -> dict:
+    """Score A2 against the held-out part of the human codebook (never shown to the model):
+    kind accuracy, 'has a situation question' accuracy, and ARI between the produced
+    condition -> dimension grouping and the human grouping (all dev items, seen-only,
+    unseen-only). Run after every prompt change BEFORE trusting a full A2 run."""
+    cb = _codebook(ctx)
+    coding = load_yaml(ctx.outp("m2", "A2_coding.yaml"))
+    a2 = load_yaml(ctx.outp("m2", "A2_dims.yaml"))
+    by_prop = defaultdict(list)
+    for r in coding:
+        for pid in r.get("property_ids", []):
+            by_prop[pid].append(r)
+    rows = []
+    for d in cb.get("dev", []):
+        cands = by_prop.get(d["property"], [])
+        words = set(d["condition"].lower().replace("_", " ").split())
+        best = max(cands, key=lambda r: len(words & set(r["condition"].lower().replace("_", " ").split())), default=None)
+        if best is None:
+            rows.append({**d, "found": False})
+            continue
+        rows.append({**d, "found": True, "matched_condition": best["condition"], "got_kind": best["kind"],
+                     "got_dim": best["slot"] if best["variable"] else "none", "got_question": best.get("question", "")})
+    f = [r for r in rows if r["found"]]
+
+    def ari(sub):
+        return _ari([r["dim"] for r in sub], [r["got_dim"] for r in sub]) if len(sub) > 1 else None
+    res = {"codebook": cb.get("version"), "dev_items": len(rows), "found": len(f),
+           "kind_accuracy": round(sum(r["kind"] == r["got_kind"] for r in f) / max(1, len(f)), 3),
+           "has_question_accuracy": round(sum((r["dim"] != "none") == (r["got_dim"] != "none") for r in f) / max(1, len(f)), 3),
+           "ari_all": ari(f), "ari_seen_dims": ari([r for r in f if r["seen"]]),
+           "ari_unseen_dims": ari([r for r in f if not r["seen"]]), "items": rows}
+    res["scored_A2"] = {"version": a2.get("version"), "A2_coding_sha": _file_sha(ctx.outp("m2", "A2_coding.yaml"))}
+    save_yaml(ctx, "m2-dev", res, "eval", "m2_A2_dev.yaml")
+    # keep every dev score (the prompt-development history), named by A2 version and model
+    tag = _norm(f"{a2.get('version', '')}_{ctx.cfg['llm']['model']}")[:80]
+    hist = save_yaml(ctx, "m2-dev", res, "eval", "dev_history", f"m2_A2_dev_{tag}_{res['scored_A2']['A2_coding_sha']}.yaml")
+    log_result(ctx, "m2-dev", hist, {k: res[k] for k in ("kind_accuracy", "has_question_accuracy", "ari_all",
+                                                          "ari_seen_dims", "ari_unseen_dims")},
+               method_version=str(a2.get("version")), n=res["found"], codebook=str(cb.get("version")))
     return res
 
 
@@ -469,6 +843,7 @@ def run_values(ctx: Ctx) -> dict:
             if v:
                 props_val[v].update(r.get("property_ids", []))
             assign.append({"dimension": d["id"], "condition": r["condition"], "world_fact": r["world_fact"],
+                           "observation": r.get("observation", ""),      # evidence layer: seeds the grounding of this value (M5)
                            "observed_value": r["value"], "value": v, "property_ids": r.get("property_ids", [])})
         covered = sum(n for v, n in per_val.items() if v)
         factors.append({"name": d["id"], "scope": d.get("scope", "global"), "semantics": d.get("desc", ""),
@@ -488,10 +863,14 @@ def run_values(ctx: Ctx) -> dict:
     report["n_conditions_with_variable"] = sum(x["n_conditions"] for x in report["per_dimension"].values())
     report["overall_coverage"] = round(sum(x["covered"] for x in report["per_dimension"].values()) /
                                        max(1, report["n_conditions_with_variable"]), 3)
-    res = {"version": "F-A3", "schema": a2.get("version"), "factors": factors, "feasibility": []}
+    report["source_A2"] = {"version": a2.get("version"), "A2_dims_sha": _file_sha(ctx.outp("m2", "A2_dims.yaml"))}
+    res = {"version": "F-A3", "schema": a2.get("version"), "source_A2": report["source_A2"],
+           "factors": factors, "feasibility": []}
     save_yaml(ctx, "m2-values", res, "m2", "A3_factors_corpus.yaml")
     save_yaml(ctx, "m2-values", report, "m2", "A3_values_report.yaml")
     save_yaml(ctx, "m2-values", assign, "m2", "A3_value_assignment.yaml")
+    if os.path.exists(ctx.outp("m2", "A3_STALE.txt")):
+        os.remove(ctx.outp("m2", "A3_STALE.txt"))
     return report
 
 
@@ -687,7 +1066,8 @@ def run_elicit(ctx: Ctx, max_items: int = 6, base: str = "seed", effects: list |
     E = [e for e in lib["effects"] if not effects or e["id"] in effects]
     queried = {(e["id"], a["id"]) for e in E for a in ctx.asset_list}
     ev = _evidence(ctx)
-    keep = [i for i in ev["items"] if i.get("source") == "refutation" or (i["effect"], i["asset"]) not in queried]
+    # only this stage's own items are replaced; refutation and property evidence is kept
+    keep = [i for i in ev["items"] if i.get("source", "elicit") != "elicit" or (i["effect"], i["asset"]) not in queried]
     rej = [i for i in ev.get("rejected", []) if (i["effect"], i["asset"]) not in queried]
     rnd = len(ev.get("rounds", [])) + 1
     items = []
@@ -1080,6 +1460,109 @@ def run_refine(ctx: Ctx) -> dict:
                r["judge_label"], r["missing_attribute"], r["dimension"], "", "", ""] for r in rows],
              "annotate", "m2_D3_counterexample_CHECK.csv")
     return {k: v for k, v in res.items() if k != "items"}
+
+
+# ------------------------------------------------------------------ expansion: new properties
+def run_ingest(ctx: Ctx, src: str, allow_heldout: bool = False) -> dict:
+    """Expansion trigger 'new property' (docs Sec. 4.6). New properties (CSV with id, source,
+    text[, scope]) are first mapped into the CURRENT vocabulary (config paths.factors):
+      expressible   -> the vocabulary already covers it: nothing changes (no growth without need);
+      inexpressible -> its conditions are lifted (same L operator and _lift_check as A2), each
+                       lifted fact is filed under an existing factor or NEW:<name>, and becomes an
+                       evidence item (source 'property') for m2-consolidate --base current, where
+                       the witness rule (a label signature differing from the parent value)
+                       decides whether it becomes a value.
+    Held-out properties of the corpus must not be ingested (they measure expressibility);
+    this is refused unless allow_heldout."""
+    vocab = ctx.vocab
+    lib = ctx.effects()
+    eids = {e["id"] for e in lib["effects"]}
+    aids = {a["id"] for a in ctx.asset_list}
+    edesc = "\n".join(f"- {e['id']}: {e['desc']}" for e in lib["effects"])
+    B, bpath = _base(ctx, "current")
+    dims = [f for f in B["factors"] if f.get("scope") != "action"]
+    names = {f["name"] for f in dims}
+    ddesc = _dims_desc(dims)
+    examples = _codebook(ctx).get("examples", [])
+    lift_ver, gate = _lift_cfg(ctx)
+    new = [r for r in csv.DictReader(open(src, encoding="utf-8")) if r.get("scope", "in") == "in"]
+    split = {r["id"]: r["split"] for r in load_properties(ctx)}
+    leak = [r["id"] for r in new if split.get(r["id"]) == "test"]
+    if leak and not allow_heldout:
+        raise SystemExit(f"refused: {leak} are held-out properties of the corpus (they measure expressibility)")
+    rows, items = [], []
+    for prop in new:
+        out = ctx.llm.json("M2", "map_property", *map_property_prompt(prop["text"], vocab.describe_vocab(), edesc),
+                           context={"property": prop})
+        effs = [e for e in out.get("effects", []) or [] if e in eids]
+        asset = out.get("asset") if out.get("asset") in aids else None
+        label = out.get("label") if out.get("label") in ("+", "-") else None
+        row = {"property_id": prop["id"], "text": prop["text"], "source": prop.get("source", ""),
+               "already_in_corpus": prop["id"] in split, "expressible": False, "missing": out.get("missing", ""),
+               "units": []}
+        if out.get("expressible"):
+            try:
+                phi = normalize(out.get("pattern") or {}, vocab)
+                if not effs or not asset or not label:
+                    raise ValueError("effect/asset/label invalid")
+                row.update({"expressible": True, "pattern": pattern_to_json(phi, vocab), "effects": effs,
+                            "asset": asset, "label": label})
+            except ValueError as e:
+                row["missing"] = f"invalid mapping: {e}"
+        if not row["expressible"]:
+            conds = [c.strip() for c in ctx.llm.json("M2", "extract_predicates", *extract_predicates_prompt(prop["text"]),
+                                                      context={"property": prop}).get("conditions", []) if c and c.strip()]
+            assets = ctx.llm.json("M2", "property_assets", *property_assets_prompt(prop["text"]),
+                                  context={"property": prop}).get("assets", [])
+            for c in conds:
+                o = ctx.llm.json("M2", "lift_condition", *lift_condition_prompt(c, prop["text"], assets, examples, lift_ver),
+                                 context={"condition": c, "property_id": prop["id"], "assets": assets})
+                kind = o.get("kind") if o.get("kind") in CONDITION_KINDS else "unclear"
+                latent = " ".join(str(o.get("latent_fact", "")).split())
+                status = _lift_check(kind, str(o.get("observation", "")).strip(), latent,
+                                     " ".join(str(o.get("question", "")).split()), o.get("counterfactual_still_right"), gate)
+                u = {"condition": c, "kind": kind, "observation": o.get("observation", ""), "latent_fact": latent,
+                     "reason": o.get("reason", ""), "lift_status": status}
+                if status in ("lifted", "world_fact"):
+                    a = ctx.llm.json("M2", "attribute_dimension", *attribute_dimension_prompt(latent, ddesc),
+                                     context={"attribute": latent, "dims": sorted(names)})
+                    d = str(a.get("dimension", ""))
+                    d = ("NEW:" + _norm(d[4:])) if d.upper().startswith("NEW:") else d
+                    u["dimension"] = d
+                    u["used"] = (d in names or d.startswith("NEW:")) and bool(a.get("is_world_state"))
+                    if u["used"]:
+                        pairs = [(e, asset) for e in effs] if (effs and asset) else []
+                        for e, v in pairs or [("", asset or (assets[0] if assets else ""))]:
+                            items.append({"effect": e, "asset": v, "attribute": latent, "label": label, "dimension": d,
+                                          "why": u["reason"], "source": "property", "property_id": prop["id"],
+                                          "has_pair": bool(pairs)})
+                row["units"].append(u)
+        rows.append(row)
+    ids = {r["property_id"] for r in rows}
+    ev = _evidence(ctx)
+    ev["items"] = [i for i in ev["items"] if not (i.get("source") == "property" and i.get("property_id") in ids)] + items
+    ev.setdefault("rounds", []).append({"ingest": os.path.relpath(src, p()), "properties": len(rows), "items": len(items)})
+    save_yaml(ctx, "m2-ingest", ev, "m2", "B1_elicitation.yaml")
+    affected = sorted({i["dimension"] for i in items})
+    res = {"base": os.path.relpath(bpath, p()), "base_version": B.get("version"), "src": os.path.relpath(src, p()),
+           "properties": len(rows), "expressible_already": sum(r["expressible"] for r in rows),
+           "inexpressible": sum(not r["expressible"] for r in rows),
+           "lift_status": dict(Counter(u["lift_status"] for r in rows for u in r["units"])),
+           "evidence_items": len(items), "items_without_effect_pair": sum(not i["has_pair"] for i in items),
+           "affected_dimensions": affected,
+           "next": (f"m2-consolidate --base current --dims {' '.join(affected)}" if affected
+                    else "nothing to add: the current vocabulary expresses every new property"),
+           "per_property": rows}
+    save_yaml(ctx, "m2-ingest", res, "m2", "I1_ingest.yaml")
+    save_csv(ctx, "m2-ingest", ["property_id", "text", "expressible", "condition", "observation", "latent_fact",
+                                "lift_status", "dimension", "HUMAN_expressible(1/0)", "HUMAN_lift_ok(1/0)",
+                                "HUMAN_dimension_ok(1/0)", "note"],
+             [[r["property_id"], r["text"], int(r["expressible"]), u["condition"], u["observation"], u["latent_fact"],
+               u["lift_status"], u.get("dimension", ""), "", "", "", ""]
+              for r in rows for u in (r["units"] or [{"condition": "", "observation": "", "latent_fact": "",
+                                                      "lift_status": "", "dimension": ""}])],
+             "annotate", "m2_I1_ingest_CHECK.csv")
+    return {k: v for k, v in res.items() if k != "per_property"}
 
 
 # ------------------------------------------------------------------ check sheets

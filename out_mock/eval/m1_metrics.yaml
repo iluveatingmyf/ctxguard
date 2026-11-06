@@ -1,0 +1,186 @@
+k=3:
+  precision: 1.0
+  recall: 1.0
+  f1: 1.0
+  gold_effects_per_action: 1.79
+  per_action:
+    open_window:
+      missed: []
+      extra: []
+    close_window:
+      missed: []
+      extra: []
+    open_blind:
+      missed: []
+      extra: []
+    close_blind:
+      missed: []
+      extra: []
+    open_garage:
+      missed: []
+      extra: []
+    close_garage:
+      missed: []
+      extra: []
+    unlock_door:
+      missed: []
+      extra: []
+    lock_door:
+      missed: []
+      extra: []
+    heat_on:
+      missed: []
+      extra: []
+    cool_on:
+      missed: []
+      extra: []
+    hvac_off:
+      missed: []
+      extra: []
+    fan_on:
+      missed: []
+      extra: []
+    exhaust_fan_on:
+      missed: []
+      extra: []
+    light_on:
+      missed: []
+      extra: []
+    light_off:
+      missed: []
+      extra: []
+    outlet_on:
+      missed: []
+      extra: []
+    outlet_off:
+      missed: []
+      extra: []
+    stove_off:
+      missed: []
+      extra: []
+    water_valve_close:
+      missed: []
+      extra: []
+    water_valve_open:
+      missed: []
+      extra: []
+    gas_valve_close:
+      missed: []
+      extra: []
+    alarm_arm_away:
+      missed: []
+      extra: []
+    alarm_disarm:
+      missed: []
+      extra: []
+    siren_on:
+      missed: []
+      extra: []
+    camera_on:
+      missed: []
+      extra: []
+    media_play:
+      missed: []
+      extra: []
+    tts_announce:
+      missed: []
+      extra: []
+    vacuum_start:
+      missed: []
+      extra: []
+    humidifier_on:
+      missed: []
+      extra: []
+k=1:
+  precision: 1.0
+  recall: 1.0
+  f1: 1.0
+  gold_effects_per_action: 1.79
+  per_action:
+    open_window:
+      missed: []
+      extra: []
+    close_window:
+      missed: []
+      extra: []
+    open_blind:
+      missed: []
+      extra: []
+    close_blind:
+      missed: []
+      extra: []
+    open_garage:
+      missed: []
+      extra: []
+    close_garage:
+      missed: []
+      extra: []
+    unlock_door:
+      missed: []
+      extra: []
+    lock_door:
+      missed: []
+      extra: []
+    heat_on:
+      missed: []
+      extra: []
+    cool_on:
+      missed: []
+      extra: []
+    hvac_off:
+      missed: []
+      extra: []
+    fan_on:
+      missed: []
+      extra: []
+    exhaust_fan_on:
+      missed: []
+      extra: []
+    light_on:
+      missed: []
+      extra: []
+    light_off:
+      missed: []
+      extra: []
+    outlet_on:
+      missed: []
+      extra: []
+    outlet_off:
+      missed: []
+      extra: []
+    stove_off:
+      missed: []
+      extra: []
+    water_valve_close:
+      missed: []
+      extra: []
+    water_valve_open:
+      missed: []
+      extra: []
+    gas_valve_close:
+      missed: []
+      extra: []
+    alarm_arm_away:
+      missed: []
+      extra: []
+    alarm_disarm:
+      missed: []
+      extra: []
+    siren_on:
+      missed: []
+      extra: []
+    camera_on:
+      missed: []
+      extra: []
+    media_play:
+      missed: []
+      extra: []
+    tts_announce:
+      missed: []
+      extra: []
+    vacuum_start:
+      missed: []
+      extra: []
+    humidifier_on:
+      missed: []
+      extra: []

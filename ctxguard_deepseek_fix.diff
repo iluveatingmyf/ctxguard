@@ -1,0 +1,97 @@
+--- a/ctxguard/explog.py
++++ b/ctxguard/explog.py
+@@ -4,10 +4,10 @@
+   ts            local time of the run
+   step          CLI step (m1, m1-score, m2-dims, m2-dev, ...)
+   result_file   the file the numbers come from (its hash is in MANIFEST.csv)
+-  model,backend the LLM that produced the scored output
++  model,backend the LLM that produced the scored output; for DeepSeek the backend shows thinking=on/off
+   method_version the method/prompt version string of the scored output (e.g. M1-v3, A2 lift-v4.1)
+   prompts_sha   hash of ctxguard/prompts.py at scoring time
+-  config_sha    hash of the method section of the config (all switches that change results)
++  config_sha    hash of everything that changes answers: the method section + llm backend/model/thinking/max_tokens
+   codebook      A2 codebook version (M2 only)
+   n             number of scored items
+   metrics       the headline numbers, as JSON
+@@ -45,13 +45,17 @@
+     path = ctx.outp("eval", "experiment_log.csv")
+     os.makedirs(os.path.dirname(path), exist_ok=True)
+     new = not os.path.exists(path)
+-    method_cfg = json.dumps(ctx.cfg.get("method", {}), sort_keys=True)
++    llm = ctx.cfg["llm"]
++    answer_cfg = {"method": ctx.cfg.get("method", {}),
++                  "llm": {k: llm.get(k) for k in ("backend", "model", "thinking", "max_tokens")}}
++    method_cfg = json.dumps(answer_cfg, sort_keys=True, default=str)
++    backend = llm["backend"] + (f"(thinking={llm.get('thinking', 'disabled')})" if llm["backend"] == "deepseek" else "")
+     with open(path, "a", newline="", encoding="utf-8") as f:
+         w = csv.writer(f)
+         if new:
+             w.writerow(FIELDS)
+         w.writerow([time.strftime("%Y-%m-%d %H:%M:%S"), step, os.path.relpath(result_file, ROOT),
+-                    ctx.cfg["llm"]["model"], ctx.cfg["llm"]["backend"], method_version,
++                    llm["model"], backend, method_version,
+                     _sha_file(os.path.join(ROOT, "ctxguard", "prompts.py")), _sha_text(method_cfg),
+                     codebook, "" if n is None else n, json.dumps(metrics, ensure_ascii=False, sort_keys=True), note])
+     return path
+--- a/config_deepseek.yaml
++++ b/config_deepseek.yaml
+@@ -8,7 +8,8 @@
+   model: deepseek-v4-pro
+   host: http://localhost:11434
+   embed_model: nomic-embed-text
+-  max_tokens: 2048
++  thinking: disabled         # V4 thinks by default; thinking ignores temperature and costs ~7k tokens/call
++  max_tokens: 4096
+   timeout_s: 120
+   max_retries: 3
+ paths:
+--- a/tests/test_deepseek_backend.py
++++ b/tests/test_deepseek_backend.py
+@@ -18,6 +18,7 @@
+ from ctxguard.prompts import fact_relation_prompt  # noqa: E402
+ 
+ SEEN = []
++MODE = {"cut": False}
+ 
+ 
+ class H(BaseHTTPRequestHandler):
+@@ -27,9 +28,14 @@
+     def do_POST(self):
+         body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+         SEEN.append({"path": self.path, "auth": self.headers.get("Authorization"), "body": body})
+-        # first answer violates the enum, second is fine -> the client must retry once
+-        content = {"relation": "probably", "reason": "x"} if len(SEEN) == 1 else {"relation": "exclusive", "reason": "ok"}
+-        out = json.dumps({"choices": [{"message": {"content": json.dumps(content)}}],
++        n = len(SEEN)
++        if MODE["cut"] and n == 1:      # a long answer cut off at max_tokens -> truncated JSON, must be retried
++            msg, finish = {"content": '{"relation": "exc'}, "length"
++        elif n == 1:                     # first answer violates the enum -> the client must retry once
++            msg, finish = {"content": json.dumps({"relation": "probably", "reason": "x"})}, "stop"
++        else:
++            msg, finish = {"content": json.dumps({"relation": "exclusive", "reason": "ok"})}, "stop"
++        out = json.dumps({"choices": [{"message": msg, "finish_reason": finish}],
+                           "usage": {"prompt_tokens": 11, "completion_tokens": 3}}).encode()
+         self.send_response(200)
+         self.send_header("Content-Type", "application/json")
+@@ -57,6 +63,21 @@
+         assert out2 == out and len(SEEN) == 2
+         rows = open(os.path.join(d, "ledger.csv")).read().strip().splitlines()
+         assert rows[1].split(",")[4:6] == ["11", "3"] and rows[2].endswith(",1"), rows
++        # thinking is sent explicitly and defaults to disabled
++        assert b["thinking"] == {"type": "disabled"}, b.get("thinking")
++        # a truncated answer (finish_reason=length) is retried, not parsed
++        SEEN.clear()
++        MODE["cut"] = True
++        sys2, user2, schema2 = fact_relation_prompt("home", "a", "b")
++        assert llm.json("M2", "fact_relation", sys2, user2, schema2) == {"relation": "exclusive", "reason": "ok"}
++        assert len(SEEN) == 2
++        # thinking=enabled is a different cache entry: the disabled answer is not reused
++        SEEN.clear()
++        MODE["cut"] = False
++        cfg_on = {"llm": {**cfg["llm"], "thinking": "enabled"}}
++        llm_on = LLM(cfg_on, d)
++        llm_on.json("M2", "fact_relation", sys_, user, schema)
++        assert len(SEEN) >= 1 and SEEN[0]["body"]["thinking"] == {"type": "enabled"}
+     srv.shutdown()
+     print("DEEPSEEK BACKEND TEST PASSED")
+ 

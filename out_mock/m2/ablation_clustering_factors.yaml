@@ -1,0 +1,23 @@
+version: F-ablation-clustering
+status: ABLATION ONLY (bottom-up clustering); not the vocabulary
+factors:
+- name: an_elderly
+  scope: global
+  semantics: an elderly person is in a cold room
+  values:
+    'yes': holds
+    'no': does not hold
+  provenance:
+    cluster: 2
+    n_conditions: 2
+- name: nobody_is
+  scope: global
+  semantics: nobody is at home
+  values:
+    'yes': holds
+    'no': does not hold
+  provenance:
+    cluster: 1
+    n_conditions: 2
+feasibility: []
+unclustered_conditions: []

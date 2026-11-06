@@ -1,0 +1,46 @@
+properties_in_scope: 6
+train: 4
+test_heldout: 2
+conditions: 4
+distinct_conditions: 4
+properties_without_condition: []
+coverage_per_asset:
+  life_health:
+    properties: 0
+    conditions: 0
+  security:
+    properties: 2
+    conditions: 2
+  property:
+    properties: 0
+    conditions: 0
+  privacy:
+    properties: 0
+    conditions: 0
+  resource:
+    properties: 0
+    conditions: 0
+  comfort:
+    properties: 2
+    conditions: 2
+properties:
+- property_id: T01
+  source: TEST
+  assets:
+  - security
+  n_conditions: 1
+- property_id: T03
+  source: TEST
+  assets:
+  - comfort
+  n_conditions: 1
+- property_id: T04
+  source: TEST
+  assets:
+  - security
+  n_conditions: 1
+- property_id: T06
+  source: TEST
+  assets:
+  - comfort
+  n_conditions: 1

@@ -1,0 +1,39 @@
+eval:
+  audit_items: 90
+  missing_ratios:
+  - 0.0
+  - 0.1
+  - 0.2
+  - 0.3
+  - 0.4
+  - 0.5
+  scenarios_per_rule:
+    b1_forged: 1
+    b2_ambiguous: 1
+    gap_a: 2
+    missing: 1
+    random_rho: 2
+llm:
+  backend: mock
+  embed_model: nomic-embed-text
+  host: http://localhost:11434
+  max_retries: 2
+  model: qwen2.5:7b-instruct
+  num_ctx: 8192
+  timeout_s: 600
+method:
+  m1_samples: 3
+  m1_temperature: 0.7
+  m2_coding: lift
+  m2_grouping: relation
+  m2_lift_strict: true
+  m2_pair_budget: 2000
+  max_nodes_per_pair: 60
+  property_test_ratio: 0.3
+  refute_max_counterexamples: 3
+  seed: 7
+  spot_check_k: 3
+paths:
+  data: data
+  factors: data/vocab/factors_v0.yaml
+  out: out_mock

@@ -1,0 +1,62 @@
+n_conditions: 4
+per_slot:
+  time:
+    kind: situation
+    n_conditions: 0
+    examples: []
+    note: no corpus evidence; dimension kept for review
+  occupancy:
+    kind: situation
+    n_conditions: 2
+    examples:
+    - nobody is at home
+    - the family is at home
+    n_statements: 2
+    covered_statements: 2
+    coverage: 1.0
+    factors:
+    - occupancy_f
+  occupant_state:
+    kind: situation
+    n_conditions: 0
+    examples: []
+    note: no corpus evidence; dimension kept for review
+  vulnerability:
+    kind: situation
+    n_conditions: 0
+    examples: []
+    note: no corpus evidence; dimension kept for review
+  hazard:
+    kind: situation
+    n_conditions: 0
+    examples: []
+    note: no corpus evidence; dimension kept for review
+  indoor_environment:
+    kind: situation
+    n_conditions: 0
+    examples: []
+    note: no corpus evidence; dimension kept for review
+  outdoor_environment:
+    kind: situation
+    n_conditions: 0
+    examples: []
+    note: no corpus evidence; dimension kept for review
+  device_state:
+    kind: excluded
+    n_conditions: 2
+    examples:
+    - an elderly person is in a cold room
+    - the baby is in the room
+  user_configuration:
+    kind: excluded
+    n_conditions: 0
+    examples: []
+  other:
+    kind: excluded
+    n_conditions: 0
+    examples: []
+excluded_share: 0.5
+excluded_per_category:
+  device_state: 2
+  user_configuration: 0
+  other: 0

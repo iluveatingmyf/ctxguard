@@ -1,0 +1,80 @@
+- unit: T01|nobody is at home
+  property_id: T01
+  property_ids:
+  - T01
+  condition: nobody is at home
+  assets:
+  - security
+  kind: world_state
+  observation: nobody is at home
+  reason: mock reason
+  latent_fact: nobody home
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: nobody home
+  variable: home|nobody_home
+  value: nobody home
+  world_fact: nobody home
+  scope: home
+  slot: home_nobody
+- unit: T03|an elderly person is in a cold room
+  property_id: T03
+  property_ids:
+  - T03
+  condition: an elderly person is in a cold room
+  assets:
+  - comfort
+  kind: world_state
+  observation: an elderly person is in a cold room
+  reason: mock reason
+  latent_fact: present
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is a vulnerable person in the room?
+  answer: present
+  variable: home|present
+  value: present
+  world_fact: present
+  scope: home
+  slot: home_present
+- unit: T04|the family is at home
+  property_id: T04
+  property_ids:
+  - T04
+  condition: the family is at home
+  assets:
+  - security
+  kind: world_state
+  observation: the family is at home
+  reason: mock reason
+  latent_fact: someone home
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is anyone at home?
+  answer: someone home
+  variable: home|someone_home
+  value: someone home
+  world_fact: someone home
+  scope: home
+  slot: home_nobody
+- unit: T06|the baby is in the room
+  property_id: T06
+  property_ids:
+  - T06
+  condition: the baby is in the room
+  assets:
+  - comfort
+  kind: world_state
+  observation: the baby is in the room
+  reason: mock reason
+  latent_fact: present
+  counterfactual_still_right: false
+  lift_status: world_fact
+  question: Is a vulnerable person in the room?
+  answer: present
+  variable: home|present
+  value: present
+  world_fact: present
+  scope: home
+  slot: home_present

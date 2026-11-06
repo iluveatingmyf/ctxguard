@@ -1,0 +1,98 @@
+version: F-v1test
+parent: F-A3
+frozen_at: '2026-11-05 23:05:46'
+refines:
+  vulnerable_present:
+    added: true
+base: out_mock/m2/A3_factors_corpus.yaml
+base_version: F-A3
+rebuilt_dimensions:
+- home_nobody
+- home_present
+- vulnerable_present
+factors:
+- name: home_nobody
+  scope: global
+  semantics: 'mock: nobody home; someone home'
+  values:
+    nobody_home: nobody home
+    someone_home: someone home
+    none: baseline
+  provenance:
+    dimension: home_nobody
+    variables:
+    - nobody home
+    - someone home
+    n_conditions: 2
+    conditions_per_value:
+      nobody_home: 1
+      someone_home: 1
+      none: 0
+    property_ids_per_value:
+      nobody_home:
+      - T01
+      someone_home:
+      - T04
+      none: []
+- name: home_present
+  scope: global
+  semantics: 'mock: present'
+  values:
+    present: present
+    none: baseline
+  provenance:
+    dimension: home_present
+    variables:
+    - present
+    n_conditions: 2
+    conditions_per_value:
+      present: 2
+      none: 0
+    property_ids_per_value:
+      present:
+      - T03
+      - T06
+      none: []
+- name: effect_zone
+  scope: action
+  semantics: Type of the area in which the action's effect acts.
+  values:
+    bedroom: A sleeping room.
+    kitchen: A cooking area.
+    bathroom: A bathroom or shower room.
+    living: Living room, dining room, study or hallway.
+    entry: Front door, entrance hall, garage.
+    utility: Laundry, storage, technical room.
+  provenance:
+    derived: action target area (NOT induced from the corpus)
+- name: vulnerable_present
+  scope: zone
+  semantics: New dimension elicited from 2 attributes in 2 effect x asset pairs.
+  values:
+    a_baby_is_asleep: a baby is asleep; a toddler is crawling
+    none: None of the elicited states holds.
+  value_provenance:
+    a_baby_is_asleep:
+      signature: 0-
+      source: evidence
+      merged_states:
+      - a_toddler_is_crawling
+      parent: null
+      indiscernible_from: []
+      phrases:
+      - a baby is asleep
+      - a toddler is crawling
+    none:
+      signature: '00'
+      source: baseline added (R3)
+      phrases: []
+  relevant_pairs:
+  - mechanical_motion:increase x life_health
+  - sound:increase x comfort
+  evidence:
+    elicit: 2
+  new_dimension: true
+  provenance:
+    elicited: true
+    support_pairs: 2
+feasibility: []

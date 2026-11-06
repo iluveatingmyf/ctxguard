@@ -1,0 +1,75 @@
+ours:
+  '0.0':
+    unsafe: null
+    intervene: 0.577
+    acc: 0.423
+  '0.1':
+    unsafe: null
+    intervene: 0.619
+    acc: 0.381
+  '0.2':
+    unsafe: null
+    intervene: 0.691
+    acc: 0.309
+  '0.3':
+    unsafe: null
+    intervene: 0.691
+    acc: 0.309
+  '0.4':
+    unsafe: null
+    intervene: 0.722
+    acc: 0.278
+  '0.5':
+    unsafe: null
+    intervene: 0.722
+    acc: 0.278
+abl_fill_default:
+  '0.0':
+    unsafe: null
+    intervene: 0.412
+    acc: 0.588
+  '0.1':
+    unsafe: null
+    intervene: 0.381
+    acc: 0.619
+  '0.2':
+    unsafe: null
+    intervene: 0.433
+    acc: 0.567
+  '0.3':
+    unsafe: null
+    intervene: 0.371
+    acc: 0.629
+  '0.4':
+    unsafe: null
+    intervene: 0.412
+    acc: 0.588
+  '0.5':
+    unsafe: null
+    intervene: 0.371
+    acc: 0.629
+B1_property:
+  '0.0':
+    unsafe: null
+    intervene: 0.072
+    acc: 0.928
+  '0.1':
+    unsafe: null
+    intervene: 0.041
+    acc: 0.959
+  '0.2':
+    unsafe: null
+    intervene: 0.031
+    acc: 0.969
+  '0.3':
+    unsafe: null
+    intervene: 0.062
+    acc: 0.938
+  '0.4':
+    unsafe: null
+    intervene: 0.021
+    acc: 0.979
+  '0.5':
+    unsafe: null
+    intervene: 0.01
+    acc: 0.99

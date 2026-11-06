@@ -1,0 +1,154 @@
+vocab_version: F-v0
+n_factors: 9
+domain_sizes:
+  time_period: 2
+  effect_zone: 6
+  home_occupancy: 2
+  zone_occupant: 3
+  vulnerable_present: 2
+  active_hazard: 6
+  outdoor_condition: 5
+  indoor_air: 2
+  indoor_thermal: 3
+product_size: 25920
+sigma_size: 16560
+projected_table_size:
+  pairs_with_bindings: 15
+  max: 120
+  mean: 14.3
+factor_ablation:
+  time_period:
+    conflict_groups: 0
+    pairs_affected: 0
+    necessary: false
+  effect_zone:
+    conflict_groups: 0
+    pairs_affected: 0
+    necessary: false
+  home_occupancy:
+    conflict_groups: 8640
+    pairs_affected: 3
+    necessary: true
+  zone_occupant:
+    conflict_groups: 6480
+    pairs_affected: 2
+    necessary: true
+  vulnerable_present:
+    conflict_groups: 17928
+    pairs_affected: 5
+    necessary: true
+  active_hazard:
+    conflict_groups: 13536
+    pairs_affected: 5
+    necessary: true
+  outdoor_condition:
+    conflict_groups: 9360
+    pairs_affected: 3
+    necessary: true
+  indoor_air:
+    conflict_groups: 3024
+    pairs_affected: 1
+    necessary: true
+  indoor_thermal:
+    conflict_groups: 13800
+    pairs_affected: 4
+    necessary: true
+value_merge_ablation:
+  time_period:
+    merge_conflicts:
+      day+night: 0
+    values_with_free_merge:
+    - day
+    - night
+  effect_zone:
+    merge_conflicts:
+      bedroom+kitchen: 0
+      bedroom+bathroom: 0
+      bedroom+living: 0
+      bedroom+entry: 0
+      bedroom+utility: 0
+      kitchen+bathroom: 0
+      kitchen+living: 0
+      kitchen+entry: 0
+      kitchen+utility: 0
+      bathroom+living: 0
+      bathroom+entry: 0
+      bathroom+utility: 0
+      living+entry: 0
+      living+utility: 0
+      entry+utility: 0
+    values_with_free_merge:
+    - bedroom
+    - kitchen
+    - bathroom
+    - living
+    - entry
+    - utility
+  home_occupancy:
+    merge_conflicts:
+      occupied+away: 8640
+    values_with_free_merge: []
+  zone_occupant:
+    merge_conflicts:
+      empty+awake: 0
+      empty+asleep: 6480
+      awake+asleep: 6480
+    values_with_free_merge:
+    - empty
+    - awake
+  vulnerable_present:
+    merge_conflicts:
+      yes+no: 17928
+    values_with_free_merge: []
+  active_hazard:
+    merge_conflicts:
+      none+cooking_fumes: 756
+      none+fire: 9216
+      none+gas_leak: 8208
+      none+water_leak: 2880
+      none+intrusion: 1440
+      cooking_fumes+fire: 6552
+      cooking_fumes+gas_leak: 5040
+      cooking_fumes+water_leak: 2916
+      cooking_fumes+intrusion: 2196
+      fire+gas_leak: 2016
+      fire+water_leak: 12096
+      fire+intrusion: 10656
+      gas_leak+water_leak: 11088
+      gas_leak+intrusion: 9648
+      water_leak+intrusion: 4320
+    values_with_free_merge: []
+  outdoor_condition:
+    merge_conflicts:
+      benign+cold: 4680
+      benign+hot: 3312
+      benign+rain_storm: 6624
+      benign+polluted: 2736
+      cold+hot: 1368
+      cold+rain_storm: 4680
+      cold+polluted: 4680
+      hot+rain_storm: 3312
+      hot+polluted: 6048
+      rain_storm+polluted: 9360
+    values_with_free_merge: []
+  indoor_air:
+    merge_conflicts:
+      good+poor: 3024
+    values_with_free_merge: []
+  indoor_thermal:
+    merge_conflicts:
+      cold+comfortable: 5520
+      cold+hot: 13800
+      comfortable+hot: 8280
+    values_with_free_merge: []
+expressibility_heldout:
+  n_test: 2
+  expressible: 1
+  ratio: 0.5
+  human_checked: false
+K_recall_of_heldout_properties:
+  mean_cell_coverage: 0.667
+  share_covered_ge_0.9: 0.0
+novel_constraints:
+  n_minus_bindings: 14
+  not_in_any_property: 11

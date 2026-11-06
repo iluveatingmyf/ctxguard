@@ -1,0 +1,494 @@
+version: F-A3
+schema: S-induced-v2 (variable-level coding)
+factors:
+- name: people_at_home
+  scope: global
+  semantics: Is anyone at home?
+  values:
+    nobody_at_home: 'Baseline: No one is at home.'
+    someone_at_home: Someone is at home.
+  provenance:
+    dimension: people_at_home
+    variables:
+    - is anyone at home?
+    n_conditions: 16
+    conditions_per_value:
+      nobody_at_home: 14
+      someone_at_home: 2
+    property_ids_per_value:
+      nobody_at_home:
+      - C005
+      - C006
+      - C007
+      - C008
+      - C012
+      - C037
+      - C049a
+      - C049b
+      - C066
+      - C082
+      - C083a
+      - C083b
+      - C085
+      - C095
+      - C099
+      - C100
+      - C107
+      - C113
+      - C117
+      - C160
+      - C174
+      - C186a
+      - IoTCom-P17
+      - IoTCom-P18
+      - IoTCom-P5
+      - Soteria-P1
+      - Soteria-P12
+      someone_at_home:
+      - C009
+      - C042
+      - C047b
+      - C065
+      - IoTCom-P9
+- name: abnormal_events
+  scope: global
+  semantics: 'What abnormal or dangerous event is happening in the home? (split: what abnormal or dangerous event is happening
+    in the home?; what dangerous condition is present in the home?)'
+  values:
+    smoke_present: Smoke is detected in the home.
+    leak_detected: A leak is detected in the home.
+    co_present: Carbon monoxide is present in the home.
+    co_level_high: The carbon monoxide level is high in the home.
+    baseline: No abnormal or dangerous events are currently happening in the home.
+  provenance:
+    dimension: abnormal_events
+    variables:
+    - what abnormal or dangerous event is happening in the home?
+    - what dangerous condition is present in the home?
+    n_conditions: 16
+    conditions_per_value:
+      smoke_present: 4
+      leak_detected: 5
+      co_present: 2
+      co_level_high: 1
+      baseline: 1
+    property_ids_per_value:
+      smoke_present:
+      - C019
+      - C028
+      - C034
+      - C045
+      - C047a
+      - C047b
+      - C048
+      - C051
+      - C052
+      - C053
+      - C101
+      - C183a
+      - IoTCom-P17
+      - IoTCom-P19
+      - IoTCom-P22
+      leak_detected:
+      - C043
+      - C046
+      - C097
+      - C203
+      - Soteria-P30
+      co_present:
+      - C020
+      - C025
+      - C026
+      - C027
+      - C035
+      - C183a
+      co_level_high:
+      - C111
+      - C112
+      baseline:
+      - C043
+- name: temperature
+  scope: zone
+  semantics: How warm or cold is the room?
+  values:
+    above_threshold: The room temperature is above the predefined threshold.
+    below_lower_threshold: The room temperature is below the lower acceptable threshold.
+    low: The room temperature is low, but not necessarily below the lower threshold.
+    baseline: The room temperature is within the acceptable range, neither too low nor too high.
+  provenance:
+    dimension: temperature
+    variables:
+    - how warm or cold is the room?
+    n_conditions: 6
+    conditions_per_value:
+      above_threshold: 4
+      below_lower_threshold: 1
+      low: 1
+      baseline: 0
+    property_ids_per_value:
+      above_threshold:
+      - C014
+      - C054
+      - C056
+      - C066
+      below_lower_threshold:
+      - C055
+      low:
+      - C159
+      - IoTCom-P7
+      baseline: []
+- name: people_activity
+  scope: global
+  semantics: 'What are the people doing? (split: what are the people doing?)'
+  values:
+    arriving_home: The user is arriving home.
+    leaving_home: The user is leaving home.
+    baseline: No specific activity of the user is observed.
+  provenance:
+    dimension: people_activity
+    variables:
+    - what are the people doing?
+    n_conditions: 3
+    conditions_per_value:
+      arriving_home: 2
+      leaving_home: 1
+      baseline: 0
+    property_ids_per_value:
+      arriving_home:
+      - C003
+      - C102
+      - C177
+      leaving_home:
+      - C179b
+      baseline: []
+- name: room_people_activity
+  scope: zone
+  semantics: 'What are the people doing? (split: what are the people in the room doing?)'
+  values:
+    asleep: The people in the room are sleeping.
+    present: Someone is in the room, but not asleep.
+    absent: There are no people in the room.
+    baseline: Neither people are asleep, nor are they present, nor are they absent (this should not happen).
+  provenance:
+    dimension: room_people_activity
+    variables:
+    - what are the people in the room doing?
+    n_conditions: 3
+    conditions_per_value:
+      asleep: 1
+      present: 2
+      absent: 0
+      baseline: 0
+    property_ids_per_value:
+      asleep:
+      - C174
+      present:
+      - C114
+      - IoTSan-T1
+      absent: []
+      baseline: []
+- name: home_mode
+  scope: global
+  semantics: Is the home in a specific mode?
+  values:
+    vacation_mode: The home is set to vacation mode.
+    night_mode: The home is set to night mode.
+    normal_mode: The home is in a normal mode, neither vacation nor night mode.
+    baseline: No specific mode is set for the home.
+  provenance:
+    dimension: home_mode
+    variables:
+    - is the home in a specific mode?
+    - is the home in vacation mode?
+    n_conditions: 2
+    conditions_per_value:
+      vacation_mode: 1
+      night_mode: 1
+      normal_mode: 0
+      baseline: 0
+    property_ids_per_value:
+      vacation_mode:
+      - C038
+      night_mode:
+      - C047a
+      normal_mode: []
+      baseline: []
+- name: door_status
+  scope: zone
+  semantics: Is the door closed or open?
+  values:
+    closed: The door is closed.
+    baseline: The door status is unknown or not applicable.
+  provenance:
+    dimension: door_status
+    variables:
+    - is the door closed or open?
+    n_conditions: 1
+    conditions_per_value:
+      closed: 1
+      baseline: 0
+    property_ids_per_value:
+      closed:
+      - IoTCom-P2
+      baseline: []
+- name: specific_room_events
+  scope: zone
+  semantics: What abnormal or dangerous event is happening in the laundry room?
+  values:
+    leak_present: Water is leaking in the laundry room.
+    baseline: No abnormal or dangerous event is happening in the laundry room.
+  provenance:
+    dimension: specific_room_events
+    variables:
+    - what abnormal or dangerous event is happening in the laundry room?
+    n_conditions: 1
+    conditions_per_value:
+      leak_present: 1
+      baseline: 0
+    property_ids_per_value:
+      leak_present:
+      - C203
+      baseline: []
+- name: light_level
+  scope: zone
+  semantics: What is the current light level in the room?
+  values:
+    baseline: No light sensor is active or available.
+    dark: The light level is below the minimum threshold detectable by the sensor.
+  provenance:
+    dimension: light_level
+    variables:
+    - what is the current light level in the room?
+    n_conditions: 1
+    conditions_per_value:
+      baseline: 0
+      dark: 0
+    property_ids_per_value:
+      baseline: []
+      dark: []
+- name: daytime_light
+  scope: zone
+  semantics: What is the indoor illuminance level during the daytime?
+  values:
+    below_80_lux: The indoor illuminance level is below 80 lux.
+    baseline: The indoor illuminance level is not below 80 lux.
+  provenance:
+    dimension: daytime_light
+    variables:
+    - what is the indoor illuminance level during the daytime?
+    n_conditions: 1
+    conditions_per_value:
+      below_80_lux: 1
+      baseline: 0
+    property_ids_per_value:
+      below_80_lux:
+      - C119
+      baseline: []
+- name: daytime_light_general
+  scope: zone
+  semantics: What is the indoor illuminance level?
+  values:
+    above_600_lux: The indoor illuminance level exceeds 600 lux.
+    baseline: The indoor illuminance level does not exceed 600 lux.
+  provenance:
+    dimension: daytime_light_general
+    variables:
+    - what is the indoor illuminance level?
+    n_conditions: 1
+    conditions_per_value:
+      above_600_lux: 1
+      baseline: 0
+    property_ids_per_value:
+      above_600_lux:
+      - C120
+      baseline: []
+- name: security_status
+  scope: global
+  semantics: What is the security status of the door?
+  values:
+    unauthorized_access: Unauthorized access detected.
+    baseline: No unauthorized access detected.
+  provenance:
+    dimension: security_status
+    variables:
+    - what is the security status of the door?
+    n_conditions: 1
+    conditions_per_value:
+      unauthorized_access: 1
+      baseline: 0
+    property_ids_per_value:
+      unauthorized_access:
+      - C196
+      baseline: []
+- name: sensor_status
+  scope: global
+  semantics: What is the state of the water sensor?
+  values:
+    wet: The water sensor detects moisture.
+    dry: The water sensor does not detect moisture.
+    baseline: Neither wet nor dry, indicating no moisture detected.
+  provenance:
+    dimension: sensor_status
+    variables:
+    - what is the state of the water sensor?
+    n_conditions: 1
+    conditions_per_value:
+      wet: 1
+      dry: 0
+      baseline: 0
+    property_ids_per_value:
+      wet:
+      - C069
+      dry: []
+      baseline: []
+- name: door_status_general
+  scope: global
+  semantics: What is the status of the doors?
+  values:
+    unlocking: The door is in the process of being unlocked.
+    locked: The door is securely locked.
+    baseline: No specific door status is observed or implied.
+  provenance:
+    dimension: door_status_general
+    variables:
+    - what is the status of the doors?
+    n_conditions: 1
+    conditions_per_value:
+      unlocking: 1
+      locked: 0
+      baseline: 0
+    property_ids_per_value:
+      unlocking:
+      - C194b
+      locked: []
+      baseline: []
+- name: time_of_day
+  scope: global
+  semantics: What time of day is it?
+  values:
+    noon: It is noon.
+    baseline: It is not noon.
+  provenance:
+    dimension: time_of_day
+    variables:
+    - what time of day is it?
+    n_conditions: 1
+    conditions_per_value:
+      noon: 1
+      baseline: 0
+    property_ids_per_value:
+      noon:
+      - C106
+      baseline: []
+- name: how_warm_or_cold_is_the_home
+  scope: global
+  semantics: how warm or cold is the home?
+  values:
+    below_predefined_threshold: the_home_is_cold
+    within_predefined_threshold: the_home_is_comfortable
+    above_predefined_threshold: the_home_is_warm
+    baseline: no_predefined_threshold_is_set
+  provenance:
+    dimension: how_warm_or_cold_is_the_home
+    variables:
+    - how warm or cold is the home?
+    n_conditions: 1
+    conditions_per_value:
+      below_predefined_threshold: 1
+      within_predefined_threshold: 0
+      above_predefined_threshold: 0
+      baseline: 0
+    property_ids_per_value:
+      below_predefined_threshold:
+      - C009
+      - C113
+      - C114
+      within_predefined_threshold: []
+      above_predefined_threshold: []
+      baseline: []
+- name: is_the_user_near_the_home
+  scope: global
+  semantics: is the user near the home?
+  values:
+    'yes': The user is near the home.
+    baseline: The user is not near the home and not in any other state.
+  provenance:
+    dimension: is_the_user_near_the_home
+    variables:
+    - is the user near the home?
+    n_conditions: 1
+    conditions_per_value:
+      'yes': 1
+      baseline: 0
+    property_ids_per_value:
+      'yes':
+      - C192
+      baseline: []
+- name: is_there_any_motion_in_the_room
+  scope: zone
+  semantics: is there any motion in the room?
+  values:
+    motion_present: There is motion in the room.
+    baseline: There is no motion in the room.
+  provenance:
+    dimension: is_there_any_motion_in_the_room
+    variables:
+    - is there any motion in the room?
+    n_conditions: 1
+    conditions_per_value:
+      motion_present: 1
+      baseline: 0
+    property_ids_per_value:
+      motion_present:
+      - C139
+      baseline: []
+- name: what_is_the_air_quality_in_the_home
+  scope: global
+  semantics: what is the air quality in the home?
+  values:
+    below_threshold: The air quality in the home is below the acceptable range.
+    baseline: The air quality in the home is within the acceptable range.
+  provenance:
+    dimension: what_is_the_air_quality_in_the_home
+    variables:
+    - what is the air quality in the home?
+    n_conditions: 1
+    conditions_per_value:
+      below_threshold: 1
+      baseline: 0
+    property_ids_per_value:
+      below_threshold:
+      - C041
+      - C060
+      baseline: []
+- name: intruder
+  scope: global
+  semantics: 'What abnormal or dangerous event is happening in the home? (split: is there an intruder in the home?)'
+  values:
+    no_intruder: 'Baseline: There is no intruder in the home.'
+    none: 'Baseline: the dimension''s condition does not hold.'
+  provenance:
+    dimension: intruder
+    variables:
+    - is there an intruder in the home?
+    n_conditions: 1
+    conditions_per_value:
+      no_intruder: 1
+      none: 0
+    property_ids_per_value:
+      no_intruder:
+      - C104
+      none: []
+- name: effect_zone
+  scope: action
+  semantics: Type of the area in which the action's effect acts.
+  values:
+    bedroom: A sleeping room.
+    kitchen: A cooking area.
+    bathroom: A bathroom or shower room.
+    living: Living room, dining room, study or hallway.
+    entry: Front door, entrance hall, garage.
+    utility: Laundry, storage, technical room.
+  provenance:
+    derived: action target area (NOT induced from the corpus)
+feasibility: []

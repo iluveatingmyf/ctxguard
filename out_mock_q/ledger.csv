@@ -1,0 +1,14 @@
+ts,module,task,model,prompt_tokens,completion_tokens,duration_ms,cached
+1793891236.451,M2,extract_predicates,qwen2.5:7b-instruct,432,9,0,0
+1793891236.451,M2,property_assets,qwen2.5:7b-instruct,270,6,0,0
+1793891236.452,M2,extract_predicates,qwen2.5:7b-instruct,438,13,0,0
+1793891236.452,M2,property_assets,qwen2.5:7b-instruct,276,5,0,0
+1793891236.452,M2,extract_predicates,qwen2.5:7b-instruct,433,10,0,0
+1793891236.453,M2,property_assets,qwen2.5:7b-instruct,271,6,0,0
+1793891236.453,M2,extract_predicates,qwen2.5:7b-instruct,434,10,0,0
+1793891236.453,M2,property_assets,qwen2.5:7b-instruct,272,5,0,0
+1793891236.612,M2,code_condition,qwen2.5:7b-instruct,903,33,0,0
+1793891236.613,M2,code_condition,qwen2.5:7b-instruct,913,41,0,0
+1793891236.613,M2,code_condition,qwen2.5:7b-instruct,905,35,0,0
+1793891236.614,M2,code_condition,qwen2.5:7b-instruct,906,38,0,0
+1793891236.614,M2,group_variables,qwen2.5:7b-instruct,485,52,0,0

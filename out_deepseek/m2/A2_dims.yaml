@@ -1,0 +1,651 @@
+version: S-induced-v4.1 (lift coding, gate=evidence)
+codebook: CB-v1-draft
+coding: lift
+n_conditions: 143
+n_units: 143
+n_distinct_conditions: 91
+kinds:
+  event: 8
+  world_state: 40
+  sensor_reading: 74
+  home_mode: 16
+  user_configuration: 2
+  device_state: 3
+lift_status:
+  lifted: 79
+  world_fact: 40
+  no_fact: 21
+  lift_failed: 3
+lift_failed:
+- unit: C069|the user-specified water level threshold is reached
+  kind: sensor_reading
+  observation: water level reading reaches user-specified threshold
+  latent_fact: water level is at or above the threshold
+  counterfactual_still_right: false
+- unit: C184|the water level threshold specified by a user is reached
+  kind: sensor_reading
+  observation: water level reaches user-specified threshold
+  latent_fact: water level is at or above the user-specified threshold
+  counterfactual_still_right: false
+- unit: C194c|when one alarm is turned off
+  kind: event
+  observation: one alarm turned off
+  latent_fact: an alarm has been turned off
+  counterfactual_still_right: true
+grouping: relation
+relation_grouping:
+  subjects:
+    home:
+      facts: 42
+      pairs_asked: 861
+      pair_mode: exhaustive
+      relations:
+        independent: 724
+        exclusive: 70
+        b_implies_a: 22
+        a_implies_b: 26
+        same: 19
+      slots: 14
+    person:
+      facts: 1
+      pairs_asked: 0
+      pair_mode: exhaustive
+      relations: {}
+      slots: 1
+    room:
+      facts: 11
+      pairs_asked: 55
+      pair_mode: exhaustive
+      relations:
+        a_implies_b: 2
+        independent: 48
+        same: 2
+        exclusive: 3
+      slots: 6
+  mixed_aspect_components: 2
+  splits:
+  - subject: home
+    from:
+    - home|a_door_is_being_unlocked
+    - home|a_person_in_the_home_is_asleep
+    - home|a_user_is_near_the_house
+    - home|the_user_is_near_the_home
+    - home|an_intruder_is_present_in_the_home
+    - home|an_unexpected_motion__tampering__or_entering_is_occurring
+    - home|an_unrecognized_person_is_at_the_door
+    - home|it_is_noon
+    - home|motion_is_present_in_the_home
+    - home|no_intruder_is_present
+    - home|no_one_is_home
+    - home|nobody_is_at_home
+    - home|nobody_is_nearby_the_home
+    - home|nobody_is_present
+    - home|the_user_is_not_nearby_home
+    - home|people_are_at_home
+    - home|someone_is_at_home
+    - home|someone_is_home
+    - home|someone_is_present_in_the_home
+    - home|the_user_is_at_home
+    - home|someone_is_moving_inside_the_home
+    - home|the_air_is_too_humid
+    - home|the_door_is_clear_of_any_objects
+    - home|the_home_is_colder_than_is_comfortable_or_safe_for_the_occupants
+    - home|the_home_is_hotter_than_the_occupants_want
+    - home|the_home_is_warmer_than_its_occupants_want
+    - home|the_home_s_humidity_and_temperature_are_outside_the_user_s_preferred_ranges
+    - home|the_indoor_environment_is_outside_the_user_s_preferred_comfort_range
+    into:
+    - - home|an_intruder_is_present_in_the_home
+      - home|an_unexpected_motion__tampering__or_entering_is_occurring
+      - home|no_intruder_is_present
+      - home|no_one_is_home
+      - home|nobody_is_at_home
+      - home|nobody_is_nearby_the_home
+      - home|nobody_is_present
+      - home|the_user_is_not_nearby_home
+      - home|people_are_at_home
+      - home|someone_is_at_home
+      - home|someone_is_home
+      - home|someone_is_present_in_the_home
+      - home|the_user_is_at_home
+    - - home|a_person_in_the_home_is_asleep
+      - home|someone_is_moving_inside_the_home
+    - - home|motion_is_present_in_the_home
+    - - home|an_unrecognized_person_is_at_the_door
+      - home|the_door_is_clear_of_any_objects
+    - - home|a_user_is_near_the_house
+      - home|the_user_is_near_the_home
+    - - home|the_home_is_colder_than_is_comfortable_or_safe_for_the_occupants
+      - home|the_home_is_hotter_than_the_occupants_want
+      - home|the_home_is_warmer_than_its_occupants_want
+      - home|the_home_s_humidity_and_temperature_are_outside_the_user_s_preferred_ranges
+      - home|the_indoor_environment_is_outside_the_user_s_preferred_comfort_range
+    - - home|a_door_is_being_unlocked
+    - - home|it_is_noon
+    - - home|the_air_is_too_humid
+  - subject: home
+    from:
+    - home|co_is_present_at_a_dangerous_level
+    - home|co_is_present_at_a_dangerous_level_in_the_home
+    - home|co_is_present_in_the_home
+    - home|smoke_is_present_in_the_home
+    - home|the_air_quality_is_poor
+    into:
+    - - home|co_is_present_at_a_dangerous_level
+      - home|co_is_present_at_a_dangerous_level_in_the_home
+      - home|co_is_present_in_the_home
+      - home|the_air_quality_is_poor
+    - - home|smoke_is_present_in_the_home
+  implications: 43
+with_world_variable: 119
+n_dimensions: 21
+unverified_or_failed: []
+asset_named:
+- zone_temperature_comfort
+slots:
+- id: home_occupancy
+  desc: Who is present in or near the home?
+  subject: home
+  variables:
+  - an intruder is present in the home
+  - an unexpected motion, tampering, or entering is occurring
+  - no intruder is present
+  - no one is home
+  - nobody is at home
+  - nobody is nearby the home
+  - nobody is present
+  - the user is not nearby-home
+  - people are at home
+  - someone is at home
+  - someone is home
+  - someone is present in the home
+  - the user is at home
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 39
+  scope: global
+  property_ids:
+  - C003
+  - C005
+  - C006
+  - C007
+  - C008
+  - C009
+  - C012
+  - C042
+  - C047b
+  - C065
+  - C066
+  - C085
+  - C095
+  - C099
+  - C100
+  - C104
+  - C105
+  - C107
+  - C113
+  - C114
+  - C117
+  - C160
+  - C174
+  - C177
+  - C179b
+  - C182
+  - C183b
+  - C185
+  - C186a
+  - IoTCom-P18
+  - IoTCom-P5
+  - IoTCom-P9
+  - IoTSan-T1
+  - Soteria-P1
+  - Soteria-P12
+- id: home_smoke_presence
+  desc: Is smoke present in the home?
+  subject: home
+  variables:
+  - smoke is present in the home
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 19
+  scope: global
+  property_ids:
+  - C019
+  - C028
+  - C034
+  - C044
+  - C045
+  - C047a
+  - C047b
+  - C048
+  - C050
+  - C051
+  - C052
+  - C053
+  - C094
+  - C101
+  - C183a
+  - IoTCom-P17
+  - IoTCom-P19
+  - IoTCom-P22
+  - Soteria-P10
+- id: home_air_quality
+  desc: What is the air quality in the home?
+  subject: home
+  variables:
+  - CO is present at a dangerous level
+  - CO is present at a dangerous level in the home
+  - CO is present in the home
+  - the air quality is poor
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 11
+  scope: global
+  property_ids:
+  - C020
+  - C025
+  - C026
+  - C027
+  - C035
+  - C041
+  - C048
+  - C060
+  - C111
+  - C112
+  - C183a
+- id: home_water_presence
+  desc: Is water present where it should not be in the home?
+  subject: home
+  variables:
+  - water is leaking in the area
+  - water is leaking in the home
+  - water is present where it should not be
+  - water is present in the home
+  - water is present on the floor
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 8
+  scope: global
+  property_ids:
+  - C043
+  - C046
+  - C069
+  - C097
+  - C184
+  - C202c
+  - C203
+  - Soteria-P30
+- id: zone_temperature_comfort
+  desc: How does the room's temperature compare to the occupants' comfort preferences?
+  subject: room
+  variables:
+  - the room is colder than comfortable
+  - the room is colder than its occupants want
+  - the room is hotter than its occupants want
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues:
+    - named after protected asset 'comfort'
+  kind: situation
+  n_conditions: 8
+  scope: zone
+  property_ids:
+  - C009
+  - C014
+  - C054
+  - C055
+  - C056
+  - C113
+  - C114
+  - C159
+- id: home_occupancy_x
+  desc: Is there motion in the home?
+  subject: home
+  variables:
+  - motion is present in the home
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 5
+  scope: global
+  property_ids:
+  - C049a
+  - C087
+  - C118
+  - IoTCom-P24
+  - IoTCom-P25
+- id: home_indoor_environment
+  desc: How does the indoor environment compare to the occupants' comfort preferences?
+  subject: home
+  variables:
+  - the home is colder than is comfortable or safe for the occupants
+  - the home is hotter than the occupants want
+  - the home is warmer than its occupants want
+  - the home's humidity and temperature are outside the user's preferred ranges
+  - the indoor environment is outside the user's preferred comfort range
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 5
+  scope: global
+  property_ids:
+  - C066
+  - C070
+  - C115
+  - C191
+  - IoTCom-P7
+- id: home_occupant_activity
+  desc: What is the current activity of the occupants inside the home?
+  subject: home
+  variables:
+  - a person in the home is asleep
+  - someone is moving inside the home
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 3
+  scope: global
+  property_ids:
+  - C049b
+  - C174
+  - C185
+- id: home_door_state_x
+  desc: What is the state of the door?
+  subject: home
+  variables:
+  - a door or window is opening
+  - the door is closed
+  - the door is opening
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 3
+  scope: global
+  property_ids:
+  - C007
+  - C086
+  - C194a
+- id: zone_occupancy
+  desc: Is a person present in the room?
+  subject: room
+  variables:
+  - a person is moving in the area
+  - a person is present in the area
+  - someone is present in the room
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 3
+  scope: zone
+  property_ids:
+  - C150
+  - C159
+  - C175
+- id: home_door_occupancy
+  desc: Is there a person or object at the door?
+  subject: home
+  variables:
+  - an unrecognized person is at the door
+  - the door is clear of any objects
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: global
+  property_ids:
+  - C178
+  - C196
+- id: home_user_proximity
+  desc: Where is the user relative to the home?
+  subject: home
+  variables:
+  - a user is near the house
+  - the user is near the home
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: global
+  property_ids:
+  - C180
+  - C192
+- id: zone_air_quality
+  desc: What is the CO2 concentration in the room?
+  subject: room
+  variables:
+  - The CO2 concentration in the room is too high for occupant comfort and health.
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: zone
+  property_ids:
+  - C022
+  - C032
+- id: zone_indoor_light_level
+  desc: Is the indoor area sufficiently bright for safe and comfortable activity?
+  subject: room
+  variables:
+  - the indoor area is already sufficiently bright
+  - the indoor area is too dark for safe and comfortable activity
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 2
+  scope: zone
+  property_ids:
+  - C119
+  - C120
+- id: home_door_state
+  desc: What is the state of the door?
+  subject: home
+  variables:
+  - a door is being unlocked
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C194b
+- id: home_time_of_day
+  desc: What time of day is it?
+  subject: home
+  variables:
+  - it is noon
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C106
+- id: home_air_humidity
+  desc: What is the humidity level of the air?
+  subject: home
+  variables:
+  - the air is too humid
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C116
+- id: home_fire_presence
+  desc: Is there a fire in the home?
+  subject: home
+  variables:
+  - there is no fire
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: global
+  property_ids:
+  - C043
+- id: person_arrival_status
+  desc: Is the user arriving home?
+  subject: person
+  variables:
+  - the user is arriving home
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: zone
+  property_ids:
+  - C102
+- id: zone_door_position
+  desc: What is the position of the bedroom door?
+  subject: room
+  variables:
+  - the bedroom door is closed
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: zone
+  property_ids:
+  - IoTCom-P2
+- id: zone_light_level
+  desc: Is the light level in the room changing?
+  subject: room
+  variables:
+  - the light level in the room is changing
+  origin: relation grouping
+  verification:
+    single_variable: true
+    checked: true
+    method: pairwise dependency
+    issues: []
+  kind: situation
+  n_conditions: 1
+  scope: zone
+  property_ids:
+  - IoTCom-P6
+- id: device_state
+  kind: excluded
+  desc: conditions coded as device_state (no world variable)
+  n_conditions: 3
+- id: lift_failed
+  kind: excluded
+  desc: conditions coded as lift_failed (no world variable)
+  n_conditions: 3
+- id: no_variable_given
+  kind: excluded
+  desc: conditions coded as no_variable_given (no world variable)
+  n_conditions: 16
+- id: user_configuration
+  kind: excluded
+  desc: conditions coded as user_configuration (no world variable)
+  n_conditions: 2
+coverage:
+  home_occupancy: 39
+  home_door_state_x: 3
+  zone_temperature_comfort: 8
+  home_smoke_presence: 19
+  home_air_quality: 11
+  zone_air_quality: 2
+  no_variable_given: 16
+  home_water_presence: 8
+  home_fire_presence: 1
+  home_occupancy_x: 5
+  home_occupant_activity: 3
+  home_indoor_environment: 5
+  lift_failed: 3
+  person_arrival_status: 1
+  home_time_of_day: 1
+  home_air_humidity: 1
+  zone_indoor_light_level: 2
+  zone_occupancy: 3
+  home_door_occupancy: 2
+  home_user_proximity: 2
+  user_configuration: 2
+  home_door_state: 1
+  zone_door_position: 1
+  zone_light_level: 1
+  device_state: 3

@@ -1,0 +1,8 @@
+ts,step,file,sha256,bytes,model,backend,vocab_version,prompts_sha
+2026-11-05 23:07:16,m2-extract,out_mock_q/m2/A1_conditions.yaml,a4313fbec87f5317,633,qwen2.5:7b-instruct,mock,F-v0b,81435db08dea7502
+2026-11-05 23:07:16,m2-extract,out_mock_q/m2/A1_report.yaml,c7796b9979ee23b5,737,qwen2.5:7b-instruct,mock,F-v0b,81435db08dea7502
+2026-11-05 23:07:16,m2-extract,out_mock_q/annotate/m2_A1_extraction_CHECK.csv,f3964e156b438c04,464,qwen2.5:7b-instruct,mock,F-v0b,81435db08dea7502
+2026-11-05 23:07:16,m2-dims,out_mock_q/m2/A2_dims.yaml,c25fc32ec843f9d1,956,qwen2.5:7b-instruct,mock,F-v0b,81435db08dea7502
+2026-11-05 23:07:16,m2-dims,out_mock_q/m2/A2_coding.yaml,6362e3b9f0f4b3b9,2017,qwen2.5:7b-instruct,mock,F-v0b,81435db08dea7502
+2026-11-05 23:07:16,m2-dims,out_mock_q/m2/A2_grouping.yaml,460dbe034a0df471,437,qwen2.5:7b-instruct,mock,F-v0b,81435db08dea7502
+2026-11-05 23:07:16,m2-dims,out_mock_q/annotate/m2_A2_coding_CHECK.csv,51032573ac823e83,770,qwen2.5:7b-instruct,mock,F-v0b,81435db08dea7502

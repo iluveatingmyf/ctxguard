@@ -1,0 +1,10 @@
+bindings:
+- pattern:
+    home_occupancy:
+    - away
+  effect: passage_opening:increase
+  asset: security
+  label: '-'
+  harm: entry
+  meta: {}
+invalid_patterns: 0

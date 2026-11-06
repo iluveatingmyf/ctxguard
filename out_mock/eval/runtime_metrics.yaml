@@ -1,0 +1,142 @@
+n_scenarios: 154
+by_type:
+  random_rho: 60
+  targeted_A: 37
+  b1_forged: 23
+  missing: 30
+  b2_ambiguous: 4
+methods:
+  B0_execute:
+    accuracy: 0.851
+    unsafe_exec_rate: 1.0
+    over_intervention: 0.0
+    purpose_retention: null
+    n_forbidden: 23
+    n_allowed: 131
+    per_type_accuracy:
+      random_rho: 1.0
+      targeted_A: 1.0
+      b1_forged: 0.0
+      missing: 1.0
+      b2_ambiguous: 1.0
+    mean_cost:
+      n_factors: 0.0
+      n_entities_read: 0.0
+  B1_property:
+    accuracy: 0.818
+    unsafe_exec_rate: 0.913
+    over_intervention: 0.053
+    purpose_retention: null
+    n_forbidden: 23
+    n_allowed: 131
+    per_type_accuracy:
+      random_rho: 0.95
+      targeted_A: 0.892
+      b1_forged: 0.087
+      missing: 1.0
+      b2_ambiguous: 1.0
+    mean_cost:
+      n_factors: 0.844
+      n_entities_read: 1.442
+      latency_ms: 0.005
+  B2_llm:
+    accuracy: 0.851
+    unsafe_exec_rate: 1.0
+    over_intervention: 0.0
+    purpose_retention: null
+    n_forbidden: 23
+    n_allowed: 131
+    per_type_accuracy:
+      random_rho: 1.0
+      targeted_A: 1.0
+      b1_forged: 0.0
+      missing: 1.0
+      b2_ambiguous: 1.0
+    mean_cost:
+      n_entities_read: 52.896
+      latency_ms: 0.44
+  abl_fill_default:
+    accuracy: 0.578
+    unsafe_exec_rate: 0.261
+    over_intervention: 0.405
+    purpose_retention: null
+    n_forbidden: 23
+    n_allowed: 131
+    per_type_accuracy:
+      random_rho: 0.683
+      targeted_A: 0.432
+      b1_forged: 0.391
+      missing: 0.767
+      b2_ambiguous: 0.0
+    mean_cost:
+      n_factors: 4.149
+      n_entities_read: 7.753
+      latency_ms: 0.03
+  abl_ground_all:
+    accuracy: 0.506
+    unsafe_exec_rate: 0.174
+    over_intervention: 0.595
+    purpose_retention: null
+    n_forbidden: 23
+    n_allowed: 131
+    per_type_accuracy:
+      random_rho: 0.55
+      targeted_A: 0.216
+      b1_forged: 0.391
+      missing: 0.933
+      b2_ambiguous: 0.0
+    mean_cost:
+      n_factors: 9.0
+      n_entities_read: 13.416
+      latency_ms: 0.035
+  abl_no_corroboration:
+    accuracy: 0.552
+    unsafe_exec_rate: 0.174
+    over_intervention: 0.511
+    purpose_retention: null
+    n_forbidden: 23
+    n_allowed: 131
+    per_type_accuracy:
+      random_rho: 0.617
+      targeted_A: 0.297
+      b1_forged: 0.391
+      missing: 0.933
+      b2_ambiguous: 0.0
+    mean_cost:
+      n_factors: 4.149
+      n_entities_read: 7.753
+      latency_ms: 0.022
+  abl_no_intent:
+    accuracy: 0.532
+    unsafe_exec_rate: 0.435
+    over_intervention: 0.473
+    purpose_retention: null
+    n_forbidden: 23
+    n_allowed: 131
+    per_type_accuracy:
+      random_rho: 0.667
+      targeted_A: 0.324
+      b1_forged: 0.0
+      missing: 0.967
+      b2_ambiguous: 0.25
+    mean_cost:
+      n_factors: 3.948
+      n_entities_read: 7.312
+      latency_ms: 0.024
+  ours:
+    accuracy: 0.506
+    unsafe_exec_rate: 0.174
+    over_intervention: 0.595
+    purpose_retention: null
+    n_forbidden: 23
+    n_allowed: 131
+    per_type_accuracy:
+      random_rho: 0.55
+      targeted_A: 0.216
+      b1_forged: 0.391
+      missing: 0.933
+      b2_ambiguous: 0.0
+    mean_cost:
+      n_factors: 4.149
+      n_entities_read: 7.753
+      latency_ms: 0.045

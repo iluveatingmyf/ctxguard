@@ -1,0 +1,5 @@
+property_id,condition,assets,kind,observation,reason,latent_fact,counterfactual_still_right,lift_status,question,dimension,HUMAN_kind_ok(1/0),HUMAN_lift_ok(1/0),HUMAN_dimension_ok(1/0),HUMAN_better,note
+T06,the baby is in the room,comfort,world_state,the baby is in the room,,,,n/a,Is a vulnerable person in the room?,is_a_vulnerable_person_in_the_room,,,,,
+T04,the family is at home,security,world_state,the family is at home,,,,n/a,Is anyone at home?,is_anyone_at_home,,,,,
+T03,an elderly person is in a cold room,comfort,world_state,an elderly person is in a cold room,,,,n/a,Is a vulnerable person in the room?,is_a_vulnerable_person_in_the_room,,,,,
+T01,nobody is at home,security,world_state,nobody is at home,,,,n/a,Is anyone at home?,is_anyone_at_home,,,,,

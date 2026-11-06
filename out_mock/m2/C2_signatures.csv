@@ -1,0 +1,6 @@
+dimension,state,existing_value,effect,asset,label,harm
+zone_occupant,empty,1,sound:increase,comfort,0,x
+zone_occupant,awake,1,sound:increase,comfort,0,x
+zone_occupant,asleep,1,sound:increase,comfort,-,x
+zone_occupant,watching_a_movie,1,sound:increase,comfort,-,x
+zone_occupant,present,0,sound:increase,comfort,0,x

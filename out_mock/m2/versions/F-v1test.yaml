@@ -1,0 +1,17 @@
+version: F-v1test
+parent: F-A3
+file: out_mock/vocab/factors_v1test.yaml
+source: out_mock/m2/C3_factors_candidate.yaml
+n_factors: 4
+sigma: 72
+product: 72
+diff_vs_parent:
+  added_factors:
+  - vulnerable_present
+  removed_factors: []
+  changed: {}
+provenance_check: true
+refines:
+  vulnerable_present:
+    added: true
+changes_without_refines_entry: []

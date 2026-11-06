@@ -1,0 +1,3 @@
+effect,asset,attribute,label,dimension,why,HUMAN_world_state(1/0),HUMAN_label_ok(1/0),HUMAN_dimension_ok(1/0),note
+mechanical_motion:increase,life_health,a toddler is crawling,-,NEW:vulnerable_present,trap,,,,
+sound:increase,comfort,a baby is asleep,-,NEW:vulnerable_present,baby,,,,

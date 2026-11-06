@@ -26,14 +26,28 @@ WORLD_FACT_DEF = ("- World fact: a statement about the world that would still be
 # Stage A (dimension discovery) is asset-agnostic and open: no assets, no labels, no closed factor list.
 A_PREAMBLE = ("You are a qualitative coder analysing statements taken from smart-home properties. Use these terms.\n" +
               WORLD_FACT_DEF + "\n"
-              "- Sensor reading: a detection or measurement made by a device. It is evidence of a world fact; code only the "
-              "fact it directly indicates and never add a cause that the text does not state.\n"
-              "- Variable: one quantity of the world whose values are mutually exclusive alternatives. Two phrases name the "
-              "same variable only if they can never vary independently. Name a variable with a neutral noun phrase that "
-              "contains no value, no device and no protected asset (safety, security, comfort, privacy, health, property, "
-              "resource).\n"
-              "- Value: one alternative of a variable.\n"
+              "- Observation: what a device senses or what a setting says. It is EVIDENCE about the situation, not the "
+              "situation itself; different sensors can be evidence about the same situation.\n"
+              "- Situation question: a question about the people, the home or its surroundings, asked at the level of the "
+              "situation (not of a sensor), whose possible answers are mutually exclusive alternatives. A dimension of the "
+              "situation is one such question; its values are the answers. It never names a device or a protected asset "
+              "(safety, security, comfort, privacy, health, property, resource).\n"
+              "- Answer: the answer a condition gives, at the level of detail the text states; never add a cause the text "
+              "does not state.\n"
               "Use only what the given text states. Answer with JSON only.")
+
+# Lift prompt v4.1: the generic A_PREAMBLE forbids adding anything the text does not state, while the lift
+# task asks for the fact behind a reading. v4 used both and the 7B model resolved the conflict by copying
+# the reading. v4.1 replaces the Answer rule by one that matches the task: name the fact the evidence
+# directly indicates, never a choice between its possible causes (separating causes needs labels: stages B-D).
+_ANSWER_V4 = ("- Answer: the answer a condition gives, at the level of detail the text states; never add a cause the text "
+              "does not state.\n")
+_ANSWER_V41 = ("- Answer: the answer a condition gives. For evidence (a reading, detection, mode or event), the answer is "
+               "the world fact the evidence directly indicates: that something is present, absent or happening in the "
+               "world. Never choose between possible causes of it, and never add a cause the text does not state.\n")
+assert _ANSWER_V4 in A_PREAMBLE
+A_PREAMBLE_LIFT = A_PREAMBLE.replace(_ANSWER_V4, _ANSWER_V41)
+LIFT_PROMPT_VERSIONS = ("v4", "v4.1")
 
 # Stages B, C, D3: assets and labels are needed, but the factor list is OPEN (new values / dimensions allowed).
 PREAMBLE_OPEN = PREAMBLE.replace(
@@ -54,7 +68,7 @@ PATTERN = {"type": "object", "additionalProperties": STRLIST}
 
 # ---------------------------------------------------------------- M1 effects
 M1_SYSTEM = """You are a home-automation engineer describing the PHYSICAL consequences of device actions.
-Vocabulary: an EFFECT is a directional change (increase|decrease) that the action itself causes on ONE physical channel.
+Vocabulary: an EFFECT is a directional change (increase|decrease|either) that the action itself causes on ONE physical channel.
 Use ONLY the channel ids listed below. Channels are physical or informational quantities, not values or goals:
 do not output words such as privacy, comfort, safety, temperature, humidity or illuminance as channels.
 Rules:
@@ -62,7 +76,9 @@ Rules:
    (a motor makes noise, an open window lets air and sound in, a heater adds heat).
 2. Mark requires_extra_device=true for any effect that needs an additional device, an unusual installation or an
    unknown load (e.g. "if a camera is installed", "if the outlet powers a heater"). Such effects are discarded.
-3. If the direction depends on the situation (e.g. a window warms OR cools the room), list BOTH directions.
+3. If the direction depends on the situation (it rises in some situations and falls in others, e.g. a window
+   warms OR cools the room depending on whether it is warmer or colder outside), give direction "either" and say in
+   the precondition when it rises and when it falls. Do not pick the more common direction.
 Answer with JSON only."""
 
 
@@ -70,10 +86,11 @@ def effects_prompt(action: dict, channels_desc: str):
     """M1 uses a dedicated system prompt (no assets, no labels, no context factors)."""
     sys = M1_SYSTEM + "\n\nPhysical channels (closed set; use these ids only):\n" + channels_desc
     user = (f"Action type: {action['id']}  (HA service match: {action['match']}; scope: {action['scope']}).\n"
-            "List every effect of this action. For each effect give channel, direction (increase|decrease), "
-            "requires_extra_device (true|false) and a precondition in words (or 'always').")
+            "List every effect of this action. For each effect give channel, direction (increase|decrease|either), "
+            "requires_extra_device (true|false) and a precondition in words (or 'always'; for 'either', when it "
+            "rises and when it falls).")
     schema = S({"effects": {"type": "array", "items": S(
-        {"channel": STR, "direction": {"type": "string", "enum": ["increase", "decrease"]},
+        {"channel": STR, "direction": {"type": "string", "enum": ["increase", "decrease", "either"]},
          "requires_extra_device": BOOL, "precondition": STR, "why": STR},
         ["channel", "direction", "requires_extra_device", "precondition"])}}, ["effects"])
     return sys, user, schema
@@ -259,40 +276,157 @@ CONDITION_KINDS = ["world_state", "sensor_reading", "home_mode", "device_state",
                    "event", "obligation", "unclear"]
 
 
-def code_condition_prompt(condition: str, property_text: str):
-    """A2a open coding of ONE condition: what kind of statement it is and which single
-    world variable (and value) it is about. No domain examples (they would pre-name the
-    dimensions); the only example is a format example from outside the home domain."""
+def code_condition_prompt(condition: str, property_text: str, examples: list[dict] | None = None):
+    """A2a open coding of ONE condition: kind, the observation (evidence, kept for grounding),
+    and the SITUATION QUESTION the condition answers plus its answer. Coding at the level of
+    situation questions (not sensor variables) is what makes several sensors (smoke, CO,
+    leak) evidence about one dimension. Few-shot examples come from the human codebook
+    (data/vocab/a2_codebook.yaml); they are the researcher's seed codes and are reported."""
+    ex = ""
+    if examples:
+        ex = "\n\nExamples from the human codebook:\n" + "\n".join(
+            f"- condition '{e['condition']}' -> kind {e['kind']}; observation '{e['observation']}'; "
+            f"question '{e['question']}'; answer '{e['answer']}'; scope {e['scope']}" for e in examples)
     sys = A_PREAMBLE + ("\n\nTask: code ONE condition taken from the property shown.\n"
                         "kind (choose one): world_state = a world fact; sensor_reading = a detection or measurement by a "
                         "device; home_mode = a mode of the home system; device_state = the state of an actuator or "
                         "appliance; user_configuration = a user-chosen threshold, time or preference; event = a change "
                         "happening at a moment; obligation = what a device must or must not do; unclear.\n"
-                        "world_fact: the world fact that the condition states (world_state), directly indicates "
-                        "(sensor_reading, home_mode) or brings about (event: the state right after the change), written "
-                        "without naming any device. Empty for device_state, user_configuration, obligation, unclear, and for "
-                        "a home_mode that indicates no world fact.\n"
-                        "variable: the variable that this world fact is a value of. Empty if world_fact is empty.\n"
-                        "value: the value of that variable stated by the fact, in 1-4 words, at the property's own level of "
-                        "detail (a value relative to a threshold stays relative to the threshold).\n"
-                        "scope: home (whole home), room (one room), outdoor, or person (one particular person).\n"
-                        "Format example from another domain: 'the parking sensor detects an obstacle' -> kind sensor_reading, "
-                        "world_fact 'there is an obstacle behind the car', variable 'obstacle behind the car', value 'present'.")
+                        "observation: what is sensed, set or stated, in a few words.\n"
+                        "question: the situation question this condition answers (for an event: the situation right after "
+                        "the change). Ask it so that other conditions about the same situation would get the same question. "
+                        "Empty for device_state, user_configuration, obligation, unclear, and for a home_mode that says "
+                        "nothing about the situation.\n"
+                        "answer: the answer the condition gives, in 1-5 words. Empty if question is empty.\n"
+                        "scope: home (whole home), room (one room), outdoor, or person (one particular person)." + ex)
     user = f"Property: {property_text}\nCondition to code: {condition}"
-    schema = S({"kind": {"type": "string", "enum": CONDITION_KINDS}, "world_fact": STR, "variable": STR, "value": STR,
+    schema = S({"kind": {"type": "string", "enum": CONDITION_KINDS}, "observation": STR, "question": STR, "answer": STR,
                 "scope": {"type": "string", "enum": ["home", "room", "outdoor", "person"]}, "reason": STR},
-               ["kind", "world_fact", "variable", "value", "scope"])
+               ["kind", "observation", "question", "answer", "scope"])
     return sys, user, schema
+
+
+def lift_condition_prompt(condition: str, property_text: str, assets: list[str], examples: list[dict] | None = None,
+                          version: str = "v4.1"):
+    """A2a (label-anchored, default): code ONE condition of ONE property as an EVIDENCE UNIT and
+    LIFT it from what is observed to the world fact that makes the property's requirement right.
+
+    A property is a labelled example: under its condition, its action is required (+) or
+    forbidden (-) for the protected asset(s) it serves. The factor we need is the fact the
+    judgment depends on, not the reading that reports it (rule R4). The lift is checked by a
+    counterfactual: if the observation held but the latent fact were false, would the action
+    still be right? 'still right' while observation != latent fact means the lift failed; the
+    program then keeps the unit out of the grouping (vocab._lift_check).
+
+    No domain example is written here. Few-shot examples come only from the human codebook
+    (data/vocab/a2_codebook.yaml); fields an example does not have are not shown.
+
+    version (method.m2_lift_prompt): v4 = original wording (kept for the ablation);
+    v4.1 = A_PREAMBLE_LIFT, latent_fact = the fact the evidence directly indicates, written as a
+    statement, and the counterfactual is asked as a recorded observation that decides nothing
+    (vocab._lift_check, method.m2_lift_gate)."""
+    if version not in LIFT_PROMPT_VERSIONS:
+        raise ValueError(f"lift prompt version must be one of {LIFT_PROMPT_VERSIONS}")
+    ex = ""
+    if examples:
+        lines = []
+        for e in examples:
+            parts = [f"condition '{e['condition']}' -> kind {e['kind']}", f"observation '{e.get('observation', '')}'"]
+            for k in ("reason", "latent_fact"):
+                if e.get(k):
+                    parts.append(f"{k} '{e[k]}'")
+            parts += [f"question '{e.get('question', '')}'", f"answer '{e.get('answer', '')}'", f"scope {e.get('scope', 'home')}"]
+            lines.append("- " + "; ".join(parts))
+        ex = "\n\nExamples from the human codebook:\n" + "\n".join(lines)
+    pre = A_PREAMBLE if version == "v4" else A_PREAMBLE_LIFT
+    if version == "v4":
+        latent_desc = ("latent_fact: the world fact the reason actually depends on. If the observation is itself a world "
+                       "fact, repeat it. If the observation is only evidence (a reading, a detection, a mode, an event), "
+                       "state the world fact it is evidence for. Never name a device, a sensor, a threshold or a system "
+                       "mode in it. Empty when reason is empty.\n")
+        cf_desc = ("counterfactual_still_right: suppose the observation held but latent_fact were false. Would the "
+                   "property's action still be right? Answer true or false (false when latent_fact repeats the "
+                   "observation).\n")
+    else:
+        latent_desc = ("latent_fact: the world fact the reason depends on, written as a statement (not a question). If the "
+                       "observation is itself a world fact, repeat it. If the observation is only evidence (a reading, a "
+                       "detection, a mode, an event), state the world fact it directly indicates; do not choose between "
+                       "possible causes. Never name a device, a sensor, a threshold, a setting or a system mode in it. "
+                       "Empty when reason is empty.\n")
+        cf_desc = ("counterfactual_still_right (recorded for analysis only; it does not decide anything): suppose the "
+                   "observation held but latent_fact were false. Would the property's action still be right? true or "
+                   "false.\n")
+    sys = pre + ("\n\nTask: code ONE condition of the property shown, and lift it from what is observed to the "
+                        "situation that makes the property's requirement right for the protected asset(s) named.\n"
+                        "kind (choose one): world_state = a world fact; sensor_reading = a detection or measurement by a "
+                        "device; home_mode = a mode of the home system; device_state = the state of an actuator or "
+                        "appliance; user_configuration = a user-chosen threshold, time or preference; event = a change "
+                        "happening at a moment; obligation = what a device must or must not do; unclear.\n"
+                        "observation: what is sensed, set or stated, in a few words. It is evidence and is kept for grounding.\n"
+                        "reason: one sentence: why the property requires or forbids its action when this condition holds, "
+                        "in terms of what happens to the named asset(s). State the mechanism, not the rule. Empty for "
+                        "device_state, user_configuration, obligation and unclear.\n"
+                        + latent_desc + cf_desc +
+                        "question: the situation question that latent_fact answers, asked so that other conditions about "
+                        "the same situation would get the same question. Empty when latent_fact is empty.\n"
+                        "answer: the answer latent_fact gives to that question, in 1-5 words.\n"
+                        "scope: home (whole home), room (one room), outdoor, or person (one particular person)." + ex)
+    user = (f"Property: {property_text}\nProtected asset(s) this property serves: {', '.join(assets) or 'not stated'}\n"
+            f"Condition to code: {condition}")
+    schema = S({"kind": {"type": "string", "enum": CONDITION_KINDS}, "observation": STR, "reason": STR,
+                "latent_fact": STR, "counterfactual_still_right": BOOL, "question": STR, "answer": STR,
+                "scope": {"type": "string", "enum": ["home", "room", "outdoor", "person"]}},
+               ["kind", "observation", "reason", "latent_fact", "counterfactual_still_right", "question", "answer", "scope"])
+    return sys, user, schema
+
+
+FACT_RELATIONS = ["same", "exclusive", "a_implies_b", "b_implies_a", "independent"]
+SUBJECT_DESC = {"home": "the whole home", "room": "one room (the same room for both statements)",
+                "outdoor": "the surroundings outside the home", "person": "one particular person (the same person)"}
+
+
+def fact_relation_prompt(subject: str, fact_a: str, fact_b: str):
+    """A2b (relation grouping, default): the logical relation between two world facts about
+    the SAME subject at the SAME moment. The program turns these pairwise answers into
+    slots (vocab._slots_from_relations): facts that are the same are one value; facts that
+    exclude or imply each other are values of one slot; independent facts are different
+    slots. No domain example is written here."""
+    sys = A_PREAMBLE + ("\n\nTask: two statements describe " + SUBJECT_DESC.get(subject, subject) + " at the same moment. "
+                        "Choose the ONE relation that holds between them:\n"
+                        "same = they state the same fact in different words;\n"
+                        "exclusive = they cannot both be true;\n"
+                        "a_implies_b = whenever A is true, B is true, but not the other way round;\n"
+                        "b_implies_a = whenever B is true, A is true, but not the other way round;\n"
+                        "independent = they can be true together, and either can be true without the other.\n"
+                        "Judge the facts as stated; do not assume a device or a rule.")
+    user = f"A: {fact_a}\nB: {fact_b}"
+    schema = S({"relation": {"type": "string", "enum": FACT_RELATIONS}, "reason": STR}, ["relation", "reason"])
+    return sys, user, schema
+
+
+def name_slot_prompt(subject: str, facts: list[str]):
+    """Name one slot found by relation grouping. The model gives only the ASPECT; the program
+    builds the factor name <subject>_<aspect> (vocab.SUBJECT_PREFIX), so the name always says
+    where the factor is grounded at runtime (whole home / the effect's room / outdoors / a
+    person). The name never changes the structure."""
+    sys = A_PREAMBLE + ("\n\nTask: the statements below are mutually dependent alternatives about "
+                        + SUBJECT_DESC.get(subject, subject) + ": each is one possible answer to the same situation "
+                        "question. Write that question. Then name the aspect of the situation it asks about: 1-3 "
+                        "lowercase English words joined by '_', a noun phrase, without the subject, and without any "
+                        "device, sensor, threshold, system mode or protected asset.")
+    user = "Statements:\n" + "\n".join(f"- {f}" for f in facts)
+    return sys, user, S({"aspect": STR, "question": STR}, ["aspect", "question"])
 
 
 def group_variables_prompt(variables: list[str]):
     """A2b axial coding: merge variable phrases that name the SAME world quantity."""
-    sys = A_PREAMBLE + ("\n\nTask: axial coding. Each line is a variable found in smart-home properties, with how often it "
-                        "occurred and example values. Put two lines in the same group only if they name the same variable: "
-                        "paraphrases, or the same quantity at a different level of detail. If the values of two lines could "
-                        "vary independently of each other, they are different variables and must be in different groups. "
-                        "For each group give a snake_case id naming the variable (see the naming rule), a one-sentence "
-                        "definition, and the member line numbers. Every line must be in exactly one group.")
+    sys = A_PREAMBLE + ("\n\nTask: axial coding. Each line is a situation question found in smart-home properties, with how "
+                        "often it occurred and example answers. Put lines in the same group if they ask the same question "
+                        "about the situation: paraphrases, or the same question with more or less detailed answers. Lines "
+                        "that ask about different things (for example 'who is present' vs 'what people are doing') go to "
+                        "different groups. For each group give a snake_case id naming what the "
+                        "question asks about (no device, no protected asset), the question as its definition, and the "
+                        "member line numbers. Every line must be in exactly one group.")
     user = "Variables:\n" + "\n".join(f"{i}. {v}" for i, v in enumerate(variables))
     schema = S({"groups": {"type": "array", "items": S(
         {"id": STR, "definition": STR, "members": {"type": "array", "items": {"type": "integer"}}},
@@ -302,9 +436,10 @@ def group_variables_prompt(variables: list[str]):
 
 def check_dimension_prompt(dim_id: str, definition: str, members: list[str]):
     """A2c verification of one proposed dimension (rule R2: one variable; not an asset)."""
-    sys = A_PREAMBLE + ("\n\nTask: verify a proposed dimension. It is valid only if ALL member phrases name ONE variable, "
-                        "i.e. no two members could vary independently. If not, split the members into groups, each naming "
-                        "one variable, and give each group a snake_case id that follows the naming rule.")
+    sys = A_PREAMBLE + ("\n\nTask: verify a proposed dimension. It is valid only if ALL member questions ask the SAME "
+                        "situation question, so that every answer of every member is one alternative of that question. If "
+                        "not, split the members into groups, each asking one question, and give each group a snake_case id "
+                        "(no device, no protected asset).")
     user = (f"Dimension: {dim_id} - {definition}\nMembers:\n" + "\n".join(f"{i}. {m}" for i, m in enumerate(members)))
     schema = S({"single_variable": BOOL, "reason": STR,
                 "split": {"type": "array", "items": S({"id": STR, "members": {"type": "array", "items": {"type": "integer"}}},

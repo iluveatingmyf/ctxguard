@@ -1,0 +1,906 @@
+version: E-k3
+samples: 3
+temperature: 0.7
+direction_rule: majority
+prompt_version: M1-v3 (direction 'either'; channel vote + direction rule)
+rejected_out_of_vocab: 0
+discarded_extra_device: 43
+n_bidirectional: 25
+bidirectional:
+- close_blind:indoor_temperature
+- close_garage:indoor_humidity
+- close_garage:indoor_temperature
+- close_window:indoor_humidity
+- close_window:indoor_temperature
+- close_window:sound
+- cool_on:air_exchange
+- exhaust_fan_on:indoor_humidity
+- exhaust_fan_on:indoor_temperature
+- fan_on:indoor_humidity
+- fan_on:indoor_temperature
+- hvac_off:indoor_humidity
+- hvac_off:indoor_temperature
+- open_blind:indoor_temperature
+- open_garage:indoor_humidity
+- open_garage:indoor_temperature
+- open_window:indoor_humidity
+- open_window:indoor_temperature
+- unlock_door:air_exchange
+- unlock_door:illumination
+- unlock_door:indoor_humidity
+- unlock_door:indoor_temperature
+- vacuum_start:air_exchange
+- vacuum_start:illumination
+- vacuum_start:indoor_humidity
+effects:
+- id: air_exchange:decrease
+  channel: air_exchange
+  direction: decrease
+  desc: decrease of air exchange (Rate of air exchange between indoor zone and outdoors (ventilation).)
+  preconditions:
+    close_window: always
+    close_blind: if the blind is closed over an open window or door, it reduces the airflow between indoors and outdoors |
+      if the blind covers an open window and reduces airflow | if the window behind the blind is open
+    close_garage: always
+    unlock_door: increases when the door is opened after unlocking; decreases when the door remains closed | if the door is
+      subsequently opened, air exchange increases; if it remains closed, air exchange stays the same
+    cool_on: If the cooling system includes a fresh air intake or is a window unit that draws some outside air, air exchange
+      increases; otherwise, for a typical split system recirculating indoor air, air exchange remains unchanged. | If the
+      HVAC system includes outdoor air intake, air exchange increases; if it recirculates indoor air only, air exchange remains
+      unchanged. | increases if the cooling system draws in outdoor air (e.g., through a fresh air intake), decreases if the
+      system is recirculating indoor air only
+    hvac_off: if HVAC was running a fan or ventilation mode | always, if the HVAC system provides ventilation (fan) that stops
+      when turned off.
+    vacuum_start: Increases if vacuum exhaust stirs air and enhances mixing; decreases if vacuum is set to recirculate air
+      internally without external exchange. | always | If the vacuum has a HEPA filter and creates airflow, it may slightly
+      increase air exchange; otherwise no change.
+- id: air_exchange:increase
+  channel: air_exchange
+  direction: increase
+  desc: increase of air exchange (Rate of air exchange between indoor zone and outdoors (ventilation).)
+  preconditions:
+    open_window: always
+    open_blind: if the window behind the blind is open
+    open_garage: always
+    unlock_door: increases when the door is opened after unlocking; decreases when the door remains closed | if the door is
+      subsequently opened, air exchange increases; if it remains closed, air exchange stays the same
+    cool_on: If the cooling system includes a fresh air intake or is a window unit that draws some outside air, air exchange
+      increases; otherwise, for a typical split system recirculating indoor air, air exchange remains unchanged. | If the
+      HVAC system includes outdoor air intake, air exchange increases; if it recirculates indoor air only, air exchange remains
+      unchanged. | increases if the cooling system draws in outdoor air (e.g., through a fresh air intake), decreases if the
+      system is recirculating indoor air only
+    fan_on: always
+    exhaust_fan_on: always
+    vacuum_start: Increases if vacuum exhaust stirs air and enhances mixing; decreases if vacuum is set to recirculate air
+      internally without external exchange. | always | If the vacuum has a HEPA filter and creates airflow, it may slightly
+      increase air exchange; otherwise no change.
+- id: gas_flow:decrease
+  channel: gas_flow
+  direction: decrease
+  desc: decrease of gas flow (Fuel gas supplied through piping.)
+  preconditions:
+    stove_off: if the stove is gas-powered | if the stove is a gas stove
+    gas_valve_close: always
+- id: heat_source:decrease
+  channel: heat_source
+  direction: decrease
+  desc: decrease of heat source (An active heating element or open flame is running (stove, oven, space heater).)
+  preconditions:
+    stove_off: always
+- id: heat_source:increase
+  channel: heat_source
+  direction: increase
+  desc: increase of heat source (An active heating element or open flame is running (stove, oven, space heater).)
+  preconditions:
+    heat_on: always
+- id: illumination:decrease
+  channel: illumination
+  direction: decrease
+  desc: decrease of illumination (Light level inside the zone.)
+  preconditions:
+    close_window: always | if the window admits daylight
+    close_blind: always | if the blind blocks light from entering the room
+    unlock_door: changes only if the door is opened; increases if outside is brighter, decreases if outside is darker | if
+      the door is opened and outdoor light enters, illumination may increase; if door remains closed, no change
+    light_off: always
+    vacuum_start: If the vacuum has lights, illumination increases; otherwise it stays the same. | If the vacuum has lights,
+      illumination increases; otherwise no change.
+- id: illumination:increase
+  channel: illumination
+  direction: increase
+  desc: increase of illumination (Light level inside the zone.)
+  preconditions:
+    open_blind: always if there is light outside | always | if outdoor light is brighter than indoor | if outdoor light is
+      dimmer than indoor
+    unlock_door: changes only if the door is opened; increases if outside is brighter, decreases if outside is darker | if
+      the door is opened and outdoor light enters, illumination may increase; if door remains closed, no change
+    light_on: always
+    camera_on: if the camera has built-in IR LEDs or a status LED that illuminates | if the camera has built-in infrared LEDs
+      or a status light that turns on | if the camera has an indicator light or IR illuminators that turn on
+    vacuum_start: If the vacuum has lights, illumination increases; otherwise it stays the same. | If the vacuum has lights,
+      illumination increases; otherwise no change.
+- id: indoor_humidity:decrease
+  channel: indoor_humidity
+  direction: decrease
+  desc: decrease of indoor humidity (Relative humidity of the indoor zone.)
+  preconditions:
+    open_window: If outdoor humidity is higher than indoor, indoor humidity rises; if outdoor humidity is lower, indoor humidity
+      falls. | rises if outdoor humidity is higher than indoor; falls if outdoor humidity is lower than indoor | If outdoor
+      humidity is higher than indoor, indoor humidity increases; if outdoor humidity is lower, indoor humidity decreases.
+    close_window: If outdoor humidity is higher than indoor, closing the window prevents moisture ingress and indoor humidity
+      may fall; if outdoor is lower, closing traps indoor moisture and humidity may rise. | If outdoor humidity is lower than
+      indoor, closing may increase indoor humidity by reducing moisture loss; if outdoor humidity is higher, closing may decrease
+      indoor humidity by reducing moisture gain. | If outdoor humidity is higher than indoor, closing the window reduces moisture
+      ingress and indoor humidity may decrease; if outdoor humidity is lower, closing may increase indoor humidity by trapping
+      moisture from occupants and activities.
+    open_garage: if outdoor humidity is higher than indoor, indoor humidity increases; if lower, decreases | If the outside
+      humidity is higher than the garage, the garage humidity increases; if lower, it decreases. | If the outdoor humidity
+      is higher than the indoor humidity, opening the garage door will increase indoor humidity; if the outdoor humidity is
+      lower, it will decrease indoor humidity.
+    close_garage: If the outside air is more humid than the garage air, closing the door may cause humidity to decrease by
+      blocking humid air; if the outside air is less humid, closing the door may cause humidity to increase by trapping moisture
+      inside. | if outside is more humid than garage, closing reduces humidity increase; if outside is less humid, closing
+      reduces humidity decrease
+    unlock_door: changes only if the door is opened; direction depends on humidity difference between inside and outside |
+      if the door is opened and outdoor humidity differs from indoor, indoor humidity changes accordingly; if door remains
+      closed, no change
+    heat_on: if the heating system does not add moisture to the air | If the heating system is a combustion type that releases
+      moisture, humidity increases; if it uses dry electric heat or a heat pump, humidity may decrease as warmer air lowers
+      relative humidity.
+    cool_on: always
+    hvac_off: if HVAC was dehumidifying, humidity increases; if humidifying, humidity decreases | If the HVAC was dehumidifying,
+      turning it off causes indoor humidity to increase; if it was humidifying, turning it off causes indoor humidity to decrease.
+      | If the HVAC was dehumidifying (cooling), turning it off increases humidity; if it was humidifying, turning it off
+      decreases humidity; if no humidity control, no change.
+    fan_on: If the fan increases air exchange with drier outdoor air, indoor humidity decreases; if the fan is in a closed
+      room and causes evaporation of moisture (e.g., from occupants or wet surfaces), it can increase humidity. | Rises if
+      fan draws in humid outside air or if it evaporates moisture from wet surfaces; falls if it increases evaporation from
+      skin/plants and exhausts humid air.
+    exhaust_fan_on: Decreases when indoor humidity is higher than outdoor humidity; increases when outdoor humidity is higher
+      than indoor humidity. | indoor humidity is higher than outdoor humidity | outdoor humidity is higher than indoor humidity
+      | when indoor humidity is higher than outdoor humidity; otherwise it may increase
+    vacuum_start: Increases if vacuum has a wet mopping function that releases water; decreases if it has a dehumidifying
+      feature or if dry exhaust reduces moisture locally. | If the vacuum has a wet mopping feature and water is added, humidity
+      increases; otherwise no change. | If the vacuum has a wet mopping feature and it is active, humidity increases; otherwise
+      no change.
+- id: indoor_humidity:increase
+  channel: indoor_humidity
+  direction: increase
+  desc: increase of indoor humidity (Relative humidity of the indoor zone.)
+  preconditions:
+    open_window: If outdoor humidity is higher than indoor, indoor humidity rises; if outdoor humidity is lower, indoor humidity
+      falls. | rises if outdoor humidity is higher than indoor; falls if outdoor humidity is lower than indoor | If outdoor
+      humidity is higher than indoor, indoor humidity increases; if outdoor humidity is lower, indoor humidity decreases.
+    close_window: If outdoor humidity is higher than indoor, closing the window prevents moisture ingress and indoor humidity
+      may fall; if outdoor is lower, closing traps indoor moisture and humidity may rise. | If outdoor humidity is lower than
+      indoor, closing may increase indoor humidity by reducing moisture loss; if outdoor humidity is higher, closing may decrease
+      indoor humidity by reducing moisture gain. | If outdoor humidity is higher than indoor, closing the window reduces moisture
+      ingress and indoor humidity may decrease; if outdoor humidity is lower, closing may increase indoor humidity by trapping
+      moisture from occupants and activities.
+    open_garage: if outdoor humidity is higher than indoor, indoor humidity increases; if lower, decreases | If the outside
+      humidity is higher than the garage, the garage humidity increases; if lower, it decreases. | If the outdoor humidity
+      is higher than the indoor humidity, opening the garage door will increase indoor humidity; if the outdoor humidity is
+      lower, it will decrease indoor humidity.
+    close_garage: If the outside air is more humid than the garage air, closing the door may cause humidity to decrease by
+      blocking humid air; if the outside air is less humid, closing the door may cause humidity to increase by trapping moisture
+      inside. | if outside is more humid than garage, closing reduces humidity increase; if outside is less humid, closing
+      reduces humidity decrease
+    unlock_door: changes only if the door is opened; direction depends on humidity difference between inside and outside |
+      if the door is opened and outdoor humidity differs from indoor, indoor humidity changes accordingly; if door remains
+      closed, no change
+    hvac_off: if HVAC was dehumidifying, humidity increases; if humidifying, humidity decreases | If the HVAC was dehumidifying,
+      turning it off causes indoor humidity to increase; if it was humidifying, turning it off causes indoor humidity to decrease.
+      | If the HVAC was dehumidifying (cooling), turning it off increases humidity; if it was humidifying, turning it off
+      decreases humidity; if no humidity control, no change.
+    fan_on: If the fan increases air exchange with drier outdoor air, indoor humidity decreases; if the fan is in a closed
+      room and causes evaporation of moisture (e.g., from occupants or wet surfaces), it can increase humidity. | Rises if
+      fan draws in humid outside air or if it evaporates moisture from wet surfaces; falls if it increases evaporation from
+      skin/plants and exhausts humid air.
+    exhaust_fan_on: Decreases when indoor humidity is higher than outdoor humidity; increases when outdoor humidity is higher
+      than indoor humidity. | indoor humidity is higher than outdoor humidity | outdoor humidity is higher than indoor humidity
+      | when indoor humidity is higher than outdoor humidity; otherwise it may increase
+    vacuum_start: Increases if vacuum has a wet mopping function that releases water; decreases if it has a dehumidifying
+      feature or if dry exhaust reduces moisture locally. | If the vacuum has a wet mopping feature and water is added, humidity
+      increases; otherwise no change. | If the vacuum has a wet mopping feature and it is active, humidity increases; otherwise
+      no change.
+    humidifier_on: always
+- id: indoor_temperature:decrease
+  channel: indoor_temperature
+  direction: decrease
+  desc: decrease of indoor temperature (Air temperature of the indoor zone.)
+  preconditions:
+    open_window: If outdoor temperature is higher than indoor, indoor temperature rises; if outdoor temperature is lower,
+      indoor temperature falls. | rises if outdoor temperature is higher than indoor; falls if outdoor temperature is lower
+      than indoor | If outdoor temperature is higher than indoor, indoor temperature increases; if outdoor temperature is
+      lower, indoor temperature decreases.
+    close_window: If the outdoor temperature is lower than indoor, closing the window reduces heat loss and indoor temperature
+      may rise; if outdoor is warmer, closing reduces heat gain and indoor temperature may fall. | If outdoor temperature
+      is lower than indoor, closing may increase indoor temperature by reducing cooling; if outdoor temperature is higher,
+      closing may decrease indoor temperature by reducing heat gain. | If it is warmer inside than outside, closing the window
+      reduces heat loss and indoor temperature may rise; if it is cooler inside than outside, closing reduces heat gain and
+      indoor temperature may fall.
+    open_blind: increases if sunlight enters and warms the room; decreases if the blind was blocking cold air from entering
+      through a window and outside is colder than inside | Rises when sunlight enters and warms the room; falls when the outdoor
+      temperature is lower and heat escapes through the window. | if outdoor temperature is higher than indoor, opening blind
+      may increase indoor temperature by letting in warm air or sunlight; if outdoor is colder, it may decrease indoor temperature
+      by letting in cold air (if window open) or reducing insulation
+    close_blind: if it is warmer outside than inside, closing the blind can decrease indoor temperature by blocking solar
+      heat gain; if it is colder outside, closing the blind can increase indoor temperature by adding insulation and reducing
+      heat loss through the window | if outside is warmer than inside, closing the blind may decrease indoor temperature by
+      blocking solar heat; if outside is colder, it may increase indoor temperature by adding insulation | rises if the blind
+      blocks cooling breezes or traps heat from sunlight; falls if it blocks solar heat gain
+    open_garage: if outdoor temperature is higher than indoor, indoor temperature increases; if lower, decreases | If the
+      outside temperature is warmer than the garage, the garage temperature increases; if the outside is cooler, it decreases.
+      | If the outdoor temperature is higher than the indoor temperature, opening the garage door will increase indoor temperature;
+      if the outdoor temperature is lower, it will decrease indoor temperature.
+    close_garage: If the garage is warmer than outside, closing the door reduces heat loss and may cause temperature to rise;
+      if the garage is cooler than outside, closing the door reduces heat gain and may cause temperature to fall. | if outside
+      is warmer than garage, closing reduces temperature increase; if outside is cooler, closing reduces temperature decrease
+    unlock_door: changes only if the door is opened; direction depends on temperature difference between inside and outside
+      | if the door is opened and outdoor temperature differs from indoor, indoor temperature changes accordingly; if door
+      remains closed, no change
+    cool_on: always
+    hvac_off: if heating was on, indoor temperature decreases; if cooling was on, indoor temperature increases | If the HVAC
+      was heating, turning it off causes indoor temperature to decrease toward outdoor temperature; if it was cooling, turning
+      it off causes indoor temperature to increase toward outdoor temperature. | If the indoor temperature is above the outdoor
+      temperature, turning off the HVAC causes indoor temperature to decrease (cooling stops). If the indoor temperature is
+      below the outdoor temperature, indoor temperature increases (heating stops). If equal, no change.
+    fan_on: 'if the indoor air is warmer than the occupant''s skin (typically above about 25°C), the fan''s airflow increases
+      convective heat loss from occupants, making them feel cooler, but it does not lower the actual air temperature. However,
+      the fan motor adds a small amount of heat, so the net effect on air temperature is a slight increase. For the purpose
+      of perceived cooling, we consider a decrease in effective temperature, but for the physical channel indoor_temperature,
+      the direction is increase due to motor heat. We must be precise: the physical air temperature increases slightly because
+      of the motor''s waste heat. So direction should be increase. | If the fan is used with an open window or in a room where
+      outdoor temperature is lower than indoor, it can decrease indoor temperature by bringing in cooler air; if the fan motor
+      generates heat or if the fan is used in a closed room with no temperature difference, it can increase indoor temperature
+      slightly due to motor heat. | Falls if the fan draws in cooler outside air or increases evaporation from skin (perceived
+      cooling), rises if the motor heat adds warmth or if it mixes warmer stratified air down.'
+    exhaust_fan_on: Decreases when outdoor temperature is lower than indoor temperature; increases when outdoor temperature
+      is higher than indoor temperature. | rises when outdoor temperature is higher than indoor temperature; falls when outdoor
+      temperature is lower than indoor temperature | decreases when outdoor air is cooler than indoor air; increases when
+      outdoor air is warmer than indoor air
+    stove_off: if the stove was heating the room | always | if the stove was heating the room, turning it off will decrease
+      indoor temperature; if the stove was cooling the room (e.g., due to ventilation), turning it off may increase indoor
+      temperature; otherwise no change
+    humidifier_on: if humidifier uses evaporative cooling | if the humidifier uses an evaporative wick and fan (evaporative
+      cooling effect) | if the humidifier uses a heating element (warm mist humidifier)
+- id: indoor_temperature:increase
+  channel: indoor_temperature
+  direction: increase
+  desc: increase of indoor temperature (Air temperature of the indoor zone.)
+  preconditions:
+    open_window: If outdoor temperature is higher than indoor, indoor temperature rises; if outdoor temperature is lower,
+      indoor temperature falls. | rises if outdoor temperature is higher than indoor; falls if outdoor temperature is lower
+      than indoor | If outdoor temperature is higher than indoor, indoor temperature increases; if outdoor temperature is
+      lower, indoor temperature decreases.
+    close_window: If the outdoor temperature is lower than indoor, closing the window reduces heat loss and indoor temperature
+      may rise; if outdoor is warmer, closing reduces heat gain and indoor temperature may fall. | If outdoor temperature
+      is lower than indoor, closing may increase indoor temperature by reducing cooling; if outdoor temperature is higher,
+      closing may decrease indoor temperature by reducing heat gain. | If it is warmer inside than outside, closing the window
+      reduces heat loss and indoor temperature may rise; if it is cooler inside than outside, closing reduces heat gain and
+      indoor temperature may fall.
+    open_blind: increases if sunlight enters and warms the room; decreases if the blind was blocking cold air from entering
+      through a window and outside is colder than inside | Rises when sunlight enters and warms the room; falls when the outdoor
+      temperature is lower and heat escapes through the window. | if outdoor temperature is higher than indoor, opening blind
+      may increase indoor temperature by letting in warm air or sunlight; if outdoor is colder, it may decrease indoor temperature
+      by letting in cold air (if window open) or reducing insulation
+    close_blind: if it is warmer outside than inside, closing the blind can decrease indoor temperature by blocking solar
+      heat gain; if it is colder outside, closing the blind can increase indoor temperature by adding insulation and reducing
+      heat loss through the window | if outside is warmer than inside, closing the blind may decrease indoor temperature by
+      blocking solar heat; if outside is colder, it may increase indoor temperature by adding insulation | rises if the blind
+      blocks cooling breezes or traps heat from sunlight; falls if it blocks solar heat gain
+    open_garage: if outdoor temperature is higher than indoor, indoor temperature increases; if lower, decreases | If the
+      outside temperature is warmer than the garage, the garage temperature increases; if the outside is cooler, it decreases.
+      | If the outdoor temperature is higher than the indoor temperature, opening the garage door will increase indoor temperature;
+      if the outdoor temperature is lower, it will decrease indoor temperature.
+    close_garage: If the garage is warmer than outside, closing the door reduces heat loss and may cause temperature to rise;
+      if the garage is cooler than outside, closing the door reduces heat gain and may cause temperature to fall. | if outside
+      is warmer than garage, closing reduces temperature increase; if outside is cooler, closing reduces temperature decrease
+    unlock_door: changes only if the door is opened; direction depends on temperature difference between inside and outside
+      | if the door is opened and outdoor temperature differs from indoor, indoor temperature changes accordingly; if door
+      remains closed, no change
+    heat_on: always
+    hvac_off: if heating was on, indoor temperature decreases; if cooling was on, indoor temperature increases | If the HVAC
+      was heating, turning it off causes indoor temperature to decrease toward outdoor temperature; if it was cooling, turning
+      it off causes indoor temperature to increase toward outdoor temperature. | If the indoor temperature is above the outdoor
+      temperature, turning off the HVAC causes indoor temperature to decrease (cooling stops). If the indoor temperature is
+      below the outdoor temperature, indoor temperature increases (heating stops). If equal, no change.
+    fan_on: 'if the indoor air is warmer than the occupant''s skin (typically above about 25°C), the fan''s airflow increases
+      convective heat loss from occupants, making them feel cooler, but it does not lower the actual air temperature. However,
+      the fan motor adds a small amount of heat, so the net effect on air temperature is a slight increase. For the purpose
+      of perceived cooling, we consider a decrease in effective temperature, but for the physical channel indoor_temperature,
+      the direction is increase due to motor heat. We must be precise: the physical air temperature increases slightly because
+      of the motor''s waste heat. So direction should be increase. | If the fan is used with an open window or in a room where
+      outdoor temperature is lower than indoor, it can decrease indoor temperature by bringing in cooler air; if the fan motor
+      generates heat or if the fan is used in a closed room with no temperature difference, it can increase indoor temperature
+      slightly due to motor heat. | Falls if the fan draws in cooler outside air or increases evaporation from skin (perceived
+      cooling), rises if the motor heat adds warmth or if it mixes warmer stratified air down.'
+    exhaust_fan_on: Decreases when outdoor temperature is lower than indoor temperature; increases when outdoor temperature
+      is higher than indoor temperature. | rises when outdoor temperature is higher than indoor temperature; falls when outdoor
+      temperature is lower than indoor temperature | decreases when outdoor air is cooler than indoor air; increases when
+      outdoor air is warmer than indoor air
+    light_on: always | if the light source emits heat (e.g., incandescent, halogen) | if the light is incandescent or halogen
+      and produces significant heat | if the light is LED and replaces a hotter light source that was previously on
+    vacuum_start: always
+- id: info_disclosure:increase
+  channel: info_disclosure
+  direction: increase
+  desc: increase of info disclosure (Information emitted outside the device (spoken announcement, notification, upload).)
+  preconditions:
+    unlock_door: always | if the lock is a smart lock that logs or reports unlock events; otherwise no change
+    alarm_arm_away: if the alarm system sends a notification to a monitoring service or user device upon arming | if the alarm
+      system sends a notification to a monitoring service or user device
+    siren_on: always
+    camera_on: if the camera is connected to a network or has local storage/display | if the camera is connected to a network
+      or has local storage accessible to others | if the camera is connected to a network and configured to send notifications
+      or upload footage
+    media_play: if the media being played contains personal or sensitive information | if the media being played includes
+      content that reveals information about the user (e.g., audio from a personal recording) or if the media player is connected
+      to a network and sends playback data
+    tts_announce: always
+- id: mechanical_motion:increase
+  channel: mechanical_motion
+  direction: increase
+  desc: increase of mechanical motion (Moving machinery that can collide with or trap people/pets (robot vacuum, garage door,
+    motorized covers).)
+  preconditions:
+    close_window: always | if the window is motorized
+    open_blind: if the blind is motorized | always
+    close_blind: if the blind has moving parts that could trap fingers or objects | always
+    open_garage: always
+    close_garage: always | while the door is moving
+    fan_on: always
+    vacuum_start: always
+- id: passage_opening:decrease
+  channel: passage_opening
+  direction: decrease
+  desc: decrease of passage opening (Physical openness of a passage between outside and inside (door, window, garage) - who/what
+    can pass.)
+  preconditions:
+    close_window: always
+    close_garage: always
+    lock_door: always
+- id: passage_opening:increase
+  channel: passage_opening
+  direction: increase
+  desc: increase of passage opening (Physical openness of a passage between outside and inside (door, window, garage) - who/what
+    can pass.)
+  preconditions:
+    open_window: always
+    open_blind: always
+    open_garage: always
+    unlock_door: always
+- id: power_supply:decrease
+  channel: power_supply
+  direction: decrease
+  desc: decrease of power supply (Electrical power delivered to a load (outlet, appliance, device).)
+  preconditions:
+    hvac_off: always | The HVAC system consumes electrical power; turning it off reduces the power supplied to it.
+    outlet_off: always
+- id: power_supply:increase
+  channel: power_supply
+  direction: increase
+  desc: increase of power supply (Electrical power delivered to a load (outlet, appliance, device).)
+  preconditions:
+    heat_on: always
+    cool_on: always
+    exhaust_fan_on: always
+    light_on: always
+    outlet_on: always
+    camera_on: always
+    vacuum_start: always | If the vacuum is plugged into an outlet, power supply to the vacuum increases; if battery-powered,
+      no change.
+    humidifier_on: always
+- id: security_monitoring:decrease
+  channel: security_monitoring
+  direction: decrease
+  desc: decrease of security monitoring (Intrusion monitoring / alarm protection of the home.)
+  preconditions:
+    unlock_door: always
+    alarm_disarm: always
+- id: security_monitoring:increase
+  channel: security_monitoring
+  direction: increase
+  desc: increase of security monitoring (Intrusion monitoring / alarm protection of the home.)
+  preconditions:
+    close_window: if the window has a security sensor that is now closed, indicating the home is more secure | if the window
+      has a sensor connected to a security system
+    close_garage: always | if the garage is part of a security system
+    lock_door: always | if the lock is part of a monitored security system
+    alarm_arm_away: always
+    siren_on: always
+- id: sensing_capture:increase
+  channel: sensing_capture
+  direction: increase
+  desc: increase of sensing capture (Audio/video capture of the occupants and the home.)
+  preconditions:
+    camera_on: always
+- id: sound:decrease
+  channel: sound
+  direction: decrease
+  desc: decrease of sound (Acoustic emission inside the home.)
+  preconditions:
+    close_window: always | Sound inside may decrease if outdoor noise was entering, or increase if closing mechanism is noisy.
+      | If the window is motorized, the motor produces sound during operation; if manual, no sound from the action itself.
+    hvac_off: if HVAC was running and producing noise | always | If the HVAC system was running and producing noise, turning
+      it off stops the noise.
+    stove_off: if the stove was making noise (e.g., fan, clicking igniter) | if the stove was making noise (e.g., fan, clicking
+      igniter, boiling) | if the stove was making noise (e.g., fan, gas flame, electric hum)
+- id: sound:increase
+  channel: sound
+  direction: increase
+  desc: increase of sound (Acoustic emission inside the home.)
+  preconditions:
+    open_window: always
+    close_window: always | Sound inside may decrease if outdoor noise was entering, or increase if closing mechanism is noisy.
+      | If the window is motorized, the motor produces sound during operation; if manual, no sound from the action itself.
+    open_blind: always if the blind motor makes noise during operation | if the blind is motorized | always
+    close_blind: always | if the blind is motorized and produces noise while moving
+    open_garage: always
+    close_garage: always | while the door is moving
+    unlock_door: always | if the lock mechanism makes an audible sound when unlocking
+    lock_door: if the lock mechanism is motorized or has an audible click | if the door is closed | if the lock mechanism
+      is audible
+    heat_on: always
+    cool_on: always
+    fan_on: always
+    exhaust_fan_on: always
+    light_on: if the light has a ballast or fan that emits noise when on | if the light source produces audible noise (e.g.,
+      buzzing, humming) | if the light has an audible relay or ballast hum
+    alarm_arm_away: if the alarm panel or siren emits an arming confirmation beep or status sound | if the alarm panel or
+      keypad emits a confirmation beep or voice prompt when arming | if the system emits a confirmation beep or voice announcement
+      upon arming
+    siren_on: always
+    camera_on: if the camera has a mechanical IR cut filter or pan/tilt motor that moves on startup | if the camera has a
+      motorized pan/tilt or zoom that makes noise when activated
+    media_play: always
+    tts_announce: always
+    vacuum_start: always
+    humidifier_on: always
+- id: visibility:decrease
+  channel: visibility
+  direction: decrease
+  desc: decrease of visibility (How much of the indoor space can be seen from outside.)
+  preconditions:
+    close_window: always | if the window is transparent or partially open
+    close_blind: always | if the blind is opaque and blocks view from outside
+    close_garage: always | if the garage has windows or is otherwise transparent
+- id: visibility:increase
+  channel: visibility
+  direction: increase
+  desc: increase of visibility (How much of the indoor space can be seen from outside.)
+  preconditions:
+    open_window: always
+    open_blind: always
+    open_garage: always
+    unlock_door: if the door is opened after unlocking; otherwise no change | if the door is opened, visibility from outside
+      into the home increases; if closed, no change
+    light_on: if the light is on and there are windows or openings, making the interior more visible from outside | if the
+      light makes the interior more visible from outside (e.g., at night with uncovered windows)
+- id: water_flow:decrease
+  channel: water_flow
+  direction: decrease
+  desc: decrease of water flow (Water supplied through plumbing.)
+  preconditions:
+    water_valve_close: always
+- id: water_flow:increase
+  channel: water_flow
+  direction: increase
+  desc: increase of water flow (Water supplied through plumbing.)
+  preconditions:
+    water_valve_open: always
+eff:
+  open_window:
+  - air_exchange:increase
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - passage_opening:increase
+  - sound:increase
+  - visibility:increase
+  close_window:
+  - air_exchange:decrease
+  - illumination:decrease
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - mechanical_motion:increase
+  - passage_opening:decrease
+  - security_monitoring:increase
+  - sound:decrease
+  - sound:increase
+  - visibility:decrease
+  open_blind:
+  - air_exchange:increase
+  - illumination:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - mechanical_motion:increase
+  - passage_opening:increase
+  - sound:increase
+  - visibility:increase
+  close_blind:
+  - air_exchange:decrease
+  - illumination:decrease
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - mechanical_motion:increase
+  - sound:increase
+  - visibility:decrease
+  open_garage:
+  - air_exchange:increase
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - mechanical_motion:increase
+  - passage_opening:increase
+  - sound:increase
+  - visibility:increase
+  close_garage:
+  - air_exchange:decrease
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - mechanical_motion:increase
+  - passage_opening:decrease
+  - security_monitoring:increase
+  - sound:increase
+  - visibility:decrease
+  unlock_door:
+  - air_exchange:decrease
+  - air_exchange:increase
+  - illumination:decrease
+  - illumination:increase
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - info_disclosure:increase
+  - passage_opening:increase
+  - security_monitoring:decrease
+  - sound:increase
+  - visibility:increase
+  lock_door:
+  - passage_opening:decrease
+  - security_monitoring:increase
+  - sound:increase
+  heat_on:
+  - heat_source:increase
+  - indoor_humidity:decrease
+  - indoor_temperature:increase
+  - power_supply:increase
+  - sound:increase
+  cool_on:
+  - air_exchange:decrease
+  - air_exchange:increase
+  - indoor_humidity:decrease
+  - indoor_temperature:decrease
+  - power_supply:increase
+  - sound:increase
+  hvac_off:
+  - air_exchange:decrease
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - power_supply:decrease
+  - sound:decrease
+  fan_on:
+  - air_exchange:increase
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - mechanical_motion:increase
+  - sound:increase
+  exhaust_fan_on:
+  - air_exchange:increase
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - indoor_temperature:increase
+  - power_supply:increase
+  - sound:increase
+  light_on:
+  - illumination:increase
+  - indoor_temperature:increase
+  - power_supply:increase
+  - sound:increase
+  - visibility:increase
+  light_off:
+  - illumination:decrease
+  outlet_on:
+  - power_supply:increase
+  outlet_off:
+  - power_supply:decrease
+  stove_off:
+  - gas_flow:decrease
+  - heat_source:decrease
+  - indoor_temperature:decrease
+  - sound:decrease
+  water_valve_close:
+  - water_flow:decrease
+  water_valve_open:
+  - water_flow:increase
+  gas_valve_close:
+  - gas_flow:decrease
+  alarm_arm_away:
+  - info_disclosure:increase
+  - security_monitoring:increase
+  - sound:increase
+  alarm_disarm:
+  - security_monitoring:decrease
+  siren_on:
+  - info_disclosure:increase
+  - security_monitoring:increase
+  - sound:increase
+  camera_on:
+  - illumination:increase
+  - info_disclosure:increase
+  - power_supply:increase
+  - sensing_capture:increase
+  - sound:increase
+  media_play:
+  - info_disclosure:increase
+  - sound:increase
+  tts_announce:
+  - info_disclosure:increase
+  - sound:increase
+  vacuum_start:
+  - air_exchange:decrease
+  - air_exchange:increase
+  - illumination:decrease
+  - illumination:increase
+  - indoor_humidity:decrease
+  - indoor_humidity:increase
+  - indoor_temperature:increase
+  - mechanical_motion:increase
+  - power_supply:increase
+  - sound:increase
+  humidifier_on:
+  - indoor_humidity:increase
+  - indoor_temperature:decrease
+  - power_supply:increase
+  - sound:increase
+votes:
+  open_window:
+    air_exchange:increase: 3
+    illumination:decrease: 1
+    illumination:increase: 1
+    indoor_humidity:decrease: 3
+    indoor_humidity:increase: 3
+    indoor_temperature:decrease: 3
+    indoor_temperature:increase: 3
+    passage_opening:increase: 3
+    sound:increase: 3
+    visibility:increase: 3
+  close_window:
+    air_exchange:decrease: 3
+    illumination:decrease: 3
+    indoor_humidity:decrease: 3
+    indoor_humidity:increase: 3
+    indoor_temperature:decrease: 3
+    indoor_temperature:increase: 3
+    mechanical_motion:increase: 2
+    passage_opening:decrease: 3
+    security_monitoring:increase: 2
+    sensing_capture:decrease: 1
+    sound:decrease: 2
+    sound:increase: 3
+    visibility:decrease: 3
+  open_blind:
+    air_exchange:increase: 2
+    illumination:decrease: 1
+    illumination:increase: 3
+    indoor_humidity:decrease: 1
+    indoor_humidity:increase: 1
+    indoor_temperature:decrease: 3
+    indoor_temperature:increase: 3
+    mechanical_motion:increase: 2
+    passage_opening:increase: 3
+    power_supply:decrease: 1
+    power_supply:increase: 1
+    sound:increase: 3
+    visibility:increase: 3
+  close_blind:
+    air_exchange:decrease: 3
+    illumination:decrease: 3
+    indoor_temperature:decrease: 3
+    indoor_temperature:increase: 3
+    mechanical_motion:increase: 2
+    passage_opening:decrease: 1
+    sound:increase: 3
+    visibility:decrease: 3
+  open_garage:
+    air_exchange:increase: 3
+    illumination:increase: 1
+    indoor_humidity:decrease: 3
+    indoor_humidity:increase: 3
+    indoor_temperature:decrease: 3
+    indoor_temperature:increase: 3
+    mechanical_motion:increase: 3
+    passage_opening:increase: 3
+    security_monitoring:decrease: 1
+    sound:increase: 3
+    visibility:increase: 3
+  close_garage:
+    air_exchange:decrease: 3
+    illumination:decrease: 1
+    indoor_humidity:decrease: 2
+    indoor_humidity:increase: 2
+    indoor_temperature:decrease: 2
+    indoor_temperature:increase: 2
+    mechanical_motion:increase: 3
+    passage_opening:decrease: 3
+    security_monitoring:increase: 2
+    sound:increase: 3
+    visibility:decrease: 3
+  unlock_door:
+    air_exchange:decrease: 2
+    air_exchange:increase: 2
+    illumination:decrease: 2
+    illumination:increase: 2
+    indoor_humidity:decrease: 2
+    indoor_humidity:increase: 2
+    indoor_temperature:decrease: 2
+    indoor_temperature:increase: 2
+    info_disclosure:increase: 2
+    passage_opening:increase: 3
+    security_monitoring:decrease: 3
+    sensing_capture:increase: 1
+    sound:increase: 3
+    visibility:increase: 2
+  lock_door:
+    air_exchange:decrease: 1
+    info_disclosure:increase: 1
+    mechanical_motion:increase: 1
+    passage_opening:decrease: 3
+    security_monitoring:increase: 3
+    sound:decrease: 1
+    sound:increase: 2
+  heat_on:
+    air_exchange:increase: 1
+    gas_flow:increase: 1
+    heat_source:increase: 3
+    indoor_humidity:decrease: 2
+    indoor_humidity:increase: 1
+    indoor_temperature:increase: 3
+    power_supply:increase: 3
+    sound:increase: 3
+  cool_on:
+    air_exchange:decrease: 3
+    air_exchange:increase: 3
+    indoor_humidity:decrease: 3
+    indoor_temperature:decrease: 3
+    power_supply:increase: 3
+    sound:increase: 3
+  hvac_off:
+    air_exchange:decrease: 2
+    heat_source:decrease: 1
+    indoor_humidity:decrease: 3
+    indoor_humidity:increase: 3
+    indoor_temperature:decrease: 3
+    indoor_temperature:increase: 3
+    power_supply:decrease: 3
+    sound:decrease: 3
+  fan_on:
+    air_exchange:increase: 3
+    indoor_humidity:decrease: 2
+    indoor_humidity:increase: 2
+    indoor_temperature:decrease: 3
+    indoor_temperature:increase: 2
+    mechanical_motion:increase: 3
+    power_supply:increase: 1
+    sound:increase: 3
+  exhaust_fan_on:
+    air_exchange:increase: 3
+    indoor_humidity:decrease: 3
+    indoor_humidity:increase: 2
+    indoor_temperature:decrease: 3
+    indoor_temperature:increase: 3
+    power_supply:increase: 2
+    sound:increase: 3
+  light_on:
+    illumination:increase: 3
+    indoor_temperature:decrease: 1
+    indoor_temperature:increase: 3
+    power_supply:increase: 3
+    sound:increase: 3
+    visibility:increase: 2
+  light_off:
+    illumination:decrease: 3
+    indoor_temperature:decrease: 1
+    indoor_temperature:increase: 1
+    power_supply:decrease: 1
+    sound:decrease: 1
+  outlet_on:
+    power_supply:increase: 3
+  outlet_off:
+    air_exchange:decrease: 1
+    heat_source:decrease: 1
+    illumination:decrease: 1
+    indoor_humidity:decrease: 1
+    indoor_humidity:increase: 1
+    indoor_temperature:decrease: 1
+    indoor_temperature:increase: 1
+    info_disclosure:decrease: 1
+    mechanical_motion:decrease: 1
+    power_supply:decrease: 3
+    security_monitoring:decrease: 1
+    sensing_capture:decrease: 1
+    sound:decrease: 1
+  stove_off:
+    gas_flow:decrease: 3
+    heat_source:decrease: 3
+    indoor_temperature:decrease: 3
+    indoor_temperature:increase: 1
+    power_supply:decrease: 1
+    sound:decrease: 3
+  water_valve_close:
+    indoor_humidity:decrease: 1
+    indoor_humidity:increase: 1
+    mechanical_motion:decrease: 1
+    sound:decrease: 1
+    water_flow:decrease: 3
+  water_valve_open:
+    indoor_humidity:decrease: 1
+    indoor_humidity:increase: 1
+    indoor_temperature:decrease: 1
+    indoor_temperature:increase: 1
+    sound:increase: 1
+    water_flow:increase: 3
+  gas_valve_close:
+    gas_flow:decrease: 3
+    heat_source:decrease: 1
+    indoor_temperature:decrease: 1
+    sound:decrease: 1
+  alarm_arm_away:
+    info_disclosure:increase: 2
+    security_monitoring:increase: 3
+    sound:increase: 3
+  alarm_disarm:
+    info_disclosure:increase: 1
+    security_monitoring:decrease: 3
+    sound:decrease: 1
+    sound:increase: 1
+  siren_on:
+    info_disclosure:increase: 2
+    security_monitoring:increase: 2
+    sound:increase: 3
+  camera_on:
+    illumination:increase: 3
+    indoor_temperature:increase: 1
+    info_disclosure:increase: 3
+    power_supply:increase: 3
+    sensing_capture:increase: 3
+    sound:increase: 3
+  media_play:
+    illumination:increase: 1
+    info_disclosure:increase: 2
+    power_supply:increase: 1
+    sound:increase: 3
+  tts_announce:
+    info_disclosure:increase: 3
+    sound:increase: 2
+  vacuum_start:
+    air_exchange:decrease: 2
+    air_exchange:increase: 3
+    illumination:decrease: 2
+    illumination:increase: 2
+    indoor_humidity:decrease: 3
+    indoor_humidity:increase: 3
+    indoor_temperature:increase: 3
+    mechanical_motion:increase: 3
+    power_supply:increase: 2
+    sound:increase: 3
+  humidifier_on:
+    indoor_humidity:increase: 3
+    indoor_temperature:decrease: 2
+    indoor_temperature:increase: 1
+    power_supply:increase: 3
+    sound:increase: 3
+    water_flow:increase: 1

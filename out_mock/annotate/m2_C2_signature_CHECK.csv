@@ -1,0 +1,6 @@
+dimension,value,effect,asset,label,HUMAN_label(+/-/0),note
+zone_occupant,present,sound:increase,comfort,0,,
+zone_occupant,awake,sound:increase,comfort,0,,
+zone_occupant,empty,sound:increase,comfort,0,,
+zone_occupant,watching_a_movie,sound:increase,comfort,-,,
+zone_occupant,asleep,sound:increase,comfort,-,,

@@ -1,0 +1,20 @@
+- property_id: T01
+  condition: nobody is at home
+  assets:
+  - security
+  property_text: The front door must be locked when nobody is at home.
+- property_id: T03
+  condition: an elderly person is in a cold room
+  assets:
+  - comfort
+  property_text: The heater must not be turned off when an elderly person is in a cold room.
+- property_id: T04
+  condition: the family is at home
+  assets:
+  - security
+  property_text: Indoor cameras should be off when the family is at home.
+- property_id: T06
+  condition: the baby is in the room
+  assets:
+  - comfort
+  property_text: The robot vacuum must not run when the baby is in the room.

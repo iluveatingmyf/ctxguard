@@ -1,0 +1,2340 @@
+open_window:
+- effects:
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Opening a window increases the physical openness of the passage between inside and outside.
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: An open window allows more air to flow between indoors and outdoors, increasing ventilation.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: If outdoor temperature is higher than indoor, indoor temperature rises; if outdoor temperature is lower,
+      indoor temperature falls.
+    why: Heat exchange through the open window depends on the temperature difference between inside and outside.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If outdoor humidity is higher than indoor, indoor humidity rises; if outdoor humidity is lower, indoor humidity
+      falls.
+    why: Moisture exchange through the open window depends on the humidity difference between inside and outside.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: An open window allows more outdoor sounds to enter the indoor space.
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: An open window increases how much of the indoor space can be seen from outside.
+- effects:
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Opening a window increases the physical openness of the passage between inside and outside.
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: An open window allows more air to exchange between indoor and outdoor.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: rises if outdoor temperature is higher than indoor; falls if outdoor temperature is lower than indoor
+    why: Heat transfer through the open window depends on the temperature difference.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: rises if outdoor humidity is higher than indoor; falls if outdoor humidity is lower than indoor
+    why: Moisture transfer through the open window depends on the humidity difference.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: An open window allows more outdoor sound to enter the indoor space.
+  - channel: illumination
+    direction: either
+    requires_extra_device: false
+    precondition: rises if outdoor light level is higher than indoor; falls if outdoor light level is lower than indoor
+    why: Light transfer through the open window depends on the light level difference.
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: An open window increases how much of the indoor space can be seen from outside.
+- effects:
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The window opens, increasing the physical openness of the passage.
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: An open window allows air to flow between inside and outside, increasing air exchange.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: If outdoor temperature is higher than indoor, indoor temperature increases; if outdoor temperature is lower,
+      indoor temperature decreases.
+    why: Heat transfer through the open window depends on the temperature difference between inside and outside.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If outdoor humidity is higher than indoor, indoor humidity increases; if outdoor humidity is lower, indoor
+      humidity decreases.
+    why: Moisture transfer through the open window depends on the humidity difference between inside and outside.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: An open window allows outdoor sounds to enter the indoor space, increasing sound level.
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: An open window increases the visibility of the indoor space from outside.
+close_window:
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing the window reduces the physical opening between inside and outside.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: With the window closed, the rate of air exchange between indoors and outdoors decreases.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The mechanical operation of the window closing produces sound.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: If the outdoor temperature is lower than indoor, closing the window reduces heat loss and indoor temperature
+      may rise; if outdoor is warmer, closing reduces heat gain and indoor temperature may fall.
+    why: Closing the window reduces heat exchange with outside, so indoor temperature changes depending on the temperature
+      difference.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If outdoor humidity is higher than indoor, closing the window prevents moisture ingress and indoor humidity
+      may fall; if outdoor is lower, closing traps indoor moisture and humidity may rise.
+    why: Closing the window reduces moisture exchange with outside, so indoor humidity changes depending on the humidity difference.
+  - channel: visibility
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: A closed window reduces the ability to see into the indoor space from outside, especially if the window is transparent
+      but the view is obstructed by the frame; however, if the window is transparent, visibility may not change. Typically,
+      closing a window decreases visibility into the home.
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing the window reduces the amount of natural light entering the indoor space, decreasing illumination.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The window moving to close is a mechanical motion that could potentially trap or collide with objects or people.
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing a window reduces the physical openness of the passage between outside and inside.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing a window reduces the rate of air exchange between indoor and outdoor.
+  - channel: sound
+    direction: either
+    requires_extra_device: false
+    precondition: Sound inside may decrease if outdoor noise was entering, or increase if closing mechanism is noisy.
+    why: Closing a window can both block outdoor sound (decrease) and generate mechanical noise (increase).
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: If outdoor temperature is lower than indoor, closing may increase indoor temperature by reducing cooling;
+      if outdoor temperature is higher, closing may decrease indoor temperature by reducing heat gain.
+    why: Closing a window affects heat exchange with outdoors, depending on temperature difference.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If outdoor humidity is lower than indoor, closing may increase indoor humidity by reducing moisture loss;
+      if outdoor humidity is higher, closing may decrease indoor humidity by reducing moisture gain.
+    why: Closing a window affects moisture exchange with outdoors, depending on humidity difference.
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the window admits daylight
+    why: Closing a window can reduce natural light entering the room.
+  - channel: visibility
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the window is transparent or partially open
+    why: Closing a window can reduce visibility into the indoor space from outside.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: if the window is motorized
+    why: Closing a motorized window involves moving parts that could potentially cause injury if obstructed.
+  - channel: sensing_capture
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the window has a sensor that detects open/closed state
+    why: Closing the window may trigger a sensor that updates the state, but this is not a capture of occupants; it is a state
+      change. However, if the sensor is a camera or microphone, closing may reduce its field of view or audio pickup.
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: if the window has a security sensor that is now closed, indicating the home is more secure
+    why: Closing a window can restore a security contact sensor to its normal state, improving intrusion detection.
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: true
+    precondition: if the window is motorized and was previously open, closing it may stop drawing power or reduce power consumption
+      if it had been holding position
+    why: A motorized window uses electrical power to operate; closing it may change the power draw.
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing a window reduces the physical opening through which air, objects, or people can pass.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: With the window closed, the rate of air exchange between indoors and outdoors decreases.
+  - channel: sound
+    direction: either
+    requires_extra_device: false
+    precondition: If the window is motorized, the motor produces sound during operation; if manual, no sound from the action
+      itself.
+    why: A motorized window emits mechanical noise while moving; a manual window produces no sound except possibly from the
+      latch.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: If it is warmer inside than outside, closing the window reduces heat loss and indoor temperature may rise;
+      if it is cooler inside than outside, closing reduces heat gain and indoor temperature may fall.
+    why: Closing the window reduces thermal exchange with the outdoors, so the indoor temperature moves toward the indoor
+      setpoint or internal loads.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If outdoor humidity is higher than indoor, closing the window reduces moisture ingress and indoor humidity
+      may decrease; if outdoor humidity is lower, closing may increase indoor humidity by trapping moisture from occupants
+      and activities.
+    why: Closing the window prevents moisture exchange with the outdoors, so indoor humidity depends on the balance of internal
+      sources and outdoor conditions.
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing a window reduces the amount of natural light entering the room.
+  - channel: visibility
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: A closed window, especially with glass or curtains, reduces the ability to see into the home from outside.
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: if the window has a sensor connected to a security system
+    why: A closed window can be monitored for opening, enhancing intrusion detection.
+open_blind:
+- effects:
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: always if there is light outside
+    why: Opening the blind allows more external light to enter the indoor zone.
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Opening the blind increases the view from outside into the indoor space.
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Opening the blind increases the physical openness of the window covering, allowing more air and possibly objects
+      to pass through if the window is open.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: increases if sunlight enters and warms the room; decreases if the blind was blocking cold air from entering
+      through a window and outside is colder than inside
+    why: Opening the blind can let solar radiation in to warm the room, or allow cooler outside air to enter if the window
+      is open, depending on conditions.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always if the blind motor makes noise during operation
+    why: Motorized blinds produce sound when moving.
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: if the window behind the blind is open
+    why: Opening the blind may allow more air flow through an open window.
+- effects:
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Opening the blind allows more natural light into the room.
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The open blind makes the indoor space more visible from outside.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: Rises when sunlight enters and warms the room; falls when the outdoor temperature is lower and heat escapes
+      through the window.
+    why: The blind opening changes heat transfer through the window.
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The blind no longer blocks the window, increasing the physical opening.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the blind is motorized
+    why: The motor makes noise while operating.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: if the blind is motorized
+    why: Moving parts could pose a risk to people or pets.
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: if the window behind the blind is open
+    why: The open blind allows air to flow through the window more freely.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: if the window behind the blind is open; rises when outdoor humidity is higher, falls when lower
+    why: The open blind allows moisture exchange with outdoors.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: if the blind is motorized and receives power during operation
+    why: The motor draws electrical power.
+- effects:
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: if outdoor light is brighter than indoor
+    why: Opening the blind allows more external light to enter the room.
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: if outdoor light is dimmer than indoor
+    why: Opening the blind may let indoor light out, reducing indoor illumination.
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The blind opening creates a larger opening in the window covering, allowing more physical passage (e.g., for air,
+      small objects, or a person if window is open).
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: An open blind increases the view from outside into the indoor space.
+  - channel: air_exchange
+    direction: either
+    requires_extra_device: true
+    precondition: if the window behind the blind is open; increases when outdoor air can flow in, decreases if the blind acts
+      as a barrier to airflow
+    why: The blind itself does not affect air exchange unless a window is open; then it can either allow or restrict airflow
+      depending on its position relative to the window.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: if outdoor temperature is higher than indoor, opening blind may increase indoor temperature by letting in
+      warm air or sunlight; if outdoor is colder, it may decrease indoor temperature by letting in cold air (if window open)
+      or reducing insulation
+    why: The blind affects heat transfer through the window; opening it can alter the thermal exchange between indoor and
+      outdoor.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The blind mechanism moves to open, which involves moving parts.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The motor or manual operation produces noise.
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the blind is motorized and consumes electricity during operation
+    why: Operating the blind uses electrical power, reducing available power supply to other devices on the same circuit.
+close_blind:
+- effects:
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing a blind blocks outdoor light from entering the room.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The blind's motor or manual operation produces acoustic noise inside the home.
+  - channel: visibility
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: A closed blind obstructs the view from outside into the indoor space.
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the blind is installed over an opening such as a window or door; closing it reduces the physical openness
+      for passage, though typically blinds are not intended for passage but may cover an open window
+    why: The blind covers the opening, partially blocking the passage of air and possibly small objects, though it does not
+      seal it completely.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the blind is closed over an open window or door, it reduces the airflow between indoors and outdoors
+    why: The blind acts as a barrier that impedes air movement through the opening.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: if it is warmer outside than inside, closing the blind can decrease indoor temperature by blocking solar
+      heat gain; if it is colder outside, closing the blind can increase indoor temperature by adding insulation and reducing
+      heat loss through the window
+    why: 'Blinds affect heat transfer through windows: they can block incoming solar radiation (cooling effect) or reduce
+      convective and radiative heat loss (warming effect).'
+- effects:
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the blind blocks light from entering the room
+    why: Closing a blind reduces the amount of external light entering the room.
+  - channel: visibility
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the blind is opaque and blocks view from outside
+    why: A closed blind obstructs the view of the interior from outside.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the blind is motorized and produces noise while moving
+    why: Motorized blinds generate mechanical noise during operation.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: if the blind has moving parts that could trap fingers or objects
+    why: The blind's moving mechanism could pose a pinch hazard.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the blind covers an open window and reduces airflow
+    why: Closing a blind over an open window can restrict air movement.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: if outside is warmer than inside, closing the blind may decrease indoor temperature by blocking solar heat;
+      if outside is colder, it may increase indoor temperature by adding insulation
+    why: The blind can affect heat gain or loss through the window depending on external conditions.
+- effects:
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing a blind blocks natural light from entering through the window.
+  - channel: visibility
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closed blinds obstruct the view from outside into the indoor space.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the window behind the blind is open
+    why: Closing a blind over an open window can reduce airflow through the window.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: rises if the blind blocks cooling breezes or traps heat from sunlight; falls if it blocks solar heat gain
+    why: 'Blinds affect heat transfer through windows: they can block solar radiation (cooling) or reduce ventilation (warming).'
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The motor or mechanism of the blind produces noise during operation.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The blind moves, creating moving machinery that could potentially trap objects or cause minor injury.
+open_garage:
+- effects:
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: if outdoor temperature is higher than indoor, indoor temperature increases; if lower, decreases
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: if outdoor humidity is higher than indoor, indoor humidity increases; if lower, decreases
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+- effects:
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The garage door opens, creating a larger opening between the garage and outside.
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: With the garage door open, air can flow more freely between the garage and outside.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The garage door motor and moving door produce noise.
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The open garage door allows a view into the garage from outside.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: If the outside temperature is warmer than the garage, the garage temperature increases; if the outside is
+      cooler, it decreases.
+    why: The open door allows heat exchange with the outside environment.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If the outside humidity is higher than the garage, the garage humidity increases; if lower, it decreases.
+    why: The open door allows moisture exchange with the outside air.
+  - channel: security_monitoring
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: An open garage door may provide easier access to intruders, reducing the effectiveness of intrusion monitoring.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The garage door is moving, which could pose a risk of collision or entrapment.
+- effects:
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Opening the garage door increases the physical openness of the passage between outside and inside.
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: A larger opening allows more air exchange between the garage and outdoors.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The garage door motor and moving door produce noise during operation.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The moving garage door is a mechanical motion that could potentially collide with objects or people.
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: An open garage door increases the visibility of the garage interior from outside.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: If the outdoor temperature is higher than the indoor temperature, opening the garage door will increase
+      indoor temperature; if the outdoor temperature is lower, it will decrease indoor temperature.
+    why: The open door allows heat exchange with the outside environment, which can warm or cool the indoor space depending
+      on the temperature difference.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If the outdoor humidity is higher than the indoor humidity, opening the garage door will increase indoor
+      humidity; if the outdoor humidity is lower, it will decrease indoor humidity.
+    why: The open door allows moisture exchange with the outside air, which can raise or lower indoor relative humidity depending
+      on the humidity difference.
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: If it is daytime and there is sufficient outdoor light, opening the garage door will increase illumination
+      inside the garage.
+    why: Natural light from outside can enter through the open garage door.
+close_garage:
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing the garage door reduces the physical openness of the passage between outside and inside.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing the garage door reduces the rate of air exchange between indoor and outdoor.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The garage door motor produces noise while closing.
+  - channel: visibility
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing the garage door reduces how much of the indoor space can be seen from outside.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The garage door is a moving machinery that could potentially collide with or trap people/pets.
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: The garage door closes, reducing the physical opening between the garage and outside.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing the garage door reduces the rate of air exchange between the garage and the outdoors.
+  - channel: visibility
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: With the garage door closed, the interior of the garage is less visible from outside.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The garage door opener motor produces noise while closing.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The garage door is a moving mechanical part that could collide with people or objects in its path.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: If the garage is warmer than outside, closing the door reduces heat loss and may cause temperature to rise;
+      if the garage is cooler than outside, closing the door reduces heat gain and may cause temperature to fall.
+    why: Closing the garage door reduces air exchange with the outside, which can affect the garage temperature depending
+      on the temperature difference between inside and outside.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If the outside air is more humid than the garage air, closing the door may cause humidity to decrease by
+      blocking humid air; if the outside air is less humid, closing the door may cause humidity to increase by trapping moisture
+      inside.
+    why: Closing the garage door reduces air exchange, which can affect indoor humidity depending on the humidity difference
+      between inside and outside.
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: A closed garage door provides a physical barrier, enhancing intrusion protection for the garage and possibly the
+      home if attached.
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing the garage door reduces the physical opening between the garage and outside.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: With the garage door closed, the rate of air exchange between the garage and outdoors is reduced.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: while the door is moving
+    why: The garage door motor and moving door produce noise during operation.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: while the door is moving
+    why: The moving garage door is a mechanical motion that could potentially collide with people or pets.
+  - channel: visibility
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the garage has windows or is otherwise transparent
+    why: Closing the door reduces the line of sight from outside into the garage.
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the garage door was admitting light
+    why: Closing the door reduces natural light entering the garage.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: if outside is warmer than garage, closing reduces temperature increase; if outside is cooler, closing reduces
+      temperature decrease
+    why: Closing the door reduces heat exchange with outside, so the indoor temperature is less affected by outdoor temperature.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: if outside is more humid than garage, closing reduces humidity increase; if outside is less humid, closing
+      reduces humidity decrease
+    why: Closing the door reduces moisture exchange with outside, so indoor humidity is less affected by outdoor humidity.
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: if the garage is part of a security system
+    why: Closing the garage door helps secure the home against unauthorized entry.
+unlock_door:
+- effects:
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Unlocking the door allows it to be opened, increasing physical openness of the passage.
+  - channel: security_monitoring
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Unlocking disables the lock's intrusion protection, reducing security monitoring.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The lock mechanism makes a mechanical sound when unlocking.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The lock may send a notification or update status to a connected system, disclosing information.
+- effects:
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Unlocking a door removes the lock's obstruction, allowing the door to be opened, so the passage opening can increase.
+  - channel: security_monitoring
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: An unlocked door is no longer secured against intrusion, reducing the security monitoring capability.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The lock mechanism may produce an audible click or motor sound when unlocking.
+  - channel: air_exchange
+    direction: either
+    requires_extra_device: false
+    precondition: increases when the door is opened after unlocking; decreases when the door remains closed
+    why: Unlocking alone does not change air exchange, but if the door is subsequently opened, air exchange can increase;
+      if it remains closed, no change or possibly a decrease if previously ajar.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: changes only if the door is opened; direction depends on temperature difference between inside and outside
+    why: Unlocking alone does not change temperature, but if the door is opened, indoor temperature may increase or decrease
+      depending on outdoor conditions.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: changes only if the door is opened; direction depends on humidity difference between inside and outside
+    why: Unlocking alone does not change humidity, but if the door is opened, indoor humidity may increase or decrease depending
+      on outdoor conditions.
+  - channel: illumination
+    direction: either
+    requires_extra_device: false
+    precondition: changes only if the door is opened; increases if outside is brighter, decreases if outside is darker
+    why: Unlocking alone does not change illumination, but if the door is opened, light level inside may change depending
+      on outdoor light.
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: if the door is opened after unlocking; otherwise no change
+    why: An opened door allows a view from outside into the indoor space, increasing visibility.
+  - channel: sensing_capture
+    direction: increase
+    requires_extra_device: false
+    precondition: if the door is opened after unlocking; otherwise no change
+    why: An opened door may allow audio/video capture from outside devices or passersby, increasing sensing capture of the
+      occupants.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: if the lock is a smart lock that logs or reports unlock events; otherwise no change
+    why: Smart locks may send notifications or log unlock events, disclosing information to external systems.
+- effects:
+  - channel: passage_opening
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Unlocking a door allows it to be opened, increasing the physical openness of the passage.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the lock mechanism makes an audible sound when unlocking
+    why: The lock actuator may produce a mechanical sound.
+  - channel: air_exchange
+    direction: either
+    requires_extra_device: false
+    precondition: if the door is subsequently opened, air exchange increases; if it remains closed, air exchange stays the
+      same
+    why: Unlocking alone does not change air exchange, but if the door is opened, ventilation increases.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: if the door is opened and outdoor temperature differs from indoor, indoor temperature changes accordingly;
+      if door remains closed, no change
+    why: Temperature change depends on whether the unlocked door is opened and the outdoor conditions.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: if the door is opened and outdoor humidity differs from indoor, indoor humidity changes accordingly; if
+      door remains closed, no change
+    why: Humidity change depends on whether the unlocked door is opened and outdoor conditions.
+  - channel: illumination
+    direction: either
+    requires_extra_device: false
+    precondition: if the door is opened and outdoor light enters, illumination may increase; if door remains closed, no change
+    why: Light entering through an opened door can change indoor illumination.
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: if the door is opened, visibility from outside into the home increases; if closed, no change
+    why: An open door allows outsiders to see inside.
+  - channel: security_monitoring
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Unlocking a door reduces the physical barrier against unauthorized entry, weakening intrusion protection.
+lock_door:
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Locking a door prevents it from being opened, so the passage opening is reduced.
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: A locked door provides intrusion protection, increasing security monitoring.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the lock mechanism is motorized or has an audible click
+    why: The lock may produce a sound when engaging, such as a motor hum or a click.
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Locking a door prevents it from being opened, reducing the physical openness of the passage.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the door is closed and sealed
+    why: A locked closed door reduces air leakage compared to an unlocked door that might be opened, but if the door is already
+      closed, locking does not change air exchange unless it creates a tighter seal.
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the door is closed
+    why: A locked closed door may slightly reduce sound transmission through the door compared to an unlocked door, but the
+      effect is minimal and depends on the door's construction.
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: if the lock is part of a monitored security system
+    why: Locking the door can trigger a security system to report the door as secured, increasing the monitoring state.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: if the lock sends a notification or logs the event
+    why: The lock may send a notification or log the lock action, disclosing information to the system or user.
+- effects:
+  - channel: passage_opening
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the lock mechanism is audible
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: during the brief locking action
+heat_on:
+- effects:
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The heating system actively warms the indoor air.
+  - channel: heat_source
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The heating system activates a heating element or burner.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The heating system consumes electrical power to operate.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The heating system may produce operational noise such as fan or burner sounds.
+  - channel: indoor_humidity
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the heating system does not add moisture to the air
+    why: Heating the air lowers relative humidity because warmer air can hold more moisture.
+  - channel: indoor_humidity
+    direction: increase
+    requires_extra_device: true
+    precondition: if the heating system includes a humidifier that is operating
+    why: Some heating systems have integrated humidifiers that add moisture to the air.
+  - channel: gas_flow
+    direction: increase
+    requires_extra_device: false
+    precondition: if the heating system uses natural gas or propane
+    why: Gas-fired heating systems consume fuel gas.
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: if the heating system includes a fan that circulates air and draws some outdoor air
+    why: Forced-air systems may introduce outdoor air through ventilation.
+- effects:
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Heating mode actively warms the indoor air.
+  - channel: heat_source
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The heating system turns on its heating element, burner, or heat pump.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Heating equipment such as fans, burners, or compressors produce noise.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The heating system consumes electrical power to operate.
+- effects:
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Heating mode actively raises the indoor air temperature.
+  - channel: heat_source
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The heating system's heating element or burner activates.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Heating equipment such as fans, pumps, or burners produce noise.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The heating system consumes electrical power to operate.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If the heating system is a combustion type that releases moisture, humidity increases; if it uses dry electric
+      heat or a heat pump, humidity may decrease as warmer air lowers relative humidity.
+    why: Heating can add moisture (combustion) or reduce relative humidity (electric/heat pump) depending on system type.
+cool_on:
+- effects:
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: The cooling system actively removes heat from the indoor air, lowering its temperature.
+  - channel: indoor_humidity
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Cooling coils condense moisture from the air, reducing relative humidity.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The compressor and fans produce acoustic noise during operation.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The cooling system draws electrical power to run.
+  - channel: air_exchange
+    direction: either
+    requires_extra_device: false
+    precondition: If the cooling system includes a fresh air intake or is a window unit that draws some outside air, air exchange
+      increases; otherwise, for a typical split system recirculating indoor air, air exchange remains unchanged.
+    why: Most cooling systems recirculate indoor air, but some may introduce outside air or have leakage.
+- effects:
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Cooling mode lowers the indoor temperature.
+  - channel: indoor_humidity
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Air conditioning removes moisture from the air, reducing relative humidity.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The HVAC system's compressor and fan produce noise when running.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The cooling system consumes electrical power.
+  - channel: air_exchange
+    direction: either
+    requires_extra_device: false
+    precondition: If the HVAC system includes outdoor air intake, air exchange increases; if it recirculates indoor air only,
+      air exchange remains unchanged.
+    why: Some cooling systems bring in outdoor air, while others recirculate indoor air.
+- effects:
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: indoor_humidity
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: air_exchange
+    direction: either
+    requires_extra_device: false
+    precondition: increases if the cooling system draws in outdoor air (e.g., through a fresh air intake), decreases if the
+      system is recirculating indoor air only
+hvac_off:
+- effects:
+  - channel: heat_source
+    direction: decrease
+    requires_extra_device: false
+    precondition: if HVAC was in heating mode before being turned off
+    why: Turning off the HVAC stops the heating element or heat pump, reducing active heat generation.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: if heating was on, indoor temperature decreases; if cooling was on, indoor temperature increases
+    why: 'Without HVAC conditioning, indoor temperature drifts toward outdoor temperature: decreases if previously heated,
+      increases if previously cooled.'
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: if HVAC was dehumidifying, humidity increases; if humidifying, humidity decreases
+    why: HVAC systems often control humidity; turning them off stops dehumidification or humidification, allowing humidity
+      to drift toward outdoor levels.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: if HVAC was running a fan or ventilation mode
+    why: Turning off HVAC stops forced air circulation and any outdoor air intake, reducing air exchange.
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: if HVAC was running and producing noise
+    why: HVAC fans and compressors generate noise; switching off stops that acoustic emission.
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: The HVAC unit consumes electrical power; turning it off reduces or eliminates power draw to the unit.
+- effects:
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: If the HVAC was heating, turning it off causes indoor temperature to decrease toward outdoor temperature;
+      if it was cooling, turning it off causes indoor temperature to increase toward outdoor temperature.
+    why: Stopping the HVAC removes its active heating or cooling effect, so indoor temperature drifts toward the outdoor temperature.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If the HVAC was dehumidifying, turning it off causes indoor humidity to increase; if it was humidifying,
+      turning it off causes indoor humidity to decrease.
+    why: Stopping the HVAC removes its dehumidification or humidification effect, so indoor humidity drifts toward the outdoor/ambient
+      level.
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: The HVAC fan and compressor produce noise; turning the system off stops that noise.
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: The HVAC system consumes electrical power; turning it off stops that consumption.
+- effects:
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: If the indoor temperature is above the outdoor temperature, turning off the HVAC causes indoor temperature
+      to decrease (cooling stops). If the indoor temperature is below the outdoor temperature, indoor temperature increases
+      (heating stops). If equal, no change.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: always, if the HVAC system provides ventilation (fan) that stops when turned off.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If the HVAC was dehumidifying (cooling), turning it off increases humidity; if it was humidifying, turning
+      it off decreases humidity; if no humidity control, no change.
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: If the HVAC system was running and producing noise, turning it off stops the noise.
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: false
+    precondition: The HVAC system consumes electrical power; turning it off reduces the power supplied to it.
+fan_on:
+- effects:
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: A fan circulates air, which can increase air movement and exchange with surroundings, especially if windows or vents
+      are open.
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: 'if the indoor air is warmer than the occupant''s skin (typically above about 25°C), the fan''s airflow
+      increases convective heat loss from occupants, making them feel cooler, but it does not lower the actual air temperature.
+      However, the fan motor adds a small amount of heat, so the net effect on air temperature is a slight increase. For the
+      purpose of perceived cooling, we consider a decrease in effective temperature, but for the physical channel indoor_temperature,
+      the direction is increase due to motor heat. We must be precise: the physical air temperature increases slightly because
+      of the motor''s waste heat. So direction should be increase.'
+    why: The fan motor generates heat, which slightly raises indoor air temperature, though the airflow can increase evaporative
+      and convective cooling on skin, making occupants feel cooler.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The fan motor and blades produce noise.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: if the fan is plugged into a smart outlet that measures power, turning on the fan increases the power drawn
+      from that outlet. However, the action itself does not directly change the power supply channel unless the fan is connected
+      to a controlled outlet. Typically, the fan is directly powered and the action turns it on, so the power supply to the
+      fan is increased. So direction increase.
+    why: The fan consumes electrical power when turned on.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Fan blades rotate, creating moving parts that could potentially cause injury if contacted.
+- effects:
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: A fan moves air, increasing air circulation and exchange within the room.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: If the fan is used with an open window or in a room where outdoor temperature is lower than indoor, it can
+      decrease indoor temperature by bringing in cooler air; if the fan motor generates heat or if the fan is used in a closed
+      room with no temperature difference, it can increase indoor temperature slightly due to motor heat.
+    why: Fan operation can influence temperature through air movement and motor heat.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If the fan increases air exchange with drier outdoor air, indoor humidity decreases; if the fan is in a
+      closed room and causes evaporation of moisture (e.g., from occupants or wet surfaces), it can increase humidity.
+    why: Fan affects humidity via air exchange and evaporation.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Fan operation produces noise from motor and blades.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Fan blades rotate, creating mechanical motion that could potentially contact objects or people.
+- effects:
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: A fan circulates air and can increase air exchange, especially if near an open window or door, but even without,
+      it moves air within the space.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Fan motor and blades produce noise when operating.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: Falls if the fan draws in cooler outside air or increases evaporation from skin (perceived cooling), rises
+      if the motor heat adds warmth or if it mixes warmer stratified air down.
+    why: Fan does not change total heat but can affect temperature distribution and perceived temperature; actual air temperature
+      may slightly rise due to motor heat, but if the fan brings in cooler outside air, temperature may drop.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: Rises if fan draws in humid outside air or if it evaporates moisture from wet surfaces; falls if it increases
+      evaporation from skin/plants and exhausts humid air.
+    why: Fan affects moisture distribution and evaporation rates; net effect depends on source of air and moisture content.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Fan blades rotate and can cause injury if touched.
+exhaust_fan_on:
+- effects:
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The exhaust fan actively moves air from indoors to outdoors, increasing the rate of air exchange.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: Decreases when indoor humidity is higher than outdoor humidity; increases when outdoor humidity is higher
+      than indoor humidity.
+    why: Exhaust fan removes indoor air and draws in outdoor air; the resulting indoor humidity depends on the difference
+      between indoor and outdoor humidity levels.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: Decreases when outdoor temperature is lower than indoor temperature; increases when outdoor temperature
+      is higher than indoor temperature.
+    why: Exhaust fan replaces indoor air with outdoor air; the indoor temperature moves toward the outdoor temperature.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The fan motor and moving air produce audible noise inside the home.
+  - channel: passage_opening
+    direction: either
+    requires_extra_device: true
+    precondition: If the exhaust fan is installed in a window or wall opening that can be opened or closed, turning on the
+      fan may require or cause the opening to be open; otherwise no effect.
+    why: Some exhaust fans are installed in windows or walls and may involve a damper or vent that opens when the fan runs,
+      affecting the physical passage opening.
+- effects:
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Exhaust fan removes indoor air and draws outdoor air in, increasing air exchange.
+  - channel: indoor_humidity
+    direction: decrease
+    requires_extra_device: false
+    precondition: indoor humidity is higher than outdoor humidity
+    why: Exhaust fan expels humid indoor air, reducing indoor humidity.
+  - channel: indoor_humidity
+    direction: increase
+    requires_extra_device: false
+    precondition: outdoor humidity is higher than indoor humidity
+    why: Exhaust fan draws in humid outdoor air, increasing indoor humidity.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: rises when outdoor temperature is higher than indoor temperature; falls when outdoor temperature is lower
+      than indoor temperature
+    why: Air exchange with outdoors can raise or lower indoor temperature depending on outdoor conditions.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Fan motor and airflow produce noise.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Fan consumes electrical power.
+- effects:
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: An exhaust fan pulls indoor air and expels it outdoors, increasing the rate of air exchange with the outside.
+  - channel: indoor_humidity
+    direction: decrease
+    requires_extra_device: false
+    precondition: when indoor humidity is higher than outdoor humidity; otherwise it may increase
+    why: Exhaust fan removes moist indoor air, typically lowering indoor humidity, but if outdoor air is more humid, bringing
+      it in can raise indoor humidity.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: decreases when outdoor air is cooler than indoor air; increases when outdoor air is warmer than indoor air
+    why: Exhaust fan replaces indoor air with outdoor air, so indoor temperature moves toward outdoor temperature.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The fan motor and moving air generate noise.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The fan consumes electrical power when turned on.
+light_on:
+- effects:
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Turning on a light increases the light level in the zone.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The light consumes electrical power when on.
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The light bulb produces heat as a byproduct, slightly warming the room.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the light has a ballast or fan that emits noise when on
+    why: Some lights (fluorescent, LED drivers, fans) produce audible hum or noise.
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: if the light is on and there are windows or openings, making the interior more visible from outside
+    why: Light inside can make the interior visible from outside, especially at night.
+- effects:
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the light source produces audible noise (e.g., buzzing, humming)
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: if the light source emits heat (e.g., incandescent, halogen)
+  - channel: visibility
+    direction: increase
+    requires_extra_device: false
+    precondition: if the light makes the interior more visible from outside (e.g., at night with uncovered windows)
+- effects:
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Turning on a light increases the light level in the zone.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The light consumes electrical power, so power supply to the light increases.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the light has an audible relay or ballast hum
+    why: Some lights produce a clicking or humming sound when switched on.
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: if the light is incandescent or halogen and produces significant heat
+    why: Incandescent and halogen bulbs emit heat, raising the indoor temperature.
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the light is LED and replaces a hotter light source that was previously on
+    why: LEDs produce less heat than some other light types, so switching to LED may reduce heat output.
+light_off:
+- effects:
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the light was producing sound (e.g., buzzing or fan noise)
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: decreases if the light was a significant heat source; increases if the light was cooling via a fan or if
+      the HVAC compensates by reducing cooling
+- effects:
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Turning off the light reduces light output.
+- effects:
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Turning off a light reduces light output.
+outlet_on:
+- effects:
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The outlet turns on and supplies electrical power to whatever is plugged in.
+  - channel: sound
+    direction: increase
+    requires_extra_device: true
+    precondition: if a device that makes noise is plugged in and active
+    why: Some loads produce sound when powered.
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: true
+    precondition: if a heating device is plugged in and active
+    why: Heating devices add heat to the room.
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: true
+    precondition: if a cooling device (e.g., fan, AC) is plugged in and active
+    why: Cooling devices remove heat or increase air movement causing evaporative cooling.
+  - channel: illumination
+    direction: increase
+    requires_extra_device: true
+    precondition: if a light is plugged in and active
+    why: Lights emit visible light.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: true
+    precondition: if a motorized device (e.g., fan, robot vacuum) is plugged in and active
+    why: Motorized devices have moving parts.
+  - channel: indoor_humidity
+    direction: increase
+    requires_extra_device: true
+    precondition: if a humidifier or boiling device is plugged in and active
+    why: These devices add moisture to the air.
+  - channel: gas_flow
+    direction: increase
+    requires_extra_device: true
+    precondition: if a gas appliance (e.g., gas heater) is plugged in and active
+    why: Some gas appliances require electrical power for controls or ignition, and may increase gas flow when powered.
+  - channel: water_flow
+    direction: increase
+    requires_extra_device: true
+    precondition: if a water appliance (e.g., pump, fountain) is plugged in and active
+    why: Pumps and similar devices move water when powered.
+  - channel: heat_source
+    direction: increase
+    requires_extra_device: true
+    precondition: if a heating element or open flame device (e.g., space heater, toaster) is plugged in and active
+    why: Heating elements or flames are active when powered.
+- effects:
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Turning on an outlet supplies electrical power to whatever is plugged into it.
+- effects:
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: either
+    requires_extra_device: true
+    precondition: If the connected device makes noise when powered (e.g., a fan), sound increases; otherwise no change.
+  - channel: heat_source
+    direction: either
+    requires_extra_device: true
+    precondition: If the connected device is a heating appliance (e.g., space heater), heat_source increases; otherwise no
+      change.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: true
+    precondition: If the connected device generates heat, indoor_temperature may increase; if it is a cooling device, it may
+      decrease; otherwise no change.
+  - channel: mechanical_motion
+    direction: either
+    requires_extra_device: true
+    precondition: If the connected device has moving parts (e.g., fan, robot vacuum), mechanical_motion increases; otherwise
+      no change.
+  - channel: illumination
+    direction: either
+    requires_extra_device: true
+    precondition: If the connected device is a light source, illumination increases; otherwise no change.
+  - channel: water_flow
+    direction: either
+    requires_extra_device: true
+    precondition: If the connected device is a pump or valve, water_flow increases; otherwise no change.
+  - channel: gas_flow
+    direction: either
+    requires_extra_device: true
+    precondition: If the connected device is a gas appliance, gas_flow increases; otherwise no change.
+  - channel: air_exchange
+    direction: either
+    requires_extra_device: true
+    precondition: If the connected device is a ventilation fan, air_exchange increases; otherwise no change.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: true
+    precondition: If the connected device is a humidifier, indoor_humidity increases; if a dehumidifier, decreases; otherwise
+      no change.
+outlet_off:
+- effects:
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: The outlet stops delivering electrical power to any connected load.
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the connected device was producing sound
+    why: If the connected device was making noise, turning off the outlet stops it.
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the connected device was a light source
+    why: If a lamp or light was plugged in, turning off the outlet turns it off.
+  - channel: heat_source
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the connected device was a heating appliance
+    why: If a heater or other heat-producing device was plugged in, turning off the outlet stops heat generation.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: if the connected device was a heater, temperature will eventually decrease; if the connected device was
+      a cooler, temperature will eventually increase
+    why: Turning off a heating or cooling appliance changes the indoor temperature accordingly over time.
+  - channel: mechanical_motion
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the connected device has moving parts (e.g., fan, motorized device)
+    why: Turning off the outlet stops the motion of any motorized device plugged into it.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the connected device is a ventilation fan
+    why: Turning off a ventilation fan reduces air exchange.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: if the connected device is a humidifier, humidity will decrease; if it is a dehumidifier, humidity will
+      increase
+    why: Turning off a humidifier or dehumidifier changes indoor humidity over time.
+  - channel: security_monitoring
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the connected device is a security camera or alarm system
+    why: Turning off the outlet disables security monitoring devices.
+  - channel: sensing_capture
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the connected device is a camera or microphone
+    why: Turning off the outlet stops audio/video capture.
+  - channel: info_disclosure
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the connected device was transmitting information
+    why: Turning off the outlet stops any information being emitted by the device.
+- effects:
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: The outlet stops delivering electrical power to the connected load.
+  - channel: sound
+    direction: decrease
+    requires_extra_device: true
+    precondition: if the connected load was producing sound (e.g., a fan, radio, or appliance)
+    why: If the load was making noise, turning off the outlet silences it.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: true
+    precondition: if the connected load is a heater, indoor_temperature decreases over time; if it is a cooler/AC, indoor_temperature
+      increases over time
+    why: If the outlet powered a heating or cooling device, switching it off stops its effect on temperature.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: true
+    precondition: if the connected load is a humidifier, indoor_humidity decreases; if it is a dehumidifier, indoor_humidity
+      increases
+    why: If the outlet powered a humidifier or dehumidifier, switching it off stops its effect on humidity.
+  - channel: illumination
+    direction: decrease
+    requires_extra_device: true
+    precondition: if the connected load is a light source
+    why: Turning off the outlet cuts power to any connected lighting.
+  - channel: mechanical_motion
+    direction: decrease
+    requires_extra_device: true
+    precondition: if the connected load is a motorized device (e.g., fan, pump, robot vacuum)
+    why: Switching off the outlet stops any motorized load.
+  - channel: heat_source
+    direction: decrease
+    requires_extra_device: true
+    precondition: if the connected load is a heating element (e.g., space heater, electric stove)
+    why: Cutting power stops active heating.
+  - channel: water_flow
+    direction: decrease
+    requires_extra_device: true
+    precondition: if the connected load is a water pump or valve
+    why: Turning off the outlet stops water flow from powered equipment.
+  - channel: gas_flow
+    direction: decrease
+    requires_extra_device: true
+    precondition: if the connected load is a gas valve or gas appliance control
+    why: Cutting power may close an electrically actuated gas valve.
+  - channel: air_exchange
+    direction: decrease
+    requires_extra_device: true
+    precondition: if the connected load is a ventilation fan or air exchanger
+    why: Switching off the outlet stops forced air exchange.
+- effects:
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Turning off an outlet removes electrical power from whatever is plugged into it.
+stove_off:
+- effects:
+  - channel: heat_source
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Turning off the stove stops the active heating element or flame.
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the stove was heating the room
+    why: Without the heat source, the room temperature will eventually drop.
+  - channel: gas_flow
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the stove is gas-powered
+    why: Turning off a gas stove stops the fuel gas supply to the burners.
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the stove was making noise (e.g., fan, clicking igniter)
+    why: Switching off the stove stops any operational noise.
+- effects:
+  - channel: heat_source
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Turning off the stove stops the heating element or flame.
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: With the heat source off, the indoor temperature will gradually decrease toward ambient.
+  - channel: gas_flow
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the stove is a gas stove
+    why: Turning off a gas stove stops the flow of fuel gas.
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the stove is an electric stove
+    why: Turning off an electric stove stops electrical power to the heating elements.
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the stove was making noise (e.g., fan, clicking igniter, boiling)
+    why: Stopping the stove eliminates associated sounds.
+- effects:
+  - channel: heat_source
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: gas_flow
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the stove is a gas stove
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: if the stove was heating the room, turning it off will decrease indoor temperature; if the stove was cooling
+      the room (e.g., due to ventilation), turning it off may increase indoor temperature; otherwise no change
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the stove was making noise (e.g., fan, gas flame, electric hum)
+water_valve_close:
+- effects:
+  - channel: water_flow
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing the water valve stops or reduces water flow through the plumbing.
+- effects:
+  - channel: water_flow
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If water was flowing to a humidifier, humidity decreases; if water was flowing to a dehumidifier, humidity
+      increases; otherwise no change.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: true
+    precondition: If water was flowing to a water-based heating/cooling system, temperature may change accordingly; otherwise
+      no change.
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: If water flow was producing sound (e.g., running water), sound decreases; otherwise no change.
+  - channel: mechanical_motion
+    direction: decrease
+    requires_extra_device: false
+    precondition: If a water-powered device (e.g., water wheel) was moving, motion decreases; otherwise no change.
+- effects:
+  - channel: water_flow
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing a water valve stops or reduces water flow through the plumbing.
+water_valve_open:
+- effects:
+  - channel: water_flow
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Opening the water valve allows water to flow through the plumbing, increasing water flow.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If water is flowing into an open container or leaking, humidity increases; if the valve is opened but no
+      water is released into the indoor air (e.g., water is contained and drained), humidity may not change or could decrease
+      if the water is cold and condenses moisture.
+    why: Water flow can introduce moisture into the indoor air, but the effect on humidity depends on whether water is exposed
+      to the air and the temperature conditions.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Water flowing through pipes and the valve operation can produce noise.
+  - channel: indoor_temperature
+    direction: either
+    requires_extra_device: false
+    precondition: If the water is warmer than the indoor air, temperature increases; if the water is colder, temperature decreases;
+      if no water is released into the indoor space, temperature may not change.
+    why: Water flowing through pipes can exchange heat with the indoor environment, but the direction depends on the water
+      temperature relative to the room.
+- effects:
+  - channel: water_flow
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Opening the water valve allows water to flow through the plumbing.
+- effects:
+  - channel: water_flow
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Opening a water valve allows water to flow through the plumbing.
+gas_valve_close:
+- effects:
+  - channel: gas_flow
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+  - channel: heat_source
+    direction: decrease
+    requires_extra_device: false
+    precondition: if gas appliance is burning
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: if gas heating was on
+  - channel: sound
+    direction: decrease
+    requires_extra_device: false
+    precondition: if gas appliance was making noise
+- effects:
+  - channel: gas_flow
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing the gas valve stops the supply of gas.
+- effects:
+  - channel: gas_flow
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Closing the gas valve stops the flow of gas through the pipe.
+alarm_arm_away:
+- effects:
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the alarm panel or siren emits an arming confirmation beep or status sound
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: if the alarm system sends a notification to a monitoring service or user device upon arming
+  - channel: sensing_capture
+    direction: increase
+    requires_extra_device: true
+    precondition: if motion sensors or cameras are activated as part of the alarm system's away mode
+- effects:
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Arming the alarm enables intrusion detection and monitoring.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the alarm panel or keypad emits a confirmation beep or voice prompt when arming
+    why: The alarm system may produce audible feedback during arming.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: if the alarm system sends a notification to a monitoring service or user device
+    why: Arming the alarm may trigger a notification that the system is armed.
+- effects:
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Arming the alarm enables intrusion monitoring and alarm protection.
+  - channel: sensing_capture
+    direction: increase
+    requires_extra_device: true
+    precondition: if motion sensors or cameras are installed and activated by arming
+    why: Arming away typically activates sensors and cameras to detect intrusion, increasing audio/video capture.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the system emits a confirmation beep or voice announcement upon arming
+    why: The alarm panel may produce an audible confirmation when arming.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: true
+    precondition: if the system sends notifications to a monitoring service or user device
+    why: Arming may trigger status updates or notifications to external parties.
+  - channel: illumination
+    direction: increase
+    requires_extra_device: true
+    precondition: if the alarm system controls lights or if arming triggers lights to flash
+    why: Some alarm systems flash lights or turn on lights as a deterrent, increasing illumination.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: true
+    precondition: if the alarm system switches power to connected devices (e.g., smart plugs) when armed
+    why: Arming may activate power outlets as part of a simulated occupancy or security routine.
+alarm_disarm:
+- effects:
+  - channel: security_monitoring
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Disarming the alarm panel disables intrusion monitoring.
+- effects:
+  - channel: security_monitoring
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Disarming the alarm disables intrusion detection and alarm protection.
+  - channel: sound
+    direction: either
+    requires_extra_device: false
+    precondition: If the system emits a confirmation beep or voice prompt, sound increases; if it was previously sounding
+      an alarm and disarming stops it, sound decreases; otherwise no change.
+    why: Disarming may stop an ongoing alarm siren or produce a confirmation sound.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: if the system sends a notification or logs the event to a connected service
+    why: The action may send a notification to a monitoring service or homeowner.
+- effects:
+  - channel: security_monitoring
+    direction: decrease
+    requires_extra_device: false
+    precondition: always
+    why: Disarming the alarm disables intrusion monitoring and alarm protection.
+siren_on:
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: A siren emits a loud acoustic alarm.
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The siren is an audible alarm that deters intruders and alerts occupants.
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: A siren produces loud acoustic output.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Siren sound alerts people nearby, disclosing that an alarm condition exists.
+  - channel: security_monitoring
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The siren is part of an alarm system and sounding it enhances intrusion deterrence and alerts.
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: A siren emits a loud audible alarm.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The siren sound can be heard outside, alerting others to an event.
+camera_on:
+- effects:
+  - channel: sensing_capture
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Turning on a camera activates its audio/video capture of the occupants and home.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: if the camera is connected to a network or has local storage/display
+    why: Captured video/audio may be transmitted or recorded, disclosing information outside the device.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the camera has a mechanical IR cut filter or pan/tilt motor that moves on startup
+    why: Some cameras make a clicking or whirring sound when powered on.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The camera consumes electrical power to operate.
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: if the camera has built-in IR LEDs or a status LED that illuminates
+    why: Some cameras have LEDs that emit light, slightly increasing illumination.
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The camera's electronics generate heat, slightly raising indoor temperature.
+- effects:
+  - channel: sensing_capture
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Turning on a camera enables audio/video capture of the occupants and the home.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: if the camera is connected to a network or has local storage accessible to others
+    why: The captured footage may be transmitted or stored, increasing information disclosure.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the camera has a mechanical IR cut filter or pan/tilt motor that moves on startup
+    why: Some cameras produce an audible click or motor sound when powered on.
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: if the camera has built-in infrared LEDs or a status light that turns on
+    why: IR LEDs may emit visible red glow or the status light illuminates, slightly increasing light level.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The camera draws electrical power from its supply.
+- effects:
+  - channel: sensing_capture
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The camera turns on and begins capturing audio/video.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: if the camera has a motorized pan/tilt or zoom that makes noise when activated
+    why: Motorized movement can produce audible sound.
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: if the camera has an indicator light or IR illuminators that turn on
+    why: Indicator lights or IR LEDs emit light.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The camera consumes electrical power.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: if the camera is connected to a network and configured to send notifications or upload footage
+    why: The camera may transmit data externally.
+media_play:
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Media playback produces audio output from the media player's speakers.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: if the media being played contains personal or sensitive information
+    why: Playing media can reveal the content of the media to anyone in the vicinity.
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Playing media produces sound through the media player's speakers.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The media player consumes electrical power to operate.
+  - channel: illumination
+    direction: increase
+    requires_extra_device: false
+    precondition: if the media player has a display or indicator lights that turn on or brighten during playback
+    why: Display or indicator lights may emit light.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: if the media being played includes content that reveals information about the user (e.g., audio from a personal
+      recording) or if the media player is connected to a network and sends playback data
+    why: Playing media may disclose information through audio output or network activity.
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Playing media produces acoustic output from the media player's speakers.
+tts_announce:
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The TTS announcement plays audio through a speaker, increasing acoustic emission.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The spoken message conveys information to anyone within earshot, disclosing the announcement content.
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The TTS announcement is spoken through a speaker, generating acoustic emission.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The spoken message reveals information to anyone within hearing range.
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: true
+    precondition: if the TTS announcement is played through a speaker connected to the home automation system
+    why: The TTS engine synthesizes speech and plays it through a speaker, generating acoustic emission inside the home.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The announcement content is emitted as audible speech, which can be heard by anyone in the vicinity; it discloses
+      information to occupants and possibly visitors.
+vacuum_start:
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Vacuum motor and airflow generate noise.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Vacuum moves around the home, potentially colliding with obstacles.
+  - channel: air_exchange
+    direction: either
+    requires_extra_device: false
+    precondition: Increases if vacuum exhaust stirs air and enhances mixing; decreases if vacuum is set to recirculate air
+      internally without external exchange.
+    why: Vacuum airflow can affect indoor air mixing and exchange rates.
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Vacuum motor generates waste heat, slightly warming the room.
+  - channel: illumination
+    direction: either
+    requires_extra_device: true
+    precondition: Increases if vacuum has a headlight or indicator lights; decreases if it blocks light fixtures while moving
+      under them.
+    why: Only if the vacuum is equipped with lights or physically obstructs light sources.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Vacuum draws electrical power when running.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: Increases if vacuum has a wet mopping function that releases water; decreases if it has a dehumidifying
+      feature or if dry exhaust reduces moisture locally.
+    why: Depends on vacuum capabilities and environmental conditions.
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The vacuum motor and suction produce noise.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The vacuum moves around the home.
+  - channel: illumination
+    direction: either
+    requires_extra_device: false
+    precondition: If the vacuum has lights, illumination increases; otherwise it stays the same.
+    why: Some vacuums have headlights or status lights.
+  - channel: air_exchange
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The vacuum's exhaust and movement stir air, increasing exchange.
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The motor generates heat.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If the vacuum has a wet mopping feature and water is added, humidity increases; otherwise no change.
+    why: Some vacuums can mop, adding moisture.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: If the vacuum is plugged into an outlet, power supply to the vacuum increases; if battery-powered, no change.
+    why: The vacuum draws electrical power.
+- effects:
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Vacuum motors and brushes generate noise while running.
+  - channel: mechanical_motion
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The vacuum moves around the home.
+  - channel: indoor_humidity
+    direction: either
+    requires_extra_device: false
+    precondition: If the vacuum has a wet mopping feature and it is active, humidity increases; otherwise no change.
+    why: Wet mopping can add moisture to the air, but dry vacuuming does not.
+  - channel: illumination
+    direction: either
+    requires_extra_device: false
+    precondition: If the vacuum has lights, illumination increases; otherwise no change.
+    why: Some vacuums have headlights or status lights.
+  - channel: power_supply
+    direction: decrease
+    requires_extra_device: true
+    precondition: If the vacuum is plugged into a smart outlet that measures power, the outlet's power draw increases; otherwise
+      no effect on other loads.
+    why: The vacuum consumes electricity, but this only affects the power supply channel if measured by an extra device.
+  - channel: air_exchange
+    direction: either
+    requires_extra_device: false
+    precondition: If the vacuum has a HEPA filter and creates airflow, it may slightly increase air exchange; otherwise no
+      change.
+    why: Vacuum airflow can move air, but it does not exchange indoor/outdoor air unless there is a vent.
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The vacuum motor generates heat.
+  - channel: sensing_capture
+    direction: increase
+    requires_extra_device: true
+    precondition: If the vacuum has a camera and it is active, it captures video/audio; otherwise no effect.
+    why: Some robot vacuums have cameras for navigation or monitoring.
+  - channel: info_disclosure
+    direction: increase
+    requires_extra_device: true
+    precondition: If the vacuum is connected to a cloud service and uploads data, it discloses information; otherwise no effect.
+    why: Smart vacuums may send maps or usage data to the cloud.
+humidifier_on:
+- effects:
+  - channel: indoor_humidity
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Humidifier adds moisture to the air.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Humidifier produces noise during operation.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Humidifier consumes electrical power.
+  - channel: water_flow
+    direction: increase
+    requires_extra_device: true
+    precondition: if humidifier is connected to a water supply
+    why: Some humidifiers are plumbed to a water line.
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: if humidifier uses evaporative cooling
+    why: Evaporative humidifiers cool the air slightly.
+- effects:
+  - channel: indoor_humidity
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: A humidifier adds moisture to the air.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Humidifiers typically produce noise from a fan or ultrasonic vibrations.
+  - channel: water_flow
+    direction: increase
+    requires_extra_device: false
+    precondition: if the humidifier is connected to a water supply line
+    why: Water flows into the humidifier if it is plumbed; otherwise no water flow occurs.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The humidifier draws electrical power to operate.
+  - channel: indoor_temperature
+    direction: decrease
+    requires_extra_device: false
+    precondition: if the humidifier uses an evaporative wick and fan (evaporative cooling effect)
+    why: Evaporative humidifiers cool the air slightly as water evaporates.
+  - channel: indoor_temperature
+    direction: increase
+    requires_extra_device: false
+    precondition: if the humidifier uses a heating element (warm mist humidifier)
+    why: Warm mist humidifiers heat water to produce steam, adding heat to the room.
+- effects:
+  - channel: indoor_humidity
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: A humidifier adds moisture to the air.
+  - channel: sound
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: Humidifiers typically have a fan or ultrasonic mechanism that produces noise.
+  - channel: power_supply
+    direction: increase
+    requires_extra_device: false
+    precondition: always
+    why: The humidifier consumes electricity to operate.
